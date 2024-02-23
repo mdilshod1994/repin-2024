@@ -1,0 +1,21 @@
+//
+// Глобальные стили типографики: дефолтные шрифты, размеры, line-height и т.п.
+//
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+p,
+ul,
+ol {
+  margin: 0px;
+  padding: 0px;
+}
+
+ul {
+  list-style: none;
+}

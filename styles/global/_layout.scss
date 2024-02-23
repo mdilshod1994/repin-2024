@@ -1,0 +1,18 @@
+//
+// Глобальные стили корневых и базовых элементов, размеры блоков контента и т.п.
+//
+
+body{
+  &.-locked {
+    overflow: hidden;
+  }
+  font-family: 'Interphases Pro Trial';
+  @include desctop-caption-17;
+  color: var(--Black);
+}
+
+.container{
+  max-width: 1520px;
+  width: 100%;
+  margin: 0 auto;
+}
