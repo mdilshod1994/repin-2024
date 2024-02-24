@@ -52,9 +52,13 @@ const temporaryText = ref(
       <home-consulting />
     </div>
     <!-- OUR CLIENTS -->
+    <!-- STORIES & USER CASES -->
     <div class="container">
       <div cls="home__clients">
         <home-our-clients />
+      </div>
+      <div cls="home__stories">
+        <home-stories />
       </div>
     </div>
   </div>
@@ -100,6 +104,9 @@ const temporaryText = ref(
   }
   &__clients {
     padding: 88px 0;
+  }
+  &__stories {
+    padding: 104px 0 160px;
   }
 }
 .title {

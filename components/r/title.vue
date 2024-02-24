@@ -42,6 +42,10 @@ withDefaults(
   }
   &__title {
     @include desctop-H2;
+    span {
+      font-family: "Ramillas Trial";
+      font-style: italic;
+    }
   }
   &__wrap {
     display: flex;

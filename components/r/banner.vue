@@ -27,7 +27,7 @@ defineProps<{
         </template>
         <div v-if="description" cls="banner__desc">
           {{ description }}
-          <div v-if="$slots['description-link']" cls="banner__desc-link">
+          <div v-if="$slots['description-link']" cls="banner__desc-link" class="underline-link">
             <slot name="description-link" />
           </div>
         </div>
@@ -70,11 +70,6 @@ defineProps<{
     display: flex;
     flex-direction: column;
     gap: 24px;
-    &-link {
-      width: max-content;
-      @include desctop-caption-17-med;
-      border-bottom: 1.5px solid var(--Black);
-    }
   }
   &__title {
     @include desctop-H1;
