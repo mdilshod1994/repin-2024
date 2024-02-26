@@ -112,4 +112,23 @@ const temporaryText = ref(
 .title {
   max-width: 579px;
 }
+
+@include tablet {
+  .home {
+    padding-top: 64px;
+    &__portfolio {
+      padding: 80px 0;
+      gap: 64px;
+    }
+    &__consulting {
+      padding: 16px 0;
+    }
+    &__clients {
+      padding: 56px 0;
+    }
+    &__stories {
+      padding: 80px 0 120px;
+    }
+  }
+}
 </style>
