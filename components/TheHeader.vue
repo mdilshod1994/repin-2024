@@ -4,7 +4,8 @@
   <div cls="header">
     <div cls="header__wrap">
       <nuxt-link to="/" cls="header__logo">
-        <svgo-logo />
+        <svgo-logo class="desktop-only" />
+        <svgo-r-logo class="tablet-mobile-only" />
       </nuxt-link>
       <nav cls="header__nav">
         <nuxt-link cls="header__nav-link" to="/portfolio"> Portfolio </nuxt-link>
@@ -15,6 +16,11 @@
       </nav>
       <div cls="header__btns">
         <button cls="header__btn">RU</button>
+      </div>
+      <div class="tablet-mobile-only">
+        <r-round-button cls="header__menu-btn" bg-color="white" size="custom">
+          <svgo-btn-menu />
+        </r-round-button>
       </div>
     </div>
   </div>
@@ -74,6 +80,34 @@
   .header {
     &__wrap {
       max-width: 1344px;
+    }
+  }
+}
+
+@include tablet {
+  .header {
+    padding: 0 40px;
+    &__wrap {
+      padding: 8px 8px 8px 24px;
+    }
+    &__logo {
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    &__nav {
+      display: none;
+    }
+    &__btns {
+      display: none;
+    }
+    &__menu-btn {
+      width: 40px;
+      height: 40px;
+      svg {
+        font-size: 12px;
+      }
     }
   }
 }

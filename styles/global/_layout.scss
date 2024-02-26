@@ -25,13 +25,13 @@ body{
 }
 
 
-.desktop-only {
+.tablet-mobile-only {
   @include desktop {
     display: none !important;
   }
 }
 
-.tablet-mobile-only {
+.desktop-only {
   @include tablet {
     display: none !important;
   }
