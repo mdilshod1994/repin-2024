@@ -31,7 +31,6 @@
     height: 604px;
     border-radius: 24px;
     img {
-      height: 100%;
       border-radius: 24px;
     }
   }
@@ -86,11 +85,6 @@
     }
     &__img {
       height: 548px;
-      img {
-        width: 100%;
-        height: 100%;
-        object-position: center;
-      }
     }
     &__title {
       @include mob-h4-22-ram;
