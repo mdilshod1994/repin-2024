@@ -3,11 +3,15 @@
 -->
 
 <!-- TODO: 
+***
+  РЕФАКТОРИТЬ КОД!!!
+***
   придумать как задать отступы по бокам внутри врапера 
-  паддинг не вариант, кнопка скролбара работает не справно,
+  паддинг не вариант, кнопка скролбара работает не правильно,
   маргин снаружи тоже не вариант, обрезается по бокам (не по фигме)
   Варианты:
-  можно задать маргины первому элементому и последнему
+  можно задать маргины первому элементому и последнему, но через css не получиться,
+  нужно НАКОСТЫЛЯТЬ через JS (DONE)
 ***
   передать св-во для определения отступов между слайдами и плюс сделать адаптивным, как в свайпер или в слик слайдер
 ***
@@ -35,8 +39,10 @@ useResizeObserver(carousel, (entries) => {
   const entry = entries[0]
   const { width } = entry.contentRect
   carouselWidth.value = width
+  setMarginsToSlides()
 })
 
+// максимальный скролл влево
 const maxScrollLeft = computed(() => {
   if (carousel.value) return carousel.value?.scrollWidth - carouselWidth.value
 })
@@ -68,14 +74,36 @@ const updateThumbPosition = () => {
   }
 }
 
+const setMarginsToSlides = () => {
+  const globalContainer = document.querySelector(".container")
+  const containerWidth = globalContainer ? globalContainer.clientWidth - 48 : 1920 - 48
+  const screenWidth = window.screen.width > 1920 ? 1920 : window.screen.width
+  const marginSide = (screenWidth - containerWidth) / 2
+
+  if (carousel.value) {
+    for (let index = 0; index < carousel.value.children.length; index++) {
+      const firstChild = carousel.value.children[0] as HTMLElement
+      const lastChild = carousel.value.children[carousel.value.children.length - 1] as HTMLElement
+      firstChild.style.marginLeft = `${marginSide}px`
+      lastChild.style.marginRight = `${marginSide}px`
+    }
+  }
+}
+
 onMounted(() => {
+  // задаем ширину кнопке скроллбара
   if (thumb.value && carousel.value) {
     thumb.value.style.width = `${carousel.value.clientWidth / carousel.value.children.length}px`
   }
-  // вызываем функцию updateThumbPosition, если пользователь скролил нажав соечетаний клавиш "Shift + scroll" и в моб версии, хотя он скрыт
+  // вызываем функцию updateThumbPosition, если пользователь скролил нажав соечетаний клавиш "Shift + scroll"(в деск версии)
+  // и в моб версии, хотя он скрыт.
+  // вызываем функцию, чтобы обновить место положение кнопки скролбара
   carousel.value?.addEventListener("scroll", () => {
     updateThumbPosition()
   })
+  // carousel на всю ширину экрана, т.е. максимум ширина 1920px
+  // первоначальное положение первого слайда(отступ слева) начинается где .container, т.е. в линию по вертикали
+  setMarginsToSlides()
 })
 </script>
 
@@ -91,9 +119,11 @@ onMounted(() => {
     >
       <slot />
     </div>
-    <div v-if="scrollBar" cls="carousel__scrollbar">
-      <div ref="scrollbar" cls="carousel__scrollbar-track">
-        <div ref="thumb" cls="carousel__scrollbar-thumb" />
+    <div class="container">
+      <div v-if="scrollBar" cls="carousel__scrollbar">
+        <div ref="scrollbar" cls="carousel__scrollbar-track">
+          <div ref="thumb" cls="carousel__scrollbar-thumb" />
+        </div>
       </div>
     </div>
   </div>

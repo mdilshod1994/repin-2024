@@ -51,11 +51,11 @@ const temporaryText = ref(
       <home-consulting />
     </div>
     <!-- OUR CLIENTS -->
+    <div cls="home__clients">
+      <home-our-clients />
+    </div>
     <!-- STORIES & USER CASES -->
     <div class="container">
-      <div cls="home__clients">
-        <home-our-clients />
-      </div>
       <div cls="home__stories">
         <home-stories />
       </div>
@@ -83,6 +83,8 @@ const temporaryText = ref(
   }
   &__clients {
     padding: 88px 0;
+    max-width: 1920px;
+    margin: 0 auto;
   }
   &__stories {
     padding: 104px 0 160px;
