@@ -119,8 +119,8 @@ onMounted(() => {
     >
       <slot />
     </div>
-    <div class="container">
-      <div v-if="scrollBar" cls="carousel__scrollbar">
+    <div v-if="scrollBar" class="container">
+      <div cls="carousel__scrollbar">
         <div ref="scrollbar" cls="carousel__scrollbar-track">
           <div ref="thumb" cls="carousel__scrollbar-thumb" />
         </div>
@@ -149,6 +149,16 @@ onMounted(() => {
     user-select: none;
     &::-webkit-scrollbar {
       display: none;
+    }
+    a,
+    img,
+    div {
+      -webkit-user-drag: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+      user-drag: none;
+      user-select: none;
     }
   }
   &__scrollbar {

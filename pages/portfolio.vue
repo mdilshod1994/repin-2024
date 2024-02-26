@@ -10,27 +10,30 @@
           </template>
         </r-title>
         <portfolio-grid />
-        <div cls="portfolio__carousel">
-          <r-title pretitle="We're online" title="Social Media" align-title-position="start" />
-          <r-carousel>
-            <div v-for="s in 10" cls="portfolio__social">
-              <a href="" cls="portfolio__social-link">
-                <span>
-                  <svgo-youtube filled />
-                </span>
-                Instagram
-              </a>
-            </div>
-          </r-carousel>
-        </div>
       </div>
+    </div>
+    <div cls="portfolio__carousel">
+      <div class="container">
+        <r-title pretitle="We're online" title="Social Media" flex-start />
+      </div>
+      <r-carousel>
+        <div v-for="s in 10" cls="portfolio__social">
+          <img src="@/assets/images/tempImages/soc-1.png" alt="" cls="portfolio__social-img" />
+          <a href="" cls="portfolio__social-link">
+            <span>
+              <svgo-youtube filled />
+            </span>
+            Instagram
+          </a>
+        </div>
+      </r-carousel>
     </div>
   </div>
 </template>
 
 <style module lang="scss">
 .portfolio {
-  padding: 152px 0 130px;
+  padding: 104px 0 160px;
   &__wrap {
     display: flex;
     flex-direction: column;
@@ -70,6 +73,23 @@
         font-size: 16px;
       }
     }
+    &-img {
+      width: 100%;
+      height: 100%;
+    }
+    &:first-child,
+    &:nth-child(3) {
+      width: 302px;
+      border-radius: 256px;
+    }
+  }
+  &__carousel {
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 130px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 84px;
   }
 }
 </style>

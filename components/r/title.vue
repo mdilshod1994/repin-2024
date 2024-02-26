@@ -5,6 +5,7 @@ withDefaults(
     title?: string
     italicTitle?: string
     alignPosition?: "end" | "start" | "center"
+    flexStart?: boolean
   }>(),
   {
     alignPosition: "end",
@@ -13,7 +14,7 @@ withDefaults(
 </script>
 
 <template>
-  <div :cls="{ block: true, '-flex-start': $slots.addons }">
+  <div :cls="{ block: true, '-flex-start': $slots.addons || flexStart }">
     <div v-if="pretitle" cls="block__pretitle">
       {{ pretitle }}
     </div>
