@@ -109,13 +109,15 @@ const scrollTop = () => {
     }
   }
   &__links {
-    max-width: 411px;
     display: flex;
     flex-direction: column;
     gap: 36px;
+    max-width: 491px;
+    width: 100%;
     &-box {
       display: flex;
       flex-direction: column;
+      max-width: 411px;
       gap: 12px;
     }
     &-title {

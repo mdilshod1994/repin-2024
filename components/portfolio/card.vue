@@ -48,6 +48,8 @@
   }
   &__title {
     @include desctop-H5-ram;
+    text-decoration: underline transparent;
+    transition: text-decoration 0.3s ease-in-out;
   }
   &:hover {
     .card {
@@ -59,6 +61,17 @@
           }
         }
       }
+      &__title {
+        text-decoration-color: var(--Black);
+      }
+    }
+  }
+}
+
+@include desktop-medium {
+  .card {
+    &__img {
+      height: 488px;
     }
   }
 }

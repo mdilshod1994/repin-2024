@@ -55,6 +55,7 @@ defineProps<{
   &__top {
     display: flex;
     justify-content: space-between;
+    gap: 24px;
   }
   &__left {
     max-width: 729px;
@@ -101,6 +102,11 @@ defineProps<{
       justify-content: space-between;
       align-items: center;
     }
+  }
+}
+
+@include desktop-medium {
+  .banner {
   }
 }
 </style>
