@@ -23,3 +23,16 @@ body{
     max-width: 1328px;
   }
 }
+
+
+.desktop-only {
+  @include desktop {
+    display: none !important;
+  }
+}
+
+.tablet-mobile-only {
+  @include tablet {
+    display: none !important;
+  }
+}
