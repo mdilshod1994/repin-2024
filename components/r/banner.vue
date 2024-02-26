@@ -6,8 +6,6 @@ defineProps<{
   // поумолчанию стоит desktop-H1
   title?: string
   subtitle?: string
-  // текст напротив "title"
-  description?: string
 }>()
 </script>
 
@@ -19,19 +17,14 @@ defineProps<{
           <slot name="title">{{ title }}</slot>
         </div>
       </div>
-      <div :cls="{ banner__right: true, '-align-bottom': $slots['bottom-right'] }">
-        <template v-if="$slots['top-right']">
-          <slot name="top-right" />
-        </template>
-        <div v-if="description" cls="banner__desc">
-          {{ description }}
+      <div cls="banner__right">
+        <div cls="banner__desc">
+          <slot />
           <div v-if="$slots['description-link']" cls="banner__desc-link" class="underline-link">
             <slot name="description-link" />
           </div>
         </div>
-        <template v-if="$slots['bottom-right']">
-          <slot name="bottom-right" />
-        </template>
+        <!-- тут будет дом врапперы -->
       </div>
     </div>
     <div v-if="scrollTo || $slots['bottom-left']" cls="banner__bottom">
@@ -120,7 +113,6 @@ defineProps<{
     }
     &__desc {
       gap: 16px;
-      @include mob-body-14;
     }
     &__bottom {
       gap: 12px;

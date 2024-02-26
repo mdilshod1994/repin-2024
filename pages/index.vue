@@ -1,16 +1,19 @@
-<script setup lang="ts">
-// пока сервак не готов
-const temporaryText = ref(
-  "We build cloud-based web and mobile apps for existing products and startups. Using AI technologies, we aim to quickly turn your idea into a successful solution.",
-)
-</script>
-
 <template>
   <div cls="home">
     <!-- BANNER -->
     <div class="container">
       <div cls="home__top">
-        <r-banner :description="temporaryText" scroll-to="test">
+        <r-banner scroll-to="test" cls="home__banner">
+          <div cls="home__banner-top">
+            <r-round-button size="large">
+              <svgo-user-group />
+            </r-round-button>
+            <div cls="home__banner-desc">
+              We build cloud-based web and mobile apps for existing products and startups. Using AI
+              technologies, we aim to quickly turn your idea into a successful solution.
+            </div>
+          </div>
+
           <template #title>
             <div cls="title" class="desktop-only">
               <span> Your partner </span><br />
@@ -21,16 +24,11 @@ const temporaryText = ref(
               <span> in the digital world </span>
             </div>
           </template>
-          <template #top-right>
-            <r-round-button size="large">
-              <svgo-user-group />
-            </r-round-button>
-          </template>
           <template #description-link>
             <nuxt-link to="/portfolio"> More about us </nuxt-link>
           </template>
           <template #bottom-left>
-            <div cls="home__banner">
+            <div cls="home__banner-texts">
               <div cls="home__banner-text">Digital products from scratch</div>
               <div cls="home__banner-text">Go-to-market strategy and consulting</div>
             </div>
@@ -70,8 +68,18 @@ const temporaryText = ref(
     padding-bottom: 8px;
   }
   &__banner {
-    display: flex;
-    gap: 88px;
+    &-texts {
+      display: flex;
+      gap: 88px;
+    }
+    &-top {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+    &-desc {
+      @include desctop-body-22;
+    }
   }
   &__portfolio {
     padding: 104px 0;
@@ -109,6 +117,14 @@ const temporaryText = ref(
     }
     &__stories {
       padding: 80px 0 120px;
+    }
+    &__banner {
+      &-top {
+        gap: 24px;
+      }
+      &-desc {
+        @include mob-body-14;
+      }
     }
   }
 

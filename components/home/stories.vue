@@ -121,6 +121,7 @@
     }
     &__card {
       &-content {
+        max-width: 380px;
         gap: 32px;
       }
       &-title {
