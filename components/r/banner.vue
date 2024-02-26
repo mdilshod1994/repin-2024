@@ -8,13 +8,11 @@ defineProps<{
   subtitle?: string
   // текст напротив "title"
   description?: string
-  // приходиться костылить с gap-ом, т.к. везде почти по разному
-  gap?: string
 }>()
 </script>
 
 <template>
-  <div cls="banner" :style="`gap: ${gap}px`">
+  <div cls="banner">
     <div cls="banner__top">
       <div cls="banner__left">
         <div v-if="title || $slots.title" cls="banner__title">
@@ -52,6 +50,7 @@ defineProps<{
 .banner {
   display: flex;
   flex-direction: column;
+  gap: 128px;
   &__top {
     display: flex;
     justify-content: space-between;
@@ -88,7 +87,6 @@ defineProps<{
     gap: 6px;
     border-radius: 32px;
     border: 1px solid #b6a2e0;
-    gap: 8px;
     svg {
       font-size: 16px;
     }
@@ -105,8 +103,31 @@ defineProps<{
   }
 }
 
-@include desktop-medium {
+@include tablet {
   .banner {
+    gap: 88px;
+    &__title {
+      @include mob-H1;
+      span {
+        @include mob-H1-ram;
+        font-style: italic;
+      }
+    }
+    &__right {
+      padding-top: 8px;
+      gap: 24px;
+      max-width: 301px;
+    }
+    &__desc {
+      gap: 16px;
+      @include mob-body-14;
+    }
+    &__bottom {
+      gap: 12px;
+    }
+    &__scroll-to {
+      @include mob-body-14;
+    }
   }
 }
 </style>

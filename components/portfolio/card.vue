@@ -75,4 +75,26 @@
     }
   }
 }
+@include tablet {
+  .card {
+    gap: 12px;
+    &:nth-child(3n-1) {
+      margin-top: auto;
+    }
+    &:nth-child(2n-1) {
+      margin-top: -120px;
+    }
+    &__img {
+      height: 548px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-position: center;
+      }
+    }
+    &__title {
+      @include mob-h4-22-ram;
+    }
+  }
+}
 </style>

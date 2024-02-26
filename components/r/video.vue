@@ -58,4 +58,21 @@
     }
   }
 }
+@include tablet {
+  .video {
+    padding: 16px;
+    &__btn {
+      position: absolute;
+      left: 24px;
+      bottom: 24px;
+      svg {
+        font-size: 48px;
+      }
+      &-time {
+        @include mob-body-14;
+        gap: 10px;
+      }
+    }
+  }
+}
 </style>

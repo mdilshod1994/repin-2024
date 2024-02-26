@@ -44,8 +44,23 @@
     &__title {
       @include desctop-H5-ram;
     }
-    &__text {
-      @include desctop-caption-17;
+  }
+}
+@include tablet {
+  .clients {
+    gap: 80px;
+    &-card {
+      gap: 32px;
+      max-width: 256px;
+      &__content {
+        gap: 8px;
+      }
+      &__logo {
+        height: 48px;
+      }
+      &__title {
+        @include mob-sub-16;
+      }
     }
   }
 }

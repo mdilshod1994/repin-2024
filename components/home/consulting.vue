@@ -30,7 +30,7 @@
     align-items: center;
     gap: 72px;
     max-width: 485px;
-    color: #fff;
+    color: var(--White);
     text-align: center;
   }
   &__box {
@@ -46,6 +46,21 @@
   }
   &__desc {
     @include desctop-caption-17;
+  }
+}
+@include tablet {
+  .consulting {
+    &__content {
+      gap: 48px;
+      max-width: 395px;
+    }
+    &__title {
+      margin: 24px 0 16px;
+      @include mob-H1;
+    }
+    &__pretitle {
+      @include mob-sub-16;
+    }
   }
 }
 </style>

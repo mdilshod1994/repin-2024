@@ -38,4 +38,12 @@ withDefaults(
     border-radius: 12px;
   }
 }
+
+@include tablet {
+  .button {
+    height: 56px;
+    padding: 0 48px;
+    @include mob-body-14-med;
+  }
+}
 </style>

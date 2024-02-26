@@ -106,11 +106,10 @@ onMounted(() => {
   gap: 64px;
   width: 100%;
   margin: 0 auto;
-  display: flex;
   &__slider {
     display: flex;
     align-self: stretch;
-    gap: 59px;
+    gap: 56px;
     overflow: auto;
     -webkit-user-drag: none;
     -khtml-user-drag: none;
@@ -140,6 +139,14 @@ onMounted(() => {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
+    }
+  }
+}
+@include tablet {
+  .carousel {
+    gap: 40px;
+    &__slider {
+      gap: 48px;
     }
   }
 }

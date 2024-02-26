@@ -43,4 +43,13 @@
   &.-white{
     background: var(--White);
   }
+  &.-default,
+  &.-white{
+    &:hover {
+      background: var(--Black);
+      svg {
+        color: #fff;
+      }
+    }
+  }
 }

@@ -69,7 +69,6 @@
       transition: text-decoration 0.3s ease-in-out;
     }
     &-desc {
-      @include desctop-caption-17;
       max-width: 421px;
     }
     &-link {
@@ -80,7 +79,6 @@
       padding: 6px 16px;
       border-radius: 48px;
       background: #f5f5f5;
-      @include desctop-caption-17;
     }
     &:hover {
       :global(.hover-border) {
@@ -110,6 +108,24 @@
     border-radius: 24px;
     img {
       border-radius: 24px;
+    }
+  }
+}
+
+@include tablet {
+  .stories {
+    gap: 32px;
+    &__img {
+      max-width: 408px;
+      height: 272px;
+    }
+    &__card {
+      &-content {
+        gap: 32px;
+      }
+      &-title {
+        @include mob-h4-22-ram;
+      }
     }
   }
 }

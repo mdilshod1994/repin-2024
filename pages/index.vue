@@ -10,15 +10,19 @@ const temporaryText = ref(
     <!-- BANNER -->
     <div class="container">
       <div cls="home__top">
-        <r-banner :description="temporaryText" gap="128" scroll-to="test">
+        <r-banner :description="temporaryText" scroll-to="test">
           <template #title>
-            <div cls="title">
+            <div cls="title" class="desktop-only">
               <span> Your partner </span><br />
               in the digital world
             </div>
+            <div cls="title" class="tablet-mobile-only">
+              Your partner <br />
+              <span> in the digital world </span>
+            </div>
           </template>
           <template #top-right>
-            <r-round-button>
+            <r-round-button size="large">
               <svgo-user-group />
             </r-round-button>
           </template>
@@ -39,12 +43,7 @@ const temporaryText = ref(
     <!-- OUR WORKS -->
     <div class="container">
       <div cls="home__portfolio">
-        <r-title pretitle="Portfolio" title="Our works">
-          <template #addons>
-            <portfolio-filters />
-          </template>
-        </r-title>
-        <portfolio-grid />
+        <home-portfolio />
       </div>
     </div>
     <!-- CONSULTING -->
@@ -76,26 +75,6 @@ const temporaryText = ref(
   }
   &__portfolio {
     padding: 104px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 104px;
-    &-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-    }
-    &-titles {
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
-    }
-    &-title {
-      color: var(--Black);
-      @include desctop-H2;
-      &.-small {
-        @include desctop-H5-ram;
-      }
-    }
   }
   &__consulting {
     padding: 24px 0;
@@ -129,6 +108,10 @@ const temporaryText = ref(
     &__stories {
       padding: 80px 0 120px;
     }
+  }
+
+  .title {
+    max-width: 304px;
   }
 }
 </style>

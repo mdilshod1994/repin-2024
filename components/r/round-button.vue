@@ -5,7 +5,7 @@ withDefaults(
     bgColor?: "default" | "white"
   }>(),
   {
-    size: "large",
+    size: "custom",
     bgColor: "default",
   },
 )

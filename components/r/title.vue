@@ -4,26 +4,28 @@ withDefaults(
     pretitle?: string
     title?: string
     italicTitle?: string
-    alignPosition?: "end" | "start" | "center"
+    alignWrapPosition?: "end" | "start" | "center"
+    alignTitlePosition?: "end" | "start" | "center"
   }>(),
   {
-    alignPosition: "end",
+    alignWrapPosition: "end",
+    alignTitlePosition: "center",
   },
 )
 </script>
 
 <template>
-  <div :cls="{ block: true, '-flex-start': $slots.addons }">
-    <div v-if="pretitle" cls="block__pretitle">
-      {{ pretitle }}
-    </div>
-    <div :cls="{ block__wrap: true, [`-${alignPosition}`]: true }">
+  <div :cls="{ block: true, [`-${alignWrapPosition}`]: true, '-flex-start': $slots.addons }">
+    <div :cls="{ block__wrap: true, [`-${alignTitlePosition}`]: true }">
+      <div v-if="pretitle" cls="block__pretitle">
+        {{ pretitle }}
+      </div>
       <div cls="block__title">
         {{ title }} <span v-if="italicTitle">{{ italicTitle }}</span>
       </div>
-      <div v-if="$slots.addons" cls="block__addons">
-        <slot name="addons" />
-      </div>
+    </div>
+    <div v-if="$slots.addons" cls="block__addons">
+      <slot name="addons" />
     </div>
   </div>
 </template>
@@ -31,11 +33,23 @@ withDefaults(
 <style module lang="scss">
 .block {
   display: flex;
-  flex-direction: column;
-  gap: 32px;
-  align-items: center;
+  justify-content: center;
   &.-flex-start {
-    align-items: inherit;
+    justify-content: space-between;
+    .block {
+      &__wrap {
+        align-items: flex-start;
+      }
+    }
+  }
+  &.-end {
+    align-items: flex-end;
+  }
+  &.-start {
+    align-items: flex-start;
+  }
+  &.-center {
+    align-items: center;
   }
   &__pretitle {
     @include desctop-H5-ram;
@@ -49,16 +63,32 @@ withDefaults(
   }
   &__wrap {
     display: flex;
-    justify-content: space-between;
-    gap: 24px;
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
     &.-end {
       align-items: flex-end;
     }
     &.-start {
       align-items: flex-start;
+      width: 100%;
     }
     &.-center {
       align-items: center;
+    }
+  }
+}
+
+@include tablet {
+  .block {
+    &__wrap {
+      gap: 16px;
+    }
+    &__pretitle {
+      @include mob-sub-16;
+    }
+    &__title {
+      @include mob-H2;
     }
   }
 }

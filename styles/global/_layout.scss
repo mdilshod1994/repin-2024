@@ -36,3 +36,9 @@ body{
     display: none !important;
   }
 }
+
+@include tablet{
+  body{
+    @include mob-body-14 
+  }
+}

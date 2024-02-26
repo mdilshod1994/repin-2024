@@ -5,7 +5,7 @@
     <div cls="grid__wrap">
       <portfolio-card v-for="c in 6" />
     </div>
-    <r-button cls="btn">See all projects</r-button>
+    <r-button>See all projects</r-button>
   </div>
 </template>
 
@@ -23,15 +23,16 @@
     padding: 104px 0 0;
   }
 }
-.btn {
-  height: 64px;
-  padding: 0 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50px;
-  background: var(--Black);
-  color: var(--White);
-  @include desctop-caption-17-med;
+
+@include tablet {
+  .grid {
+    gap: 64px;
+    &__wrap {
+      grid-template-columns: repeat(2, 1fr);
+      grid-row-gap: 48px;
+      grid-column-gap: 20px;
+      padding: 120px 0 0;
+    }
+  }
 }
 </style>

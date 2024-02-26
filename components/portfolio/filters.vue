@@ -55,4 +55,21 @@
     }
   }
 }
+
+@include tablet {
+  .filter {
+    padding: 4px 4px 4px 24px;
+    gap: 16px;
+    &__slider {
+      svg {
+        font-size: 20px;
+      }
+    }
+    &__btn {
+      height: 48px;
+      padding: 0 24px;
+      @include mob-body-14-med;
+    }
+  }
+}
 </style>

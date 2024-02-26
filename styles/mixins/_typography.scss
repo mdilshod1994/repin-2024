@@ -8,7 +8,6 @@
   letter-spacing: -5.2px;
 }
 
-
 @mixin desctop-H2{
   font-size: 68px;
   font-style: normal;
@@ -47,8 +46,6 @@
   letter-spacing: -0.44px;
 }
 
-
-
 // RAM
 
 @mixin desctop-H5-ram{
@@ -58,4 +55,65 @@
   font-weight: 400;
   line-height: 30px;
   letter-spacing: -0.48px;
+}
+
+// mob 
+
+@mixin mob-H1{
+  font-size: 52px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 56px;
+  letter-spacing: -2.08px;
+}
+
+@mixin mob-H2{
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 46px;
+  letter-spacing: -1.2px;
+}
+
+@mixin mob-body-14{
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+@mixin  mob-body-14-med{
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+// RAM
+
+@mixin mob-H1-ram {
+  font-family: "Ramillas Trial";
+  font-size: 52px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 56px;
+  letter-spacing: -2.08px;
+}
+
+@mixin mob-h4-22-ram {
+  font-family: "Ramillas Trial";
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px; 
+  letter-spacing: -0.66px;
+}
+
+@mixin mob-sub-16{
+  font-family: "Ramillas Trial";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px; 
+  letter-spacing: -0.32px;
 }

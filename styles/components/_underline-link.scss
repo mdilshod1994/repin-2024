@@ -3,3 +3,9 @@
   @include desctop-caption-17-med;
   border-bottom: 1.5px solid var(--Black);
 }
+
+@include tablet{
+  .underline-link{
+    @include mob-body-14-med
+  }
+}
