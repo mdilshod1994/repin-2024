@@ -92,7 +92,6 @@ const scrollTop = () => {
     max-width: 508px;
     &-title {
       color: rgba(255, 255, 255, 0.4);
-      @include desctop-caption-17;
     }
     &-text {
       @include desctop-H3;
@@ -122,7 +121,6 @@ const scrollTop = () => {
     }
     &-title {
       color: rgba(255, 255, 255, 0.4);
-      @include desctop-caption-17;
     }
     &-list {
       display: flex;
@@ -151,7 +149,6 @@ const scrollTop = () => {
     }
     &-text {
       color: rgba(255, 255, 255, 0.4);
-      @include desctop-caption-17;
     }
     &-wrap {
       display: flex;
@@ -165,6 +162,40 @@ const scrollTop = () => {
         path {
           stroke: white;
         }
+      }
+    }
+  }
+}
+
+@include tablet {
+  .footer {
+    padding: 40px 0 24px;
+    &__wrap {
+      gap: 72px;
+    }
+    &__top {
+      gap: 56px;
+    }
+    &__contact {
+      max-width: 378px;
+      &-text {
+        @include mob-H3;
+        span {
+          @include mob-H3-ram;
+          font-style: italic;
+        }
+      }
+    }
+    &__links {
+      max-width: max-content;
+      gap: 31px;
+      &-box {
+        max-width: 343px;
+        gap: 11px;
+      }
+      &-item {
+        padding: 8px 16px;
+        @include mob-body-14;
       }
     }
   }
