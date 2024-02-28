@@ -1,6 +1,5 @@
 <template>
   <div cls="home">
-    <!-- BANNER -->
     <div class="container">
       <div cls="home__top">
         <r-banner scroll-to="test" cls="home__banner">
@@ -8,9 +7,12 @@
             <r-round-button size="large">
               <svgo-user-group />
             </r-round-button>
-            <div cls="home__banner-desc">
-              We build cloud-based web and mobile apps for existing products and startups. Using AI
-              technologies, we aim to quickly turn your idea into a successful solution.
+            <div cls="home__banner-bottom">
+              <div cls="home__banner-desc">
+                We build cloud-based web and mobile apps for existing products and startups. Using
+                AI technologies, we aim to quickly turn your idea into a successful solution.
+              </div>
+              <nuxt-link to="/portfolio" class="underline-link"> More about us </nuxt-link>
             </div>
           </div>
 
@@ -24,9 +26,6 @@
               <span> in the digital world </span>
             </div>
           </template>
-          <template #description-link>
-            <nuxt-link to="/portfolio"> More about us </nuxt-link>
-          </template>
           <template #bottom-left>
             <div cls="home__banner-texts">
               <div cls="home__banner-text">Digital products from scratch</div>
@@ -36,23 +35,18 @@
         </r-banner>
       </div>
     </div>
-    <!-- VIDEO -->
     <r-video />
-    <!-- OUR WORKS -->
     <div class="container">
       <div cls="home__portfolio">
         <home-portfolio />
       </div>
     </div>
-    <!-- CONSULTING -->
     <div cls="home__consulting">
       <home-consulting />
     </div>
-    <!-- OUR CLIENTS -->
     <div cls="home__clients">
       <home-our-clients />
     </div>
-    <!-- STORIES & USER CASES -->
     <div class="container">
       <div cls="home__stories">
         <home-stories />
@@ -80,6 +74,11 @@
     &-desc {
       @include desctop-body-22;
     }
+    &-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
   }
   &__portfolio {
     padding: 104px 0;
@@ -93,6 +92,7 @@
     padding: 88px 0;
     max-width: 1920px;
     margin: 0 auto;
+    overflow: hidden;
   }
   &__stories {
     padding: 104px 0 160px;
@@ -106,17 +106,16 @@
   .home {
     padding-top: 64px;
     &__portfolio {
-      padding: 80px 0;
-      gap: 64px;
+      padding: 72px 0;
     }
     &__consulting {
       padding: 16px 0;
     }
     &__clients {
-      padding: 56px 0;
+      padding: 72px 0 56px;
     }
     &__stories {
-      padding: 80px 0 120px;
+      padding: 72px 0 88px;
     }
     &__banner {
       &-top {
@@ -125,11 +124,41 @@
       &-desc {
         @include mob-body-14;
       }
+      &-texts {
+        flex-wrap: wrap;
+        column-gap: 88px;
+        row-gap: 16px;
+      }
+      &-bottom {
+        gap: 16px;
+      }
     }
   }
 
   .title {
     max-width: 304px;
+  }
+}
+@include tablet-small {
+  .home {
+    padding-top: 56px;
+  }
+}
+@include mobile {
+  .home {
+    padding-top: 72px;
+    &__banner {
+      &-top {
+        flex-direction: row;
+        gap: 72px;
+      }
+    }
+    &__top {
+      padding-bottom: 24px;
+    }
+    &__clients {
+      padding: 56px 0;
+    }
   }
 }
 </style>

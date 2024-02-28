@@ -35,4 +35,14 @@
     }
   }
 }
+@include mobile {
+  .grid {
+    gap: 56px;
+    &__wrap {
+      grid-row-gap: 40px;
+      grid-column-gap: 8px;
+      padding: 40px 0 0;
+    }
+  }
+}
 </style>

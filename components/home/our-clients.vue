@@ -1,7 +1,7 @@
 <template>
   <div cls="clients">
     <r-title pretitle="Reviews" title="Our clients" />
-    <r-carousel scroll-bar>
+    <r-carousel scroll-bar gap="48">
       <div v-for="s in 10" cls="clients-card">
         <div cls="clients-card__logo">
           <svgo-pavel />
@@ -61,6 +61,13 @@
       &__title {
         @include mob-sub-16;
       }
+    }
+  }
+}
+@include mobile {
+  .clients {
+    &-card {
+      max-width: 228px;
     }
   }
 }

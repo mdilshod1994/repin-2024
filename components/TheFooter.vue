@@ -143,6 +143,7 @@ const scrollTop = () => {
     justify-content: space-between;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 24px;
+    gap: 24px;
     &-box {
       display: flex;
       gap: 29px;
@@ -155,8 +156,15 @@ const scrollTop = () => {
       justify-content: space-between;
       max-width: 491px;
       flex: 1 0 0;
+      gap: 24px;
     }
     &-to-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-bottom: 2px solid var(--White);
+      flex-shrink: 0;
       svg {
         transform: rotate(180deg);
         path {
@@ -175,6 +183,9 @@ const scrollTop = () => {
     }
     &__top {
       gap: 56px;
+      &-block {
+        gap: 24px;
+      }
     }
     &__contact {
       max-width: 378px;
@@ -197,6 +208,61 @@ const scrollTop = () => {
         padding: 8px 16px;
         @include mob-body-14;
       }
+    }
+    &__bottom {
+      position: relative;
+      flex-wrap: wrap;
+      padding-top: 16px;
+      &-box,
+      &-wrap {
+        align-items: center;
+      }
+      &-to-top {
+        padding: 8px 16px;
+        border-radius: 32px;
+        background: rgba(124, 124, 124, 0.1);
+        border-bottom: none;
+      }
+    }
+  }
+}
+@include tablet-small {
+  .footer {
+    &__contact {
+      max-width: 304px;
+    }
+    &__top {
+      &-block {
+        flex-wrap: wrap;
+      }
+    }
+  }
+}
+@include mobile {
+  .footer {
+    position: relative;
+    &__top {
+      &-block {
+        gap: 56px;
+      }
+    }
+    &__bottom {
+      gap: 4px;
+      flex-direction: column;
+      align-items: flex-start;
+      &-box {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+      &-to-top {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+      }
+    }
+    &__wrap {
+      gap: 88px;
     }
   }
 }

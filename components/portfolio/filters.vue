@@ -1,16 +1,21 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const show = ref(false)
+const showFilters = () => {
+  show.value = !show.value
+}
+</script>
 
 <template>
   <div cls="filter">
-    <button cls="filter__slider">
+    <button cls="filter__slider" @click="showFilters">
       <svgo-sliders />
     </button>
     <div cls="filter__btns">
       <button :cls="{ filter__btn: true, '-active': true }">All</button>
-      <button cls="filter__btn">Mobile</button>
-      <button cls="filter__btn">Web Site</button>
-      <button cls="filter__btn">Branding</button>
-      <button cls="filter__btn">Crypto</button>
+      <button v-if="show" :cls="{ filter__btn: true, '-active': false }">Mobile</button>
+      <button v-if="show" :cls="{ filter__btn: true, '-active': false }">Web Site</button>
+      <button v-if="show" :cls="{ filter__btn: true, '-active': false }">Branding</button>
+      <button v-if="show" :cls="{ filter__btn: true, '-active': false }">Crypto</button>
     </div>
   </div>
 </template>

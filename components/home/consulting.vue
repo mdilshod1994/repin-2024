@@ -44,9 +44,6 @@
     @include desctop-H1;
     margin: 32px 0 16px;
   }
-  &__desc {
-    @include desctop-caption-17;
-  }
 }
 @include tablet {
   .consulting {
@@ -60,6 +57,34 @@
     }
     &__pretitle {
       @include mob-sub-16;
+    }
+    &__desc {
+    }
+  }
+}
+@include tablet-small {
+  .consulting {
+    &__bg {
+      height: 400px;
+      img {
+        height: 100%;
+      }
+    }
+  }
+}
+@include mobile {
+  .consulting {
+    &__bg {
+      height: 600px;
+      img {
+        object-position: -135px;
+      }
+    }
+    &__content {
+      max-width: 287px;
+    }
+    &__title {
+      margin: 16px 0;
     }
   }
 }

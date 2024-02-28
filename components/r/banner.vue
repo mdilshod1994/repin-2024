@@ -18,13 +18,7 @@ defineProps<{
         </div>
       </div>
       <div cls="banner__right">
-        <div cls="banner__desc">
-          <slot />
-          <div v-if="$slots['description-link']" cls="banner__desc-link" class="underline-link">
-            <slot name="description-link" />
-          </div>
-        </div>
-        <!-- тут будет дом врапперы -->
+        <slot />
       </div>
     </div>
     <div v-if="scrollTo || $slots['bottom-left']" cls="banner__bottom">
@@ -74,12 +68,15 @@ defineProps<{
   &__scroll-to {
     @include desctop-caption-17;
     display: flex;
-    padding: 8px 12px 8px 16px;
+    padding: 0 12px 0 16px;
+    height: 36px;
     justify-content: center;
     align-items: center;
     gap: 6px;
     border-radius: 32px;
     border: 1px solid #b6a2e0;
+    flex-shrink: 0;
+    align-self: flex-start;
     svg {
       font-size: 16px;
     }
@@ -92,6 +89,7 @@ defineProps<{
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 24px;
     }
   }
 }
@@ -119,6 +117,29 @@ defineProps<{
     }
     &__scroll-to {
       @include mob-body-14;
+    }
+  }
+}
+@include tablet-small {
+  .banner {
+    &__right {
+      max-width: 227px;
+    }
+    &__top {
+      flex-wrap: wrap;
+    }
+  }
+}
+@include mobile {
+  .banner {
+    &__bottom {
+      display: none;
+    }
+    &__top {
+      gap: 64px;
+    }
+    &__right {
+      max-width: 100%;
     }
   }
 }

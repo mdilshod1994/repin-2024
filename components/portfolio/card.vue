@@ -49,6 +49,16 @@
     @include desctop-H5-ram;
     text-decoration: underline transparent;
     transition: text-decoration 0.3s ease-in-out;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+  }
+  &__desc {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
   }
   &:hover {
     .card {
@@ -88,6 +98,34 @@
     }
     &__title {
       @include mob-h4-22-ram;
+    }
+  }
+}
+@include tablet-small {
+  .card {
+    &__img {
+      height: 392px;
+      border-radius: 16px;
+      img {
+        border-radius: 16px;
+      }
+    }
+  }
+}
+@include mobile {
+  .card {
+    gap: 8px;
+    &:nth-child(2n-1) {
+      margin-top: -40px;
+    }
+    &__img {
+      height: 200px;
+    }
+    &__title {
+      @include mob-body-14-ram;
+    }
+    &__desc {
+      display: none;
     }
   }
 }

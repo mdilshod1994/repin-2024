@@ -4,6 +4,7 @@
   align-items: center;
   border-radius: 50%;
   transition: 0.3s ease-in-out;
+  flex-shrink: 0;
   svg {
     transition: 0.3s ease-in-out;
   }
@@ -51,5 +52,28 @@
         color: #fff;
       }
     }
+  }
+}
+
+@include tablet{
+  .round-button{
+    &.-large {
+      width: 48px;
+      height: 48px;
+      svg {
+        font-size: 24px;
+      }
+    }
+  }
+}
+@include mobile{
+  .round-button{
+    // &.-small{
+    //   width: 24px;
+    //   height: 24px;
+    //   svg{
+    //     font-size: 10px;
+    //   }
+    // }
   }
 }

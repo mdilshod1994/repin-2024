@@ -62,7 +62,6 @@
   .video {
     padding: 16px;
     &__btn {
-      position: absolute;
       left: 24px;
       bottom: 24px;
       svg {
@@ -72,6 +71,23 @@
         @include mob-body-14;
         gap: 10px;
       }
+    }
+  }
+}
+@include mobile {
+  .video {
+    padding: 16px 8px;
+    &__wrap {
+      height: 359px;
+      img {
+        height: 100%;
+        width: 100%;
+      }
+    }
+    &__btn {
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
     }
   }
 }

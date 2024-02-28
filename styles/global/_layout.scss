@@ -42,3 +42,8 @@ body{
     @include mob-body-14 
   }
 }
+@include mobile{
+  .container{
+    padding: 0 16px;
+  }
+}

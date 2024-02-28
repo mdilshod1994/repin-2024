@@ -1,0 +1,15 @@
+.tab{
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  border-radius: 20px;
+  background: #f5f5f5;
+  @include mob-body-14-med;
+  white-space: nowrap;
+  transition: 0.3s ease-in-out;
+  &.-active {
+    background: var(--Black);
+    color: var(--White);
+  }
+}

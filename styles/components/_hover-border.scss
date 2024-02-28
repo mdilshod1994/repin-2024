@@ -29,3 +29,11 @@
     }
   }
 }
+@include tablet{
+  .hover-border{
+    padding: 0;
+    &::after{
+      display: none;
+    }
+  }
+}

@@ -73,6 +73,19 @@ withDefaults(
     &__title {
       @include mob-H2;
     }
+    &__wrap {
+      flex-wrap: wrap;
+      column-gap: 24px;
+      row-gap: 56px;
+    }
+  }
+}
+@include mobile {
+  .block {
+    gap: 8px;
+    &__wrap {
+      flex-wrap: nowrap;
+    }
   }
 }
 </style>

@@ -24,6 +24,7 @@ import { useResizeObserver } from "@vueuse/core"
 
 defineProps<{
   scrollBar?: boolean // показать/скрыть скролбар
+  gap?: string
 }>()
 
 const carousel = ref<HTMLElement | null>(null), // контейнер карусель
@@ -75,8 +76,9 @@ const updateThumbPosition = () => {
 }
 
 const setMarginsToSlides = () => {
-  const globalContainer = document.querySelector(".container")
-  const containerWidth = globalContainer ? globalContainer.clientWidth - 48 : 1920 - 48
+  const globalContainer = document.querySelector(".container") as HTMLElement
+  const paddingX = parseFloat(getComputedStyle(globalContainer).paddingLeft) * 2
+  const containerWidth = globalContainer ? globalContainer.clientWidth - paddingX : 1920 - paddingX
   const screenWidth = window.screen.width > 1920 ? 1920 : window.screen.width
   const marginSide = (screenWidth - containerWidth) / 2
 
@@ -112,6 +114,7 @@ onMounted(() => {
     <div
       ref="carousel"
       cls="carousel__slider"
+      :style="`gap:${gap}px`"
       @mousemove="dragging"
       @mousedown="dragStart"
       @mouseup="dragStop"
@@ -139,7 +142,6 @@ onMounted(() => {
   &__slider {
     display: flex;
     align-self: stretch;
-    gap: 56px;
     overflow: auto;
     -webkit-user-drag: none;
     -khtml-user-drag: none;
@@ -185,9 +187,11 @@ onMounted(() => {
 @include tablet {
   .carousel {
     gap: 40px;
-    &__slider {
-      gap: 48px;
-    }
+  }
+}
+@include mobile {
+  .carousel {
+    gap: 32px;
   }
 }
 </style>

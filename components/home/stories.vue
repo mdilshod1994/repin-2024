@@ -4,7 +4,7 @@
   <div cls="stories">
     <r-title pretitle="Blog" title="Stories" italic-title="& User Cases">
       <template #addons>
-        <nuxt-link to="" class="underline-link"> See all articles </nuxt-link>
+        <nuxt-link to="" class="underline-link" cls="stories__link"> See all articles </nuxt-link>
       </template>
     </r-title>
     <div cls="stories__list">
@@ -29,6 +29,7 @@
         </div>
       </nuxt-link>
     </div>
+    <r-button cls="stories__btn"> See all articles </r-button>
   </div>
 </template>
 
@@ -67,9 +68,17 @@
       letter-spacing: -0.96px;
       text-decoration: underline transparent;
       transition: text-decoration 0.3s ease-in-out;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
     }
     &-desc {
       max-width: 421px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
     }
     &-link {
       display: flex;
@@ -79,6 +88,9 @@
       padding: 6px 16px;
       border-radius: 48px;
       background: #f5f5f5;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
     }
     &:hover {
       :global(.hover-border) {
@@ -106,15 +118,19 @@
     max-width: 519px;
     height: 336px;
     border-radius: 24px;
+    overflow: hidden;
     img {
       border-radius: 24px;
     }
+  }
+  &__btn {
+    display: none;
   }
 }
 
 @include tablet {
   .stories {
-    gap: 32px;
+    gap: 48px;
     &__img {
       max-width: 408px;
       height: 272px;
@@ -127,6 +143,55 @@
       &-title {
         @include mob-h4-22-ram;
       }
+    }
+  }
+}
+@include tablet-small {
+  .stories {
+    &__list {
+      gap: 32px;
+    }
+    &__card {
+      &-content {
+        gap: 24px;
+      }
+    }
+    &__img {
+      max-width: 297px;
+      height: 198px;
+      min-width: 160px;
+    }
+  }
+}
+@include mobile {
+  .stories {
+    &__link {
+      display: none;
+    }
+    &__list {
+      gap: 40px;
+    }
+    &__card {
+      flex-direction: column-reverse;
+      gap: 16px;
+      &-title {
+        -webkit-line-clamp: 3;
+      }
+      &-desc {
+        -webkit-line-clamp: 2;
+      }
+    }
+    &__img {
+      height: 400px;
+      max-width: 100%;
+      border-radius: 16px;
+      img {
+        border-radius: 16px;
+      }
+    }
+    &__btn {
+      display: flex;
+      align-self: center;
     }
   }
 }

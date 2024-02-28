@@ -46,4 +46,10 @@ withDefaults(
     @include mob-body-14-med;
   }
 }
+@include mobile {
+  .button {
+    height: 52px;
+    padding: 0 40px;
+  }
+}
 </style>

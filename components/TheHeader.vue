@@ -111,4 +111,14 @@
     }
   }
 }
+@include tablet-small {
+  .header {
+    padding: 0 24px 24px;
+  }
+}
+@include mobile {
+  .header {
+    padding: 0 16px 8px;
+  }
+}
 </style>
