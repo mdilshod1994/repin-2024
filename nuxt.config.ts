@@ -2,7 +2,7 @@ import vueCssModule from "vite-plugin-vue-css-module"
 
 export default defineNuxtConfig({
   modules: ["nuxt-svgo"],
-  css: ["@/styles/main.scss", "@/assets/css/fonts.scss"],
+  css: ["@/styles/main.scss"],
   vite: {
     plugins: [
       vueCssModule({
