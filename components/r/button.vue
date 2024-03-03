@@ -24,7 +24,7 @@ withDefaults(
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: 0.3s ease-in-out;
+  transition: calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
   @include desctop-caption-17-med;
   &.-black {
     background: var(--Black);

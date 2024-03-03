@@ -62,22 +62,13 @@
     }
   }
 }
-@include tablet-small {
-  .consulting {
-    &__bg {
-      height: 400px;
-      img {
-        height: 100%;
-      }
-    }
-  }
-}
 @include mobile {
   .consulting {
     &__bg {
       height: 600px;
       img {
         object-position: -135px;
+        height: 100%;
       }
     }
     &__content {

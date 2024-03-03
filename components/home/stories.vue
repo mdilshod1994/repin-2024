@@ -172,8 +172,14 @@
       gap: 40px;
     }
     &__card {
-      flex-direction: column-reverse;
       gap: 16px;
+      flex-wrap: wrap-reverse;
+      &-content {
+        max-width: 100%;
+        min-width: 300px;
+        flex-basis: 0;
+        flex-grow: 1;
+      }
       &-title {
         -webkit-line-clamp: 3;
       }
@@ -182,9 +188,11 @@
       }
     }
     &__img {
-      height: 400px;
-      max-width: 100%;
       border-radius: 16px;
+      flex-basis: 0;
+      flex-grow: 1;
+      max-width: 100%;
+      min-width: 290px;
       img {
         border-radius: 16px;
       }

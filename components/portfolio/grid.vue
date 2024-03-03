@@ -21,6 +21,7 @@
     grid-row-gap: 60px;
     grid-column-gap: 24px;
     padding: 104px 0 0;
+    width: 100%;
   }
 }
 

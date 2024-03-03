@@ -17,13 +17,9 @@
           </div>
 
           <template #title>
-            <div cls="title" class="desktop-only">
+            <div cls="title">
               <span> Your partner </span><br />
               in the digital world
-            </div>
-            <div cls="title" class="tablet-mobile-only">
-              Your partner <br />
-              <span> in the digital world </span>
             </div>
           </template>
           <template #bottom-left>
@@ -104,7 +100,7 @@
 
 @include tablet {
   .home {
-    padding-top: 64px;
+    padding-top: 80px;
     &__portfolio {
       padding: 72px 0;
     }
@@ -141,12 +137,11 @@
 }
 @include tablet-small {
   .home {
-    padding-top: 56px;
+    padding-top: 72px;
   }
 }
 @include mobile {
   .home {
-    padding-top: 72px;
     &__banner {
       &-top {
         flex-direction: row;

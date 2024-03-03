@@ -2,7 +2,8 @@
 
 <template>
   <div cls="card">
-    <div cls="card__img" class="hover-border">
+    <div cls="card__img">
+      <r-gradient-border cls="card__gradient-border" />
       <img src="@/assets/images/tempImages/card.png" alt="" />
     </div>
     <div cls="card__content">
@@ -28,11 +29,31 @@
   gap: 16px;
   cursor: pointer;
   &__img {
-    height: 604px;
+    position: relative;
+    padding-bottom: 123.1%;
+    height: 0;
     border-radius: 24px;
+    overflow: hidden;
+    transition: transform calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
     img {
-      border-radius: 24px;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
     }
+    &:hover {
+      transform: translateY(-10px) scale(1.03);
+      z-index: 1;
+      .card {
+        &__gradient-border {
+          opacity: 1;
+        }
+      }
+    }
+  }
+  &__gradient-border {
+    opacity: 0;
+    transition: calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
   }
   &__content {
     display: flex;
@@ -76,14 +97,6 @@
     }
   }
 }
-
-@include desktop-medium {
-  .card {
-    &__img {
-      height: 488px;
-    }
-  }
-}
 @include tablet {
   .card {
     gap: 12px;
@@ -93,18 +106,20 @@
     &:nth-child(2n-1) {
       margin-top: -120px;
     }
-    &__img {
-      height: 548px;
-    }
     &__title {
       @include mob-h4-22-ram;
+    }
+    &__gradient-border {
+      display: none;
+    }
+    &__img {
+      pointer-events: none;
     }
   }
 }
 @include tablet-small {
   .card {
     &__img {
-      height: 392px;
       border-radius: 16px;
       img {
         border-radius: 16px;
@@ -117,9 +132,6 @@
     gap: 8px;
     &:nth-child(2n-1) {
       margin-top: -40px;
-    }
-    &__img {
-      height: 200px;
     }
     &__title {
       @include mob-body-14-ram;

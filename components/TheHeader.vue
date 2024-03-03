@@ -4,8 +4,8 @@
   <div cls="header">
     <div cls="header__wrap">
       <nuxt-link to="/" cls="header__logo">
-        <svgo-logo class="desktop-only" />
-        <svgo-r-logo class="tablet-mobile-only" />
+        <svgo-logo cls="header__logo-desk" />
+        <svgo-r-logo cls="header__logo-mob" />
       </nuxt-link>
       <nav cls="header__nav">
         <nuxt-link cls="header__nav-link" to="/portfolio"> Portfolio </nuxt-link>
@@ -17,7 +17,7 @@
       <div cls="header__btns">
         <button cls="header__btn">RU</button>
       </div>
-      <div class="tablet-mobile-only">
+      <div cls="header__menu">
         <r-round-button cls="header__menu-btn" bg-color="white" size="custom">
           <svgo-btn-menu />
         </r-round-button>
@@ -47,6 +47,9 @@
       width: 152px;
       height: 30px;
     }
+    &-mob {
+      display: none;
+    }
   }
   &__nav {
     position: absolute;
@@ -74,6 +77,9 @@
   &__btn {
     @include desctop-caption-17-med;
   }
+  &__menu {
+    display: none;
+  }
 }
 
 @include desktop-medium {
@@ -95,6 +101,12 @@
         width: 24px;
         height: 24px;
       }
+      &-desk {
+        display: none;
+      }
+      &-mob {
+        display: flex;
+      }
     }
     &__nav {
       display: none;
@@ -102,11 +114,14 @@
     &__btns {
       display: none;
     }
-    &__menu-btn {
-      width: 40px;
-      height: 40px;
-      svg {
-        font-size: 12px;
+    &__menu {
+      display: flex;
+      &-btn {
+        width: 40px;
+        height: 40px;
+        svg {
+          font-size: 12px;
+        }
       }
     }
   }
