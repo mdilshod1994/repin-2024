@@ -24,7 +24,8 @@
             <r-round-button size="small" />
           </div>
         </div>
-        <div cls="stories__img" class="hover-border">
+        <div cls="stories__img">
+          <r-gradient-border cls="stories__gradient-border" />
           <img src="@/assets/images/tempImages/story.png" alt="" />
         </div>
       </nuxt-link>
@@ -114,13 +115,29 @@
       }
     }
   }
+  &__gradient-border {
+    opacity: 0;
+    transition: calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
+  }
   &__img {
     max-width: 519px;
     height: 336px;
     border-radius: 24px;
     overflow: hidden;
+    position: relative;
+    transition: transform calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
     img {
-      border-radius: 24px;
+      width: 100%;
+      height: 100%;
+    }
+    &:hover {
+      transform: scale(1.03);
+      z-index: 1;
+      .stories {
+        &__gradient-border {
+          opacity: 1;
+        }
+      }
     }
   }
   &__btn {
@@ -134,6 +151,10 @@
     &__img {
       max-width: 408px;
       height: 272px;
+      pointer-events: none;
+    }
+    &__gradient-border {
+      display: block;
     }
     &__card {
       &-content {
