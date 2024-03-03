@@ -1,7 +1,20 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const oldScroll = ref(0)
+const scrolledUp = ref(true)
+onMounted(() => {
+  window.onscroll = () => {
+    if (oldScroll.value > window.scrollY) {
+      scrolledUp.value = true
+    } else {
+      scrolledUp.value = false
+    }
+    oldScroll.value = window.scrollY
+  }
+})
+</script>
 
 <template>
-  <div cls="header">
+  <div :cls="{ header: true, '-visible': scrolledUp }">
     <div cls="header__wrap">
       <nuxt-link to="/" cls="header__logo">
         <svgo-logo cls="header__logo-desk" />
@@ -29,10 +42,19 @@
 <style module lang="scss">
 .header {
   padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  transition: calc(1s * 1.1) cubic-bezier(0.19, 1, 0.22, 1);
+  transform: translateY(-100%);
+  &.-visible {
+    transform: translateY(0%);
+    top: 24px;
+  }
   &__wrap {
     border-radius: 108px;
     background: rgba(124, 124, 124, 0.1);
-    backdrop-filter: blur(18.06315803527832px);
+    backdrop-filter: blur(20px);
     padding: 8px 8px 8px 32px;
     max-width: 1520px;
     width: 100%;
@@ -134,6 +156,9 @@
 @include mobile {
   .header {
     padding: 0 16px 8px;
+    &.-visible {
+      top: 8px;
+    }
   }
 }
 </style>
