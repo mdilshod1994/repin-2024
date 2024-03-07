@@ -30,4 +30,20 @@ export default defineNuxtConfig({
   svgo: {
     explicitImportsOnly: true,
   },
+  features: {
+    inlineStyles: false,
+  },
+  postcss: {
+    plugins: {
+      // предотвращает проблему с загрузкой шрифтов (с пробелами в имени) в прод-сборке
+      cssnano: {
+        preset: [
+          "default",
+          {
+            normalizeUrl: false,
+          },
+        ],
+      },
+    },
+  },
 })
