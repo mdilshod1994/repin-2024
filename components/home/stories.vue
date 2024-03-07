@@ -211,8 +211,9 @@
       border-radius: 16px;
       flex-basis: 0;
       flex-grow: 1;
-      max-width: 100%;
-      min-width: 290px;
+      min-width: 297px;
+      max-width: 430px;
+      height: 228px;
       img {
         border-radius: 16px;
       }
