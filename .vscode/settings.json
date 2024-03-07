@@ -1,0 +1,18 @@
+{
+  "[css][json][jsonc][scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
+  "editor.formatOnSave": false,
+  "eslint.validate": ["javascript", "typescript", "vue"],
+  "prettier.enable": true,
+  "search.exclude": {
+    "**/node_modules": true,
+    ".nuxt": true,
+    ".output": true
+  }
+}
