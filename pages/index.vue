@@ -2,7 +2,7 @@
   <div cls="home">
     <div class="container">
       <div cls="home__top">
-        <r-banner scroll-to="test" cls="home__banner">
+        <r-banner scroll-to="test" bottom-line cls="home__banner">
           <div cls="home__banner-top">
             <r-round-button size="large">
               <svgo-user-group />
@@ -15,7 +15,6 @@
               <nuxt-link to="/portfolio" class="underline-link"> More about us </nuxt-link>
             </div>
           </div>
-
           <template #title>
             <div cls="title">
               <span> Your partner </span><br />

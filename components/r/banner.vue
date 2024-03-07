@@ -6,6 +6,7 @@ defineProps<{
   // поумолчанию стоит desktop-H1
   title?: string
   subtitle?: string
+  bottomLine?: boolean
 }>()
 </script>
 
@@ -22,7 +23,7 @@ defineProps<{
       </div>
     </div>
     <div v-if="scrollTo || $slots['bottom-left']" cls="banner__bottom">
-      <div class="line" />
+      <div v-if="bottomLine" class="line" />
       <div cls="banner__bottom-wrap">
         <slot name="bottom-left" />
         <a v-if="scrollTo" :href="`#${scrollTo}`" cls="banner__scroll-to"

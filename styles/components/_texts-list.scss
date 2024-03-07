@@ -1,0 +1,10 @@
+.texts{
+  display: flex;
+  gap: 24px;
+  &.-column{
+    flex-direction: column;
+  }
+}
+.text{
+  max-width: 411px;
+}

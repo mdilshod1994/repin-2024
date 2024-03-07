@@ -18,7 +18,9 @@
             <div class="tab">Crypto</div>
           </r-carousel>
         </div>
-        <portfolio-grid />
+        <r-grid button :tablet-column="2" cls="portfolio__grid">
+          <portfolio-card v-for="c in 6" cls="portfolio__card" />
+        </r-grid>
       </div>
     </div>
     <div cls="portfolio__carousel">
@@ -43,6 +45,14 @@
 <style module lang="scss">
 .portfolio {
   padding: 152px 0 160px;
+  &__grid {
+    padding-top: 104px;
+  }
+  &__card {
+    &:nth-child(3n-1) {
+      margin-top: -104px;
+    }
+  }
   &__wrap {
     display: flex;
     flex-direction: column;
@@ -126,6 +136,17 @@
       gap: 64px;
       padding-bottom: 56px;
     }
+    &__grid {
+      padding-top: 120px;
+    }
+    &__card {
+      &:nth-child(3n-1) {
+        margin-top: auto;
+      }
+      &:nth-child(2n-1) {
+        margin-top: -120px;
+      }
+    }
     &__carousel {
       padding: 72px 0 0;
       gap: 64px;
@@ -188,6 +209,14 @@
         svg {
           font-size: 17px;
         }
+      }
+    }
+    &__grid {
+      padding-top: 40px;
+    }
+    &__card {
+      &:nth-child(2n-1) {
+        margin-top: -40px;
       }
     }
   }

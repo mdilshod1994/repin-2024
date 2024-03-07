@@ -26,7 +26,7 @@ const scrollTop = () => {
             <div cls="footer__links">
               <div cls="footer__links-box">
                 <div cls="footer__links-title">Menu</div>
-                <div cls="footer__links-list">
+                <div class="tabs">
                   <nuxt-link to="" cls="footer__links-item">Portfolio</nuxt-link>
                   <nuxt-link to="" cls="footer__links-item">Agency</nuxt-link>
                   <nuxt-link to="" cls="footer__links-item">Consulting</nuxt-link>
@@ -36,7 +36,7 @@ const scrollTop = () => {
               </div>
               <div cls="footer__links-box">
                 <div cls="footer__links-title">Follow us</div>
-                <div cls="footer__links-list">
+                <div class="tabs">
                   <a href="" target="_blank" cls="footer__links-item">Behance</a>
                   <a href="" target="_blank" cls="footer__links-item">Dribbble</a>
                   <a href="" target="_blank" cls="footer__links-item">Instagram</a>
@@ -121,11 +121,6 @@ const scrollTop = () => {
     }
     &-title {
       color: rgba(255, 255, 255, 0.4);
-    }
-    &-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
     }
     &-item {
       display: flex;

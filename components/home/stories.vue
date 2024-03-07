@@ -112,6 +112,14 @@
             text-decoration-color: var(--Black);
           }
         }
+        &__gradient-border {
+          opacity: 1;
+        }
+        &__img {
+          img {
+            transform: scale(1.1);
+          }
+        }
       }
     }
   }
@@ -125,19 +133,10 @@
     border-radius: 24px;
     overflow: hidden;
     position: relative;
-    transition: transform calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
     img {
       width: 100%;
+      transition: transform calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
       height: 100%;
-    }
-    &:hover {
-      transform: scale(1.03);
-      z-index: 1;
-      .stories {
-        &__gradient-border {
-          opacity: 1;
-        }
-      }
     }
   }
   &__btn {

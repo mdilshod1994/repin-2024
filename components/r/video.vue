@@ -24,9 +24,14 @@
   margin: 0 auto;
   &__wrap {
     width: 100%;
+    height: 100%;
     position: relative;
     border-radius: 24px;
     overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
   &__btn {
     position: absolute;
@@ -79,10 +84,6 @@
     padding: 16px 8px;
     &__wrap {
       height: 359px;
-      img {
-        height: 100%;
-        width: 100%;
-      }
     }
     &__btn {
       left: 50%;

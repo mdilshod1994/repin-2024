@@ -18,8 +18,9 @@
         <div class="tab">Crypto</div>
       </r-carousel>
     </div>
-
-    <portfolio-grid />
+    <r-grid button :tablet-column="2" cls="portfolio__grid">
+      <portfolio-card v-for="c in 6" cls="portfolio__card" />
+    </r-grid>
   </div>
 </template>
 
@@ -31,10 +32,29 @@
   &__mob-filter {
     display: none;
   }
+  &__grid {
+    padding-top: 104px;
+  }
+  &__card {
+    &:nth-child(3n-1) {
+      margin-top: -104px;
+    }
+  }
 }
 @include tablet {
   .portfolio {
     gap: 64px;
+    &__grid {
+      padding-top: 120px;
+    }
+    &__card {
+      &:nth-child(3n-1) {
+        margin-top: auto;
+      }
+      &:nth-child(2n-1) {
+        margin-top: -120px;
+      }
+    }
   }
 }
 @include tablet-small {
@@ -53,6 +73,14 @@
     gap: 0;
     &__mob-filter {
       margin: 56px -16px 32px;
+    }
+    &__grid {
+      padding-top: 40px;
+    }
+    &__card {
+      &:nth-child(2n-1) {
+        margin-top: -40px;
+      }
     }
   }
 }

@@ -21,9 +21,6 @@
 
 <style module lang="scss">
 .card {
-  &:nth-child(3n-1) {
-    margin-top: -104px;
-  }
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -34,21 +31,12 @@
     height: 0;
     border-radius: 24px;
     overflow: hidden;
-    transition: transform calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
     img {
       position: absolute;
       width: 100%;
       height: 100%;
       border-radius: inherit;
-    }
-    &:hover {
-      transform: translateY(-10px) scale(1.03);
-      z-index: 1;
-      .card {
-        &__gradient-border {
-          opacity: 1;
-        }
-      }
+      transition: transform calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
     }
   }
   &__gradient-border {
@@ -94,18 +82,21 @@
       &__title {
         text-decoration-color: var(--Black);
       }
+      &__gradient-border {
+        opacity: 1;
+      }
+      &__img {
+        img {
+          transform: scale(1.1);
+        }
+      }
     }
   }
 }
 @include tablet {
   .card {
     gap: 12px;
-    &:nth-child(3n-1) {
-      margin-top: auto;
-    }
-    &:nth-child(2n-1) {
-      margin-top: -120px;
-    }
+
     &__title {
       @include mob-h4-22-ram;
     }
@@ -130,9 +121,7 @@
 @include mobile {
   .card {
     gap: 8px;
-    &:nth-child(2n-1) {
-      margin-top: -40px;
-    }
+
     &__title {
       @include mob-body-14-ram;
     }
