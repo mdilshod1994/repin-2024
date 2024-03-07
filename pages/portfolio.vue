@@ -18,7 +18,14 @@
             <div class="tab">Crypto</div>
           </r-carousel>
         </div>
-        <r-grid button :tablet-column="2" cls="portfolio__grid">
+        <r-grid
+          button
+          :tablet-column="2"
+          cls="portfolio__grid"
+          :desktop-gaps="[60, 24]"
+          :tablet-gaps="[48, 20]"
+          :mobile-gaps="[32, 8]"
+        >
           <portfolio-card v-for="c in 6" cls="portfolio__card" />
         </r-grid>
       </div>

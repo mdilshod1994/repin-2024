@@ -152,14 +152,20 @@
         <div class="line" />
         <div cls="case-study__authors-wrap">
           <div cls="case-study__authors-text">The project was made by</div>
-          <div cls="case-study__authors-list">
+          <r-grid
+            :desktop-column="2"
+            :tablet-column="2"
+            :desktop-gaps="[40, 46]"
+            :tablet-gaps="[24, 62]"
+            :mobile-gaps="[24, 15]"
+          >
             <r-author v-for="a in 6" name="Ivan Repin" profession="Art Direction" />
-          </div>
+          </r-grid>
         </div>
       </div>
       <div cls="case-study__projects">
         <r-title pretitle="Our projects" title="Next projects" flex-start />
-        <r-grid :mobile-column="1">
+        <r-grid :mobile-column="1" :mobile-gaps="[40]">
           <portfolio-card v-for="p in 3" cls="case-study__project" />
         </r-grid>
       </div>
@@ -294,12 +300,6 @@
     &-wrap {
       display: flex;
       justify-content: space-between;
-    }
-    &-list {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-column-gap: 46px;
-      grid-row-gap: 40px;
     }
     &-text {
       max-width: 136px;
