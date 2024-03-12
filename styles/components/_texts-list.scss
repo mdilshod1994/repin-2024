@@ -1,10 +1,27 @@
-.texts{
+.texts {
   display: flex;
   gap: 24px;
-  &.-column{
+  &.-column {
     flex-direction: column;
   }
 }
-.text{
+.text {
   max-width: 411px;
+  width: 100%;
+}
+@include tablet-small {
+  .texts {
+    gap: 16px;
+  }
+  .text {
+    max-width: 301px;
+  }
+}
+@include mobile {
+  .text {
+    max-width: 100%;
+  }
+  .texts {
+    flex-direction: column;
+  }
 }

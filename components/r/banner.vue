@@ -7,6 +7,7 @@ defineProps<{
   title?: string
   subtitle?: string
   bottomLine?: boolean
+  mobileBottomLeft?: boolean
 }>()
 </script>
 
@@ -22,7 +23,10 @@ defineProps<{
         <slot />
       </div>
     </div>
-    <div v-if="scrollTo || $slots['bottom-left']" cls="banner__bottom">
+    <div
+      v-if="scrollTo || $slots['bottom-left']"
+      :cls="{ banner__bottom: true, '-mobile': mobileBottomLeft }"
+    >
       <div v-if="bottomLine" class="line" />
       <div cls="banner__bottom-wrap">
         <slot name="bottom-left" />
@@ -133,8 +137,12 @@ defineProps<{
 }
 @include mobile {
   .banner {
+    gap: 64px;
     &__bottom {
       display: none;
+      &.-mobile {
+        display: flex;
+      }
     }
     &__top {
       gap: 64px;

@@ -1,18 +1,25 @@
+<!--
+TODO:
+  Разработать функцию, для gaps и columns, что если задан отступ для десктопа и если не задан для таблет,
+  то должен вернуть отступ или кол-во колонки десктопной версии,
+  а возможно лучше это сделать в computed property, но придется убрать "withDefaults",
+-->
+
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
     button?: boolean
-    mobileColumn?: number
-    tabletColumn?: number
-    desktopColumn?: number
+    mobileColumn?: string
+    tabletColumn?: string
+    desktopColumn?: string
     desktopGaps?: number[] // [row, column]
     tabletGaps?: number[] // [row, column]
     mobileGaps?: number[] // [row, column]
   }>(),
   {
-    mobileColumn: 2,
-    desktopColumn: 3,
-    tabletColumn: 3,
+    mobileColumn: "2",
+    desktopColumn: "3",
+    tabletColumn: "3",
     desktopGaps: () => [24, 24],
     tabletGaps: () => [20, 20],
     mobileGaps: () => [8, 8],

@@ -20,7 +20,7 @@
     </div>
     <r-grid
       button
-      :tablet-column="2"
+      tablet-column="2"
       :desktop-gaps="[60, 24]"
       :tablet-gaps="[48, 20]"
       :mobile-gaps="[32, 8]"

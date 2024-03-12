@@ -3,29 +3,38 @@
 <template>
   <div cls="case-study">
     <div class="container">
-      <div cls="case-study__banner">
+      <r-grid
+        desktop-column="1"
+        tablet-column="1"
+        mobile-column="1"
+        :desktop-gaps="[16]"
+        :tablet-gaps="[16]"
+        :mobile-gaps="[24]"
+        cls="case-study__banner"
+      >
         <nuxt-link to="" cls="case-study__link"> www.macurtin.ru </nuxt-link>
-        <div cls="case-study__banner-wrap">
-          <r-banner title="Scandinavian Airlines Nordic ">
-            <div class="texts -column">
-              <div class="text">
-                Design and production of curtains and accessories for home and office. Moscow and
-                Moscow region.
-              </div>
-              <div class="text">
-                The client turned to the Studio for a complete repackaging of the brand. Previously,
-                the company was called "Isabelle". We have developed a new naming, a website with a
-                catalog of curtains and accessories, and the main elements of corporate identity.
-              </div>
+        <r-banner mobile-bottom-left>
+          <template #title>
+            <div cls="case-study__banner-title">Scandinavian Airlines Nordic</div>
+          </template>
+          <div class="texts -column">
+            <div class="text">
+              Design and production of curtains and accessories for home and office. Moscow and
+              Moscow region.
             </div>
-            <template #bottom-left>
-              <div class="tabs">
-                <div v-for="t in 6" class="tab">Website</div>
-              </div>
-            </template>
-          </r-banner>
-        </div>
-      </div>
+            <div class="text">
+              The client turned to the Studio for a complete repackaging of the brand. Previously,
+              the company was called "Isabelle". We have developed a new naming, a website with a
+              catalog of curtains and accessories, and the main elements of corporate identity.
+            </div>
+          </div>
+          <template #bottom-left>
+            <div class="tabs">
+              <div v-for="t in 6" class="tab">Website</div>
+            </div>
+          </template>
+        </r-banner>
+      </r-grid>
     </div>
     <div cls="case-study__video">
       <r-video />
@@ -46,7 +55,7 @@
       </div>
     </div>
     <div cls="case-study__before-after">
-      <div>before after</div>
+      <r-before-after />
     </div>
     <div class="container">
       <div cls="case-study__wrap">
@@ -62,7 +71,7 @@
       </div>
     </div>
     <div cls="case-study__slider">
-      <r-slider />
+      <r-slider pagination />
     </div>
     <div class="container">
       <div cls="case-study__wrap">
@@ -105,9 +114,9 @@
         </div>
       </div>
     </div>
-    <r-grid :desktop-column="2" :tablet-column="2" cls="case-study__grid">
-      <div cls="case-study__grid-cart" />
-      <div cls="case-study__grid-cart" />
+    <r-grid desktop-column="2" tablet-column="2" cls="case-study__grid">
+      <div cls="case-study__grid-card" />
+      <div cls="case-study__grid-card" />
     </r-grid>
     <div class="container">
       <div cls="case-study__wrap">
@@ -152,20 +161,22 @@
         <div class="line" />
         <div cls="case-study__authors-wrap">
           <div cls="case-study__authors-text">The project was made by</div>
-          <r-grid
-            :desktop-column="2"
-            :tablet-column="2"
-            :desktop-gaps="[40, 46]"
-            :tablet-gaps="[24, 62]"
-            :mobile-gaps="[24, 15]"
-          >
-            <r-author v-for="a in 6" name="Ivan Repin" profession="Art Direction" />
-          </r-grid>
+          <div cls="case-study__authors-block">
+            <r-grid
+              desktop-column="2"
+              tablet-column="2"
+              :desktop-gaps="[40, 46]"
+              :tablet-gaps="[24, 62]"
+              :mobile-gaps="[24, 15]"
+            >
+              <r-author v-for="a in 6" name="Ivan Repin" profession="Art Direction" />
+            </r-grid>
+          </div>
         </div>
       </div>
       <div cls="case-study__projects">
         <r-title pretitle="Our projects" title="Next projects" flex-start />
-        <r-grid :mobile-column="1" :mobile-gaps="[40]">
+        <r-grid mobile-column="1" :mobile-gaps="[40]" button>
           <portfolio-card v-for="p in 3" cls="case-study__project" />
         </r-grid>
       </div>
@@ -181,6 +192,9 @@
     flex-direction: column;
     gap: 16px;
     padding-bottom: 8px;
+    &-title {
+      max-width: 730px;
+    }
   }
   &__wrap {
     padding: 104px 0;
@@ -189,15 +203,6 @@
     padding: 24px 0;
     max-width: 1920px;
     margin: 0 auto;
-    div {
-      background: rgba(0, 0, 0, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      aspect-ratio: 16/9;
-      height: 100%;
-      @include desctop-H1;
-    }
   }
   &__desc {
     @include desctop-H3;
@@ -233,7 +238,7 @@
     padding: 24px;
     max-width: 1920px;
     margin: 0 auto;
-    &-cart {
+    &-card {
       height: 0;
       padding-bottom: 108.23%;
       background: rgba(0, 0, 0, 0.3);
@@ -246,12 +251,10 @@
   &__unknow {
     padding: 24px 0;
     max-width: 1920px;
-    aspect-ratio: 16/9;
     margin: 0 auto;
     &-inner {
       background: rgba(0, 0, 0, 0.3);
-      height: 100%;
-      width: 100%;
+      aspect-ratio: 16/9;
     }
   }
   &__expirience {
@@ -317,6 +320,127 @@
     }
     &:last-child {
       margin-top: 208px;
+    }
+  }
+}
+@include desktop-medium {
+  .case-study {
+    padding-top: 72px;
+  }
+}
+@include tablet {
+  .case-study {
+    padding-top: 56px;
+    &__banner {
+      &-title {
+        max-width: 356px;
+      }
+    }
+    &__square {
+      &-wrap {
+        border-radius: 16px;
+      }
+    }
+    &__texts {
+      gap: 24px;
+      &-title {
+        @include mob-H3;
+        max-width: 662px;
+      }
+      &-text {
+        max-width: 404px;
+      }
+    }
+    &__wrap {
+      padding: 72px 0;
+      :global(.texts) {
+        max-width: 623px;
+      }
+    }
+    &__authors {
+      padding: 56px 0;
+      &-wrap {
+        flex-wrap: wrap;
+        gap: 48px;
+      }
+      &-text {
+        max-width: 104px;
+      }
+    }
+    &__desc {
+      @include mob-H3;
+      max-width: 623px;
+    }
+    &__grid,
+    &__square {
+      padding: 16px;
+    }
+    &__grid {
+      &-card {
+        border-radius: 16px;
+        &:last-child {
+          margin-top: 104px;
+        }
+      }
+    }
+    &__expirience {
+      padding: 72px 0;
+      &-content {
+        gap: 32px;
+      }
+      &-top {
+        gap: 16px;
+      }
+      &-title {
+        @include mob-H2;
+      }
+      &-img {
+        width: 340px;
+        height: 318px;
+      }
+    }
+  }
+}
+@include mobile {
+  .case-study {
+    padding-top: 72px;
+    &__expirience {
+      padding: 72px 0 56px;
+      &-content {
+        max-width: 100%;
+      }
+      &-img {
+        display: none;
+      }
+      &-title {
+        @include mob-h4-22;
+      }
+    }
+    &__authors {
+      &-block {
+        margin: 0 -16px;
+        overflow-x: auto;
+        padding: 0 16px;
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+    }
+    &__grid {
+      &-card {
+        &:last-child {
+          margin-top: 56px;
+        }
+      }
+    }
+    &__projects {
+      gap: 48px;
+    }
+    &__project {
+      &:last-child,
+      &:nth-child(2) {
+        margin-top: 0;
+      }
     }
   }
 }

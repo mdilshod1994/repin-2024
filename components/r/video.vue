@@ -79,11 +79,17 @@
     }
   }
 }
+@include tablet-small {
+  .video {
+    &__wrap {
+      border-radius: 16px;
+    }
+  }
+}
 @include mobile {
   .video {
-    padding: 16px 8px;
     &__wrap {
-      height: 359px;
+      height: 480px;
     }
     &__btn {
       left: 50%;

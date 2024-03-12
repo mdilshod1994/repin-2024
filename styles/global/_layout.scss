@@ -2,24 +2,24 @@
 // Глобальные стили корневых и базовых элементов, размеры блоков контента и т.п.
 //
 
-body{
+body {
   &.-locked {
     overflow: hidden;
   }
-  font-family: 'Interphases Pro Trial';
+  font-family: "Interphases Pro Trial";
   @include desctop-caption-17;
   color: var(--Black);
 }
 
-.container{
+.container {
   max-width: 1568px;
   padding: 0 24px;
   width: 100%;
   margin: 0 auto;
 }
 
-@include desktop-medium{
-  .container{
+@include desktop-medium {
+  .container {
     max-width: 1328px;
   }
 }
@@ -36,13 +36,16 @@ body{
   }
 }
 
-@include tablet{
-  body{
-    @include mob-body-14 
+@include tablet {
+  body {
+    @include mob-body-14;
+  }
+  .container {
+    padding: 0 40px;
   }
 }
-@include mobile{
-  .container{
+@include mobile {
+  .container {
     padding: 0 16px;
   }
 }

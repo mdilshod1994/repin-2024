@@ -109,8 +109,11 @@ withDefaults(
 @include mobile {
   .block {
     gap: 8px;
+    &.-row {
+      flex-direction: column;
+    }
     &__wrap {
-      flex-wrap: nowrap;
+      gap: 16px;
     }
   }
 }

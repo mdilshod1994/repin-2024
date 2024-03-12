@@ -47,4 +47,19 @@ defineProps<{
     color: rgba(0, 0, 0, 0.6);
   }
 }
+@include tablet {
+  .author {
+    width: 200px;
+    &__box {
+      gap: 0;
+    }
+    &__avatar {
+      width: 40px;
+      height: 40px;
+    }
+    &__name {
+      @include mob-body-14-med;
+    }
+  }
+}
 </style>
