@@ -1,3 +1,8 @@
+<!--
+TODO:
+Объеденить карусель с слайдером
+-->
+
 <script setup lang="ts">
 defineProps<{
   pagination?: boolean
@@ -5,43 +10,51 @@ defineProps<{
 
 const { data: products } = await useFetch("https://fakestoreapi.com/products?limit=10")
 const slider = ref<HTMLElement | null>(null)
-const slide = ref<HTMLElement | null>(null)
 const isDragging = ref(false)
 const startX = ref(0)
 const pageX = ref(0)
+const startScrollLeft = ref(0)
 const cIdx = ref(0)
-const transitionSliderName = ref("left")
 const transitionNumberName = ref("down")
 
 const dragging = (e: any) => {
-  if (slider.value && isDragging.value && slide.value) {
+  if (slider.value && isDragging.value) {
     pageX.value = e.type === "mousemove" ? e.pageX : e.touches[0].pageX
-    slide.value.style.transform = `translateX(${pageX.value - startX.value}px)`
+    slider.value.scrollLeft = startScrollLeft.value - (pageX.value - startX.value)
   }
 }
 
 const dragStart = (e: any) => {
   isDragging.value = true
   startX.value = e.type === "mousedown" ? e.pageX : e.touches[0].pageX
+  if (slider.value) startScrollLeft.value = slider.value.scrollLeft
 }
-const dragStop = () => {
+const dragStop = (e: any) => {
   isDragging.value = false
-  // to left
-  if (pageX.value - startX.value > 10 && !isDragging.value && slide.value && cIdx.value > 0) {
-    transitionSliderName.value = "right"
-    transitionNumberName.value = "up"
-    cIdx.value--
-    slide.value.style.transform = `translateX(${pageX.value - startX.value}px)`
-  }
-  // to left
-  else if (pageX.value - startX.value < -10 && !isDragging.value && 5 - 1 > cIdx.value) {
-    transitionSliderName.value = "left"
-    transitionNumberName.value = "down"
-    cIdx.value++
-    slide.value.style.transform = `translateX(${pageX.value - startX.value}px)`
+  if (!e.type.includes("mouse") && slider.value) {
+    if (pageX.value - startX.value > 100 && cIdx.value > 0) {
+      transitionNumberName.value = "up"
+      cIdx.value--
+      scrollIntoView(cIdx.value)
+    } else if (pageX.value - startX.value < -100 && slider.value.children.length - 1 > cIdx.value) {
+      transitionNumberName.value = "down"
+      cIdx.value++
+      scrollIntoView(cIdx.value)
+    } else {
+      scrollIntoView(cIdx.value)
+    }
   } else {
-    if (!slide.value) return
-    slide.value.style.transform = `translateX(0px)`
+    alert("mob version is on progress")
+  }
+}
+
+const scrollIntoView = (index: number) => {
+  if (slider.value) {
+    slider.value.children[index].scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start",
+    })
   }
 }
 </script>
@@ -67,23 +80,37 @@ const dragStop = () => {
       @touchstart="dragStart"
       @touchmove="dragging"
       @touchend="dragStop"
-      @touchcancel="dragStop"
     >
-      <transition :name="`slide-${transitionSliderName}`" tag="div">
-        <div
-          v-if="true"
-          :key="cIdx"
-          ref="slide"
-          :cls="{ sliders__item: true, '-default-state': !isDragging }"
-        >
-          <!-- <img :src="products[cIdx].image" alt="" draggable="false" /> -->
-          <img
-            src="https://img.freepik.com/free-photo/abstract-nature-painted-with-watercolor-autumn-leaves-backdrop-generated-by-ai_188544-9806.jpg"
-            alt=""
-            draggable="false"
-          />
-        </div>
-      </transition>
+      <div cls="sliders__item">
+        <img
+          src="https://img.freepik.com/free-photo/abstract-nature-painted-with-watercolor-autumn-leaves-backdrop-generated-by-ai_188544-9806.jpg"
+          alt=""
+        />
+      </div>
+      <div cls="sliders__item">
+        <img
+          src="https://wp.technologyreview.com/wp-content/uploads/2022/09/greg-rutkowski-dragon-cave-1920.jpg?resize=854,569"
+          alt=""
+        />
+      </div>
+      <div cls="sliders__item">
+        <img
+          src="https://wp.technologyreview.com/wp-content/uploads/2022/09/greg-rutkowski-dragon-cave-1920.jpg?resize=854,569"
+          alt=""
+        />
+      </div>
+      <div cls="sliders__item">
+        <img
+          src="https://wp.technologyreview.com/wp-content/uploads/2022/09/greg-rutkowski-dragon-cave-1920.jpg?resize=854,569"
+          alt=""
+        />
+      </div>
+      <div cls="sliders__item">
+        <img
+          src="https://wp.technologyreview.com/wp-content/uploads/2022/09/greg-rutkowski-dragon-cave-1920.jpg?resize=854,569"
+          alt=""
+        />
+      </div>
     </div>
     <div cls="pagination">
       <span v-for="(d, idx) in 5" :cls="{ '-active': idx === cIdx }" />
@@ -96,7 +123,6 @@ const dragStop = () => {
   padding: 24px;
   max-width: 1920px;
   margin: 0 auto;
-  overflow: hidden;
   position: relative;
 }
 
@@ -105,9 +131,12 @@ const dragStop = () => {
   max-height: 744px;
   width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow-x: auto;
   position: relative;
+  // scroll-behavior: smooth;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   &__item {
     height: 100%;
     border-radius: 24px;
@@ -118,11 +147,13 @@ const dragStop = () => {
     align-items: center;
     user-select: none;
     border-radius: 24px;
+    flex-shrink: 0;
     img {
       max-height: 100%;
       max-width: 100%;
       width: 100%;
       height: 100%;
+      pointer-events: none;
     }
   }
 }
@@ -203,37 +234,6 @@ const dragStop = () => {
 </style>
 
 <style>
-/* right */
-.slide-left-enter-active,
-.slide-right-enter-active {
-  transition: 0.3s ease-in-out;
-}
-.slide-left-leave-active,
-.slide-right-leave-active {
-  position: absolute;
-  transition: 0.3s ease-in-out;
-}
-
-.slide-right-enter-from {
-  opacity: 0;
-  transform: translate(-100%, 0);
-}
-
-.slide-right-leave-to {
-  opacity: 0;
-  transform: translate(100%, 0) !important;
-}
-
-.slide-left-enter-from {
-  opacity: 0;
-  transform: translate(100%, 0);
-}
-
-.slide-left-leave-to {
-  opacity: 0;
-  transform: translate(-100%, 0) !important;
-}
-
 .slide-up-enter-active,
 .slide-up-leave-active,
 .slide-down-enter-active,
