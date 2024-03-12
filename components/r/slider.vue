@@ -31,7 +31,7 @@ const dragStart = (e: any) => {
 }
 const dragStop = (e: any) => {
   isDragging.value = false
-  if (!e.type.includes("mouse") && slider.value) {
+  if (e.type.includes("mouse") && slider.value) {
     if (pageX.value - startX.value > 100 && cIdx.value > 0) {
       transitionNumberName.value = "up"
       cIdx.value--
