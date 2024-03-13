@@ -11,6 +11,7 @@ defineProps<{
 const { data: products } = await useFetch("https://fakestoreapi.com/products?limit=10")
 const slider = ref<HTMLElement | null>(null)
 const isDragging = ref(false)
+const stopMoveSlideByClick = ref(false)
 const startX = ref(0)
 const pageX = ref(0)
 const startScrollLeft = ref(0)
@@ -19,6 +20,7 @@ const transitionNumberName = ref("down")
 
 const dragging = (e: any) => {
   if (slider.value && isDragging.value) {
+    stopMoveSlideByClick.value = true
     pageX.value = e.type === "mousemove" ? e.pageX : e.touches[0].pageX
     slider.value.scrollLeft = startScrollLeft.value - (pageX.value - startX.value)
   }
@@ -26,25 +28,24 @@ const dragging = (e: any) => {
 
 const dragStart = (e: any) => {
   isDragging.value = true
+  stopMoveSlideByClick.value = false
   startX.value = e.type === "mousedown" ? e.pageX : e.touches[0].pageX
   if (slider.value) startScrollLeft.value = slider.value.scrollLeft
 }
-const dragStop = (e: any) => {
+const dragStop = () => {
   isDragging.value = false
-  if (e.type.includes("mouse") && slider.value) {
-    if (pageX.value - startX.value > 100 && cIdx.value > 0) {
+  if (slider.value && stopMoveSlideByClick.value) {
+    if (pageX.value - startX.value > 70 && cIdx.value > 0) {
       transitionNumberName.value = "up"
       cIdx.value--
       scrollIntoView(cIdx.value)
-    } else if (pageX.value - startX.value < -100 && slider.value.children.length - 1 > cIdx.value) {
+    } else if (pageX.value - startX.value < -70 && slider.value.children.length - 1 > cIdx.value) {
       transitionNumberName.value = "down"
       cIdx.value++
       scrollIntoView(cIdx.value)
     } else {
       scrollIntoView(cIdx.value)
     }
-  } else {
-    alert("mob version is on progress")
   }
 }
 
@@ -130,10 +131,9 @@ const scrollIntoView = (index: number) => {
   aspect-ratio: 16/9;
   max-height: 744px;
   width: 100%;
-  display: flex;
-  overflow-x: auto;
+  display: inline-flex;
+  overflow-x: hidden;
   position: relative;
-  // scroll-behavior: smooth;
   &::-webkit-scrollbar {
     display: none;
   }
