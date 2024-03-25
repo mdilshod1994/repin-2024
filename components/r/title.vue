@@ -3,12 +3,14 @@ withDefaults(
   defineProps<{
     pretitle?: string
     title?: string
-    italicTitle?: string
     alignPosition?: "end" | "start" | "center"
     flexStart?: boolean
+    textAlign?: "left" | "center" | "right" // для стилизации title
+    colorWhite?: boolean
   }>(),
   {
     alignPosition: "end",
+    textAlign: "left",
   },
 )
 </script>
@@ -18,15 +20,16 @@ withDefaults(
     :cls="{
       block: true,
       '-flex-start': $slots.addons || flexStart,
-      '-row': !title && pretitle && $slots.addons,
+      '-row': !title && !$slots.title && pretitle && $slots.addons,
+      '-color-white': colorWhite,
     }"
   >
     <div v-if="pretitle" cls="block__pretitle">
       {{ pretitle }}
     </div>
     <div :cls="{ block__wrap: true, [`-${alignPosition}`]: true }">
-      <div v-if="title" cls="block__title">
-        {{ title }} <span v-if="italicTitle">{{ italicTitle }}</span>
+      <div v-if="title || $slots.title" :cls="{ block__title: true, '-text-aling': textAlign }">
+        <slot name="title">{{ title }}</slot>
       </div>
       <div v-if="$slots.addons" cls="block__addons">
         <slot name="addons" />
@@ -57,6 +60,14 @@ withDefaults(
       }
     }
   }
+  &.-color-white {
+    .block {
+      &__title,
+      &__pretitle {
+        color: var(--White);
+      }
+    }
+  }
   &__pretitle {
     @include desctop-H5-ram;
   }
@@ -64,8 +75,11 @@ withDefaults(
     @include desctop-H2;
     white-space: nowrap;
     span {
-      font-family: "Ramillas Trial";
+      @include desctop-H2-ram;
       font-style: italic;
+    }
+    &.-text-aling {
+      text-align: v-bind(textAlign);
     }
   }
   &__wrap {
@@ -98,6 +112,10 @@ withDefaults(
     &__title {
       @include mob-H2;
       white-space: inherit;
+      span {
+        @include mob-H2-ram;
+        font-style: italic;
+      }
     }
     &__wrap {
       flex-wrap: wrap;

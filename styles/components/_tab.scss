@@ -1,9 +1,9 @@
-.tabs{
+.tabs {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 }
-.tab{
+.tab {
   height: 40px;
   display: flex;
   align-items: center;
@@ -16,5 +16,9 @@
   &.-active {
     background: var(--Black);
     color: var(--White);
+  }
+  &.-white {
+    background: var(--White);
+    color: var(--Black);
   }
 }

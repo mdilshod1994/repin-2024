@@ -12,14 +12,21 @@
 <script setup lang="ts">
 import { useResizeObserver } from "@vueuse/core"
 
-defineProps<{
+const props = defineProps<{
   scrollBar?: boolean // показать/скрыть скролбар
   gap?: string
+  tabletGap?: string
+  mobGap?: string
+  innerPaddingSides?: string
+  innerMobPaddingSides?: string
+  removeMargin?: boolean
 }>()
 
-const carousel = ref<HTMLElement | null>(null), // контейнер карусель
+const carouselWrap = ref<HTMLElement | null>(null), // карусель
+  carousel = ref<HTMLElement | null>(null), // контейнер карусель
   scrollbar = ref<HTMLElement | null>(null), // скролбар
   thumb = ref<HTMLElement | null>(null), // кнопка скролбара
+  carouselBtn = ref<HTMLElement | null>(null), // кнопка скролбара
   isDragging = ref(false),
   startX = ref(0),
   startScrollLeft = ref(0),
@@ -72,7 +79,7 @@ const setMarginsToSlides = () => {
   const screenWidth = window.screen.width > 1920 ? 1920 : window.screen.width
   const marginSide = (screenWidth - containerWidth) / 2
 
-  if (carousel.value) {
+  if (carousel.value && !props.removeMargin) {
     for (let index = 0; index < carousel.value.children.length; index++) {
       const firstChild = carousel.value.children[0] as HTMLElement
       const lastChild = carousel.value.children[carousel.value.children.length - 1] as HTMLElement
@@ -96,20 +103,45 @@ onMounted(() => {
   // первоначальное положение первого слайда(отступ слева) начинается где .container, т.е. в линию по вертикали
   setMarginsToSlides()
 })
+
+const paddingSides = computed(() => {
+  return `${props.innerPaddingSides}px`
+})
+
+const paddingMobSides = computed(() => {
+  return `${props.innerMobPaddingSides}px`
+})
+
+// gaps
+
+const dGap = computed(() => {
+  return `${props.gap}px`
+})
+const tGap = computed(() => {
+  return `${props.tabletGap}px`
+})
+const mGap = computed(() => {
+  return `${props.mobGap}px`
+})
 </script>
 
 <template>
-  <div cls="carousel">
+  <div ref="carousel-wrap" cls="carousel">
     <div
       ref="carousel"
       cls="carousel__slider"
-      :style="`gap:${gap}px`"
       @mousemove="dragging"
       @mousedown="dragStart"
       @mouseup="dragStop"
       @mouseleave="dragStop"
     >
       <slot />
+      <transition v-if="false">
+        <div v-if="false" ref="carousel-btn" cls="carousel__btn">
+          <svgo-arrow-right />
+          <svgo-chevron-left v-if="false" />
+        </div>
+      </transition>
     </div>
     <div v-if="scrollBar" class="container">
       <div cls="carousel__scrollbar">
@@ -131,6 +163,7 @@ onMounted(() => {
   &__slider {
     display: flex;
     align-self: stretch;
+    gap: v-bind(dGap);
     overflow: auto;
     -webkit-user-drag: none;
     -khtml-user-drag: none;
@@ -172,15 +205,50 @@ onMounted(() => {
       transform: translateY(-50%);
     }
   }
+  &__btn {
+    display: flex;
+    width: 104px;
+    height: 104px;
+    justify-content: center;
+    align-items: center;
+    background: #141414;
+    border-radius: 50%;
+    z-index: 1;
+    position: absolute;
+    cursor: pointer;
+    svg {
+      font-size: 24px;
+      color: var(--White);
+      path {
+        stroke: var(--White);
+      }
+    }
+  }
 }
 @include tablet {
   .carousel {
     gap: 40px;
+    &__slider {
+      gap: v-bind(tGap);
+    }
+  }
+}
+@include tablet-small {
+  .carousel {
+    &__slider {
+      padding-left: v-bind(paddingSides);
+      padding-right: v-bind(paddingSides);
+    }
   }
 }
 @include mobile {
   .carousel {
     gap: 32px;
+    &__slider {
+      gap: v-bind(mGap);
+      padding-left: v-bind(paddingMobSides);
+      padding-right: v-bind(paddingMobSides);
+    }
   }
 }
 </style>

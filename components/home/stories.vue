@@ -2,7 +2,8 @@
 
 <template>
   <div cls="stories">
-    <r-title pretitle="Blog" title="Stories" italic-title="& User Cases">
+    <r-title pretitle="Blog">
+      <template #title> Stories <span>& User Cases</span> </template>
       <template #addons>
         <nuxt-link to="" class="underline-link" cls="stories__link"> See all articles </nuxt-link>
       </template>

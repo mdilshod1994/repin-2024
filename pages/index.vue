@@ -12,7 +12,7 @@
                 We build cloud-based web and mobile apps for existing products and startups. Using
                 AI technologies, we aim to quickly turn your idea into a successful solution.
               </div>
-              <nuxt-link to="/portfolio" class="underline-link"> More about us </nuxt-link>
+              <nuxt-link to="/about" class="underline-link"> More about us </nuxt-link>
             </div>
           </div>
           <template #title>
@@ -36,13 +36,15 @@
         <home-portfolio />
       </div>
     </div>
-    <div cls="home__consulting">
+    <!-- Скрыт временно -->
+    <div v-if="false" cls="home__consulting">
       <home-consulting />
     </div>
     <div cls="home__clients">
       <home-our-clients />
     </div>
-    <div class="container">
+    <!-- Скрыт временно -->
+    <div v-if="false" class="container">
       <div cls="home__stories">
         <home-stories />
       </div>

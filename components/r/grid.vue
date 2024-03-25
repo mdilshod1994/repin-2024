@@ -1,30 +1,36 @@
-<!--
-TODO:
-  Разработать функцию, для gaps и columns, что если задан отступ для десктопа и если не задан для таблет,
-  то должен вернуть отступ или кол-во колонки десктопной версии,
-  а возможно лучше это сделать в computed property, но придется убрать "withDefaults",
--->
-
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
     button?: boolean
-    mobileColumn?: string
-    tabletColumn?: string
     desktopColumn?: string
+    tabletColumn?: string
+    mobileColumn?: string
     desktopGaps?: number[] // [row, column]
     tabletGaps?: number[] // [row, column]
     mobileGaps?: number[] // [row, column]
   }>(),
   {
-    mobileColumn: "2",
-    desktopColumn: "3",
-    tabletColumn: "3",
     desktopGaps: () => [24, 24],
     tabletGaps: () => [20, 20],
     mobileGaps: () => [8, 8],
   },
 )
+
+const deskColumn = computed(() => {
+  return !props.desktopColumn ? "3" : props.desktopColumn
+})
+
+const tablColumn = computed(() => {
+  return props.tabletColumn ? props.tabletColumn : props.desktopColumn
+})
+
+const mobColumn = computed(() => {
+  return props.mobileColumn
+    ? props.mobileColumn
+    : props.tabletColumn
+      ? props.tabletColumn
+      : props.desktopColumn
+})
 
 const gaps = (gaps: number[]) => {
   if (gaps.length > 1) {
@@ -62,7 +68,7 @@ const mobileGap = computed(() => {
   gap: 80px;
   &__wrap {
     display: grid;
-    grid-template-columns: repeat(v-bind(desktopColumn), 1fr);
+    grid-template-columns: repeat(v-bind(deskColumn), 1fr);
     gap: v-bind(desktopGap);
     width: 100%;
   }
@@ -72,7 +78,7 @@ const mobileGap = computed(() => {
   .grid {
     gap: 64px;
     &__wrap {
-      grid-template-columns: repeat(v-bind(tabletColumn), 1fr);
+      grid-template-columns: repeat(v-bind(tablColumn), 1fr);
       gap: v-bind(tabletGap);
     }
   }
@@ -81,7 +87,7 @@ const mobileGap = computed(() => {
   .grid {
     gap: 56px;
     &__wrap {
-      grid-template-columns: repeat(v-bind(mobileColumn), 1fr);
+      grid-template-columns: repeat(v-bind(mobColumn), 1fr);
       gap: v-bind(mobileGap);
     }
   }

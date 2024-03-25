@@ -3,7 +3,9 @@
 <template>
   <div cls="video">
     <div cls="video__wrap">
-      <img src="@/assets/images/tempImages/image 2.png" alt="" />
+      <video muted autoplay loop>
+        <source src="/files/MainComp_01.mp4" type="video/mp4" />
+      </video>
       <button cls="video__btn">
         <svgo-play filled />
         <div cls="video__btn-time">
@@ -90,6 +92,12 @@
   .video {
     &__wrap {
       height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      video {
+        transform: scale(1.5);
+      }
     }
     &__btn {
       left: 50%;

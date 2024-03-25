@@ -22,10 +22,10 @@ onMounted(() => {
       </nuxt-link>
       <nav cls="header__nav">
         <nuxt-link cls="header__nav-link" to="/portfolio"> Portfolio </nuxt-link>
-        <nuxt-link cls="header__nav-link"> About </nuxt-link>
+        <nuxt-link cls="header__nav-link" to="/about"> About </nuxt-link>
         <nuxt-link cls="header__nav-link"> Consulting </nuxt-link>
         <nuxt-link cls="header__nav-link"> Blog </nuxt-link>
-        <nuxt-link cls="header__nav-link"> Contact </nuxt-link>
+        <nuxt-link cls="header__nav-link" to="/contact"> Contact </nuxt-link>
       </nav>
       <div cls="header__btns">
         <button cls="header__btn">RU</button>

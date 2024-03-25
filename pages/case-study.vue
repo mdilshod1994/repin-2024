@@ -71,7 +71,16 @@
       </div>
     </div>
     <div cls="case-study__slider">
-      <r-slider pagination />
+      <r-slider pagination style-numbers>
+        <template #slides>
+          <div v-for="s in 5" cls="case-study__slide">
+            <img
+              src="https://img.freepik.com/free-photo/abstract-nature-painted-with-watercolor-autumn-leaves-backdrop-generated-by-ai_188544-9806.jpg"
+              alt=""
+            />
+          </div>
+        </template>
+      </r-slider>
     </div>
     <div class="container">
       <div cls="case-study__wrap">
@@ -138,24 +147,7 @@
     </div>
     <div class="container">
       <div cls="case-study__expirience">
-        <div cls="case-study__expirience-content">
-          <div cls="case-study__expirience-top">
-            <div cls="case-study__expirience-title">Good organization of work, excellent</div>
-            <div cls="case-study__expirience-text">
-              "Good organization of work, excellent communication at every stage, from initiation
-              and data collection, through execution and editing, and ending with the delivery of
-              the finished result. Deep immersion in the tasks and goals of the project, resulted in
-              an excellent result."
-            </div>
-          </div>
-          <r-author name="Ivan Repin" profession="Art Direction" />
-        </div>
-        <div cls="case-study__expirience-img">
-          <img
-            src="https://i.vimeocdn.com/video/573150739-2be38bf1aaf4b5e60086ab76807d336b1f7d04dc31d85178b2db97434ed05754-d?f=webp"
-            alt=""
-          />
-        </div>
+        <reuse-expirience />
       </div>
       <div cls="case-study__authors">
         <div class="line" />
@@ -259,41 +251,6 @@
   }
   &__expirience {
     padding: 104px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-    &-content {
-      display: flex;
-      flex-direction: column;
-      gap: 64px;
-      max-width: 411px;
-    }
-    &-top {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-    &-title {
-      @include desctop-H3;
-    }
-
-    &-img {
-      border-radius: 24px;
-      height: 484px;
-      width: 519px;
-      flex-shrink: 0;
-      background: rgba(0, 0, 0, 0.3);
-      overflow: hidden;
-      position: relative;
-      img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-      }
-    }
   }
   &__authors {
     padding: 80px 0;
@@ -320,6 +277,12 @@
     }
     &:last-child {
       margin-top: 208px;
+    }
+  }
+  &__slide {
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 }
@@ -385,19 +348,6 @@
     }
     &__expirience {
       padding: 72px 0;
-      &-content {
-        gap: 32px;
-      }
-      &-top {
-        gap: 16px;
-      }
-      &-title {
-        @include mob-H2;
-      }
-      &-img {
-        width: 340px;
-        height: 318px;
-      }
     }
   }
 }
@@ -406,15 +356,6 @@
     padding-top: 72px;
     &__expirience {
       padding: 72px 0 56px;
-      &-content {
-        max-width: 100%;
-      }
-      &-img {
-        display: none;
-      }
-      &-title {
-        @include mob-h4-22;
-      }
     }
     &__authors {
       &-block {
