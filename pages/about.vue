@@ -54,7 +54,7 @@ const { data: products } = await useFetch("https://fakestoreapi.com/products?lim
       <div cls="about__expirience">
         <reuse-expirience />
       </div>
-      <div cls="about__open-jobs">
+      <div v-if="false" cls="about__open-jobs">
         <about-open-jobs />
       </div>
     </div>
