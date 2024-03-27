@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const isActive = ref(false)
+</script>
 
 <template>
   <div cls="video">
@@ -6,7 +8,7 @@
       <video muted autoplay loop>
         <source src="/files/MainComp_01.mp4" type="video/mp4" />
       </video>
-      <button cls="video__btn">
+      <button cls="video__btn" @click="isActive = true">
         <svgo-play filled />
         <div cls="video__btn-time">
           Showreel
@@ -16,6 +18,23 @@
       </button>
     </div>
   </div>
+  <r-modal v-model:active="isActive">
+    <div cls="video-modal">
+      <div cls="video-modal__wrap">
+        <video controls>
+          <source src="/files/MainComp_01.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <r-round-button
+        cls="video-modal__btn-close"
+        size="large"
+        bg-color="white"
+        @click="isActive = false"
+      >
+        <svgo-x />
+      </r-round-button>
+    </div>
+  </r-modal>
 </template>
 
 <style module lang="scss">
@@ -65,6 +84,26 @@
     }
   }
 }
+.video-modal {
+  position: relative;
+  padding: 0 80px;
+  margin: 0 24px;
+  &__wrap {
+    max-width: 1400px;
+    aspect-ratio: 16/9;
+    border-radius: 8px;
+    overflow: hidden;
+    video,
+    iframe {
+      border-radius: 8px;
+    }
+  }
+  &__btn-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
 @include tablet {
   .video {
     padding: 16px;
@@ -79,6 +118,10 @@
         gap: 10px;
       }
     }
+  }
+  .video-modal {
+    padding: 0 60px;
+    margin: 0 16px;
   }
 }
 @include tablet-small {
@@ -103,6 +146,21 @@
       left: 50%;
       bottom: 16px;
       transform: translateX(-50%);
+    }
+  }
+  .video-modal {
+    padding: 0;
+    margin: 0 16px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    &__btn-close {
+      position: absolute;
+      right: auto;
+      left: 50%;
+      transform: translateX(-50%);
+      top: auto;
+      bottom: 40px;
     }
   }
 }

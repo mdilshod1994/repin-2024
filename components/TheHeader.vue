@@ -1,42 +1,58 @@
 <script setup lang="ts">
+defineProps<{
+  bgBlack?: boolean
+}>()
+
 const oldScroll = ref(0)
 const scrolledUp = ref(true)
 onMounted(() => {
   window.onscroll = () => {
-    if (oldScroll.value > window.scrollY) {
+    if (window.scrollY >= 0 && window.scrollY < 100) {
       scrolledUp.value = true
     } else {
-      scrolledUp.value = false
+      if (oldScroll.value > window.scrollY) {
+        scrolledUp.value = true
+      } else {
+        scrolledUp.value = false
+      }
+      oldScroll.value = window.scrollY
     }
-    oldScroll.value = window.scrollY
   }
 })
+const isActive = ref(false)
+const showMenu = () => {
+  isActive.value = true
+  useBodyLock(true)
+}
 </script>
 
 <template>
-  <div :cls="{ header: true, '-visible': scrolledUp }">
+  <div :cls="{ header: true, '-visible': scrolledUp, '-active': isActive, '-bg-black': bgBlack }">
     <div cls="header__wrap">
       <nuxt-link to="/" cls="header__logo">
         <svgo-logo cls="header__logo-desk" />
         <svgo-r-logo cls="header__logo-mob" />
       </nuxt-link>
       <nav cls="header__nav">
-        <nuxt-link cls="header__nav-link" to="/portfolio"> Portfolio </nuxt-link>
-        <nuxt-link cls="header__nav-link" to="/about"> About </nuxt-link>
-        <nuxt-link cls="header__nav-link"> Consulting </nuxt-link>
-        <nuxt-link cls="header__nav-link"> Blog </nuxt-link>
-        <nuxt-link cls="header__nav-link" to="/contact"> Contact </nuxt-link>
+        <nuxt-link cls="header__nav-link -first" to="/portfolio">
+          <span>Portfolio</span>
+        </nuxt-link>
+        <nuxt-link cls="header__nav-link -second" to="/about"> <span>About</span> </nuxt-link>
+        <nuxt-link cls="header__nav-link -third"> <span>Consulting</span> </nuxt-link>
+        <nuxt-link cls="header__nav-link"> <span>Blog</span> </nuxt-link>
+        <nuxt-link cls="header__nav-link" to="/contact"> <span>Contact</span> </nuxt-link>
       </nav>
       <div cls="header__btns">
         <button cls="header__btn">RU</button>
       </div>
-      <div cls="header__menu">
+      <div cls="header__menu" @click="showMenu">
         <r-round-button cls="header__menu-btn" bg-color="white" size="custom">
           <svgo-btn-menu />
         </r-round-button>
       </div>
     </div>
   </div>
+  <mob-menu v-if="isActive" v-model:active="isActive" />
 </template>
 
 <style module lang="scss">
@@ -51,10 +67,18 @@ onMounted(() => {
     transform: translateY(0%);
     top: 24px;
   }
+  &.-bg-black {
+    .header {
+      &__wrap {
+        background: rgba(144, 144, 144, 0.1);
+      }
+    }
+  }
   &__wrap {
     border-radius: 108px;
-    background: rgba(124, 124, 124, 0.1);
-    backdrop-filter: blur(20px);
+    background: rgba(243, 243, 243, 0.9);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(18.06315803527832px);
     padding: 8px 8px 8px 32px;
     max-width: 1520px;
     width: 100%;
@@ -81,6 +105,88 @@ onMounted(() => {
     gap: 28px;
     &-link {
       @include desctop-caption-17-med;
+      position: relative;
+      &.-first {
+        &:after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          background: var(--White);
+          border-radius: 80px;
+          height: 44px;
+          width: calc(100% + 32px);
+          box-shadow: 0px 2px 10px 0px rgba(0, 2, 25, 0.08);
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.9);
+          transition: 0.3s ease-in-out;
+        }
+      }
+      &.-second {
+        &:after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          background: var(--White);
+          // background: rgba(243, 243, 243, 0.9);
+          border-radius: 80px;
+          height: 44px;
+          width: calc(100% + 32px);
+          box-shadow:
+            -5px -3px 5px 0px hsla(0, 0%, 100%, 0.7),
+            5px 4px 6px 0px rgba(0, 2, 25, 0.2),
+            inset 5px 3px 4px 0px rgba(0, 5, 27, 0.2);
+          opacity: 0;
+          transform: translate(-50%, -50%);
+          transition: 0.3s ease-in-out;
+        }
+        &:hover {
+          &::after {
+            opacity: 1;
+          }
+        }
+      }
+      &.-third {
+        &:after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          background: rgba(243, 243, 243, 0.9);
+          border-radius: 80px;
+          height: 44px;
+          width: calc(100% + 32px);
+          box-shadow:
+            -4px -4px 1px -2px hsla(0, 0%, 100%, 0.7),
+            2px 4px 6px 0 rgba(0, 2, 25, 0.15);
+          opacity: 0;
+          transform: translate(-50%, -50%);
+          transition: 0.3s ease-in-out;
+        }
+        &:hover {
+          &::after {
+            opacity: 1;
+          }
+        }
+      }
+
+      span {
+        position: relative;
+        z-index: 1;
+      }
+      &:global(.router-link-active) {
+        @include desctop-caption-17-db;
+        &:after {
+          display: none;
+        }
+      }
+      &:hover {
+        &:after {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
     }
   }
   &__btns {
@@ -104,6 +210,10 @@ onMounted(() => {
   }
 }
 
+.mobile {
+  display: none;
+}
+
 @include desktop-medium {
   .header {
     &__wrap {
@@ -117,6 +227,7 @@ onMounted(() => {
     padding: 0 40px;
     &__wrap {
       padding: 8px 8px 8px 24px;
+      border: none;
     }
     &__logo {
       svg {
@@ -143,6 +254,14 @@ onMounted(() => {
         height: 40px;
         svg {
           font-size: 12px;
+        }
+      }
+    }
+    &.-active {
+      .header {
+        &__wrap {
+          background: var(--White);
+          border-radius: 16px 16px 0 0;
         }
       }
     }

@@ -26,7 +26,6 @@ const carouselWrap = ref<HTMLElement | null>(null), // карусель
   carousel = ref<HTMLElement | null>(null), // контейнер карусель
   scrollbar = ref<HTMLElement | null>(null), // скролбар
   thumb = ref<HTMLElement | null>(null), // кнопка скролбара
-  carouselBtn = ref<HTMLElement | null>(null), // кнопка скролбара
   isDragging = ref(false),
   startX = ref(0),
   startScrollLeft = ref(0),
@@ -136,12 +135,6 @@ const mGap = computed(() => {
       @mouseleave="dragStop"
     >
       <slot />
-      <transition v-if="false">
-        <div v-if="false" ref="carousel-btn" cls="carousel__btn">
-          <svgo-arrow-right />
-          <svgo-chevron-left v-if="false" />
-        </div>
-      </transition>
     </div>
     <div v-if="scrollBar" class="container">
       <div cls="carousel__scrollbar">

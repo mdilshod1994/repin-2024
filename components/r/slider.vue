@@ -115,7 +115,6 @@ const resetTimer = () => {
 const toCurrSlide = (idx: number) => {
   cIdx.value = idx
   scrollIntoView(idx)
-  reseumeTimer(idx)
   resetTimer()
 }
 </script>
