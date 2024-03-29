@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   // скролл на ID секции
   scrollTo?: string
   // заголовок баннера в начале страницы
@@ -9,6 +9,10 @@ defineProps<{
   bottomLine?: boolean
   mobileBottomLeft?: boolean
 }>()
+
+const scrollToId = () => {
+  location.href = `#video`
+}
 </script>
 
 <template>
@@ -30,9 +34,10 @@ defineProps<{
       <div v-if="bottomLine" class="line" />
       <div cls="banner__bottom-wrap">
         <slot name="bottom-left" />
-        <a v-if="scrollTo" :href="`#${scrollTo}`" cls="banner__scroll-to"
-          >Scroll down<svgo-arrow-down filled
-        /></a>
+        <div v-if="scrollTo" cls="banner__scroll-to" @click="scrollToId">
+          Scroll down
+          <svgo-arrow-down filled />
+        </div>
       </div>
     </div>
   </div>
@@ -82,6 +87,7 @@ defineProps<{
     border: 1px solid #b6a2e0;
     flex-shrink: 0;
     align-self: flex-start;
+    cursor: pointer;
     svg {
       font-size: 16px;
     }

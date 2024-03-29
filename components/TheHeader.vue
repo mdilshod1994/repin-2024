@@ -134,9 +134,9 @@ const showMenu = () => {
           height: 44px;
           width: calc(100% + 32px);
           box-shadow:
-            -5px -3px 5px 0px hsla(0, 0%, 100%, 0.7),
-            5px 4px 6px 0px rgba(0, 2, 25, 0.2),
-            inset 5px 3px 4px 0px rgba(0, 5, 27, 0.2);
+            -2px -3px 7px -1px hsla(0, 0%, 100%, 1),
+            5px 4px 6px 0 rgba(0, 2, 25, 0.2),
+            inset 5px 3px 4px 0 rgba(0, 5, 27, 0.2);
           opacity: 0;
           transform: translate(-50%, -50%);
           transition: 0.3s ease-in-out;

@@ -122,10 +122,16 @@ const tGap = computed(() => {
 const mGap = computed(() => {
   return `${props.mobGap}px`
 })
+
+const cursorToggle = (e: any) => {
+  if (e.type !== "mouseout" && carousel.value) {
+    carousel.value.style.cursor = "none"
+  }
+}
 </script>
 
 <template>
-  <div ref="carousel-wrap" cls="carousel">
+  <div ref="carousel-wrap" cls="carousel" data-cursor="appear">
     <div
       ref="carousel"
       cls="carousel__slider"
@@ -133,6 +139,8 @@ const mGap = computed(() => {
       @mousedown="dragStart"
       @mouseup="dragStop"
       @mouseleave="dragStop"
+      @mouseover="cursorToggle"
+      @mouseout="cursorToggle"
     >
       <slot />
     </div>
@@ -144,6 +152,7 @@ const mGap = computed(() => {
       </div>
     </div>
   </div>
+  <r-cursor-follow />
 </template>
 
 <style module lang="scss">
@@ -164,6 +173,7 @@ const mGap = computed(() => {
     -o-user-drag: none;
     user-drag: none;
     user-select: none;
+
     &::-webkit-scrollbar {
       display: none;
     }

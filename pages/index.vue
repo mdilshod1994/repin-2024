@@ -2,7 +2,7 @@
   <div cls="home">
     <div class="container">
       <div cls="home__top">
-        <r-banner scroll-to="test" bottom-line cls="home__banner">
+        <r-banner scroll-to="video" bottom-line cls="home__banner">
           <div cls="home__banner-top">
             <r-round-button size="large">
               <svgo-user-group />
@@ -30,7 +30,7 @@
         </r-banner>
       </div>
     </div>
-    <r-video />
+    <r-video id="video" />
     <div class="container">
       <div cls="home__portfolio">
         <home-portfolio />

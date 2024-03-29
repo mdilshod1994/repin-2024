@@ -9,6 +9,8 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@types/vimeo__player": "^2.18.3",
+    "@vimeo/player": "^2.22.0",
     "@vueuse/components": "^10.8.0",
     "@vueuse/core": "^10.8.0",
     "normalize.css": "^8.0.1",
