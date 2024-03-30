@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
-    button?: boolean
     desktopColumn?: string
     tabletColumn?: string
     mobileColumn?: string
@@ -56,7 +55,7 @@ const mobileGap = computed(() => {
     <div cls="grid__wrap">
       <slot />
     </div>
-    <r-button v-if="button">See all projects</r-button>
+    <slot name="addons" />
   </div>
 </template>
 

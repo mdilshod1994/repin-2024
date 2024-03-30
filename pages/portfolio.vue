@@ -19,7 +19,6 @@
           </r-carousel>
         </div>
         <r-grid
-          button
           tablet-column="2"
           :desktop-gaps="[60, 24]"
           :tablet-gaps="[48, 20]"
@@ -27,6 +26,9 @@
           cls="portfolio__grid"
         >
           <portfolio-card v-for="c in 6" cls="portfolio__card" />
+          <template #addons>
+            <r-button> See all projects </r-button>
+          </template>
         </r-grid>
       </div>
     </div>

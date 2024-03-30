@@ -3,6 +3,15 @@
 -->
 
 <script setup lang="ts">
+withDefaults(
+  defineProps<{
+    bgColor?: "black" | "white"
+  }>(),
+  {
+    bgColor: "black",
+  },
+)
+
 const cursor = ref<HTMLElement | null>(null)
 const cursorBorder = ref<HTMLElement | null>(null)
 const cursorPos = ref({ x: 0, y: 0 })
@@ -49,7 +58,7 @@ onMounted(() => {
       <svgo-arrow-right />
       <svgo-arrow-right />
     </div>
-    <div ref="cursorBorder" :cls="{ 'cursor-border': true, '-show': show }" />
+    <div ref="cursorBorder" :cls="{ 'cursor-wrap': true, '-show': show, [`-${bgColor}`]: true }" />
   </teleport>
 </template>
 
@@ -80,7 +89,7 @@ onMounted(() => {
       stroke: var(--White);
     }
   }
-  &-border {
+  &-wrap {
     transform-origin: center;
     --size: 50px;
     position: fixed;
@@ -89,8 +98,6 @@ onMounted(() => {
     width: var(--size);
     height: var(--size);
     border-radius: 50%;
-    box-shadow: 0 0 0 1px #000;
-    background: #000;
     pointer-events: none;
     opacity: 0;
     transition:
@@ -101,6 +108,18 @@ onMounted(() => {
       background-color 0.15s ease-out,
       opacity 0.3s ease-in-out;
     z-index: 2;
+    &.-black {
+      background: var(--Black);
+      svg {
+        color: var(--White);
+      }
+    }
+    &.-white {
+      background: var(--White);
+      svg {
+        color: var(--Black);
+      }
+    }
   }
 }
 

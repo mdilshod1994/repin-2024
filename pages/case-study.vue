@@ -70,7 +70,7 @@
         </r-title>
       </div>
     </div>
-    <div cls="case-study__slider">
+    <div cls="case-study__slider" data-cursor="appear">
       <r-slider pagination style-numbers>
         <template #slides>
           <div v-for="s in 5" cls="case-study__slide">
@@ -81,6 +81,7 @@
           </div>
         </template>
       </r-slider>
+      <r-cursor-follow bg-color="white" />
     </div>
     <div class="container">
       <div cls="case-study__wrap">

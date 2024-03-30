@@ -24,6 +24,7 @@
           mob-gap="12"
           inner-padding-sides="32"
           inner-mob-padding-sides="16"
+          hide-cursor-follow
         >
           <div v-for="s in 4" cls="full-cycle__item">
             <div cls="full-cycle__box">

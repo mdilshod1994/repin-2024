@@ -30,7 +30,9 @@
         </r-banner>
       </div>
     </div>
-    <r-video id="video" />
+    <div id="video">
+      <r-video />
+    </div>
     <div class="container">
       <div cls="home__portfolio">
         <home-portfolio />

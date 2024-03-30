@@ -1,18 +1,30 @@
 <script setup lang="ts">
-withDefaults(
+import type { NuxtLinkProps } from "nuxt/app"
+
+import { RLink } from "#components"
+
+const props = withDefaults(
   defineProps<{
     bgColor?: "black" | "white"
+    link?: NuxtLinkProps
+    to?: NuxtLinkProps["to"]
   }>(),
   {
     bgColor: "black",
   },
 )
+
+const link = computed(() => props.link ?? (props.to ? { to: props.to } : undefined))
 </script>
 
 <template>
-  <button :cls="{ button: true, [`-${bgColor}`]: true }">
+  <component
+    :is="link ? RLink : 'button'"
+    :to="to ? to : undefined"
+    :cls="{ button: true, [`-${bgColor}`]: true }"
+  >
     <slot />
-  </button>
+  </component>
 </template>
 
 <style module lang="scss">

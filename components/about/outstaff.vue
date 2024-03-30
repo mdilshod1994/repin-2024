@@ -36,7 +36,7 @@
           </div>
         </r-grid>
       </r-grid>
-      <r-button bg-color="white" cls="outstaff__btn"> Contact a manager </r-button>
+      <r-button bg-color="white" to="/contact" cls="outstaff__btn"> Contact a manager </r-button>
     </r-grid>
     <div cls="outstaff__bg">
       <div cls="outstaff__gradient" />
