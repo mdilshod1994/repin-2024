@@ -14,6 +14,17 @@ watch(
     closeMenu()
   },
 )
+
+const hoverSound = ref<HTMLAudioElement | null>(null)
+const hoverActiveSound = ref<HTMLAudioElement | null>(null)
+
+const playHoverSound = (urlName: string | null) => {
+  if (urlName === route.path) {
+    hoverActiveSound.value?.play()
+  } else {
+    hoverSound.value?.play()
+  }
+}
 </script>
 
 <template>
@@ -21,12 +32,34 @@ watch(
     <div cls="mobile__overlay" @click="closeMenu" />
     <div cls="mobile__wrap">
       <nav cls="mobile__nav">
-        <nuxt-link cls="mobile__nav-link" to="/"> Home </nuxt-link>
-        <nuxt-link cls="mobile__nav-link" to="/portfolio"> Portfolio </nuxt-link>
-        <nuxt-link cls="mobile__nav-link" to="/about"> About </nuxt-link>
-        <nuxt-link cls="mobile__nav-link"> Consulting </nuxt-link>
-        <nuxt-link cls="mobile__nav-link"> Blog </nuxt-link>
-        <nuxt-link cls="mobile__nav-link" to="/contact"> Contacts </nuxt-link>
+        <nuxt-link cls="mobile__nav-link" to="/" @click.prevent="playHoverSound('/')">
+          Home
+        </nuxt-link>
+        <nuxt-link
+          cls="mobile__nav-link"
+          to="/portfolio"
+          @click.prevent="playHoverSound('/portfolio')"
+        >
+          Portfolio
+        </nuxt-link>
+        <nuxt-link cls="mobile__nav-link" to="/about" @click.prevent="playHoverSound('/about')">
+          About
+        </nuxt-link>
+        <nuxt-link cls="mobile__nav-link" @click.prevent="playHoverSound('/consulting')">
+          Consulting
+        </nuxt-link>
+        <nuxt-link cls="mobile__nav-link" @click.prevent="playHoverSound('/blog')">
+          Blog
+        </nuxt-link>
+        <nuxt-link cls="mobile__nav-link" to="/contact" @click.prevent="playHoverSound('/contact')">
+          Contacts
+        </nuxt-link>
+        <audio ref="hoverSound" preload="auto">
+          <source src="/files/hover.wav" />
+        </audio>
+        <audio ref="hoverActiveSound" preload="auto">
+          <source src="/files/hover-active.wav" />
+        </audio>
       </nav>
       <div class="line" />
       <div cls="mobile__bottom">

@@ -14,14 +14,14 @@ const props = defineProps<{
   products?: []
 }>()
 
-const slider = ref<HTMLElement | null>(null)
-const isDragging = ref(false)
-const stopMoveSlideByClick = ref(false)
-const startX = ref(0)
-const pageX = ref(0)
-const startScrollLeft = ref(0)
-const cIdx = ref(0)
-const transitionNumberName = ref("down")
+const slider = ref<HTMLElement | null>(null),
+  isDragging = ref(false),
+  stopMoveSlideByClick = ref(false),
+  startX = ref(0),
+  pageX = ref(0),
+  startScrollLeft = ref(0),
+  cIdx = ref(0),
+  transitionNumberName = ref("down")
 
 const dragging = (e: any) => {
   if (slider.value && isDragging.value) {
@@ -31,7 +31,6 @@ const dragging = (e: any) => {
   }
 }
 const dragStart = (e: any) => {
-  resetTimer()
   isDragging.value = true
   stopMoveSlideByClick.value = false
   startX.value = e.type === "mousedown" ? e.pageX : e.touches[0].pageX
@@ -52,13 +51,12 @@ const dragStop = () => {
       scrollIntoView(cIdx.value)
     }
   }
-  reseumeTimer(cIdx.value)
+  keyToRestartInterval.value++
 }
 const dragOut = () => {
   isDragging.value = false
   scrollIntoView(cIdx.value)
 }
-
 const scrollIntoView = (index: number) => {
   requestAnimationFrame(() => {
     if (slider.value) {
@@ -70,6 +68,13 @@ const scrollIntoView = (index: number) => {
   })
 }
 
+// Дальше код для модифицированного слайдера
+const timerCount = ref(0)
+const timerId = ref<any>(null) // для определения ID setInterval
+const setKeyframe = ref(false) // для своевременного совершения Keyframe
+const keyToRestartInterval = ref(0) // наблюдатель для рестарт интервала, когда меняем слайд по клику
+
+// цикл слайдера
 const loopSlides = () => {
   if (!props.products) return
   if (cIdx.value < props.products.length - 1) {
@@ -78,45 +83,57 @@ const loopSlides = () => {
     cIdx.value = 0
   }
 }
+// к определенному слайду по клику
+const toCurrSlide = (idx: number) => {
+  scrollIntoView(idx)
+  cIdx.value = idx
+  keyToRestartInterval.value++
+  timerCount.value = 0
+}
+// интервал для слайдера, и можно сказать автоплэй
 
-const cT = ref(0)
+const intervalTest = 4 // секунда автоплэй
 
-const interval = ref()
+const percentageOfLine = ref(0)
 
-const funcInterval = () => {
-  return setInterval(() => {
-    cT.value += 0.05
-    if (cT.value < 4) {
-    } else {
-      cT.value = 0
-      loopSlides()
-      scrollIntoView(cIdx.value)
-    }
-  }, 50)
+const intervalFn = () => {
+  return setInterval(
+    () => {
+      timerCount.value++
+      if (timerCount.value === intervalTest * (intervalTest * 10)) {
+        loopSlides()
+        scrollIntoView(cIdx.value)
+        timerCount.value = 0
+      }
+      percentageOfLine.value = (timerCount.value / (intervalTest * (intervalTest * 10))) * 100
+    },
+    1000 / (intervalTest * 10),
+  )
+}
+
+watch(
+  () => keyToRestartInterval.value,
+  () => {
+    timerCount.value = 0
+    clearInterval(timerId.value)
+    timerId.value = intervalFn()
+  },
+)
+
+const pause = (idx: number, e: MouseEvent | TouchEvent) => {
+  if (idx === cIdx.value && e.type === "mousemove") {
+    clearInterval(timerId.value)
+  }
+}
+const play = () => {
+  clearInterval(timerId.value)
+  timerId.value = intervalFn()
 }
 
 onMounted(() => {
-  interval.value = funcInterval()
+  timerId.value = intervalFn()
+  setKeyframe.value = true
 })
-const pauseTimer = (idx: number) => {
-  if (idx === cIdx.value) {
-    clearInterval(interval.value)
-  }
-}
-const reseumeTimer = (idx: number) => {
-  if (idx === cIdx.value) {
-    interval.value = funcInterval()
-  }
-}
-const resetTimer = () => {
-  clearInterval(interval.value)
-  cT.value = 0
-}
-const toCurrSlide = (idx: number) => {
-  cIdx.value = idx
-  scrollIntoView(idx)
-  resetTimer()
-}
 </script>
 
 <template>
@@ -135,12 +152,13 @@ const toCurrSlide = (idx: number) => {
         <div v-if="products" cls="block__contents">
           <div
             v-for="(c, idx) in products"
-            :cls="{ 'block__contents-item': true, '-active': idx === cIdx }"
-            @mousemove="pauseTimer(idx)"
-            @mouseleave="reseumeTimer(idx)"
+            :cls="{ 'block__contents-item': true, '-active': idx === cIdx && setKeyframe }"
             @click="toCurrSlide(idx)"
+            @mousemove="pause(idx, $event)"
+            @touchstart="pause(idx, $event)"
+            @mouseleave="play"
           >
-            {{ c.price }} <span />
+            {{ c.price }} <span :style="`width: ${percentageOfLine}%`" />
           </div>
         </div>
       </div>
@@ -242,40 +260,14 @@ const toCurrSlide = (idx: number) => {
         height: 2px;
         background: var(--Black);
         opacity: 0;
+        transition: opacity 0.08s ease-out;
       }
-      @keyframes fullexpand {
-        0% {
-          width: 0%;
-        }
-        20% {
-          width: 20%;
-        }
-        40% {
-          width: 40%;
-        }
-        60% {
-          width: 60%;
-        }
-        80% {
-          width: 80%;
-        }
-        100% {
-          width: 100%;
-        }
-      }
-
       &.-active {
-        &:hover {
-          span {
-            animation-play-state: paused;
-          }
-        }
         color: var(--Black);
         &::after {
           display: block;
         }
         span {
-          animation: fullexpand 4s linear forwards;
           opacity: 1;
         }
       }

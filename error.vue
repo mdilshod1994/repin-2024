@@ -5,12 +5,18 @@ defineProps(["error"])
 <template>
   <div cls="error">
     <the-header />
-    <r-grid desktop-column="1" :desktop-gaps="[48]" cls="error__content">
+    <r-grid
+      desktop-column="1"
+      :desktop-gaps="[48]"
+      :tablet-gaps="[48]"
+      :mobile-gaps="[48]"
+      cls="error__content"
+    >
       <div cls="error__text">
         {{ error.statusCode }} — Oops, <br />
         {{ error.statusCode === 404 ? "page not found" : "Problem on the site" }}
       </div>
-      <r-button bg-color="white" cls="error__btn"> See all projects </r-button>
+      <r-button bg-color="white" cls="error__btn" to="/portfolio"> See all projects </r-button>
     </r-grid>
     <div cls="error__bottom">
       <div cls="error__bottom-text">Kiss my pixel<span /></div>
@@ -41,6 +47,16 @@ defineProps(["error"])
   &__text {
     @include desctop-H1-ram;
     font-style: italic;
+  }
+}
+
+@include tablet-small {
+  .error {
+    background-size: cover;
+    &__text {
+      @include mob-H1-ram;
+      font-style: italic;
+    }
   }
 }
 </style>

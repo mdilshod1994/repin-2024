@@ -1,11 +1,15 @@
-.underline-link{
+.underline-link {
   width: max-content;
   @include desctop-caption-17-med;
   border-bottom: 1.5px solid var(--Black);
+  &.-white {
+    border-bottom: 1.5px solid var(--White);
+    color: var(--White);
+  }
 }
 
-@include tablet{
-  .underline-link{
-    @include mob-body-14-med
+@include tablet {
+  .underline-link {
+    @include mob-body-14-med;
   }
 }

@@ -5,6 +5,12 @@ const scrollTop = () => {
     behavior: "smooth",
   })
 }
+
+const hoverSound = ref<HTMLAudioElement | null>(null)
+
+const playHoverSound = () => {
+  hoverSound.value?.play()
+}
 </script>
 
 <template>
@@ -27,24 +33,73 @@ const scrollTop = () => {
               <div cls="footer__links-box">
                 <div cls="footer__links-title">Menu</div>
                 <div class="tabs">
-                  <nuxt-link to="" cls="footer__links-item">Portfolio</nuxt-link>
-                  <nuxt-link to="" cls="footer__links-item">Agency</nuxt-link>
-                  <nuxt-link to="" cls="footer__links-item">Consulting</nuxt-link>
-                  <nuxt-link to="" cls="footer__links-item">Blog</nuxt-link>
-                  <nuxt-link to="" cls="footer__links-item">Contact</nuxt-link>
+                  <nuxt-link to="" cls="footer__links-item" @mouseenter.prevent="playHoverSound()"
+                    >Portfolio</nuxt-link
+                  >
+                  <nuxt-link to="" cls="footer__links-item" @mouseenter.prevent="playHoverSound()"
+                    >Agency</nuxt-link
+                  >
+                  <nuxt-link to="" cls="footer__links-item" @mouseenter.prevent="playHoverSound()"
+                    >Consulting</nuxt-link
+                  >
+                  <nuxt-link to="" cls="footer__links-item" @mouseenter.prevent="playHoverSound()"
+                    >Blog</nuxt-link
+                  >
+                  <nuxt-link to="" cls="footer__links-item" @mouseenter.prevent="playHoverSound()"
+                    >Contact</nuxt-link
+                  >
                 </div>
               </div>
               <div cls="footer__links-box">
                 <div cls="footer__links-title">Follow us</div>
                 <div class="tabs">
-                  <a href="" target="_blank" cls="footer__links-item">Behance</a>
-                  <a href="" target="_blank" cls="footer__links-item">Dribbble</a>
-                  <a href="" target="_blank" cls="footer__links-item">Instagram</a>
-                  <a href="" target="_blank" cls="footer__links-item">YouTube</a>
-                  <a href="" target="_blank" cls="footer__links-item">Telegram</a>
-                  <a href="" target="_blank" cls="footer__links-item">WhatsApp</a>
+                  <a
+                    href=""
+                    target="_blank"
+                    cls="footer__links-item"
+                    @mouseenter.prevent="playHoverSound()"
+                    >Behance</a
+                  >
+                  <a
+                    href=""
+                    target="_blank"
+                    cls="footer__links-item"
+                    @mouseenter.prevent="playHoverSound()"
+                    >Dribbble</a
+                  >
+                  <a
+                    href=""
+                    target="_blank"
+                    cls="footer__links-item"
+                    @mouseenter.prevent="playHoverSound()"
+                    >Instagram</a
+                  >
+                  <a
+                    href=""
+                    target="_blank"
+                    cls="footer__links-item"
+                    @mouseenter.prevent="playHoverSound()"
+                    >YouTube</a
+                  >
+                  <a
+                    href=""
+                    target="_blank"
+                    cls="footer__links-item"
+                    @mouseenter.prevent="playHoverSound()"
+                    >Telegram</a
+                  >
+                  <a
+                    href=""
+                    target="_blank"
+                    cls="footer__links-item"
+                    @mouseenter.prevent="playHoverSound()"
+                    >WhatsApp</a
+                  >
                 </div>
               </div>
+              <audio ref="hoverSound" preload="auto">
+                <source src="/files/footer-sound.wav" />
+              </audio>
             </div>
           </div>
         </div>

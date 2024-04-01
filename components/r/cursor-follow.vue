@@ -24,7 +24,7 @@ onMounted(() => {
     cursorPos.value.y = e.clientY
   })
   requestAnimationFrame(function loop() {
-    const easting = 2.5
+    const easting = 1
     cursorBorderPos.value.x += (cursorPos.value.x - cursorBorderPos.value.x) / easting
     cursorBorderPos.value.y += (cursorPos.value.y - cursorBorderPos.value.y) / easting
     if (!cursorBorder.value) return
@@ -67,20 +67,20 @@ onMounted(() => {
   position: fixed;
   top: -10px;
   left: -20px;
-  width: 40px;
+  width: 44px;
   height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: 8px;
   border-radius: 50%;
   opacity: 0;
   pointer-events: none;
   z-index: 3;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
 
   svg {
-    font-size: 15px;
+    font-size: 24px;
     color: var(--White);
     &:first-child {
       transform: rotate(180deg);
@@ -91,7 +91,7 @@ onMounted(() => {
   }
   &-wrap {
     transform-origin: center;
-    --size: 50px;
+    --size: 104px;
     position: fixed;
     top: calc(var(--size) / -2);
     left: calc(var(--size) / -2);

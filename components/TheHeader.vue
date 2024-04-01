@@ -24,6 +24,21 @@ const showMenu = () => {
   isActive.value = true
   useBodyLock(true)
 }
+
+// sound on hover
+
+const route = useRoute()
+
+const hoverSound = ref<HTMLAudioElement | null>(null)
+const hoverActiveSound = ref<HTMLAudioElement | null>(null)
+
+const playHoverSound = (urlName: string | null) => {
+  if (urlName === route.name) {
+    hoverActiveSound.value?.play()
+  } else {
+    hoverSound.value?.play()
+  }
+}
 </script>
 
 <template>
@@ -34,13 +49,35 @@ const showMenu = () => {
         <svgo-r-logo cls="header__logo-mob" />
       </nuxt-link>
       <nav cls="header__nav">
-        <nuxt-link cls="header__nav-link -first" to="/portfolio">
+        <nuxt-link
+          cls="header__nav-link"
+          to="/portfolio"
+          @mouseenter.prevent="playHoverSound('portfolio')"
+        >
           <span>Portfolio</span>
         </nuxt-link>
-        <nuxt-link cls="header__nav-link -second" to="/about"> <span>About</span> </nuxt-link>
-        <nuxt-link cls="header__nav-link -third"> <span>Consulting</span> </nuxt-link>
-        <nuxt-link cls="header__nav-link"> <span>Blog</span> </nuxt-link>
-        <nuxt-link cls="header__nav-link" to="/contact"> <span>Contact</span> </nuxt-link>
+        <nuxt-link cls="header__nav-link" to="/about" @mouseenter.prevent="playHoverSound('about')">
+          <span>About</span>
+        </nuxt-link>
+        <nuxt-link cls="header__nav-link" @mouseenter.prevent="playHoverSound('consulting')">
+          <span>Consulting</span>
+        </nuxt-link>
+        <nuxt-link cls="header__nav-link" @mouseenter.prevent="playHoverSound('blog')">
+          <span>Blog</span>
+        </nuxt-link>
+        <nuxt-link
+          cls="header__nav-link"
+          to="/contact"
+          @mouseenter.prevent="playHoverSound('contact')"
+        >
+          <span>Contact</span>
+        </nuxt-link>
+        <audio ref="hoverSound" preload="auto">
+          <source src="/files/hover.wav" />
+        </audio>
+        <audio ref="hoverActiveSound" preload="auto">
+          <source src="/files/hover-active.wav" />
+        </audio>
       </nav>
       <div cls="header__btns">
         <button cls="header__btn">RU</button>
@@ -102,75 +139,24 @@ const showMenu = () => {
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 28px;
+    gap: 36px;
     &-link {
       @include desctop-caption-17-med;
       position: relative;
-      &.-first {
-        &:after {
-          content: "";
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          background: var(--White);
-          border-radius: 80px;
-          height: 44px;
-          width: calc(100% + 32px);
-          box-shadow: 0px 2px 10px 0px rgba(0, 2, 25, 0.08);
-          opacity: 0;
-          transform: translate(-50%, -50%) scale(0.9);
-          transition: 0.3s ease-in-out;
-        }
+      &:after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        background: var(--White);
+        border-radius: 80px;
+        height: 44px;
+        width: calc(100% + 32px);
+        box-shadow: 0px 2px 10px 0px rgba(0, 2, 25, 0.08);
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+        transition: 0.3s ease-in-out;
       }
-      &.-second {
-        &:after {
-          content: "";
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          background: var(--White);
-          // background: rgba(243, 243, 243, 0.9);
-          border-radius: 80px;
-          height: 44px;
-          width: calc(100% + 32px);
-          box-shadow:
-            -2px -3px 7px -1px hsla(0, 0%, 100%, 1),
-            5px 4px 6px 0 rgba(0, 2, 25, 0.2),
-            inset 5px 3px 4px 0 rgba(0, 5, 27, 0.2);
-          opacity: 0;
-          transform: translate(-50%, -50%);
-          transition: 0.3s ease-in-out;
-        }
-        &:hover {
-          &::after {
-            opacity: 1;
-          }
-        }
-      }
-      &.-third {
-        &:after {
-          content: "";
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          background: rgba(243, 243, 243, 0.9);
-          border-radius: 80px;
-          height: 44px;
-          width: calc(100% + 32px);
-          box-shadow:
-            -4px -4px 1px -2px hsla(0, 0%, 100%, 0.7),
-            2px 4px 6px 0 rgba(0, 2, 25, 0.15);
-          opacity: 0;
-          transform: translate(-50%, -50%);
-          transition: 0.3s ease-in-out;
-        }
-        &:hover {
-          &::after {
-            opacity: 1;
-          }
-        }
-      }
-
       span {
         position: relative;
         z-index: 1;
@@ -194,13 +180,18 @@ const showMenu = () => {
     padding: 13px 24px;
     align-items: center;
     border-radius: 48px;
-    background: #fff;
+    background: transparent;
     width: 71px;
     height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: 0.3s ease-in-out;
     cursor: pointer;
+    &:hover {
+      box-shadow: 0px 2px 10px 0px rgba(0, 2, 25, 0.08);
+      background: var(--White);
+    }
   }
   &__btn {
     @include desctop-caption-17-med;
