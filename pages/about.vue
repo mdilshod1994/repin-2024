@@ -33,7 +33,7 @@ const { data: products } = await useFetch("https://fakestoreapi.com/products?lim
         </template>
       </r-slider>
     </div>
-    <div cls="about__full-cycle">
+    <div cls="about__full-cycle" class="dark-background">
       <about-full-cycle />
     </div>
     <div class="container">
@@ -41,13 +41,13 @@ const { data: products } = await useFetch("https://fakestoreapi.com/products?lim
         <about-experts />
       </div>
     </div>
-    <about-outstaff />
+    <about-outstaff class="dark-background" />
     <div class="container">
       <div cls="about__awards">
         <about-award />
       </div>
     </div>
-    <div cls="about__photo-team">
+    <div cls="about__photo-team" class="dark-background">
       <about-team-photos />
     </div>
     <div class="container">

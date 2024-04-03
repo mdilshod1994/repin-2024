@@ -2,7 +2,6 @@
 defineProps<{
   bgBlack?: boolean
 }>()
-
 const oldScroll = ref(0)
 const scrolledUp = ref(true)
 onMounted(() => {
@@ -39,10 +38,56 @@ const playHoverSound = (urlName: string | null) => {
     hoverSound.value?.play()
   }
 }
+
+// to check dark background
+const isBackgroundDark = ref(false)
+const didScroll = ref(false)
+function checkIfDarkBackgroud(el?: HTMLElement) {
+  if (el)
+    if (window.scrollY > el.offsetTop && window.scrollY < el.offsetTop + el.offsetHeight) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && 0 >= entry.boundingClientRect.top) {
+            isBackgroundDark.value = false
+          } else {
+            isBackgroundDark.value = true
+          }
+        })
+      })
+      observer.observe(el)
+    } else {
+      isBackgroundDark.value = true
+    }
+}
+
+onMounted(() => {
+  window.addEventListener("scroll", () => {
+    didScroll.value = true
+  })
+  setInterval(() => {
+    if (didScroll.value) {
+      const arrTestclass = document.querySelectorAll(".dark-background")
+      didScroll.value = false
+      arrTestclass.forEach((el) => {
+        const element = el as HTMLElement
+        checkIfDarkBackgroud(element)
+      })
+    }
+  }, 250)
+})
 </script>
 
 <template>
-  <div :cls="{ header: true, '-visible': scrolledUp, '-active': isActive, '-bg-black': bgBlack }">
+  <div
+    id="header"
+    :cls="{
+      header: true,
+      '-visible': scrolledUp,
+      '-active': isActive,
+      '-bg-black': bgBlack,
+      '-glassmorph': isBackgroundDark,
+    }"
+  >
     <div cls="header__wrap">
       <nuxt-link to="/" cls="header__logo">
         <svgo-logo cls="header__logo-desk" />
@@ -104,7 +149,7 @@ const playHoverSound = (urlName: string | null) => {
     transform: translateY(0%);
     top: 24px;
   }
-  &.-bg-black {
+  &.-glassmorph {
     .header {
       &__wrap {
         background: rgba(144, 144, 144, 0.1);
@@ -124,6 +169,7 @@ const playHoverSound = (urlName: string | null) => {
     align-items: center;
     justify-content: space-between;
     position: relative;
+    transition: 0.3s ease-in-out;
   }
   &__logo {
     svg {

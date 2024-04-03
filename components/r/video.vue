@@ -3,7 +3,7 @@ const isActive = ref(false)
 </script>
 
 <template>
-  <div cls="video">
+  <div cls="video" class="dark-background">
     <div cls="video__wrap">
       <video muted autoplay loop>
         <source src="/files/MainComp_01.mp4" type="video/mp4" />

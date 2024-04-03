@@ -7,26 +7,27 @@ const line = (e: any) => {
   const xMove =
     e.type === "touchmove" || e.type === "touchstart" ? e.changedTouches[0].clientX - 20 : e.layerX
   const percent = (xMove / e.target.clientWidth) * 100
-  if (e.type === "mousemove" || e.type === "touchmove" || e.type === "touchstart") {
-    removeAnimation.value = false
-    baBtn.value.style.transition = "none"
-    baBtn.value.style.left = `${percent}%`
-    after.value.style.transition = "none"
-    after.value.style.width = `${percent}%`
-  } else {
-    setTimeout(() => {
-      removeAnimation.value = true
-    }, 520)
-    baBtn.value.style.transition = "0.5s ease"
-    baBtn.value.style.left = "50%"
-    after.value.style.transition = "0.5s ease"
-    after.value.style.width = "50%"
-  }
+  if (baBtn.value && after.value)
+    if (e.type === "mousemove" || e.type === "touchmove" || e.type === "touchstart") {
+      removeAnimation.value = false
+      baBtn.value.style.transition = "none"
+      baBtn.value.style.left = `${percent}%`
+      after.value.style.transition = "none"
+      after.value.style.width = `${percent}%`
+    } else {
+      setTimeout(() => {
+        removeAnimation.value = true
+      }, 520)
+      baBtn.value.style.transition = "0.5s ease"
+      baBtn.value.style.left = "50%"
+      after.value.style.transition = "0.5s ease"
+      after.value.style.width = "50%"
+    }
 }
 </script>
 
 <template>
-  <div cls="before-after">
+  <div cls="before-after" class="dark-background">
     <div cls="before-after__img">
       <img src="@/assets/images/tempImages/after.png" alt="" />
     </div>

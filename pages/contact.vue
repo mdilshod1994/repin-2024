@@ -41,7 +41,7 @@ onMounted(() => {
         </r-banner>
       </r-grid>
     </div>
-    <div ref="target" cls="contacts__request">
+    <div ref="target" cls="contacts__request" class="dark-background">
       <div cls="contacts__request-wrap">
         <r-grid
           cls="contacts__request-block"
