@@ -2,7 +2,8 @@
 withDefaults(
   defineProps<{
     size?: "small" | "large" | "custom"
-    bgColor?: "default" | "white"
+    bgColor?: "default" | "white" | "gray"
+    pointerEvents?: boolean
   }>(),
   {
     size: "custom",
@@ -12,7 +13,7 @@ withDefaults(
 </script>
 
 <template>
-  <button :class="`round-button -${size} -${bgColor}`">
+  <button :class="`round-button -${size} -${bgColor} ${pointerEvents ? '-pointer-none' : ''}`">
     <slot>
       <svgo-arrow-right filled />
     </slot>

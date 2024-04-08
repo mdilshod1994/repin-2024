@@ -3,7 +3,6 @@
 <template>
   <div cls="layout">
     <the-header />
-
     <slot />
     <the-footer />
     <div class="container">
@@ -12,6 +11,8 @@
       </div>
     </div>
   </div>
+  <r-preloader v-if="false" />
+  <r-cursor-follow />
 </template>
 
 <style module lang="scss">

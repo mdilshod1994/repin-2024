@@ -1,4 +1,12 @@
 <script setup lang="ts">
+const { data: header } = useApiFetch("getHomePage", {
+  pick: ["en"],
+})
+
+const menu = computed(() => {
+  return header.value?.en.header.menu
+})
+
 defineProps<{
   bgBlack?: boolean
 }>()
@@ -20,23 +28,18 @@ onMounted(() => {
 })
 const isActive = ref(false)
 const showMenu = () => {
-  isActive.value = true
-  useBodyLock(true)
+  isActive.value = !isActive.value
+  useBodyLock(isActive.value)
 }
 
 // sound on hover
 
-const route = useRoute()
-
 const hoverSound = ref<HTMLAudioElement | null>(null)
-const hoverActiveSound = ref<HTMLAudioElement | null>(null)
 
-const playHoverSound = (urlName: string | null) => {
-  if (urlName === route.name) {
-    hoverActiveSound.value?.play()
-  } else {
-    hoverSound.value?.play()
-  }
+const playHoverSound = () => {
+  if (!hoverSound.value) return
+  hoverSound.value.volume = 0.2
+  hoverSound.value.play()
 }
 
 // to check dark background
@@ -79,6 +82,7 @@ onMounted(() => {
 
 <template>
   <div
+    v-if="header"
     id="header"
     :cls="{
       header: true,
@@ -88,54 +92,62 @@ onMounted(() => {
       '-glassmorph': isBackgroundDark,
     }"
   >
-    <div cls="header__wrap">
+    <div :cls="{ header__wrap: true, '-delay': !isActive }">
       <nuxt-link to="/" cls="header__logo">
         <svgo-logo cls="header__logo-desk" />
         <svgo-r-logo cls="header__logo-mob" />
       </nuxt-link>
       <nav cls="header__nav">
-        <nuxt-link
-          cls="header__nav-link"
-          to="/portfolio"
-          @mouseenter.prevent="playHoverSound('portfolio')"
+        <div
+          v-for="link in menu"
+          v-show="link.name !== 'Consulting' && link.name !== 'Blog'"
+          @mouseenter="playHoverSound()"
         >
-          <span>Portfolio</span>
-        </nuxt-link>
-        <nuxt-link cls="header__nav-link" to="/about" @mouseenter.prevent="playHoverSound('about')">
-          <span>About</span>
-        </nuxt-link>
-        <nuxt-link cls="header__nav-link" @mouseenter.prevent="playHoverSound('consulting')">
-          <span>Consulting</span>
-        </nuxt-link>
-        <nuxt-link cls="header__nav-link" @mouseenter.prevent="playHoverSound('blog')">
-          <span>Blog</span>
-        </nuxt-link>
-        <nuxt-link
-          cls="header__nav-link"
-          to="/contact"
-          @mouseenter.prevent="playHoverSound('contact')"
-        >
-          <span>Contact</span>
-        </nuxt-link>
+          <nuxt-link cls="header__nav-link" :to="`/${link.name.toLowerCase()}`">
+            <span>{{ link.name }}</span>
+          </nuxt-link>
+        </div>
+
         <audio ref="hoverSound" preload="auto">
-          <source src="/files/hover.wav" />
-        </audio>
-        <audio ref="hoverActiveSound" preload="auto">
-          <source src="/files/hover-active.wav" />
+          <source src="/files/hover.mp3" />
         </audio>
       </nav>
       <div cls="header__btns">
-        <button cls="header__btn">RU</button>
+        <r-button cls="header__btn">Connect</r-button>
       </div>
       <div cls="header__menu" @click="showMenu">
-        <r-round-button cls="header__menu-btn" bg-color="white" size="custom">
-          <svgo-btn-menu />
+        <r-round-button
+          cls="header__menu-btn"
+          pointer-events
+          :bg-color="isActive ? 'gray' : 'white'"
+          size="custom"
+        >
+          <svgo-btn-menu v-if="!isActive" />
+          <svgo-x v-else cls="close" />
         </r-round-button>
       </div>
     </div>
+    <mob-menu v-model:active="isActive" :menu="menu" />
+    <transition name="fade-overlay">
+      <div v-if="isActive" cls="header__mobile-overlay" @click="showMenu" />
+    </transition>
   </div>
-  <mob-menu v-if="isActive" v-model:active="isActive" />
 </template>
+
+<style>
+.fade-overlay-enter-active {
+  transition: opacity 0.5s ease;
+}
+.fade-overlay-leave-active {
+  transition: opacity 0.5s ease;
+  transition-delay: 0.3s;
+}
+
+.fade-overlay-enter-from,
+.fade-overlay-leave-to {
+  opacity: 0;
+}
+</style>
 
 <style module lang="scss">
 .header {
@@ -169,7 +181,7 @@ onMounted(() => {
     align-items: center;
     justify-content: space-between;
     position: relative;
-    transition: 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out;
   }
   &__logo {
     svg {
@@ -223,12 +235,9 @@ onMounted(() => {
   }
   &__btns {
     display: flex;
-    padding: 13px 24px;
     align-items: center;
     border-radius: 48px;
     background: transparent;
-    width: 71px;
-    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -240,9 +249,12 @@ onMounted(() => {
     }
   }
   &__btn {
-    @include desctop-caption-17-med;
+    height: 50px;
   }
   &__menu {
+    display: none;
+  }
+  &__mobile-overlay {
     display: none;
   }
 }
@@ -265,6 +277,11 @@ onMounted(() => {
     &__wrap {
       padding: 8px 8px 8px 24px;
       border: none;
+      position: relative;
+      z-index: 3;
+      &.-delay {
+        transition-delay: 0.2s;
+      }
     }
     &__logo {
       svg {
@@ -291,6 +308,9 @@ onMounted(() => {
         height: 40px;
         svg {
           font-size: 12px;
+          &.close {
+            font-size: 22px;
+          }
         }
       }
     }
@@ -299,8 +319,19 @@ onMounted(() => {
         &__wrap {
           background: var(--White);
           border-radius: 16px 16px 0 0;
+          backdrop-filter: blur(18px);
         }
       }
+    }
+    &__mobile-overlay {
+      background: rgba(0, 0, 0, 0.6);
+      position: fixed;
+      left: 0;
+      top: -24px;
+      width: 100%;
+      height: 100svh;
+      display: block;
+      z-index: 1;
     }
   }
 }

@@ -1,10 +1,16 @@
+<script setup lang="ts">
+const { data: dataHomePage } = useApiFetch("getHomePage", {
+  pick: ["en"],
+})
+</script>
+
 <template>
-  <div cls="home">
+  <div v-if="dataHomePage" cls="home">
     <div class="container">
       <div cls="home__top">
         <r-banner scroll-to="video" bottom-line cls="home__banner">
           <div cls="home__banner-top">
-            <r-round-button size="large">
+            <r-round-button size="large" pointer-events>
               <svgo-user-group />
             </r-round-button>
             <div cls="home__banner-bottom">
@@ -35,7 +41,7 @@
     </div>
     <div class="container">
       <div cls="home__portfolio">
-        <home-portfolio />
+        <home-portfolio :data-home-page="dataHomePage" />
       </div>
     </div>
     <!-- Скрыт временно -->

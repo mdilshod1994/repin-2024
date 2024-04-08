@@ -1,99 +1,94 @@
 <script setup lang="ts">
+import { useResizeObserver } from "@vueuse/core"
+
+defineProps<{
+  menu: []
+}>()
+
+const mobMenu = ref<HTMLElement | null>(null)
+
 const active = defineModel<boolean>("active")
 
-const closeMenu = () => {
-  active.value = false
-  useBodyLock(false)
-}
-
 const route = useRoute()
+
+const heightOfMobMenu = ref("")
+
+onMounted(() => {
+  heightOfMobMenu.value = `${mobMenu.value?.scrollHeight}px`
+})
+
+useResizeObserver(mobMenu, () => {
+  heightOfMobMenu.value = `${mobMenu.value?.scrollHeight}px`
+})
 
 watch(
   () => route.fullPath,
   () => {
-    closeMenu()
+    active.value = false
+    useBodyLock(false)
   },
 )
 
 const hoverSound = ref<HTMLAudioElement | null>(null)
-const hoverActiveSound = ref<HTMLAudioElement | null>(null)
 
-const playHoverSound = (urlName: string | null) => {
-  if (urlName === route.path) {
-    hoverActiveSound.value?.play()
-  } else {
-    hoverSound.value?.play()
-  }
+const playHoverSound = () => {
+  if (!hoverSound.value) return
+  hoverSound.value.volume = 0.2
+  hoverSound.value.play()
 }
 </script>
 
 <template>
-  <div v-if="active" cls="mobile">
-    <div cls="mobile__overlay" @click="closeMenu" />
+  <div ref="mobMenu" :cls="{ mobile: true, '-active': active }">
     <div cls="mobile__wrap">
       <nav cls="mobile__nav">
-        <nuxt-link cls="mobile__nav-link" to="/" @click.prevent="playHoverSound('/')">
-          Home
-        </nuxt-link>
-        <nuxt-link
-          cls="mobile__nav-link"
-          to="/portfolio"
-          @click.prevent="playHoverSound('/portfolio')"
+        <div>
+          <nuxt-link cls="mobile__nav-link" to="/" @click.prevent="playHoverSound()">
+            Home
+          </nuxt-link>
+        </div>
+        <div
+          v-for="(link, idx) in menu"
+          v-show="link.name !== 'Consulting' && link.name !== 'Blog'"
+          @click.prevent="playHoverSound()"
         >
-          Portfolio
-        </nuxt-link>
-        <nuxt-link cls="mobile__nav-link" to="/about" @click.prevent="playHoverSound('/about')">
-          About
-        </nuxt-link>
-        <nuxt-link cls="mobile__nav-link" @click.prevent="playHoverSound('/consulting')">
-          Consulting
-        </nuxt-link>
-        <nuxt-link cls="mobile__nav-link" @click.prevent="playHoverSound('/blog')">
-          Blog
-        </nuxt-link>
-        <nuxt-link cls="mobile__nav-link" to="/contact" @click.prevent="playHoverSound('/contact')">
-          Contacts
-        </nuxt-link>
+          <nuxt-link cls="mobile__nav-link" :to="`/${link.name.toLowerCase()}`">
+            {{ link.name }}
+          </nuxt-link>
+        </div>
+
         <audio ref="hoverSound" preload="auto">
-          <source src="/files/hover.wav" />
-        </audio>
-        <audio ref="hoverActiveSound" preload="auto">
-          <source src="/files/hover-active.wav" />
+          <source src="/files/hover.mp3" />
         </audio>
       </nav>
       <div class="line" />
       <div cls="mobile__bottom">
-        <r-button cls="mobile__bottom-btn"> Start project </r-button>
+        <r-button cls="mobile__bottom-btn"> Connect </r-button>
         <div cls="mobile__langs" />
       </div>
     </div>
-    <r-round-button size="large" bg-color="white" cls="mobile__btn-close" @click="closeMenu">
-      <svgo-x />
-    </r-round-button>
   </div>
 </template>
 
 <style module lang="scss">
 .mobile {
+  margin-top: -25px;
   position: fixed;
   left: 0;
-  top: 0;
+  top: 54px;
   width: 100%;
-  padding: 80px 40px 32px;
-  z-index: 1;
-  height: 100svh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  &__overlay {
-    background: rgba(0, 0, 0, 0.6);
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
+  padding: 0 40px;
+  display: none;
+  z-index: 2;
+  height: 0;
+  overflow: hidden;
+  opacity: 0.5;
+  visibility: hidden;
+  transition: 0.4s ease-in-out;
+  &.-active {
+    height: v-bind(heightOfMobMenu);
+    opacity: 1;
+    visibility: visible;
   }
   &__btn-close {
     position: relative;
@@ -102,9 +97,9 @@ const playHoverSound = (urlName: string | null) => {
     display: flex;
     flex-direction: column;
     border-radius: 0 0 16px 16px;
-    backdrop-filter: blur(18.06315803527832px);
     background: var(--White);
     align-self: stretch;
+    padding-top: 25px;
   }
   &__nav {
     display: flex;
@@ -121,14 +116,24 @@ const playHoverSound = (urlName: string | null) => {
   }
 }
 
+@include tablet {
+  .mobile {
+    display: block;
+    &__bottom {
+      &-btn {
+        height: 40px;
+      }
+    }
+  }
+}
 @include tablet-small {
   .mobile {
-    padding: 80px 24px 32px;
+    padding: 0 24px;
   }
 }
 @include mobile {
   .mobile {
-    padding: 62px 16px 40px;
+    padding: 0 16px;
     :global(.line) {
       display: none;
     }
@@ -142,9 +147,9 @@ const playHoverSound = (urlName: string | null) => {
     }
     &__bottom {
       padding: 0 24px 24px;
-    }
-    &__bottom-btn {
-      width: 100%;
+      &-btn {
+        width: 100%;
+      }
     }
   }
 }

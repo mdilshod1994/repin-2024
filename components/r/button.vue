@@ -23,7 +23,9 @@ const link = computed(() => props.link ?? (props.to ? { to: props.to } : undefin
     :to="to ? to : undefined"
     :cls="{ button: true, [`-${bgColor}`]: true }"
   >
-    <slot />
+    <span>
+      <slot />
+    </span>
   </component>
 </template>
 
@@ -36,6 +38,7 @@ const link = computed(() => props.link ?? (props.to ? { to: props.to } : undefin
   align-items: center;
   justify-content: center;
   gap: 8px;
+  overflow: hidden;
   transition: calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
   @include desctop-caption-17-med;
   &.-black {
@@ -48,6 +51,28 @@ const link = computed(() => props.link ?? (props.to ? { to: props.to } : undefin
   }
   &:hover {
     border-radius: 12px;
+    span {
+      animation:
+        MoveScaleUpInitial 0.3s forwards,
+        MoveScaleUpEnd 0.3s forwards 0.3s;
+    }
+  }
+
+  @keyframes MoveScaleUpInitial {
+    100% {
+      transform: translate3d(0, -105%, 0) scale3d(1, 2, 1);
+      opacity: 0;
+    }
+  }
+  @keyframes MoveScaleUpEnd {
+    0% {
+      transform: translate3d(0, 100%, 0) scale3d(1, 2, 1);
+      opacity: 0;
+    }
+    100% {
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+    }
   }
 }
 

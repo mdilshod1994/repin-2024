@@ -11,7 +11,7 @@
     <r-title title="We are experts in:" align-position="start">
       <template #addons>
         <div class="texts -column">
-          <r-round-button size="small" cls="experts__icon-info">
+          <r-round-button size="small" cls="experts__icon-info" pointer-events>
             <svgo-info />
           </r-round-button>
           <div class="text">
@@ -23,7 +23,7 @@
       </template>
     </r-title>
     <r-grid cls="experts__list" tablet-column="3" mobile-column="1" :mobile-gaps="[16]">
-      <div v-for="c in 3" cls="experts__card">
+      <div cls="experts__card">
         <div cls="experts__card-bg" />
         <div cls="experts__card-wrap">
           <r-round-button size="small" bg-color="white" cls="experts__card-arrow">
@@ -44,6 +44,55 @@
               <div class="tab -white">Brand book</div>
               <div class="tab -white">3D</div>
               <div class="tab -white">Presentation</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div cls="experts__card">
+        <div cls="experts__card-bg" />
+        <div cls="experts__card-wrap">
+          <r-round-button size="small" bg-color="white" cls="experts__card-arrow">
+            <svgo-arrow-right />
+          </r-round-button>
+          <div cls="experts__card-block">
+            <div cls="experts__card-content">
+              <div cls="experts__card-title">UX/UI Design</div>
+              <div cls="experts__card-desc">
+                Our goal is to turn your digital product into an intuitive, efficient and visually
+                appealing tool for your customers.
+              </div>
+            </div>
+            <div class="tabs">
+              <div class="tab -white">Analytic</div>
+              <div class="tab -white">Сoncepts</div>
+              <div class="tab -white">Prototyping</div>
+              <div class="tab -white">Design system</div>
+              <div class="tab -white">UX testing</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div cls="experts__card">
+        <div cls="experts__card-bg" />
+        <div cls="experts__card-wrap">
+          <r-round-button size="small" bg-color="white" cls="experts__card-arrow">
+            <svgo-arrow-right />
+          </r-round-button>
+          <div cls="experts__card-block">
+            <div cls="experts__card-content">
+              <div cls="experts__card-title">{{'</Development>'}}</div>
+              <div cls="experts__card-desc">
+                We create any IT solutions your business needs and have enough knowledge and resources to develop a SaaS or mobile apps.
+              </div>
+            </div>
+            <div class="tabs">
+              <div class="tab -white">Web</div>
+              <div class="tab -white">iOS</div>
+              <div class="tab -white">Android</div>
+              <div class="tab -white">Saas</div>
+              <div class="tab -white">Database</div>
+              <div class="tab -white">Architecture</div>
+              <div class="tab -white">Testing</div>
             </div>
           </div>
         </div>
@@ -173,6 +222,12 @@
 }
 @include mobile {
   .experts {
+    &__icon-info {
+      display: none;
+    }
+    :global(.text) {
+      max-width: 297px;
+    }
   }
 }
 </style>

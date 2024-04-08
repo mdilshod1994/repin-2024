@@ -2,11 +2,6 @@
 // Глобальные стили корневых и базовых элементов, размеры блоков контента и т.п.
 //
 
-html,
-body {
-  // scroll-behavior: smooth;
-}
-
 body {
   &.-locked {
     overflow: hidden;

@@ -3,7 +3,7 @@
 -->
 
 <script setup lang="ts">
-withDefaults(
+const props = withDefaults(
   defineProps<{
     bgColor?: "black" | "white"
   }>(),
@@ -12,83 +12,49 @@ withDefaults(
   },
 )
 
+const isDomLoaded = ref(false)
 const cursor = ref<HTMLElement | null>(null)
-const cursorBorder = ref<HTMLElement | null>(null)
 const cursorPos = ref({ x: 0, y: 0 })
-const cursorBorderPos = ref({ x: 0, y: 0 })
-const show = ref(false)
+const cursorEasePos = ref({ x: 0, y: 0 })
+
+function showCursor(opacity: number) {
+  if (cursor.value) {
+    cursor.value.style.opacity = `${opacity}`
+  }
+}
 
 onMounted(() => {
+  isDomLoaded.value = true
+
   document.addEventListener("mousemove", (e) => {
     cursorPos.value.x = e.clientX
     cursorPos.value.y = e.clientY
   })
+
   requestAnimationFrame(function loop() {
-    const easting = 1
-    cursorBorderPos.value.x += (cursorPos.value.x - cursorBorderPos.value.x) / easting
-    cursorBorderPos.value.y += (cursorPos.value.y - cursorBorderPos.value.y) / easting
-    if (!cursorBorder.value) return
-    cursorBorder.value.style.transform = `translate(${cursorBorderPos.value.x}px, ${cursorBorderPos.value.y}px)`
+    const easting = 0.12
+    cursorEasePos.value.x += (cursorPos.value.x - cursorEasePos.value.x) * easting
+    cursorEasePos.value.y += (cursorPos.value.y - cursorEasePos.value.y) * easting
     if (!cursor.value) return
-    cursor.value.style.transform = `translate(${cursorPos.value.x}px, ${cursorPos.value.y}px)`
+    cursor.value.style.transform = `translate(${cursorEasePos.value.x}px, ${cursorEasePos.value.y}px)`
     requestAnimationFrame(loop)
-  })
-  document.querySelectorAll("[data-cursor]").forEach((item) => {
-    item.addEventListener("mouseover", () => {
-      if (item instanceof HTMLElement) {
-        if (item.dataset.cursor === "appear" && cursorBorder.value && cursor.value) {
-          cursorBorder.value.style.opacity = "1"
-          cursor.value.style.opacity = "1"
-        }
-      }
-    })
-    item.addEventListener("mouseout", () => {
-      if (cursorBorder.value && cursor.value) {
-        cursorBorder.value.style.opacity = "0"
-        cursor.value.style.opacity = "0"
-      }
-    })
   })
 })
 </script>
 
 <template>
-  <teleport to="body">
-    <div ref="cursor" :cls="{ cursor: true, '-show': show }">
-      <svgo-arrow-right />
-      <svgo-arrow-right />
-    </div>
-    <div ref="cursorBorder" :cls="{ 'cursor-wrap': true, '-show': show, [`-${bgColor}`]: true }" />
-  </teleport>
+  <div v-if="isDomLoaded" @mousemove="showCursor(1)" @mouseleave="showCursor(0)">
+    <div ref="cursor" :cls="{ 'cursor-wrap': true, [`-${bgColor}`]: true }" />
+    <slot />
+  </div>
+  <!-- <div>
+    <svgo-arrow-right />
+    <svgo-arrow-right />
+  </div> -->
 </template>
 
 <style module lang="scss">
 .cursor {
-  position: fixed;
-  top: -10px;
-  left: -20px;
-  width: 44px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border-radius: 50%;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 3;
-  transition: opacity 0.2s ease-in-out;
-
-  svg {
-    font-size: 24px;
-    color: var(--White);
-    &:first-child {
-      transform: rotate(180deg);
-    }
-    path {
-      stroke: var(--White);
-    }
-  }
   &-wrap {
     transform-origin: center;
     --size: 104px;
@@ -101,8 +67,6 @@ onMounted(() => {
     pointer-events: none;
     opacity: 0;
     transition:
-      top 0.15s ease-out,
-      left 0.15s ease-out,
       width 0.15s ease-in,
       height 0.15s ease-in,
       background-color 0.15s ease-out,

@@ -1,20 +1,22 @@
 <template>
   <div cls="clients">
     <r-title pretitle="Reviews" title="Our clients" />
-    <r-carousel scroll-bar gap="48">
-      <div v-for="s in 10" cls="clients-card">
-        <div cls="clients-card__logo">
-          <svgo-pavel />
-        </div>
-        <div cls="clients-card__content">
-          <div cls="clients-card__title">Pavel Rakov</div>
-          <div cls="clients-card__text">
-            Я помогаю предпринимателям найти баланс между работой и личной жизнью благодаря
-            системному подходу к достижению личных и бизнес целей.
+    <r-cursor-follow>
+      <r-carousel scroll-bar gap="48">
+        <div v-for="s in 10" cls="clients-card">
+          <div cls="clients-card__logo">
+            <svgo-pavel />
+          </div>
+          <div cls="clients-card__content">
+            <div cls="clients-card__title">Pavel Rakov</div>
+            <div cls="clients-card__text">
+              Я помогаю предпринимателям найти баланс между работой и личной жизнью благодаря
+              системному подходу к достижению личных и бизнес целей.
+            </div>
           </div>
         </div>
-      </div>
-    </r-carousel>
+      </r-carousel>
+    </r-cursor-follow>
   </div>
 </template>
 

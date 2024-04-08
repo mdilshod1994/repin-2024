@@ -1,4 +1,12 @@
 <script setup lang="ts">
+const { data: footer } = useApiFetch("getHomePage", {
+  pick: ["en"],
+})
+
+const footerItem = computed(() => {
+  return footer.value?.en.footer
+})
+
 const scrollTop = () => {
   window.scrollTo({
     top: 0,
@@ -9,12 +17,14 @@ const scrollTop = () => {
 const hoverSound = ref<HTMLAudioElement | null>(null)
 
 const playHoverSound = () => {
+  if (!hoverSound.value) return
+  hoverSound.value.volume = 0.2
   hoverSound.value?.play()
 }
 </script>
 
 <template>
-  <div cls="footer">
+  <div v-if="footer" cls="footer">
     <div class="container">
       <div cls="footer__wrap">
         <div cls="footer__top">
@@ -23,31 +33,24 @@ const playHoverSound = () => {
           </nuxt-link>
           <div cls="footer__top-block">
             <div cls="footer__contact">
-              <div cls="footer__contact-title">Contact</div>
-              <div cls="footer__contact-text">
-                If you still have questions, contact us (<span>we answer fastest on Telegram</span
-                >).
-              </div>
+              <div cls="footer__contact-title">{{ footerItem.contact.title }}</div>
+              <div cls="footer__contact-text" v-html="footerItem.contact.text" />
             </div>
             <div cls="footer__links">
               <div cls="footer__links-box">
                 <div cls="footer__links-title">Menu</div>
                 <div class="tabs">
-                  <nuxt-link to="" cls="footer__links-item" @mouseenter.prevent="playHoverSound()"
-                    >Portfolio</nuxt-link
+                  <div
+                    v-for="link in footerItem.menu"
+                    v-show="link.name !== 'Consulting' && link.name !== 'Blog'"
+                    @mouseenter="playHoverSound()"
                   >
-                  <nuxt-link to="" cls="footer__links-item" @mouseenter.prevent="playHoverSound()"
-                    >Agency</nuxt-link
-                  >
-                  <nuxt-link to="" cls="footer__links-item" @mouseenter.prevent="playHoverSound()"
-                    >Consulting</nuxt-link
-                  >
-                  <nuxt-link to="" cls="footer__links-item" @mouseenter.prevent="playHoverSound()"
-                    >Blog</nuxt-link
-                  >
-                  <nuxt-link to="" cls="footer__links-item" @mouseenter.prevent="playHoverSound()"
-                    >Contact</nuxt-link
-                  >
+                    <nuxt-link :to="`/${link.name.toLowerCase()}`" cls="footer__links-item">
+                      <span>
+                        {{ link.name }}
+                      </span>
+                    </nuxt-link>
+                  </div>
                 </div>
               </div>
               <div cls="footer__links-box">
@@ -58,43 +61,49 @@ const playHoverSound = () => {
                     target="_blank"
                     cls="footer__links-item"
                     @mouseenter.prevent="playHoverSound()"
-                    >Behance</a
                   >
+                    <span> Behance </span>
+                  </a>
                   <a
                     href=""
                     target="_blank"
                     cls="footer__links-item"
                     @mouseenter.prevent="playHoverSound()"
-                    >Dribbble</a
                   >
+                    <span> Dribbble </span>
+                  </a>
                   <a
                     href=""
                     target="_blank"
                     cls="footer__links-item"
                     @mouseenter.prevent="playHoverSound()"
-                    >Instagram</a
                   >
+                    <span> Instagram </span>
+                  </a>
                   <a
                     href=""
                     target="_blank"
                     cls="footer__links-item"
                     @mouseenter.prevent="playHoverSound()"
-                    >YouTube</a
                   >
+                    <span> YouTube </span>
+                  </a>
                   <a
                     href=""
                     target="_blank"
                     cls="footer__links-item"
                     @mouseenter.prevent="playHoverSound()"
-                    >Telegram</a
                   >
+                    <span> Telegram </span>
+                  </a>
                   <a
                     href=""
                     target="_blank"
                     cls="footer__links-item"
                     @mouseenter.prevent="playHoverSound()"
-                    >WhatsApp</a
                   >
+                    <span> WhatsApp </span>
+                  </a>
                 </div>
               </div>
               <audio ref="hoverSound" preload="auto">
@@ -186,6 +195,34 @@ const playHoverSound = () => {
       background: rgba(124, 124, 124, 0.1);
       color: var(--White);
       @include desctop-caption-17-med;
+      overflow: hidden;
+      border: 1px solid transparent;
+      transition: 0.3s ease-in-out;
+      &:hover {
+        border: 1px solid var(--White);
+
+        span {
+          animation:
+            MoveScaleUpInitial 0.3s forwards,
+            MoveScaleUpEnd 0.3s forwards 0.3s;
+        }
+      }
+      @keyframes MoveScaleUpInitial {
+        100% {
+          transform: translate3d(0, -105%, 0) scale3d(1, 2, 1);
+          opacity: 0;
+        }
+      }
+      @keyframes MoveScaleUpEnd {
+        0% {
+          transform: translate3d(0, 100%, 0) scale3d(1, 2, 1);
+          opacity: 0;
+        }
+        100% {
+          transform: translate3d(0, 0, 0);
+          opacity: 1;
+        }
+      }
     }
   }
   &__bottom {

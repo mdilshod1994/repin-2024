@@ -1,21 +1,25 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+defineProps<{
+  dataHomePage: object
+}>()
+</script>
 
 <template>
-  <div cls="portfolio">
-    <r-title pretitle="Portfolio" title="Our works">
+  <div v-if="dataHomePage" cls="portfolio">
+    <r-title
+      :pretitle="dataHomePage.en.page.portfolio_subtitle"
+      :title="dataHomePage.en.page.portfolio_title"
+    >
       <template #addons>
         <div cls="portfolio__filter">
-          <portfolio-filters />
+          <portfolio-filters :categories="dataHomePage.en.categories" />
         </div>
       </template>
     </r-title>
     <div cls="portfolio__mob-filter">
       <r-carousel gap="8">
         <div class="tab -active">All</div>
-        <div class="tab">Mobile</div>
-        <div class="tab">Web Site</div>
-        <div class="tab">Branding</div>
-        <div class="tab">Crypto</div>
+        <div v-for="categorie in dataHomePage.en.categories" class="tab">{{ categorie.name }}</div>
       </r-carousel>
     </div>
     <r-grid
@@ -27,7 +31,7 @@
     >
       <portfolio-card v-for="c in 6" cls="portfolio__card" />
       <template #addons>
-        <r-button to="/portfolio"> See all projects </r-button>
+        <r-button to="/portfolio"> Show more </r-button>
       </template>
     </r-grid>
   </div>

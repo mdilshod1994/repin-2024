@@ -12,7 +12,12 @@
         :mobile-gaps="[24]"
         cls="case-study__banner"
       >
-        <nuxt-link to="" cls="case-study__link"> www.macurtin.ru </nuxt-link>
+        <nuxt-link to="" cls="case-study__link">
+          <div cls="case-study__link-icon">
+            <svgo-link />
+          </div>
+          <span class="underline-link"> www.macurtin.ru </span>
+        </nuxt-link>
         <r-banner mobile-bottom-left>
           <template #title>
             <div cls="case-study__banner-title">Scandinavian Airlines Nordic</div>
@@ -81,7 +86,6 @@
           </div>
         </template>
       </r-slider>
-      <r-cursor-follow bg-color="white" />
     </div>
     <div class="container">
       <div cls="case-study__wrap">
@@ -187,6 +191,23 @@
     padding-bottom: 8px;
     &-title {
       max-width: 730px;
+    }
+  }
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    &-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--gray);
+      svg {
+        font-size: 16px;
+      }
     }
   }
   &__wrap {

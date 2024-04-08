@@ -10,13 +10,23 @@ const props = defineProps<{
   mobileBottomLeft?: boolean
 }>()
 
+const banner = ref<HTMLElement | null>(null)
+
+const scrollValue = computed(() => {
+  if (!banner.value) return
+  return banner.value?.offsetTop + banner.value?.offsetHeight
+})
+
 const scrollToId = () => {
-  location.href = `#video`
+  window.scrollTo({
+    top: scrollValue.value,
+    behavior: "smooth",
+  })
 }
 </script>
 
 <template>
-  <div cls="banner">
+  <div ref="banner" cls="banner">
     <div cls="banner__top">
       <div cls="banner__left">
         <div v-if="title || $slots.title" cls="banner__title">

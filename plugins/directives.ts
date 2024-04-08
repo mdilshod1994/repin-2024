@@ -1,7 +1,7 @@
 export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp.directive("dark-background", {
+  nuxtApp.vueApp.directive("test", {
     mounted(el) {
-      // временно отключил
+      // временно убран
     },
   })
 })

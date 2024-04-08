@@ -27,7 +27,7 @@
         >
           <portfolio-card v-for="c in 6" cls="portfolio__card" />
           <template #addons>
-            <r-button> See all projects </r-button>
+            <r-button> Show more </r-button>
           </template>
         </r-grid>
       </div>

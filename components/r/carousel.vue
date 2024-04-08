@@ -20,7 +20,6 @@ const props = defineProps<{
   innerPaddingSides?: string
   innerMobPaddingSides?: string
   removeMargin?: boolean
-  hideCursorFollow?: boolean
 }>()
 
 const carouselWrap = ref<HTMLElement | null>(null), // карусель
@@ -125,14 +124,14 @@ const mGap = computed(() => {
 })
 
 const cursorToggle = (e: any) => {
-  if (e.type !== "mouseout" && carousel.value && !props.hideCursorFollow) {
-    carousel.value.style.cursor = "none"
+  if (e.type !== "mouseout" && carousel.value) {
+    // carousel.value.style.cursor = "none"
   }
 }
 </script>
 
 <template>
-  <div ref="carousel-wrap" cls="carousel" :data-cursor="!hideCursorFollow ? 'appear' : ''">
+  <div ref="carousel-wrap" cls="carousel">
     <div
       ref="carousel"
       cls="carousel__slider"
@@ -153,7 +152,6 @@ const cursorToggle = (e: any) => {
       </div>
     </div>
   </div>
-  <r-cursor-follow />
 </template>
 
 <style module lang="scss">

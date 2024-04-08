@@ -7,7 +7,7 @@ const { data: products } = await useFetch("https://fakestoreapi.com/products?lim
     <div class="container">
       <div cls="about__promo">
         <div cls="about__promo-left">
-          <r-round-button size="small">
+          <r-round-button size="small" pointer-events>
             <svgo-info />
           </r-round-button>
           Watch the video about the new stage of the agency's evolution

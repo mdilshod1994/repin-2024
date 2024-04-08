@@ -1,4 +1,8 @@
 <script setup lang="ts">
+defineProps<{
+  categories?: []
+}>()
+
 const show = ref(false)
 const showFilters = () => {
   show.value = !show.value
@@ -6,16 +10,19 @@ const showFilters = () => {
 </script>
 
 <template>
-  <div cls="filter">
+  <div v-if="categories" cls="filter">
     <button cls="filter__slider" @click="showFilters">
       <svgo-sliders />
     </button>
     <div cls="filter__btns">
       <button :cls="{ filter__btn: true, '-active': true }">All</button>
-      <button v-if="show" :cls="{ filter__btn: true, '-active': false }">Mobile</button>
-      <button v-if="show" :cls="{ filter__btn: true, '-active': false }">Web Site</button>
-      <button v-if="show" :cls="{ filter__btn: true, '-active': false }">Branding</button>
-      <button v-if="show" :cls="{ filter__btn: true, '-active': false }">Crypto</button>
+      <button
+        v-for="categorie in categories"
+        v-show="show"
+        :cls="{ filter__btn: true, '-active': false }"
+      >
+        {{ categorie.name }}
+      </button>
     </div>
   </div>
 </template>

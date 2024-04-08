@@ -24,7 +24,6 @@
           mob-gap="12"
           inner-padding-sides="32"
           inner-mob-padding-sides="16"
-          hide-cursor-follow
         >
           <div v-for="s in 4" cls="full-cycle__item">
             <div cls="full-cycle__box">
@@ -62,7 +61,7 @@
     max-width: 628px;
     span {
       @include desctop-H3-ram;
-      font-style: italic;
+      font-style: italic !important;
     }
   }
   &__item {
@@ -72,28 +71,25 @@
     background: rgba(144, 144, 144, 0.1);
   }
   &__box {
-    height: 0;
-    padding-bottom: 100%;
-    position: relative;
+    height: 230px;
+    padding: 16px 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   &__qnty {
     @include desctop-H2-ram;
-    position: absolute;
-    left: 20px;
-    top: 16px;
     font-style: italic;
   }
   &__text {
     color: rgba(255, 255, 255, 0.8);
     max-width: 200px;
-    position: absolute;
-    bottom: 24px;
-    left: 24px;
   }
 }
 @include tablet {
   .full-cycle {
     padding: 16px;
+
     &__title {
       @include mob-sub-16;
     }
@@ -105,28 +101,43 @@
       }
     }
     &__wrap {
-      padding: 104px 32px 120px 32px;
+      padding: 104px 0 120px;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    &__carousel,
+    &__block {
+      padding: 0 32px;
     }
     &__qnty {
       @include mob-H2-ram;
       font-style: italic;
+    }
+    &__box {
+      height: 160px;
     }
   }
 }
 @include tablet-small {
   .full-cycle {
     &__carousel {
+      padding: 0;
       overflow: hidden;
-      margin: 0 -32px;
     }
     &__item {
-      width: 216px;
+      min-width: 216px;
       flex-shrink: 0;
-      height: 188px;
+    }
+    &__wrap {
+      width: auto;
     }
     &__box {
-      padding-bottom: 0;
-      height: 100%;
+      height: 150px;
+      padding: 20px 24px 24px;
+    }
+    &__qnty {
+      @include mob-H3-ram;
+      font-style: italic;
     }
   }
 }
@@ -134,7 +145,7 @@
   .full-cycle {
     padding: 16px 0;
     &__wrap {
-      padding: 104px 16px 120px;
+      padding: 104px 0 120px;
     }
     &__desc {
       max-width: 100%;
@@ -142,14 +153,10 @@
     &__block {
       flex-direction: column;
       gap: 16px;
-    }
-    &__carousel {
-      margin: 0 -16px;
+      padding: 0 16px;
     }
     &__box {
       display: flex;
-      flex-direction: column;
-      gap: 56px;
       padding: 20px 24px 24px;
     }
     &__qnty,
