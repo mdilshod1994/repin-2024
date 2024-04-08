@@ -9,7 +9,7 @@ defineProps<{
 <template>
   <div cls="author">
     <div cls="author__avatar">
-      <!-- <img src="" alt=""> -->
+      <slot />
     </div>
     <div cls="author__box">
       <div cls="author__name">
@@ -34,6 +34,11 @@ defineProps<{
     height: 56px;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
   &__box {
     display: flex;

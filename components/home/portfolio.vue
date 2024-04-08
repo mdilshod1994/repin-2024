@@ -1,25 +1,25 @@
 <script setup lang="ts">
+import type { Category, Page } from "~/types"
+
 defineProps<{
-  dataHomePage: object
+  page?: Page
+  categories?: Category[]
 }>()
 </script>
 
 <template>
-  <div v-if="dataHomePage" cls="portfolio">
-    <r-title
-      :pretitle="dataHomePage.en.page.portfolio_subtitle"
-      :title="dataHomePage.en.page.portfolio_title"
-    >
+  <div cls="portfolio">
+    <r-title :pretitle="page?.portfolio_subtitle" :title="page?.portfolio_title">
       <template #addons>
         <div cls="portfolio__filter">
-          <portfolio-filters :categories="dataHomePage.en.categories" />
+          <portfolio-filters :categories="categories" />
         </div>
       </template>
     </r-title>
     <div cls="portfolio__mob-filter">
       <r-carousel gap="8">
         <div class="tab -active">All</div>
-        <div v-for="categorie in dataHomePage.en.categories" class="tab">{{ categorie.name }}</div>
+        <div v-for="category in categories" class="tab">{{ category.name }}</div>
       </r-carousel>
     </div>
     <r-grid

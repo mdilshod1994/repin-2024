@@ -24,6 +24,11 @@
       transform: scale3d(1, 1, 1);
     }
   }
+  &.-bold {
+    &::before {
+      height: 2px;
+    }
+  }
 }
 
 @include tablet {

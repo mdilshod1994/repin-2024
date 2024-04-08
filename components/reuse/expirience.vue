@@ -4,15 +4,24 @@
   <div cls="expirience">
     <div cls="expirience__content">
       <div cls="expirience__top">
-        <div cls="expirience__title">Good organization of work, excellent</div>
+        <div cls="expirience__title">
+          <span>Repin Agency &</span> <br />
+          Mobicom
+        </div>
         <div cls="expirience__text">
-          "Good organization of work, excellent communication at every stage, from initiation and
-          data collection, through execution and editing, and ending with the delivery of the
-          finished result. Deep immersion in the tasks and goals of the project, resulted in an
-          excellent result."
+          We teamed up and significantly improved the quality of customer service. Now we can use
+          all the knowledge and 20 years of experience of both companies' specialists to solve any
+          issues as efficiently as possible.
         </div>
       </div>
-      <r-author name="Ivan Repin" profession="Art Direction" />
+      <div cls="expirience__ceo">
+        <r-author name="Ivan Repin" profession="Founder Repin Agency">
+          <img src="@/assets/images/avatar/ivan.png" alt="" />
+        </r-author>
+        <r-author name="Ilya Semenov " profession="CEO of Mobicom">
+          <img src="@/assets/images/avatar/ilya.png" alt="" />
+        </r-author>
+      </div>
     </div>
     <div cls="expirience__img">
       <img
@@ -29,19 +38,26 @@
   justify-content: space-between;
   align-items: center;
   gap: 24px;
+  &__ceo {
+    display: flex;
+  }
   &__content {
     display: flex;
     flex-direction: column;
     gap: 64px;
-    max-width: 411px;
   }
   &__top {
     display: flex;
     flex-direction: column;
+    max-width: 411px;
     gap: 24px;
   }
   &__title {
     @include desctop-H3;
+    span {
+      @include desctop-H3-ram;
+      font-style: italic;
+    }
   }
 
   &__img {

@@ -19,7 +19,7 @@
             You can also view all of our work on Behance, feel free to leave your feedback and
             reactions 👍
           </div>
-          <a href=""> Go to Behance </a>
+          <a href="" cls="awards__behance-link" class="underline-link -bold"> Go to Behance </a>
         </div>
       </template>
     </r-title>
@@ -30,10 +30,12 @@
       :tablet-gaps="[0]"
       :mobile-gaps="[0]"
     >
-      <div v-for="a in 4" cls="awards__item">
+      <div cls="awards__item">
         <div cls="awards__item-name">
           Health Lab
-          <div cls="awards__item-album" />
+          <div cls="awards__item-album">
+            <img src="@/assets/images/awards/h-l.png" alt="" />
+          </div>
         </div>
         <div cls="awards__item-block">
           <div cls="awards__item-texts">
@@ -41,7 +43,59 @@
             <div cls="awards__item-text">Behance – UI/UX, Stock Gallery</div>
           </div>
           <div cls="awards__item-circles">
-            <svgo-st filled />
+            <svgo-st filled cls="st" />
+            <svgo-ui filled />
+          </div>
+        </div>
+      </div>
+      <div cls="awards__item">
+        <div cls="awards__item-name">
+          Capitalist
+          <div cls="awards__item-album">
+            <img src="@/assets/images/awards/c.png" alt="" />
+          </div>
+        </div>
+        <div cls="awards__item-block">
+          <div cls="awards__item-texts">
+            <div cls="awards__item-text">Mobile Application</div>
+            <div cls="awards__item-text">Behance – UI/UX</div>
+          </div>
+          <div cls="awards__item-circles">
+            <svgo-ui filled />
+          </div>
+        </div>
+      </div>
+      <div cls="awards__item">
+        <div cls="awards__item-name">
+          Trade-X
+          <div cls="awards__item-album">
+            <img src="@/assets/images/awards/t.png" alt="" />
+          </div>
+        </div>
+        <div cls="awards__item-block">
+          <div cls="awards__item-texts">
+            <div cls="awards__item-text">Platform</div>
+            <div cls="awards__item-text">Behance – UI/UX</div>
+          </div>
+          <div cls="awards__item-circles">
+            <svgo-ui filled />
+          </div>
+        </div>
+      </div>
+      <div cls="awards__item">
+        <div cls="awards__item-name">
+          Enograf
+          <div cls="awards__item-album">
+            <img src="@/assets/images/awards/e.png" alt="" />
+          </div>
+        </div>
+        <div cls="awards__item-block">
+          <div cls="awards__item-texts">
+            <div cls="awards__item-text">Promo site</div>
+            <div cls="awards__item-text">Behance – UI/UX</div>
+          </div>
+          <div cls="awards__item-circles">
+            <svgo-ui filled />
           </div>
         </div>
       </div>
@@ -51,6 +105,9 @@
 
 <style module lang="scss">
 .awards {
+  &__behance-link {
+    @include desctop-caption-17-db;
+  }
   &__item {
     padding: 16px 0;
     height: 80px;
@@ -59,12 +116,32 @@
     justify-content: space-between;
     gap: 132px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: calc(100% + 44px);
+      height: 100%;
+      background: var(--gray);
+      border-radius: 12px;
+      z-index: -1;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.3s ease-in-out;
+    }
     &:hover {
+      z-index: 1;
+      &::after {
+        opacity: 1;
+        visibility: visible;
+      }
       .awards {
         &__item {
           &-album {
             opacity: 1;
-            animation: rotation 4s infinite linear;
           }
         }
       }
@@ -83,9 +160,14 @@
       width: 176px;
       height: 176px;
       border-radius: 50%;
-      background: rgba(0, 0, 0, 1);
       opacity: 0;
       transition: all 0.5s ease-in-out;
+      animation: rotation 6s infinite linear;
+      overflow: hidden;
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
     @keyframes rotation {
       0% {
@@ -118,6 +200,12 @@
         width: 48px;
         height: 48px;
         font-size: 48px;
+        &.st {
+          margin-right: -12px;
+        }
+        &:nth-child(2) {
+          z-index: 1;
+        }
       }
     }
   }

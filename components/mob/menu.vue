@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { useResizeObserver } from "@vueuse/core"
 
+import { type Menu } from "~/types"
+
 defineProps<{
-  menu: []
+  menu: Menu[]
 }>()
 
 const mobMenu = ref<HTMLElement | null>(null)
@@ -39,7 +41,7 @@ const playHoverSound = () => {
 </script>
 
 <template>
-  <div ref="mobMenu" :cls="{ mobile: true, '-active': active }">
+  <div v-if="menu" ref="mobMenu" :cls="{ mobile: true, '-active': active }">
     <div cls="mobile__wrap">
       <nav cls="mobile__nav">
         <div>
@@ -48,12 +50,12 @@ const playHoverSound = () => {
           </nuxt-link>
         </div>
         <div
-          v-for="(link, idx) in menu"
-          v-show="link.name !== 'Consulting' && link.name !== 'Blog'"
+          v-for="item in menu"
+          v-show="item.name !== 'Consulting' && item.name !== 'Blog'"
           @click.prevent="playHoverSound()"
         >
-          <nuxt-link cls="mobile__nav-link" :to="`/${link.name.toLowerCase()}`">
-            {{ link.name }}
+          <nuxt-link cls="mobile__nav-link" :to="`/${item.name.toLowerCase()}`">
+            {{ item.name }}
           </nuxt-link>
         </div>
 

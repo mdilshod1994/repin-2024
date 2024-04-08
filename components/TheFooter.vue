@@ -1,10 +1,10 @@
 <script setup lang="ts">
-const { data: footer } = useApiFetch("getHomePage", {
-  pick: ["en"],
-})
+import { type Footer } from "~/types"
 
-const footerItem = computed(() => {
-  return footer.value?.en.footer
+const store = useGlobalData()
+
+const footer = computed(() => {
+  return store.globalData?.en.footer as Footer
 })
 
 const scrollTop = () => {
@@ -33,15 +33,15 @@ const playHoverSound = () => {
           </nuxt-link>
           <div cls="footer__top-block">
             <div cls="footer__contact">
-              <div cls="footer__contact-title">{{ footerItem.contact.title }}</div>
-              <div cls="footer__contact-text" v-html="footerItem.contact.text" />
+              <div cls="footer__contact-title">{{ footer.contact.title }}</div>
+              <div cls="footer__contact-text" v-html="footer.contact.text" />
             </div>
             <div cls="footer__links">
               <div cls="footer__links-box">
                 <div cls="footer__links-title">Menu</div>
                 <div class="tabs">
                   <div
-                    v-for="link in footerItem.menu"
+                    v-for="link in footer.menu"
                     v-show="link.name !== 'Consulting' && link.name !== 'Blog'"
                     @mouseenter="playHoverSound()"
                   >

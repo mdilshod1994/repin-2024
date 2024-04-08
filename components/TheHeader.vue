@@ -1,10 +1,8 @@
 <script setup lang="ts">
-const { data: header } = useApiFetch("getHomePage", {
-  pick: ["en"],
-})
+const store = useGlobalData()
 
 const menu = computed(() => {
-  return header.value?.en.header.menu
+  return store.globalData?.en.header.menu
 })
 
 defineProps<{
@@ -78,11 +76,15 @@ onMounted(() => {
     }
   }, 250)
 })
+
+//
+
+//
 </script>
 
 <template>
   <div
-    v-if="header"
+    v-if="menu"
     id="header"
     :cls="{
       header: true,
@@ -99,12 +101,12 @@ onMounted(() => {
       </nuxt-link>
       <nav cls="header__nav">
         <div
-          v-for="link in menu"
-          v-show="link.name !== 'Consulting' && link.name !== 'Blog'"
+          v-for="item in menu"
+          v-show="item.name !== 'Consulting' && item.name !== 'Blog'"
           @mouseenter="playHoverSound()"
         >
-          <nuxt-link cls="header__nav-link" :to="`/${link.name.toLowerCase()}`">
-            <span>{{ link.name }}</span>
+          <nuxt-link cls="header__nav-link" :to="`/${item.name.toLowerCase()}`">
+            <span>{{ item.name }}</span>
           </nuxt-link>
         </div>
 

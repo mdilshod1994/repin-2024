@@ -1,18 +1,84 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const test = ref(true)
+const text = ref(false)
+
+const intervalTest = 2 // секунда автоплэй
+
+const percentageOfLine = ref(0)
+const timerCount = ref(0)
+const timerId = ref<any>(null) // для определения ID setInterval
+
+const intervalFn = () => {
+  return setInterval(
+    () => {
+      timerCount.value++
+      console.log(timerCount.value)
+
+      if (timerCount.value === intervalTest * (intervalTest * 10)) {
+        timerCount.value = 0
+      }
+      percentageOfLine.value = (timerCount.value / (intervalTest * (intervalTest * 10))) * 100
+    },
+    1000 / (intervalTest * 10),
+  )
+}
+
+onMounted(() => {
+  timerId.value = intervalFn()
+  text.value = true
+})
+
+const percentVal = computed(() => {
+  return `${percentageOfLine.value}%`
+})
+
+watch(
+  () => percentageOfLine.value,
+  (n) => {
+    if (+n.toFixed() >= 95) {
+      percentageOfLine.value = 100
+      clearInterval(timerId.value)
+      setTimeout(() => {
+        test.value = false
+        percentageOfLine.value = 0
+        text.value = false
+      }, 1000)
+    }
+  },
+)
+
+onBeforeMount(() => {
+  clearInterval(timerId.value)
+})
+</script>
 
 <template>
-  <div cls="preloader">
-    <div cls="preloader__wrap">
-      <div cls="preloader__texts">
-        <div cls="preloader__text">Kiss my pixel</div>
-        <div cls="preloader__text">Kiss my pixel</div>
-      </div>
-      <div cls="preloader__progess">
-        <div cls="preloader__percentage">62%</div>
+  <transition name="fade-loader">
+    <div v-if="test" cls="preloader">
+      <div cls="preloader__wrap">
+        <div cls="preloader__texts">
+          <div cls="preloader__text">Kiss my pixel</div>
+          <div v-show="text" cls="preloader__text">Kiss my pixel</div>
+        </div>
+        <div cls="preloader__progess">
+          <div cls="preloader__percentage">{{ percentageOfLine.toFixed() }}%</div>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
+
+<style>
+.fade-loader-enter-active,
+.fade-loader-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-loader-enter-from,
+.fade-loader-leave-to {
+  opacity: 0;
+}
+</style>
 
 <style module lang="scss">
 .preloader {
@@ -32,21 +98,25 @@
   }
   &__texts {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   &__text {
     @include desctop-H2-ram;
     font-style: italic;
     white-space: nowrap;
     &:first-child {
-      position: absolute;
-      color: rgba(0, 0, 0, 0.2);
+      color: rgba(0, 0, 0, 0.2) !important;
     }
     &:last-child {
       color: var(--Black);
       z-index: 1;
       overflow: hidden;
-      width: 50%;
+      width: v-bind(percentVal);
       transition: 0.1s ease-in-out;
+      position: absolute !important;
+      left: 0 !important;
     }
   }
   &__progess {
@@ -54,7 +124,7 @@
     bottom: 0;
     left: 0;
     border-bottom: 4px solid var(--Black);
-    width: 56%;
+    width: v-bind(percentVal);
     display: flex;
     transition: 0.1s ease-in-out;
     justify-content: flex-end;

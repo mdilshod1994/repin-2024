@@ -34,7 +34,7 @@ onMounted(() => {
           <div cls="contacts__link-icon">
             <svgo-link />
           </div>
-          <span class="underline-link"> hello@repin.agency </span>
+          <span class="underline-link -bold"> hello@repin.agency </span>
         </a>
         <r-banner mobile-bottom-left title="Contacts">
           <div class="texts">
@@ -126,8 +126,8 @@ onMounted(() => {
     display: flex;
     align-items: center;
     gap: 8px;
-    a {
-      font-weight: 600;
+    span {
+      @include desctop-caption-17-db;
     }
     &-icon {
       width: 32px;

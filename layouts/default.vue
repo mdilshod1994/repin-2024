@@ -1,4 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const store = useGlobalData()
+onMounted(async () => {
+  await store.getData()
+})
+</script>
 
 <template>
   <div cls="layout">
@@ -11,8 +16,6 @@
       </div>
     </div>
   </div>
-  <r-preloader v-if="false" />
-  <r-cursor-follow />
 </template>
 
 <style module lang="scss">

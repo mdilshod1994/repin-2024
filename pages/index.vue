@@ -1,36 +1,39 @@
 <script setup lang="ts">
-const { data: dataHomePage } = useApiFetch("getHomePage", {
-  pick: ["en"],
+const store = useGlobalData()
+
+const page = computed(() => {
+  return store.globalData?.en.page
+})
+const categories = computed(() => {
+  return store.globalData?.en.categories
 })
 </script>
 
 <template>
-  <div v-if="dataHomePage" cls="home">
+  <div cls="home">
     <div class="container">
       <div cls="home__top">
-        <r-banner scroll-to="video" bottom-line cls="home__banner">
+        <r-banner v-if="page" :scroll-to="page.scroll_down" bottom-line cls="home__banner">
           <div cls="home__banner-top">
             <r-round-button size="large" pointer-events>
               <svgo-user-group />
             </r-round-button>
             <div cls="home__banner-bottom">
               <div cls="home__banner-desc">
-                We build cloud-based web and mobile apps for existing products and startups. Using
-                AI technologies, we aim to quickly turn your idea into a successful solution.
+                {{ page.promo_title_about }}
               </div>
-              <nuxt-link to="/about" class="underline-link"> More about us </nuxt-link>
+              <nuxt-link to="/about" class="underline-link">
+                {{ page.promo_about_btn }}
+              </nuxt-link>
             </div>
           </div>
           <template #title>
-            <div cls="title">
-              <span> Your partner </span><br />
-              in the digital world
-            </div>
+            <div cls="title" v-html="page.promo_title" />
           </template>
           <template #bottom-left>
             <div cls="home__banner-texts">
-              <div cls="home__banner-text">Digital products from scratch</div>
-              <div cls="home__banner-text">Go-to-market strategy and consulting</div>
+              <div cls="home__banner-text">{{ page.promo_bottom_line_1 }}</div>
+              <div cls="home__banner-text">{{ page.promo_bottom_line_2 }}</div>
             </div>
           </template>
         </r-banner>
@@ -41,7 +44,7 @@ const { data: dataHomePage } = useApiFetch("getHomePage", {
     </div>
     <div class="container">
       <div cls="home__portfolio">
-        <home-portfolio :data-home-page="dataHomePage" />
+        <home-portfolio :page="page" :categories="categories" />
       </div>
     </div>
     <!-- Скрыт временно -->
