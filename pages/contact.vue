@@ -30,12 +30,18 @@ onMounted(() => {
         :mobile-gaps="[24]"
         cls="contacts__banner"
       >
-        <nuxt-link to="" cls="contacts__link"> hello@repin.agency </nuxt-link>
+        <a href="mailto:hello@repin.agency" cls="contacts__link">
+          <div cls="contacts__link-icon">
+            <svgo-link />
+          </div>
+          <span class="underline-link"> hello@repin.agency </span>
+        </a>
         <r-banner mobile-bottom-left title="Contacts">
           <div class="texts">
-            <div class="text">
+            <div class="text" cls="contacts__banner-text">
               If you are interested in our services or you still have questions, contact us (we
-              answer fastest on <a href="">Telegram</a>).
+              answer fastest on
+              <a href="https://t.me/repinivan" class="underline-link">Telegram</a>).
             </div>
           </div>
         </r-banner>
@@ -109,6 +115,32 @@ onMounted(() => {
   padding: 136px 0 160px;
   &__banner {
     padding-bottom: 104px;
+    &-text {
+      @include desctop-body-22;
+      a {
+        @include desctop-body-22;
+      }
+    }
+  }
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    a {
+      font-weight: 600;
+    }
+    &-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--gray);
+      svg {
+        font-size: 16px;
+      }
+    }
   }
   &__background {
     position: absolute;
