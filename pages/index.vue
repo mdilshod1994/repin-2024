@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const store = useGlobalData()
 
-const page = computed(() => {
-  return store.globalData?.en.page
+const en = computed(() => {
+  return store.globalData?.en
 })
 const categories = computed(() => {
   return store.globalData?.en.categories
@@ -13,27 +13,27 @@ const categories = computed(() => {
   <div cls="home">
     <div class="container">
       <div cls="home__top">
-        <r-banner v-if="page" :scroll-to="page.scroll_down" bottom-line cls="home__banner">
+        <r-banner v-if="en" :scroll-to="en.page.scroll_down" bottom-line cls="home__banner">
           <div cls="home__banner-top">
             <r-round-button size="large" pointer-events>
               <svgo-user-group />
             </r-round-button>
             <div cls="home__banner-bottom">
               <div cls="home__banner-desc">
-                {{ page.promo_title_about }}
+                {{ en.page.promo_title_about }}
               </div>
               <nuxt-link to="/about" class="underline-link">
-                {{ page.promo_about_btn }}
+                {{ en.page.promo_about_btn }}
               </nuxt-link>
             </div>
           </div>
           <template #title>
-            <div cls="title" v-html="page.promo_title" />
+            <div cls="title" v-html="en.page.promo_title" />
           </template>
           <template #bottom-left>
             <div cls="home__banner-texts">
-              <div cls="home__banner-text">{{ page.promo_bottom_line_1 }}</div>
-              <div cls="home__banner-text">{{ page.promo_bottom_line_2 }}</div>
+              <div cls="home__banner-text">{{ en.page.promo_bottom_line_1 }}</div>
+              <div cls="home__banner-text">{{ en.page.promo_bottom_line_2 }}</div>
             </div>
           </template>
         </r-banner>
@@ -44,7 +44,7 @@ const categories = computed(() => {
     </div>
     <div class="container">
       <div cls="home__portfolio">
-        <home-portfolio :page="page" :categories="categories" />
+        <home-portfolio :en="en" :categories="categories" />
       </div>
     </div>
     <!-- Скрыт временно -->
@@ -52,7 +52,7 @@ const categories = computed(() => {
       <home-consulting />
     </div>
     <div cls="home__clients">
-      <home-our-clients />
+      <home-our-clients :en="en" />
     </div>
     <!-- Скрыт временно -->
     <div v-if="false" class="container">
@@ -104,6 +104,11 @@ const categories = computed(() => {
   }
   &__stories {
     padding: 104px 0 160px;
+  }
+  &__lightbox {
+    padding: 100px 0;
+    max-width: 1920px;
+    margin: 0 auto;
   }
 }
 .title {

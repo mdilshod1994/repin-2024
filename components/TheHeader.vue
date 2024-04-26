@@ -109,13 +109,17 @@ onMounted(() => {
             <span>{{ item.name }}</span>
           </nuxt-link>
         </div>
-
         <audio ref="hoverSound" preload="auto">
           <source src="/files/hover.mp3" />
         </audio>
       </nav>
       <div cls="header__btns">
-        <r-button cls="header__btn">Connect</r-button>
+        <r-button cls="header__btn" to="mailto:hello@repin.agency" bg-hover radius-hover
+          >Connect
+          <template #icon>
+            <svgo-arrow-up-right />
+          </template>
+        </r-button>
       </div>
       <div cls="header__menu" @click="showMenu">
         <r-round-button
@@ -252,6 +256,12 @@ onMounted(() => {
   }
   &__btn {
     height: 50px;
+    padding: 0 24px;
+    &:hover {
+      svg {
+        transform: rotate(45deg);
+      }
+    }
   }
   &__menu {
     display: none;

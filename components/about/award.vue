@@ -1,4 +1,28 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const curIdx = ref<number | null>(null)
+const cursorPos = ref({ x: 0, y: 0 })
+const setValue = (idx: number) => {
+  curIdx.value = idx
+}
+const closeAnim = () => {
+  curIdx.value = null
+}
+onMounted(() => {
+  const avas = Array.from(document.querySelectorAll("#ava"))
+  window.addEventListener("mousemove", (e) => {
+    cursorPos.value.x = e.clientX
+    cursorPos.value.y = e.clientY
+    setPos()
+  })
+  function setPos() {
+    for (let idx = 0; idx < avas.length; idx++) {
+      const ava = avas[idx] as HTMLElement
+      if (curIdx.value === idx)
+        ava.style.transform = `translate(${cursorPos.value.x}px, ${cursorPos.value.y}px)`
+    }
+  }
+})
+</script>
 
 <template>
   <r-grid
@@ -30,11 +54,20 @@
       :tablet-gaps="[0]"
       :mobile-gaps="[0]"
     >
-      <div cls="awards__item">
+      <div
+        cls="awards__item"
+        @mouseover="setValue(0)"
+        @mouseleave="closeAnim"
+        @mouseout="closeAnim"
+      >
         <div cls="awards__item-name">
           Health Lab
-          <div cls="awards__item-album">
-            <img src="@/assets/images/awards/h-l.png" alt="" />
+          <div id="ava" cls="ava">
+            <div :cls="{ 'ava-wrap': true, active: curIdx === 0, notactive: true }">
+              <div :cls="{ 'ava-img': true, active: curIdx === 0, notactive: true }">
+                <img src="@/assets/images/awards/h-l.png" alt="" />
+              </div>
+            </div>
           </div>
         </div>
         <div cls="awards__item-block">
@@ -48,11 +81,20 @@
           </div>
         </div>
       </div>
-      <div cls="awards__item">
+      <div
+        cls="awards__item"
+        @mouseover="setValue(1)"
+        @mouseleave="closeAnim"
+        @mouseout="closeAnim"
+      >
         <div cls="awards__item-name">
           Capitalist
-          <div cls="awards__item-album">
-            <img src="@/assets/images/awards/c.png" alt="" />
+          <div id="ava" cls="ava">
+            <div :cls="{ 'ava-wrap': true, active: curIdx === 1, notactive: true }">
+              <div :cls="{ 'ava-img': true, active: curIdx === 1, notactive: true }">
+                <img src="@/assets/images/awards/c.png" alt="" />
+              </div>
+            </div>
           </div>
         </div>
         <div cls="awards__item-block">
@@ -65,11 +107,20 @@
           </div>
         </div>
       </div>
-      <div cls="awards__item">
+      <div
+        cls="awards__item"
+        @mouseover="setValue(2)"
+        @mouseleave="closeAnim"
+        @mouseout="closeAnim"
+      >
         <div cls="awards__item-name">
           Trade-X
-          <div cls="awards__item-album">
-            <img src="@/assets/images/awards/t.png" alt="" />
+          <div id="ava" cls="ava">
+            <div :cls="{ 'ava-wrap': true, active: curIdx === 2, notactive: true }">
+              <div :cls="{ 'ava-img': true, active: curIdx === 2, notactive: true }">
+                <img src="@/assets/images/awards/t.png" alt="" />
+              </div>
+            </div>
           </div>
         </div>
         <div cls="awards__item-block">
@@ -82,11 +133,20 @@
           </div>
         </div>
       </div>
-      <div cls="awards__item">
+      <div
+        cls="awards__item"
+        @mouseover="setValue(3)"
+        @mouseleave="closeAnim"
+        @mouseout="closeAnim"
+      >
         <div cls="awards__item-name">
           Enograf
-          <div cls="awards__item-album">
-            <img src="@/assets/images/awards/e.png" alt="" />
+          <div id="ava" cls="ava">
+            <div :cls="{ 'ava-wrap': true, active: curIdx === 3, notactive: true }">
+              <div :cls="{ 'ava-img': true, active: curIdx === 3, notactive: true }">
+                <img src="@/assets/images/awards/e.png" alt="" />
+              </div>
+            </div>
           </div>
         </div>
         <div cls="awards__item-block">
@@ -208,6 +268,90 @@
         }
       }
     }
+  }
+}
+.ava {
+  font-size: 100px;
+  font-weight: 600px;
+  color: white;
+  position: fixed;
+  left: 5px;
+  top: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  &-wrap {
+    width: 200px;
+    position: relative;
+    height: 150px;
+    &.active {
+      display: flex;
+      justify-content: flex-end;
+      width: 200px;
+      height: 150px;
+    }
+    &.notactive {
+      width: 200px;
+      height: 150px;
+    }
+  }
+  &-img {
+    position: absolute;
+    top: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transition: width 0.3s ease-in-out;
+    img {
+      width: 200px;
+      height: 150px;
+      object-fit: cover;
+    }
+    &.notactive {
+      width: 0px;
+    }
+    &.active {
+      width: 200px;
+      img {
+        transform: scale(1.5);
+        animation: scale 1s forwards cubic-bezier(0, -0.28, 0, 0.98);
+        animation-delay: 0.1s;
+      }
+
+      @keyframes scale {
+        0% {
+          transform: scale(1.5);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    }
+  }
+}
+.notactive.ava-img {
+  width: 0px;
+}
+.active.ava-img {
+  width: 200px;
+}
+
+.active.ava-img img {
+  transform: scale(1.5);
+}
+.active.ava-img img {
+  animation: scale 1s forwards cubic-bezier(0, -0.28, 0, 0.98);
+  animation-delay: 0.1s;
+}
+.ava-img img {
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+}
+@keyframes scale {
+  0% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 @include tablet {

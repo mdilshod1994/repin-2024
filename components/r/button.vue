@@ -8,6 +8,8 @@ const props = withDefaults(
     bgColor?: "black" | "white"
     link?: NuxtLinkProps
     to?: NuxtLinkProps["to"]
+    bgHover?: boolean
+    radiusHover?: boolean
   }>(),
   {
     bgColor: "black",
@@ -21,11 +23,17 @@ const link = computed(() => props.link ?? (props.to ? { to: props.to } : undefin
   <component
     :is="link ? RLink : 'button'"
     :to="to ? to : undefined"
-    :cls="{ button: true, [`-${bgColor}`]: true }"
+    :cls="{
+      button: true,
+      [`-${bgColor}`]: true,
+      '-bg-hover': bgHover,
+      '-radius-hover': radiusHover,
+    }"
   >
     <span>
       <slot />
     </span>
+    <slot name="icon" />
   </component>
 </template>
 
@@ -44,6 +52,10 @@ const link = computed(() => props.link ?? (props.to ? { to: props.to } : undefin
   &.-black {
     background: var(--Black);
     color: var(--White);
+    svg {
+      color: var(--White);
+      transition: 0.3s ease-in-out;
+    }
   }
   &.-white {
     background: var(--White);
@@ -55,6 +67,23 @@ const link = computed(() => props.link ?? (props.to ? { to: props.to } : undefin
       animation:
         MoveScaleUpInitial 0.3s forwards,
         MoveScaleUpEnd 0.3s forwards 0.3s;
+    }
+  }
+  &.-bg-hover {
+    &.-black {
+      &:hover {
+        background: var(--White);
+        color: var(--Black);
+        svg {
+          color: var(--Black);
+        }
+      }
+    }
+  }
+
+  &.-radius-hover {
+    &:hover {
+      border-radius: 50px;
     }
   }
 

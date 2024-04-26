@@ -1,15 +1,20 @@
 <script setup lang="ts">
-import type { Category, Page } from "~/types"
+import type { Category, En, PortfolioElement } from "~/types/globaldata"
 
+const store = useGlobalData()
 defineProps<{
-  page?: Page
+  en?: En
   categories?: Category[]
 }>()
+
+const portfolios = computed(() => {
+  return store.globalData?.en.portfolio as PortfolioElement[]
+})
 </script>
 
 <template>
   <div cls="portfolio">
-    <r-title :pretitle="page?.portfolio_subtitle" :title="page?.portfolio_title">
+    <r-title :pretitle="en?.page.portfolio_subtitle" :title="en?.page.portfolio_title">
       <template #addons>
         <div cls="portfolio__filter">
           <portfolio-filters :categories="categories" />
@@ -29,7 +34,12 @@ defineProps<{
       :mobile-gaps="[32, 8]"
       cls="portfolio__grid"
     >
-      <portfolio-card v-for="c in 6" cls="portfolio__card" />
+      <portfolio-card
+        v-for="portfolio in portfolios"
+        :key="portfolio.id"
+        :portfolio="portfolio"
+        cls="portfolio__card"
+      />
       <template #addons>
         <r-button to="/portfolio"> Show more </r-button>
       </template>

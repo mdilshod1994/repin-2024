@@ -1,22 +1,29 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { PortfolioElement } from "~/types/globaldata"
+
+defineProps<{
+  portfolio: PortfolioElement
+}>()
+</script>
 
 <template>
-  <div cls="card">
+  <nuxt-link to="/portfolio/1" cls="card">
     <div cls="card__img">
       <r-gradient-border cls="card__gradient-border" />
-      <img src="@/assets/images/tempImages/card.png" alt="" />
+      <img :src="portfolio.cover" alt="" />
     </div>
     <div cls="card__content">
       <div cls="card__top">
-        <div cls="card__title">Capital Luxary</div>
-        <r-round-button cls="card__btn" size="small" />
+        <div cls="card__title">{{ portfolio.title }}</div>
+        <r-round-button cls="card__btn" size="small">
+          <svgo-arrow-right />
+        </r-round-button>
       </div>
       <div cls="card__desc">
-        A site with an extensive portfolio of apartments, penthouses, townhouses, luxury villas and
-        more.
+        {{ portfolio.description }}
       </div>
     </div>
-  </div>
+  </nuxt-link>
 </template>
 
 <style module lang="scss">
@@ -24,7 +31,6 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  cursor: pointer;
   &__img {
     position: relative;
     padding-bottom: 123.1%;
@@ -74,9 +80,9 @@
       &__btn {
         &:global(.round-button) {
           background: var(--Black);
-          svg path {
-            stroke: #fff;
-          }
+        }
+        svg {
+          color: var(--White);
         }
       }
       &__title {

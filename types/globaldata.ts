@@ -4,6 +4,7 @@ export interface GlobalData {
 }
 
 export interface En {
+  portfolio: PortfolioElement[]
   page: Page
   categories: Category[]
   footer: Footer
@@ -61,4 +62,27 @@ export interface Review {
   logo: string
   name: string
   text: string
+}
+
+export interface PortfolioElement {
+  id: number
+  title: string
+  slug: string
+  cover: string
+  description: string
+}
+
+// Temporary types
+
+export interface Slide {
+  title: string
+  price: number
+  description: string
+  id: number
+  category: string
+  image: string
+  rating: {
+    count: number
+    rate: number
+  }
 }

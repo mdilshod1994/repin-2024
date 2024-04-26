@@ -1,9 +1,14 @@
 <script setup lang="ts">
 defineProps(["error"])
+const store = useGlobalData()
+onMounted(async () => {
+  await store.getData()
+})
 </script>
 
 <template>
   <div cls="error">
+    <r-cursor />
     <the-header />
     <r-grid
       desktop-column="1"
@@ -34,6 +39,7 @@ defineProps(["error"])
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
   &__content {
     max-width: 684px;
     margin: 0 auto;

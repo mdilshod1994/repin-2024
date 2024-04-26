@@ -1,40 +1,22 @@
 <script setup lang="ts">
-const isActive = ref(false)
+const openLightbox = ref(false)
+
+// watch(openLightbox, (val) => {})
 </script>
 
 <template>
   <div cls="video" class="dark-background">
-    <div cls="video__wrap">
-      <video muted autoplay loop>
-        <source src="/files/MainComp_01.mp4" type="video/mp4" />
-      </video>
-      <button cls="video__btn" @click="isActive = true">
-        <svgo-play filled />
-        <div cls="video__btn-time">
-          Showreel
-          <div cls="video__btn-line" />
-          00:45
-        </div>
-      </button>
-    </div>
-  </div>
-  <r-modal v-model:active="isActive">
-    <div cls="video-modal">
-      <div cls="video-modal__wrap">
-        <video controls>
-          <source src="/files/MainComp_01.mp4" type="video/mp4" />
-        </video>
+    <r-cursor-follow cursor-type="video" bg-color="white">
+      <div cls="video__wrap">
+        <r-lightbox v-model:open="openLightbox">
+          <video muted autoplay loop :cls="{ video__video: true, '-open': openLightbox }">
+            <source src="/files/MainComp_01.mp4" type="video/mp4" />
+          </video>
+        </r-lightbox>
+        <div v-if="!openLightbox" cls="video__wrap-overlay" @click="openLightbox = true" />
       </div>
-      <r-round-button
-        cls="video-modal__btn-close"
-        size="large"
-        bg-color="white"
-        @click="isActive = false"
-      >
-        <svgo-x />
-      </r-round-button>
-    </div>
-  </r-modal>
+    </r-cursor-follow>
+  </div>
 </template>
 
 <style module lang="scss">
@@ -49,7 +31,10 @@ const isActive = ref(false)
     position: relative;
     border-radius: 24px;
     overflow: hidden;
-    img {
+    &-overlay {
+      position: absolute;
+      left: 0;
+      top: 0;
       width: 100%;
       height: 100%;
     }
@@ -84,26 +69,6 @@ const isActive = ref(false)
     }
   }
 }
-.video-modal {
-  position: relative;
-  padding: 0 80px;
-  margin: 0 24px;
-  &__wrap {
-    max-width: 1400px;
-    aspect-ratio: 16/9;
-    border-radius: 8px;
-    overflow: hidden;
-    video,
-    iframe {
-      border-radius: 8px;
-    }
-  }
-  &__btn-close {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-}
 @include tablet {
   .video {
     padding: 16px;
@@ -118,10 +83,6 @@ const isActive = ref(false)
         gap: 10px;
       }
     }
-  }
-  .video-modal {
-    padding: 0 60px;
-    margin: 0 16px;
   }
 }
 @include tablet-small {
@@ -138,29 +99,19 @@ const isActive = ref(false)
       display: flex;
       align-items: center;
       justify-content: center;
-      video {
-        transform: scale(1.5);
+    }
+    &__video {
+      min-width: 853px;
+      margin: 0 auto;
+      transition: 0.5s ease-in-out;
+      &.-open {
+        min-width: 0px;
       }
     }
     &__btn {
       left: 50%;
       bottom: 16px;
       transform: translateX(-50%);
-    }
-  }
-  .video-modal {
-    padding: 0;
-    margin: 0 16px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    &__btn-close {
-      position: absolute;
-      right: auto;
-      left: 50%;
-      transform: translateX(-50%);
-      top: auto;
-      bottom: 40px;
     }
   }
 }

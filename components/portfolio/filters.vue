@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Category } from "~/types"
+import { type Category } from "~/types/globaldata"
 
 const filterBtns = ref<HTMLElement | null>(null)
 
@@ -30,7 +30,24 @@ const showFilters = () => {
 <template>
   <div v-if="categories" cls="filter">
     <button cls="filter__slider" @click="showFilters">
-      <svgo-sliders />
+      <div cls="filter__slider-sticks -first">
+        <span />
+        <span>
+          <span />
+        </span>
+      </div>
+      <div cls="filter__slider-sticks -second">
+        <span>
+          <span />
+        </span>
+        <span />
+      </div>
+      <div cls="filter__slider-sticks -third">
+        <span />
+        <span>
+          <span />
+        </span>
+      </div>
     </button>
     <div ref="filterBtns" :cls="{ filter__btns: true, '-show': show }">
       <button :cls="{ filter__btn: true, '-active': true }"><span>All</span></button>
@@ -58,8 +75,129 @@ const showFilters = () => {
   transition: 1s ease-in-out;
   &__slider {
     display: flex;
+    width: 24px;
+    height: 22px;
+    gap: 2px;
+    justify-content: space-between;
+    &-sticks {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      width: 100%;
+      height: 100%;
+      span {
+        border-radius: 1px;
+        width: 2px;
+        display: block;
+        background: var(--White);
+        position: relative;
+        transition: 0.3s ease-in-out;
+      }
+      &.-first {
+        span {
+          &:nth-child(1) {
+            height: 15%;
+          }
+          &:nth-child(2) {
+            height: 85%;
+            span {
+              position: absolute;
+              left: 0;
+              top: -3px;
+              transform: rotate(90deg);
+              height: 7px;
+            }
+          }
+        }
+      }
+      &.-second {
+        span {
+          &:nth-child(1) {
+            height: 30%;
+            span {
+              position: absolute;
+              left: 0;
+              bottom: -3px;
+              transform: rotate(90deg);
+              height: 7px;
+            }
+          }
+          &:nth-child(2) {
+            height: 70%;
+          }
+        }
+      }
+      &.-third {
+        span {
+          &:nth-child(1) {
+            height: 30%;
+          }
+          &:nth-child(2) {
+            height: 70%;
+            span {
+              position: absolute;
+              left: 0;
+              top: -3px;
+              transform: rotate(90deg);
+              height: 7px;
+            }
+          }
+        }
+      }
+    }
+    &:hover {
+      .filter {
+        &__slider {
+          &-sticks {
+            &.-first {
+              span {
+                &:nth-child(1) {
+                  height: 45%;
+                }
+                &:nth-child(2) {
+                  height: 55%;
+                  span {
+                    height: 7px;
+                  }
+                }
+              }
+            }
+            &.-second {
+              span {
+                transition-delay: 0.15s;
+                &:nth-child(1) {
+                  height: 80%;
+                  span {
+                    height: 7px;
+                  }
+                }
+                &:nth-child(2) {
+                  height: 20%;
+                }
+              }
+            }
+            &.-third {
+              span {
+                transition-delay: 0.08s;
+                &:nth-child(1) {
+                  height: 10%;
+                }
+                &:nth-child(2) {
+                  height: 90%;
+                  span {
+                    height: 7px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
     svg {
       font-size: 24px;
+      color: #fff;
     }
   }
   &__btns {
@@ -84,32 +222,23 @@ const showFilters = () => {
     color: rgba(255, 255, 255, 0.8);
     overflow: hidden;
     flex-shrink: 0;
-    &:not(:first-child) {
-      &:nth-child(2) {
-        transform: translateY(-100px);
-      }
-      &:nth-child(3) {
-        transform: translateY(100px);
-        transition-delay: 0.1s;
-      }
-      &:nth-child(4) {
-        transform: translateY(-100px);
-        transition-delay: 0.2s;
-      }
-    }
+
     &.-active {
       background: #fff;
       border: 1px solid rgba(255, 255, 255, 0.8);
       color: #000;
     }
-    &:hover {
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      span {
-        animation:
-          MoveScaleUpInitial 0.3s forwards,
-          MoveScaleUpEnd 0.3s forwards 0.3s;
+    &:not(&.-active) {
+      &:hover {
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        span {
+          animation:
+            MoveScaleUpInitial 0.3s forwards,
+            MoveScaleUpEnd 0.3s forwards 0.3s;
+        }
       }
     }
+
     &.-show {
       transform: translateY(0) !important;
     }

@@ -6,11 +6,56 @@
       <r-title pretitle="We're online" title="Social Media" flex-start />
     </div>
     <r-carousel gap="24">
-      <div v-for="s in 10" cls="carousel__social" class="hover-border">
+      <div cls="carousel__social" class="hover-border">
         <img src="@/assets/images/tempImages/soc-1.png" alt="" cls="carousel__social-img" />
         <a href="" cls="carousel__social-link">
           <div cls="carousel__social-icon">
-            <svgo-youtube filled />
+            <svgo-behance />
+          </div>
+          <span> Behance </span>
+        </a>
+      </div>
+      <div cls="carousel__social" class="hover-border">
+        <img src="@/assets/images/tempImages/soc-1.png" alt="" cls="carousel__social-img" />
+        <a href="" cls="carousel__social-link">
+          <div cls="carousel__social-icon">
+            <svgo-ins />
+          </div>
+          <span> Instagram </span>
+        </a>
+      </div>
+      <div cls="carousel__social" class="hover-border">
+        <img src="@/assets/images/tempImages/soc-1.png" alt="" cls="carousel__social-img" />
+        <a href="" cls="carousel__social-link">
+          <div cls="carousel__social-icon">
+            <svgo-tw />
+          </div>
+          <span> Twitter </span>
+        </a>
+      </div>
+      <div cls="carousel__social" class="hover-border">
+        <img src="@/assets/images/tempImages/soc-1.png" alt="" cls="carousel__social-img" />
+        <a href="" cls="carousel__social-link">
+          <div cls="carousel__social-icon">
+            <svgo-dirble />
+          </div>
+          <span> Dribble </span>
+        </a>
+      </div>
+      <div cls="carousel__social" class="hover-border">
+        <img src="@/assets/images/tempImages/soc-1.png" alt="" cls="carousel__social-img" />
+        <a href="" cls="carousel__social-link">
+          <div cls="carousel__social-icon">
+            <svgo-youtube />
+          </div>
+          <span> Youtube </span>
+        </a>
+      </div>
+      <div cls="carousel__social" class="hover-border">
+        <img src="@/assets/images/tempImages/soc-1.png" alt="" cls="carousel__social-img" />
+        <a href="" cls="carousel__social-link">
+          <div cls="carousel__social-icon">
+            <svgo-behance />
           </div>
           <span> Instagram </span>
         </a>
@@ -38,42 +83,40 @@
       left: 50%;
       bottom: 24px;
       transform: translateX(-50%);
-      padding: 12px 16px;
+      height: 48px;
+      padding: 0 16px;
       display: inline-flex;
       justify-content: center;
       align-items: center;
       gap: 8px;
-      border-radius: 48px;
-      border: 0.5px solid transparent;
       z-index: 1;
-      background: linear-gradient(
-          90deg,
-          rgba(255, 255, 255, 0.15) 17.44%,
-          rgba(255, 255, 255, 0) 134.25%
-        ),
-        rgba(255, 255, 255, 0.15);
-      box-shadow: 0px 3.3px 22.191px 0px rgba(0, 0, 0, 0.05);
-      backdrop-filter: blur(18.06315803527832px);
+      border-radius: 48px;
+      border: 0.5px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0px 1px 16px 0px rgba(0, 0, 0, 0.06);
+      backdrop-filter: blur(18px);
       span {
         color: var(--White);
-        @include desctop-caption-17;
+        @include desctop-caption-17-db;
       }
     }
     &-icon {
       display: flex;
       width: 24px;
       height: 24px;
-      padding: 4px 1.335px 4px 1.332px;
+      padding: 1px;
       justify-content: center;
       align-items: center;
       svg {
-        font-size: 16px;
+        font-size: 24px;
+        color: var(--White);
       }
     }
     &-img {
       width: 100%;
       height: 100%;
       border-radius: 24px;
+      transition: 1.3s cubic-bezier(0.19, 1, 0.22, 1);
     }
     &:first-child,
     &:nth-child(3) {
@@ -81,6 +124,11 @@
       border-radius: 256px;
       img {
         border-radius: 256px;
+      }
+    }
+    &:hover {
+      img {
+        transform: scale(1.2);
       }
     }
   }

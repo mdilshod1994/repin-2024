@@ -1,14 +1,23 @@
 //
 // Глобальные стили корневых и базовых элементов, размеры блоков контента и т.п.
 //
-
+html,
+button,
+select,
+a {
+  cursor: none;
+}
 body {
+  position: relative;
   &.-locked {
     overflow: hidden;
   }
   font-family: "Interphases Pro Trial";
   @include desctop-caption-17;
   color: var(--Black);
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .container {

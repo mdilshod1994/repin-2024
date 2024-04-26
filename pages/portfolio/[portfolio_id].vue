@@ -1,4 +1,29 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { PortfolioElement } from "~/types/globaldata"
+
+const store = useGlobalData()
+
+const line = ref(false)
+
+const portfolios = computed(() => {
+  if (!store.globalData?.en.portfolio) return
+  return store.globalData?.en.portfolio.slice(0, 3) as PortfolioElement[]
+})
+
+onMounted(async () => {
+  const portfolio = document.getElementById("portfolio") as HTMLElement
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) line.value = true
+    },
+    {
+      threshold: 0.8,
+    },
+  )
+  observer.observe(portfolio)
+  await store.getData()
+})
+</script>
 
 <template>
   <div cls="case-study">
@@ -74,20 +99,18 @@
           </template>
         </r-title>
       </div>
-    </div>
-    <div cls="case-study__slider" data-cursor="appear" class="dark-background">
-      <r-slider pagination style-numbers>
-        <template #slides>
-          <div v-for="s in 5" cls="case-study__slide">
-            <img
-              src="https://img.freepik.com/free-photo/abstract-nature-painted-with-watercolor-autumn-leaves-backdrop-generated-by-ai_188544-9806.jpg"
-              alt=""
-            />
-          </div>
-        </template>
-      </r-slider>
-    </div>
-    <div class="container">
+      <div cls="case-study__slider" data-cursor="appear" class="dark-background">
+        <r-slider pagination style-numbers>
+          <template #slides>
+            <div v-for="s in 5" cls="case-study__slide">
+              <img
+                src="https://img.freepik.com/free-photo/abstract-nature-painted-with-watercolor-autumn-leaves-backdrop-generated-by-ai_188544-9806.jpg"
+                alt=""
+              />
+            </div>
+          </template>
+        </r-slider>
+      </div>
       <div cls="case-study__wrap">
         <r-title pretitle="About" align-position="start">
           <template #addons>
@@ -109,10 +132,11 @@
           </template>
         </r-title>
       </div>
+      <div cls="case-study__square" class="dark-background">
+        <div cls="case-study__square-wrap" />
+      </div>
     </div>
-    <div cls="case-study__square" class="dark-background">
-      <div cls="case-study__square-wrap" />
-    </div>
+
     <div class="container">
       <div cls="case-study__wrap">
         <div cls="case-study__texts">
@@ -127,11 +151,12 @@
           </div>
         </div>
       </div>
+      <r-grid desktop-column="2" tablet-column="2" cls="case-study__grid">
+        <div cls="case-study__grid-card" />
+        <div cls="case-study__grid-card" />
+      </r-grid>
     </div>
-    <r-grid desktop-column="2" tablet-column="2" cls="case-study__grid">
-      <div cls="case-study__grid-card" />
-      <div cls="case-study__grid-card" />
-    </r-grid>
+
     <div class="container">
       <div cls="case-study__wrap">
         <r-title title="Project Overview" align-position="start">
@@ -171,10 +196,15 @@
           </div>
         </div>
       </div>
-      <div cls="case-study__projects">
+      <!-- TODO: передать данные -->
+      <div v-if="true" cls="case-study__projects">
         <r-title pretitle="Our projects" title="Next projects" flex-start />
-        <r-grid mobile-column="1" :mobile-gaps="[40]" button>
-          <portfolio-card v-for="p in 3" cls="case-study__project" />
+        <r-grid id="portfolio" mobile-column="1" :mobile-gaps="[40]" button>
+          <portfolio-card
+            v-for="portfolio in portfolios"
+            :portfolio="portfolio"
+            :cls="{ 'case-study__project': true, '-line': line }"
+          />
         </r-grid>
       </div>
     </div>
@@ -222,14 +252,12 @@
     @include desctop-H3;
   }
   &__square {
-    max-width: 1920px;
-    padding: 24px;
-    margin: 0 auto;
+    padding: 24px 0;
     &-wrap {
       width: 100%;
       background: rgba(0, 0, 0, 0.3);
       height: 0;
-      padding-bottom: 92%;
+      padding-bottom: 84.212%;
       border-radius: 24px;
     }
   }
@@ -250,8 +278,6 @@
   }
   &__grid {
     padding: 24px;
-    max-width: 1920px;
-    margin: 0 auto;
     &-card {
       height: 0;
       padding-bottom: 108.23%;
@@ -294,11 +320,15 @@
     padding: 72px 0 88px;
   }
   &__project {
+    transition: 0.3s ease-in-out;
     &:nth-child(2) {
       margin-top: 104px;
     }
     &:last-child {
       margin-top: 208px;
+    }
+    &.-line {
+      margin-top: 0 !important;
     }
   }
   &__slide {

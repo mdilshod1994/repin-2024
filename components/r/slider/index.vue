@@ -6,12 +6,11 @@ TODO:
 -->
 
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   pagination?: boolean
   slidesPerView?: number
-  styleNumbers?: boolean
   modified?: boolean
-  products?: []
+  styleNumbers?: boolean
 }>()
 
 const slider = ref<HTMLElement | null>(null),
@@ -51,7 +50,6 @@ const dragStop = () => {
       scrollIntoView(cIdx.value)
     }
   }
-  keyToRestartInterval.value++
 }
 const dragOut = () => {
   isDragging.value = false
@@ -67,118 +65,10 @@ const scrollIntoView = (index: number) => {
     }
   })
 }
-
-// Дальше код для модифицированного слайдера
-const timerCount = ref(0)
-const timerId = ref<any>(null) // для определения ID setInterval
-const setKeyframe = ref(false) // для своевременного совершения Keyframe
-const keyToRestartInterval = ref(0) // наблюдатель для рестарт интервала, когда меняем слайд по клику
-
-// цикл слайдера
-const loopSlides = () => {
-  if (!props.products) return
-  if (cIdx.value < props.products.length - 1) {
-    cIdx.value++
-  } else {
-    cIdx.value = 0
-  }
-}
-// к определенному слайду по клику
-const toCurrSlide = (idx: number) => {
-  scrollIntoView(idx)
-  cIdx.value = idx
-  keyToRestartInterval.value++
-  timerCount.value = 0
-}
-// интервал для слайдера, и можно сказать автоплэй
-
-const intervalTest = 4 // секунда автоплэй
-
-const percentageOfLine = ref(0)
-
-const intervalFn = () => {
-  return setInterval(
-    () => {
-      timerCount.value++
-      if (timerCount.value === intervalTest * (intervalTest * 10)) {
-        loopSlides()
-        scrollIntoView(cIdx.value)
-        timerCount.value = 0
-      }
-      percentageOfLine.value = (timerCount.value / (intervalTest * (intervalTest * 10))) * 100
-    },
-    1000 / (intervalTest * 10),
-  )
-}
-
-watch(
-  () => keyToRestartInterval.value,
-  () => {
-    timerCount.value = 0
-    clearInterval(timerId.value)
-    timerId.value = intervalFn()
-  },
-)
-
-const pause = (idx: number, e: MouseEvent | TouchEvent) => {
-  if (idx === cIdx.value && e.type === "mousemove") {
-    clearInterval(timerId.value)
-  }
-}
-const play = () => {
-  clearInterval(timerId.value)
-  timerId.value = intervalFn()
-}
-
-onMounted(() => {
-  timerId.value = intervalFn()
-  setKeyframe.value = true
-})
 </script>
 
 <template>
-  <div :cls="{ block: true, '-modified': modified }">
-    <div cls="block__right">
-      <div cls="block__right-box">
-        <div v-if="slider" :cls="{ numbers: true, '-styled': styleNumbers }">
-          <transition :name="`slide-${transitionNumberName}`" tag="div" mode="out-in">
-            <div v-if="true" :key="cIdx">{{ cIdx + 1 }}</div>
-          </transition>
-          /
-          <div>
-            {{ slider.children.length }}
-          </div>
-        </div>
-        <div v-if="products" cls="block__contents">
-          <div
-            v-for="(c, idx) in products"
-            :cls="{ 'block__contents-item': true, '-active': idx === cIdx && setKeyframe }"
-            @click="toCurrSlide(idx)"
-            @mousemove="pause(idx, $event)"
-            @touchstart="pause(idx, $event)"
-            @mouseleave="play"
-          >
-            {{ c.price }} <span :style="`width: ${percentageOfLine}%`" />
-          </div>
-        </div>
-      </div>
-      <transition
-        v-if="products?.length"
-        :name="`slide-${transitionNumberName}`"
-        tag="div"
-        cls="block__descriptions"
-        mode="out-in"
-      >
-        <div v-if="cIdx + 1" :key="cIdx" cls="block__descriptions-block">
-          <div cls="block__descriptions-text">
-            {{ products[cIdx].title }}
-          </div>
-          <div cls="block__descriptions-text -bold">
-            {{ products[cIdx].description }}
-          </div>
-        </div>
-      </transition>
-    </div>
+  <div cls="block">
     <div
       ref="slider"
       cls="sliders"
@@ -198,20 +88,6 @@ onMounted(() => {
   </div>
 </template>
 
-<style>
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease;
-}
-.list-enter-from {
-  opacity: 0;
-  transform: translateY(-30px);
-}
-.list-leave-to {
-  transform: translateY(30px);
-}
-</style>
-
 <style module lang="scss">
 .block {
   padding: 24px;
@@ -220,14 +96,12 @@ onMounted(() => {
   position: relative;
   overflow: hidden;
   &__right {
-    max-width: 411px;
-    flex-direction: column;
+    display: flex;
     justify-content: space-between;
-    &-box {
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-    }
+    width: 100%;
+  }
+  &__descriptions {
+    max-width: 411px;
   }
   &__contents {
     display: flex;
@@ -239,7 +113,6 @@ onMounted(() => {
       position: relative;
       width: max-content;
       color: rgba(0, 0, 0, 0.2);
-      cursor: pointer;
       transition: 0.3s ease-in-out;
       &::after {
         content: "";
@@ -280,25 +153,9 @@ onMounted(() => {
       gap: 16px;
     }
     &-text {
+      @include desctop-caption-17;
       &.-bold {
         @include desctop-caption-17-med;
-      }
-    }
-  }
-  &.-modified {
-    display: flex;
-    justify-content: space-between;
-    padding: 0;
-    .block {
-      &__right {
-        display: flex;
-      }
-    }
-    .sliders {
-      max-width: 599px;
-      height: 714px;
-      img {
-        height: 100%;
       }
     }
   }
@@ -328,7 +185,6 @@ onMounted(() => {
   }
 }
 .numbers {
-  height: 40px;
   width: 81px;
   display: inline-flex;
   justify-content: center;
@@ -340,6 +196,7 @@ onMounted(() => {
   &.-styled {
     position: absolute;
     top: 56px;
+    height: 40px;
     left: 56px;
     color: var(--White);
     border-radius: 48px;
@@ -375,51 +232,6 @@ onMounted(() => {
   }
 }
 @include tablet {
-  .block {
-    padding: 16px;
-    &.-modified {
-      display: flex;
-      justify-content: space-between;
-      .sliders {
-        max-width: 502px;
-        height: 414px;
-        border-radius: 0px;
-        img {
-          height: 100%;
-        }
-      }
-    }
-    &__right {
-      &-box {
-        gap: 24px;
-      }
-    }
-    &__contents {
-      gap: 12px;
-      &-item {
-        @include mob-H2-ram;
-        font-style: italic;
-        &.-active {
-          &:hover {
-            span {
-              animation-play-state: running;
-            }
-          }
-        }
-      }
-    }
-    &__descriptions {
-      &-text {
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        overflow: hidden;
-        &.-bold {
-          @include mob-body-14-db;
-        }
-      }
-    }
-  }
   .sliders {
     border-radius: 16px;
   }
@@ -438,34 +250,9 @@ onMounted(() => {
     }
   }
 }
-@include tablet-small {
-  .block {
-    &.-modified {
-      gap: 24px;
-      .block {
-        &__right {
-          max-width: 350px;
-        }
-      }
-    }
-  }
-}
 @include mobile {
   .sliders {
     height: 480px;
-  }
-  .block {
-    &.-modified {
-      .sliders {
-        display: none;
-      }
-      .block {
-        &__right {
-          gap: 56px;
-          max-width: 100%;
-        }
-      }
-    }
   }
 }
 </style>

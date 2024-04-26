@@ -62,7 +62,7 @@ const line = (e: any) => {
     left: 0;
     top: 0;
     z-index: 1;
-    cursor: e-resize;
+    // cursor: e-resize;
   }
   &__img {
     position: absolute;

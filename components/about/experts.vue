@@ -26,9 +26,13 @@
       <div cls="experts__card">
         <div cls="experts__card-bg" />
         <div cls="experts__card-wrap">
-          <r-round-button size="small" bg-color="white" cls="experts__card-arrow">
+          <!-- скрыть временно -->
+          <r-round-button v-if="false" size="small" bg-color="white" cls="experts__card-arrow">
             <svgo-arrow-right />
           </r-round-button>
+          <button v-else cls="experts__card-btn">
+            Coming soon
+          </button>
           <div cls="experts__card-block">
             <div cls="experts__card-content">
               <div cls="experts__card-title">Brand design</div>
@@ -51,9 +55,13 @@
       <div cls="experts__card">
         <div cls="experts__card-bg" />
         <div cls="experts__card-wrap">
-          <r-round-button size="small" bg-color="white" cls="experts__card-arrow">
+          <!-- скрыть временно -->
+          <r-round-button v-if="false" size="small" bg-color="white" cls="experts__card-arrow">
             <svgo-arrow-right />
           </r-round-button>
+          <button v-else cls="experts__card-btn">
+            Coming soon
+          </button>
           <div cls="experts__card-block">
             <div cls="experts__card-content">
               <div cls="experts__card-title">UX/UI Design</div>
@@ -75,9 +83,13 @@
       <div cls="experts__card">
         <div cls="experts__card-bg" />
         <div cls="experts__card-wrap">
-          <r-round-button size="small" bg-color="white" cls="experts__card-arrow">
+         <!-- скрыть временно -->
+         <r-round-button v-if="false" size="small" bg-color="white" cls="experts__card-arrow">
             <svgo-arrow-right />
           </r-round-button>
+          <button v-else cls="experts__card-btn">
+            Coming soon
+          </button>
           <div cls="experts__card-block">
             <div cls="experts__card-content">
               <div cls="experts__card-title">{{'</Development>'}}</div>
@@ -168,6 +180,14 @@
     &-title {
       @include desctop-H4-ram;
     }
+    &-btn{
+      padding: 6px 16px;
+      border-radius: 120px;
+      @include desctop-caption-17-db;
+      background: var(--White);
+      margin-right: -16px;
+      transition: 0.3s ease-in-out;
+    }
     :global(.tabs) {
       margin-bottom: calc(-100% + 32px);
     }
@@ -176,15 +196,17 @@
         background: var(--Black);
         svg {
           transform: rotate(-45deg);
-          path {
-            stroke: #fff;
-          }
+          color: var(--White);
         }
       }
       .experts {
         &__card {
           &-bg {
             transform: translateY(100%);
+          }
+          &-btn{
+            background: var(--Black);
+            color: var(--White);
           }
         }
       }

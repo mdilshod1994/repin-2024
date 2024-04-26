@@ -30,9 +30,33 @@
           :tablet-gaps="[20]"
           :mobile-gaps="[12]"
         >
-          <div v-for="c in 4" cls="outstaff__card">
-            <div cls="outstaff__card-icon" />
+          <div cls="outstaff__card">
+            <div cls="outstaff__card-icon">
+              <svgo-chart filled />
+            </div>
             <div cls="outstaff__card-text">We can allocate a project manager and testers.</div>
+          </div>
+          <div cls="outstaff__card">
+            <div cls="outstaff__card-icon">
+              <svgo-asana filled />
+            </div>
+            <div cls="outstaff__card-text">
+              You can contact a specialist directly. We use Asana.
+            </div>
+          </div>
+          <div cls="outstaff__card">
+            <div cls="outstaff__card-icon">
+              <svgo-zoom filled />
+            </div>
+            <div cls="outstaff__card-text">We are always available for technical interviews</div>
+          </div>
+          <div cls="outstaff__card">
+            <div cls="outstaff__card-icon">
+              <svgo-code filled />
+            </div>
+            <div cls="outstaff__card-text">
+              A broad stack of developers to quickly boost your team
+            </div>
           </div>
         </r-grid>
       </r-grid>
@@ -48,7 +72,7 @@
 <style module lang="scss">
 .outstaff {
   background: var(--Black);
-  padding: 24px 0;
+  padding: 24px 0 0;
   &__wrap {
     padding: 160px 80px 0;
     max-width: 1920px;
@@ -68,11 +92,34 @@
       height: 64px;
       border-radius: 50%;
       background: var(--White);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     &-text {
       color: rgba(255, 255, 255, 0.8);
       max-width: 238px;
       text-align: center;
+    }
+    &:nth-child(1) {
+      svg {
+        font-size: 28px;
+      }
+    }
+    &:nth-child(2) {
+      svg {
+        font-size: 26px;
+      }
+    }
+    &:nth-child(3) {
+      svg {
+        font-size: 48px;
+      }
+    }
+    &:nth-child(4) {
+      svg {
+        font-size: 25px;
+      }
     }
   }
   &__btn {

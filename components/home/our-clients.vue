@@ -1,17 +1,24 @@
+<script lang="ts" setup>
+import { type En } from "~/types/globaldata"
+
+defineProps<{
+  en?: En
+}>()
+</script>
+
 <template>
   <div cls="clients">
-    <r-title pretitle="Reviews" title="Our clients" />
-    <r-cursor-follow>
+    <r-title :pretitle="en?.page.reviews_subtitle" :title="en?.page.reviews_title" />
+    <r-cursor-follow cursor-type="carousel">
       <r-carousel scroll-bar gap="48">
-        <div v-for="s in 10" cls="clients-card">
+        <div v-for="review in en?.page.reviews" cls="clients-card">
           <div cls="clients-card__logo">
-            <svgo-pavel />
+            <img :src="review.logo" alt="" />
           </div>
           <div cls="clients-card__content">
-            <div cls="clients-card__title">Pavel Rakov</div>
+            <div cls="clients-card__title">{{ review.name }}</div>
             <div cls="clients-card__text">
-              Я помогаю предпринимателям найти баланс между работой и личной жизнью благодаря
-              системному подходу к достижению личных и бизнес целей.
+              {{ review.text }}
             </div>
           </div>
         </div>

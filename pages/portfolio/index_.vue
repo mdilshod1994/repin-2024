@@ -1,4 +1,19 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { type PortfolioElement } from "~/types/globaldata"
+
+const store = useGlobalData()
+
+// const portfolios = computed(() => {
+//   return store.globalData?.en.portfolio as PortfolioElement[]
+// })
+const categories = computed(() => {
+  return store.globalData?.en.categories
+})
+
+defineProps<{
+  portfolios?: PortfolioElement[]
+}>()
+</script>
 
 <template>
   <div cls="portfolio">
@@ -6,16 +21,13 @@
       <div cls="portfolio__wrap">
         <r-title title="Our works">
           <template #addons>
-            <portfolio-filters cls="portfolio__filter" />
+            <portfolio-filters :categories="categories" cls="portfolio__filter" />
           </template>
         </r-title>
         <div cls="portfolio__mob-filter">
           <r-carousel gap="8">
             <div class="tab -active">All</div>
-            <div class="tab">Mobile</div>
-            <div class="tab">Web Site</div>
-            <div class="tab">Branding</div>
-            <div class="tab">Crypto</div>
+            <div v-for="category in categories" class="tab">{{ category.name }}</div>
           </r-carousel>
         </div>
         <r-grid
@@ -25,7 +37,11 @@
           :mobile-gaps="[32, 8]"
           cls="portfolio__grid"
         >
-          <portfolio-card v-for="c in 6" cls="portfolio__card" />
+          <portfolio-card
+            v-for="portfolio in portfolios"
+            :portfolio="portfolio"
+            cls="portfolio__card"
+          />
           <template #addons>
             <r-button> Show more </r-button>
           </template>

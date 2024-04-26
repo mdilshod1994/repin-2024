@@ -85,20 +85,24 @@ onMounted(() => {
             <a href="" cls="contacts__social">
               <div cls="contacts__social-box">
                 <!-- применить round-button -->
-                <div cls="contacts__social-icon" />
+                <div cls="contacts__social-icon">
+                  <svgo-tg />
+                </div>
                 Telegram
               </div>
               <div cls="contacts__social-arrow">
-                <svgo-arrow-right />
+                <svgo-arrow-up-right />
               </div>
             </a>
             <a href="" cls="contacts__social">
               <div cls="contacts__social-box">
-                <div cls="contacts__social-icon" />
+                <div cls="contacts__social-icon">
+                  <svgo-wh />
+                </div>
                 Telegram
               </div>
               <div cls="contacts__social-arrow">
-                <svgo-arrow-right />
+                <svgo-arrow-up-right />
               </div>
             </a>
           </r-grid>
@@ -224,12 +228,36 @@ onMounted(() => {
       width: 64px;
       height: 64px;
       border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       svg {
         font-size: 28px;
+        color: var(--Black);
+        transition: 1.3s cubic-bezier(0.19, 1, 0.22, 1);
       }
     }
     &-arrow {
-      font-size: 24px;
+      svg {
+        font-size: 24px;
+        transition: 1.3s cubic-bezier(0.19, 1, 0.22, 1);
+      }
+    }
+    &:hover {
+      .contacts {
+        &__social {
+          &-icon {
+            svg {
+              transform: scale(1.2);
+            }
+          }
+          &-arrow {
+            svg {
+              transform: rotate(45deg);
+            }
+          }
+        }
+      }
     }
   }
   &__social-media {

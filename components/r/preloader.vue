@@ -12,7 +12,6 @@ const intervalFn = () => {
   return setInterval(
     () => {
       timerCount.value++
-      console.log(timerCount.value)
 
       if (timerCount.value === intervalTest * (intervalTest * 10)) {
         timerCount.value = 0

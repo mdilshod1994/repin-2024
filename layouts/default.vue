@@ -7,6 +7,7 @@ onMounted(async () => {
 
 <template>
   <div cls="layout">
+    <r-cursor />
     <the-header />
     <slot />
     <the-footer />
@@ -21,6 +22,7 @@ onMounted(async () => {
 <style module lang="scss">
 .layout {
   padding: 24px 0 0 0;
+  background: var(--White);
   &__cookies {
     display: flex;
     justify-content: flex-end;

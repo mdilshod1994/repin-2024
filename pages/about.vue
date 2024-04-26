@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const { data: products } = await useFetch("https://fakestoreapi.com/products?limit=3")
+import { type Slide } from "~/types/globaldata"
+
+const { data: products } = await useFetch<Slide[]>("https://fakestoreapi.com/products?limit=3")
 </script>
 
 <template>
@@ -25,13 +27,7 @@ const { data: products } = await useFetch("https://fakestoreapi.com/products?lim
       <r-video />
     </div>
     <div cls="about__slider">
-      <r-slider v-if="products" modified :products="products">
-        <template #slides>
-          <div v-for="img in products" cls="about__slide">
-            <img :src="img.image" alt="" />
-          </div>
-        </template>
-      </r-slider>
+      <r-slider-content v-if="products" :products="products" />
     </div>
     <div cls="about__full-cycle" class="dark-background">
       <about-full-cycle />
@@ -88,9 +84,9 @@ const { data: products } = await useFetch("https://fakestoreapi.com/products?lim
     }
   }
   &__slider {
-    max-width: 1920px;
+    max-width: 1063px;
     width: 100%;
-    padding: 104px 0 104px 80px;
+    padding: 104px 24px 104px;
     margin: 0 auto;
   }
   &__slide {
@@ -127,9 +123,6 @@ const { data: products } = await useFetch("https://fakestoreapi.com/products?lim
           font-style: italic;
         }
       }
-    }
-    &__slider {
-      padding: 72px 0 72px 40px;
     }
     &__experts,
     &__expirience,

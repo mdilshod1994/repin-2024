@@ -24,6 +24,14 @@
   letter-spacing: -1.35px;
 }
 
+@mixin desctop-H4 {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 40px;
+  letter-spacing: -0.96px;
+}
+
 @mixin desctop-H5 {
   font-size: 24px;
   font-style: normal;

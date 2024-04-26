@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Footer } from "~/types"
+import { type Footer } from "~/types/globaldata"
 
 const store = useGlobalData()
 
@@ -115,7 +115,7 @@ const playHoverSound = () => {
         <div cls="footer__bottom">
           <div cls="footer__bottom-box">
             <div cls="footer__bottom-text">© 2016 — 2024</div>
-            <div cls="footer__bottom-text">Privacy Policy</div>
+            <nuxt-link to="/privacy-policy" cls="footer__bottom-text">Privacy Policy</nuxt-link>
             <div cls="footer__bottom-text">Offer contract</div>
           </div>
           <div cls="footer__bottom-wrap">

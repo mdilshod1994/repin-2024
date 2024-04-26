@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const props = defineProps<{
-  // скролл на ID секции
   scrollTo?: string
   // заголовок баннера в начале страницы
   // поумолчанию стоит desktop-H1
@@ -97,7 +96,6 @@ const scrollToId = () => {
     border: 1px solid #b6a2e0;
     flex-shrink: 0;
     align-self: flex-start;
-    cursor: pointer;
     svg {
       font-size: 16px;
     }

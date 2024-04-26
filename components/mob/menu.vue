@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useResizeObserver } from "@vueuse/core"
 
-import { type Menu } from "~/types"
+import { type Menu } from "~/types/globaldata"
 
 defineProps<{
   menu: Menu[]
