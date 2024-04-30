@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PortfolioElement } from "~/types/portfolio"
 
-import PageImpl from "./index_.vue"
+import PageImpl from "./../index_.vue"
 
 const store = usePortfolio()
 const page = ref<number>(0)
