@@ -1,14 +1,25 @@
 <script setup lang="ts">
+defineProps<{
+  whiteBg?: boolean
+}>()
 const open = defineModel<boolean>("open")
 
 const lightbox = ref<HTMLElement | null>(null)
-
 const position = ref<DOMRect>()
+
+const parentHeight = ref<number>()
+const parentWidth = ref<number>()
 const size = ref({
   width: "",
   height: "",
 })
 
+const mobHeight = computed(() => {
+  return `${parentHeight.value}px`
+})
+const mobWidth = computed(() => {
+  return `${parentWidth.value}px`
+})
 const openLightBox = () => {
   if (!lightbox.value) return
   lightbox.value.style.height = "100vh"
@@ -48,7 +59,6 @@ watch(
         width: window.getComputedStyle(lightbox.value).width,
         height: window.getComputedStyle(lightbox.value).height,
       }
-
       lightbox.value.style.position = "fixed"
       lightbox.value.style.top = position.value.top + "px"
       lightbox.value.style.left = position.value.left + "px"
@@ -60,99 +70,93 @@ watch(
       setTimeout(() => {
         openLightBox()
       }, 1)
+      setTimeout(() => {
+        if (!lightbox.value) return
+        const btn = document.getElementById("btn") as HTMLElement
+        if (!btn) return
+        btn.style.top = `${lightbox.value?.children[0]?.getBoundingClientRect().top}px`
+        btn.style.left = `${lightbox.value?.children[0]?.getBoundingClientRect().right + 20}px`
+        btn.style.zIndex = "1"
+      }, 700)
     } else {
       useBodyLock(false)
       closeLightBox()
     }
   },
 )
+
+onMounted(() => {
+  if (lightbox.value) {
+    parentHeight.value = lightbox.value?.parentElement?.clientHeight
+    parentWidth.value = lightbox.value?.parentElement?.clientWidth
+    lightbox.value.style.height = `${parentHeight.value}px`
+    lightbox.value.style.width = `${parentWidth.value}px`
+  }
+})
 </script>
 
 <template>
-  <div ref="lightbox" :cls="{ lightbox: true, '-full-screen': open }">
-    <div cls="lightbox__wrap">
-      <div :cls="{ lightbox__block: true, '-grow': open }">
-        <slot />
-        <r-round-button
-          v-if="open"
-          cls="lightbox__btn-close -desk"
-          size="large"
-          bg-color="white"
-          @click="open = false"
-        >
-          <svgo-x />
-        </r-round-button>
-      </div>
-      <r-round-button
-        v-if="open"
-        cls="lightbox__btn-close -mobile"
-        size="large"
-        bg-color="white"
-        @click="open = false"
-      >
-        <svgo-x />
-      </r-round-button>
-      <div cls="lightbox__overlay" @click="open = false" />
-    </div>
+  <div ref="lightbox" :cls="{ lightbox: true, '-full-screen': open, '-white-bg': whiteBg }">
+    <slot />
+    <r-round-button
+      v-if="open && !whiteBg"
+      id="btn"
+      cls="lightbox__btn-close -desk"
+      size="large"
+      bg-color="white"
+      @click="open = false"
+    >
+      <svgo-x />
+    </r-round-button>
+    <r-round-button
+      v-show="!whiteBg"
+      v-if="open"
+      cls="lightbox__btn-close -mobile"
+      size="large"
+      bg-color="white"
+      @click="open = false"
+    >
+      <svgo-x />
+    </r-round-button>
+    <div cls="lightbox__overlay" @click="open = false" />
   </div>
 </template>
 
 <style module lang="scss">
 .lightbox {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 0;
+  border-radius: 24px;
   &.-full-screen {
+    display: flex;
+    align-items: center;
+    border-radius: 0px;
+    justify-content: center;
     .lightbox {
       &__overlay {
         z-index: 0;
       }
-      &__wrap {
-        padding: 0 150px;
-      }
+    }
+    video,
+    iframe,
+    img {
+      height: 90%;
+      z-index: 1;
+      width: 90%;
+      max-width: max-content;
     }
   }
-  &__wrap {
+  video,
+  iframe,
+  img {
     width: 100%;
     height: 100%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.5s ease-in-out;
-  }
-  &__block {
-    position: relative;
+    max-width: max-content;
     transition: 0.4s ease-in-out;
-    max-width: 1920px;
-    width: 100%;
-
-    &.-grow {
-      max-width: 1440px;
-      z-index: 1;
-      &::after {
-        content: "";
-        background: var(--White);
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: calc(100% + 40px);
-        height: calc(100% + 40px);
-        border-radius: 16px;
-      }
-      iframe,
-      img,
-      video {
-        z-index: 2;
-        position: relative;
-      }
-    }
-    iframe,
-    img,
-    video {
-      width: 100%;
-      height: 100%;
-      border-radius: 8px;
-    }
   }
   &__overlay {
     position: absolute;
@@ -165,8 +169,6 @@ watch(
   }
   &__btn-close {
     position: absolute;
-    right: -104px;
-    top: -20px;
     &.-mobile {
       display: none;
     }
@@ -175,21 +177,6 @@ watch(
 
 @include tablet {
   .lightbox {
-    &__block {
-      position: inherit;
-      &.-grow {
-        &::after {
-          width: calc(100% + 16px);
-          height: calc(100% + 16px);
-          border-radius: 8px;
-        }
-      }
-      iframe,
-      img,
-      video {
-        border-radius: 4px;
-      }
-    }
     &__btn-close {
       top: auto;
       right: auto;
@@ -205,10 +192,24 @@ watch(
       }
     }
     &.-full-screen {
-      .lightbox {
-        &__wrap {
-          padding: 0 24px;
-        }
+      img {
+        height: 90% !important;
+        width: 90% !important;
+      }
+    }
+    img {
+      height: v-bind(mobHeight) !important;
+      width: v-bind(mobWidth) !important;
+    }
+  }
+}
+
+@include mobile {
+  .lightbox {
+    &.-full-screen {
+      img {
+        height: auto !important;
+        width: 90% !important;
       }
     }
   }

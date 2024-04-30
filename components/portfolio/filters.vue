@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { type Category } from "~/types/globaldata"
+import { type Category } from "~/types/portfolio"
 
 const filterBtns = ref<HTMLElement | null>(null)
-
 const widthFirstBtn = computed(() => {
   if (!filterBtns.value) return
   return `${Math.ceil(filterBtns.value?.children[0].clientWidth)}px`
@@ -12,18 +11,19 @@ const width = computed(() => {
   if (!filterBtns.value) return
   return `${filterBtns.value?.scrollWidth}px`
 })
-
-onMounted(() => {
-  console.log()
-})
-
 defineProps<{
   categories?: Category[]
+  activeSlug?: string
 }>()
 
 const show = ref(false)
 const showFilters = () => {
   show.value = !show.value
+}
+const slug = defineModel<string>("slug")
+
+const setCategory = (slugc: string) => {
+  slug.value = slugc
 }
 </script>
 
@@ -50,10 +50,16 @@ const showFilters = () => {
       </div>
     </button>
     <div ref="filterBtns" :cls="{ filter__btns: true, '-show': show }">
-      <button :cls="{ filter__btn: true, '-active': true }"><span>All</span></button>
+      <button
+        :cls="{ filter__btn: true, '-active': activeSlug === 'all' }"
+        @click="setCategory('all')"
+      >
+        <span>All</span>
+      </button>
       <button
         v-for="category in categories"
-        :cls="{ filter__btn: true, '-active': false, '-show': show }"
+        :cls="{ filter__btn: true, '-active': activeSlug === category.slug, '-show': show }"
+        @click="setCategory(category.slug)"
       >
         <span> {{ category.name }}</span>
       </button>

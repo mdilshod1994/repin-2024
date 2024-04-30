@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PortfolioElement } from "~/types/globaldata"
+import type { PortfolioElement } from "~/types/portfolio"
 
 defineProps<{
   portfolio: PortfolioElement
@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <nuxt-link to="/portfolio/1" cls="card">
+  <nuxt-link :to="`/portfolio/${'all'}/${portfolio.id}`" cls="card">
     <div cls="card__img">
       <r-gradient-border cls="card__gradient-border" />
       <img :src="portfolio.cover" alt="" />

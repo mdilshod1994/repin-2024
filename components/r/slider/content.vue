@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Slide } from "~/types/globaldata"
+// import { type Slide } from "~/types/globaldata"
 
 const props = defineProps<{
   styleNumbers?: boolean

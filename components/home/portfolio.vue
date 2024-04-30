@@ -1,30 +1,64 @@
 <script setup lang="ts">
-import type { Category, En, PortfolioElement } from "~/types/globaldata"
+import type { PortfolioElement } from "~/types/portfolio"
 
-const store = useGlobalData()
-defineProps<{
-  en?: En
-  categories?: Category[]
-}>()
+const store = usePortfolio()
 
 const portfolios = computed(() => {
-  return store.globalData?.en.portfolio as PortfolioElement[]
+  return store.portfolio?.slice(0, 6) as PortfolioElement[]
+})
+const categories = computed(() => {
+  return store.categories
+})
+
+const activeSlug = computed(() => {
+  return store.categoryPortfolio
+})
+
+const _getPortfolio = async (slug?: string) => {
+  if (slug) {
+    await store.getPortfolio(slug, 0)
+  }
+}
+
+const slug = defineModel<string>("slug")
+
+onMounted(() => {
+  _getPortfolio(activeSlug.value)
+  window.sessionStorage.removeItem("totalLoadedProjects")
+})
+
+watch(slug, async (newSlug) => {
+  if (newSlug) {
+    await _getPortfolio(newSlug)
+  }
 })
 </script>
 
 <template>
-  <div cls="portfolio">
-    <r-title :pretitle="en?.page.portfolio_subtitle" :title="en?.page.portfolio_title">
+  <div v-if="categories && portfolios" cls="portfolio">
+    <r-title pretitle="Portfolio" title="Our works">
       <template #addons>
         <div cls="portfolio__filter">
-          <portfolio-filters :categories="categories" />
+          <portfolio-filters
+            v-model:slug="slug"
+            :active-slug="activeSlug"
+            :categories="categories"
+          />
         </div>
       </template>
     </r-title>
     <div cls="portfolio__mob-filter">
       <r-carousel gap="8">
-        <div class="tab -active">All</div>
-        <div v-for="category in categories" class="tab">{{ category.name }}</div>
+        <div :class="{ tab: true, '-active': activeSlug === 'all' }" @click="_getPortfolio('all')">
+          All
+        </div>
+        <div
+          v-for="category in categories"
+          :class="{ tab: true, '-active': activeSlug === category.slug }"
+          @click="_getPortfolio(category.slug)"
+        >
+          {{ category.name }}
+        </div>
       </r-carousel>
     </div>
     <r-grid

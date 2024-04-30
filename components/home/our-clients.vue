@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { type En } from "~/types/globaldata"
+// import { type En } from "~/types/globaldata"
 
 defineProps<{
-  en?: En
+  // en?: En
 }>()
 </script>
 

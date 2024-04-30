@@ -1,21 +1,27 @@
+// Возможно данные стр будут загружены тут
+
 import { defineStore } from "pinia"
 
-import type { GlobalData } from "~/types/globaldata"
+import type { Footer, Header, Menu } from "~/types/menu-header-footer"
 
 export const useGlobalData = defineStore("globaldata", () => {
-  const globalData = ref<GlobalData>()
-  const setData = (data?: any) => (globalData.value = data)
+  // HEADER & FOOTER
+  const footer = ref<Footer>()
+  const header = ref<Header>()
 
-  const getData = async () => {
+  const getMenuHeaderFooter = async () => {
     try {
-      const res = await $fetch<GlobalData>("https://repin.agency/wp-json/api/v1/projects/all/0")
-      setData(res)
+      const { en } = await $fetch<Menu>("https://repin.agency/wp-json/api/v1/headerAndFooter")
+      if (!en) return
+      header.value = en.header
+      footer.value = en.footer
     } catch (error) {
       console.log(error)
     }
   }
   return {
-    getData,
-    globalData,
+    getMenuHeaderFooter,
+    header,
+    footer,
   }
 })

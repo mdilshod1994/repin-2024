@@ -134,7 +134,9 @@ onMounted(() => {
 
 @include tablet {
   .cursor {
-    display: none;
+    &-wrap {
+      display: none;
+    }
   }
 }
 </style>

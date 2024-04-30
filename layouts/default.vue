@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const store = useGlobalData()
 onMounted(async () => {
-  await store.getData()
+  await store.getMenuHeaderFooter()
 })
 </script>
 

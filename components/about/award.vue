@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const hideImgBox = ref<boolean>(false)
 const curIdx = ref<number | null>(null)
 const cursorPos = ref({ x: 0, y: 0 })
 const setValue = (idx: number) => {
@@ -12,15 +13,15 @@ onMounted(() => {
   window.addEventListener("mousemove", (e) => {
     cursorPos.value.x = e.clientX
     cursorPos.value.y = e.clientY
-    setPos()
   })
-  function setPos() {
+  requestAnimationFrame(function setPos() {
     for (let idx = 0; idx < avas.length; idx++) {
       const ava = avas[idx] as HTMLElement
       if (curIdx.value === idx)
         ava.style.transform = `translate(${cursorPos.value.x}px, ${cursorPos.value.y}px)`
     }
-  }
+    requestAnimationFrame(setPos)
+  })
 })
 </script>
 
@@ -53,6 +54,9 @@ onMounted(() => {
       :desktop-gaps="[0]"
       :tablet-gaps="[0]"
       :mobile-gaps="[0]"
+      @mouseover="hideImgBox = true"
+      @mouseleave="hideImgBox = false"
+      @mouseout="hideImgBox = false"
     >
       <div
         cls="awards__item"
@@ -62,7 +66,7 @@ onMounted(() => {
       >
         <div cls="awards__item-name">
           Health Lab
-          <div id="ava" cls="ava">
+          <div id="ava" :cls="{ ava: true, '-show': hideImgBox }">
             <div :cls="{ 'ava-wrap': true, active: curIdx === 0, notactive: true }">
               <div :cls="{ 'ava-img': true, active: curIdx === 0, notactive: true }">
                 <img src="@/assets/images/awards/h-l.png" alt="" />
@@ -89,7 +93,7 @@ onMounted(() => {
       >
         <div cls="awards__item-name">
           Capitalist
-          <div id="ava" cls="ava">
+          <div id="ava" :cls="{ ava: true, '-show': hideImgBox }">
             <div :cls="{ 'ava-wrap': true, active: curIdx === 1, notactive: true }">
               <div :cls="{ 'ava-img': true, active: curIdx === 1, notactive: true }">
                 <img src="@/assets/images/awards/c.png" alt="" />
@@ -115,7 +119,7 @@ onMounted(() => {
       >
         <div cls="awards__item-name">
           Trade-X
-          <div id="ava" cls="ava">
+          <div id="ava" :cls="{ ava: true, '-show': hideImgBox }">
             <div :cls="{ 'ava-wrap': true, active: curIdx === 2, notactive: true }">
               <div :cls="{ 'ava-img': true, active: curIdx === 2, notactive: true }">
                 <img src="@/assets/images/awards/t.png" alt="" />
@@ -141,7 +145,7 @@ onMounted(() => {
       >
         <div cls="awards__item-name">
           Enograf
-          <div id="ava" cls="ava">
+          <div id="ava" :cls="{ ava: true, '-show': hideImgBox }">
             <div :cls="{ 'ava-wrap': true, active: curIdx === 3, notactive: true }">
               <div :cls="{ 'ava-img': true, active: curIdx === 3, notactive: true }">
                 <img src="@/assets/images/awards/e.png" alt="" />
@@ -279,6 +283,12 @@ onMounted(() => {
   top: 0;
   border-radius: 8px;
   overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  &.-show {
+    opacity: 1;
+    visibility: visible;
+  }
   &-wrap {
     width: 200px;
     position: relative;

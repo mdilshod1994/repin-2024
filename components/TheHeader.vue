@@ -2,7 +2,7 @@
 const store = useGlobalData()
 
 const menu = computed(() => {
-  return store.globalData?.en.header.menu
+  return store.header?.menu
 })
 
 defineProps<{
@@ -76,10 +76,6 @@ onMounted(() => {
     }
   }, 250)
 })
-
-//
-
-//
 </script>
 
 <template>

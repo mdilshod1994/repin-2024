@@ -1,19 +1,10 @@
-<script setup lang="ts">
-const store = useGlobalData()
-
-const en = computed(() => {
-  return store.globalData?.en
-})
-const categories = computed(() => {
-  return store.globalData?.en.categories
-})
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div cls="home">
     <div class="container">
       <div cls="home__top">
-        <r-banner v-if="en" :scroll-to="en.page.scroll_down" bottom-line cls="home__banner">
+        <!-- <r-banner v-if="en" :scroll-to="en.page.scroll_down" bottom-line cls="home__banner">
           <div cls="home__banner-top">
             <r-round-button size="large" pointer-events>
               <svgo-user-group />
@@ -36,7 +27,7 @@ const categories = computed(() => {
               <div cls="home__banner-text">{{ en.page.promo_bottom_line_2 }}</div>
             </div>
           </template>
-        </r-banner>
+        </r-banner> -->
       </div>
     </div>
     <div id="video">
@@ -44,7 +35,7 @@ const categories = computed(() => {
     </div>
     <div class="container">
       <div cls="home__portfolio">
-        <home-portfolio :en="en" :categories="categories" />
+        <home-portfolio />
       </div>
     </div>
     <!-- Скрыт временно -->
@@ -52,7 +43,7 @@ const categories = computed(() => {
       <home-consulting />
     </div>
     <div cls="home__clients">
-      <home-our-clients :en="en" />
+      <!-- <home-our-clients :en="en" /> -->
     </div>
     <!-- Скрыт временно -->
     <div v-if="false" class="container">

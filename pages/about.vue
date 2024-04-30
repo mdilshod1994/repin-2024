@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { type Slide } from "~/types/globaldata"
+// import { type Slide } from "~/types/globaldata"
 
-const { data: products } = await useFetch<Slide[]>("https://fakestoreapi.com/products?limit=3")
+// const { data: products } = await useFetch<Slide[]>("https://fakestoreapi.com/products?limit=3")
 </script>
 
 <template>
@@ -27,7 +27,7 @@ const { data: products } = await useFetch<Slide[]>("https://fakestoreapi.com/pro
       <r-video />
     </div>
     <div cls="about__slider">
-      <r-slider-content v-if="products" :products="products" />
+      <!-- <r-slider-content v-if="products" :products="products" /> -->
     </div>
     <div cls="about__full-cycle" class="dark-background">
       <about-full-cycle />

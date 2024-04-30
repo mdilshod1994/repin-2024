@@ -1,18 +1,34 @@
 <script setup lang="ts">
-import { type PortfolioElement } from "~/types/globaldata"
+import { type Category, type PortfolioElement } from "~/types/portfolio"
 
-const store = useGlobalData()
+const props = defineProps<{
+  portfolios: PortfolioElement[]
+  categories: Category[]
+  activeSlug?: string
+}>()
+const firstPage = ref<number>(0)
+const store = usePortfolio()
 
-// const portfolios = computed(() => {
-//   return store.globalData?.en.portfolio as PortfolioElement[]
-// })
-const categories = computed(() => {
-  return store.globalData?.en.categories
+const showMore = async () => {
+  const currentPage = store.currentPageNumber + 6
+  const currentSlug = store.categoryPortfolio
+  await store.getPortfolio(currentSlug, currentPage)
+  window.sessionStorage.setItem("totalLoadedProjects", JSON.stringify(currentPage))
+}
+
+const hideBtn = computed(() => {
+  if (!store.totalProjects) return
+  return store.totalProjects > props.portfolios.length
 })
 
-defineProps<{
-  portfolios?: PortfolioElement[]
-}>()
+const slug = defineModel<string>("slug")
+
+watch(slug, (newSlug) => {
+  if (newSlug) {
+    store.getPortfolio(newSlug, firstPage.value)
+    window.sessionStorage.removeItem("totalLoadedProjects")
+  }
+})
 </script>
 
 <template>
@@ -21,13 +37,23 @@ defineProps<{
       <div cls="portfolio__wrap">
         <r-title title="Our works">
           <template #addons>
-            <portfolio-filters :categories="categories" cls="portfolio__filter" />
+            <portfolio-filters
+              v-model:slug="slug"
+              :active-slug="activeSlug"
+              :categories="categories"
+              cls="portfolio__filter"
+            />
           </template>
         </r-title>
         <div cls="portfolio__mob-filter">
           <r-carousel gap="8">
-            <div class="tab -active">All</div>
-            <div v-for="category in categories" class="tab">{{ category.name }}</div>
+            <div :class="{ tab: true, '-active': activeSlug === 'all' }">All</div>
+            <div
+              v-for="category in categories"
+              :class="{ tab: true, '-active': activeSlug === category.slug }"
+            >
+              {{ category.name }}
+            </div>
           </r-carousel>
         </div>
         <r-grid
@@ -39,11 +65,12 @@ defineProps<{
         >
           <portfolio-card
             v-for="portfolio in portfolios"
+            :key="portfolio.id"
             :portfolio="portfolio"
             cls="portfolio__card"
           />
           <template #addons>
-            <r-button> Show more </r-button>
+            <r-button v-if="hideBtn" @click="showMore"> Show more </r-button>
           </template>
         </r-grid>
       </div>

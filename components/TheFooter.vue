@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { type Footer } from "~/types/globaldata"
+import { type Footer } from "~/types/menu-header-footer"
 
 const store = useGlobalData()
 
 const footer = computed(() => {
-  return store.globalData?.en.footer as Footer
+  return store.footer as Footer
 })
 
 const scrollTop = () => {
@@ -114,7 +114,7 @@ const playHoverSound = () => {
         </div>
         <div cls="footer__bottom">
           <div cls="footer__bottom-box">
-            <div cls="footer__bottom-text">© 2016 — 2024</div>
+            <div cls="footer__bottom-text">© 2016 — {{ new Date().getFullYear() }}</div>
             <nuxt-link to="/privacy-policy" cls="footer__bottom-text">Privacy Policy</nuxt-link>
             <div cls="footer__bottom-text">Offer contract</div>
           </div>

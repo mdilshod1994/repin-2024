@@ -2,6 +2,9 @@
 const after = ref<HTMLElement | null>(null)
 const baBtn = ref<HTMLElement | null>(null)
 const removeAnimation = ref(true)
+const cursorPos = ref({ x: 0, y: 0 })
+const cursorPrevPos = ref({ x: 0, y: 0 })
+const currScale = ref(0)
 
 const line = (e: any) => {
   const xMove =
@@ -24,6 +27,38 @@ const line = (e: any) => {
       after.value.style.width = "50%"
     }
 }
+
+onMounted(() => {
+  document.addEventListener("mousemove", (e) => {
+    cursorPos.value.x = e.clientX
+    cursorPos.value.y = e.clientY
+  })
+  requestAnimationFrame(function loop() {
+    const easting = 0.19
+
+    if (!baBtn.value) return
+
+    // Squeeze
+    const deltaMouseX = cursorPos.value.x - cursorPrevPos.value.x
+    const deltaMouseY = cursorPos.value.y - cursorPrevPos.value.y
+    cursorPrevPos.value.x = cursorPos.value.x
+    cursorPrevPos.value.y = cursorPos.value.y
+
+    const mouseVelocity = Math.min(Math.sqrt(deltaMouseX ** 2 + deltaMouseY ** 2) * 2, 150)
+    const scaleValue = (mouseVelocity / 150) * 0.5
+
+    currScale.value += (scaleValue - currScale.value) * easting
+
+    const transformScale = `scale(${1 + currScale.value}, ${1 - currScale.value})`
+    if (!removeAnimation.value) {
+      baBtn.value.style.transform = ` translate(-50%,-50%) ${transformScale} `
+    } else {
+      baBtn.value.style.transform = ` translate(-50%,-50%) scale(1,1) `
+    }
+
+    requestAnimationFrame(loop)
+  })
+})
 </script>
 
 <template>

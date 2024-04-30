@@ -6,7 +6,7 @@ const openLightbox = ref(false)
 
 <template>
   <div cls="video" class="dark-background">
-    <r-cursor-follow cursor-type="video" bg-color="white">
+    <r-cursor-follow cursor-type="video" bg-color="white" cls="video__block">
       <div cls="video__wrap">
         <r-lightbox v-model:open="openLightbox">
           <video muted autoplay loop :cls="{ video__video: true, '-open': openLightbox }">
@@ -25,12 +25,19 @@ const openLightbox = ref(false)
   max-width: 1920px;
   padding: 24px;
   margin: 0 auto;
+  &__block {
+    width: 100%;
+    height: 100%;
+  }
   &__wrap {
     width: 100%;
     height: 100%;
     position: relative;
     border-radius: 24px;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     &-overlay {
       position: absolute;
       left: 0;
@@ -94,8 +101,9 @@ const openLightbox = ref(false)
 }
 @include mobile {
   .video {
+    height: 480px;
+    width: 100%;
     &__wrap {
-      height: 480px;
       display: flex;
       align-items: center;
       justify-content: center;

@@ -90,7 +90,7 @@ const scrollIntoView = (index: number) => {
 
 <style module lang="scss">
 .block {
-  padding: 24px;
+  padding: 24px 0;
   max-width: 1920px;
   margin: 0 auto;
   position: relative;
