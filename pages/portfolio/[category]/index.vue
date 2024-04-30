@@ -39,3 +39,5 @@ onMounted(async () => {
     :active-slug="activeSlug"
   />
 </template>
+
+<style lang="scss" module></style>

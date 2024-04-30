@@ -6,7 +6,6 @@ TODO: разделить на компоненты
 import type { PortfolioElement } from "~/types/portfolio"
 
 const store = usePortfolio()
-const route = useRoute()
 const openLightbox = ref(false)
 const portfolio = ref<HTMLElement | null>(null)
 const marginTop = ref<number>(104)
@@ -30,9 +29,9 @@ onMounted(async () => {
     if (!portfolio.value) return
     const topPosition = portfolio.value?.offsetTop
     const scrolledFromTop = htmlElement.scrollTop
-    const topPerc = portfolio.value.offsetHeight - window.screen.height
-    const topPercscr = htmlElement.scrollTop - portfolio.value.offsetTop
-    const per = (topPercscr / topPerc) * 100
+    const topStart = portfolio.value.offsetHeight - window.screen.height
+    const topEnd = htmlElement.scrollTop - portfolio.value.offsetTop
+    const per = (topEnd / topStart) * 100
     if (topPosition <= scrolledFromTop && per <= 100) {
       marginTop.value = 104 - (104 * Math.ceil(per)) / 100
     }
@@ -81,17 +80,8 @@ onMounted(async () => {
           </template>
         </r-title>
       </div>
-      <div cls="case__slider" data-cursor="appear" class="dark-background">
-        <r-slider pagination style-numbers>
-          <template #slides>
-            <div v-for="s in 5" :key="s" cls="case__slide">
-              <img
-                src="https://img.freepik.com/free-photo/abstract-nature-painted-with-watercolor-autumn-leaves-backdrop-generated-by-ai_188544-9806.jpg"
-                alt=""
-              />
-            </div>
-          </template>
-        </r-slider>
+      <div cls="case__slider" class="dark-background">
+        <portfolio-case-slider />
       </div>
       <div cls="case__wrap">
         <r-title pretitle="About" align-position="start">
@@ -170,36 +160,8 @@ onMounted(async () => {
       <div cls="case__expirience">
         <reuse-expirience />
       </div>
-      <div cls="case__authors">
-        <div class="line" />
-        <div cls="case__authors-wrap">
-          <div cls="case__authors-text">The project was made by</div>
-          <div cls="case__authors-block">
-            <r-grid
-              desktop-column="2"
-              tablet-column="2"
-              :desktop-gaps="[40, 46]"
-              :tablet-gaps="[24, 62]"
-              :mobile-gaps="[24, 15]"
-            >
-              <r-author v-for="a in 6" :key="a" name="Ivan Repin" profession="Art Direction" />
-            </r-grid>
-          </div>
-        </div>
-      </div>
-      <div v-if="portfolios" ref="portfolio" cls="case__projects">
-        <div cls="case__projects-inner">
-          <r-title pretitle="Our projects" title="Next projects" flex-start />
-          <r-grid mobile-column="1" tablet-column="3" :mobile-gaps="[40]" button>
-            <portfolio-card
-              v-for="portfolio in portfolios"
-              :key="portfolio.id"
-              :portfolio="portfolio"
-              cls="case__project"
-            />
-          </r-grid>
-        </div>
-      </div>
+      <portfolio-case-authors />
+      <portfolio-case-next-portfolios />
     </div>
   </div>
 </template>
@@ -279,44 +241,6 @@ onMounted(async () => {
   &__expirience {
     padding: 104px 0;
   }
-  &__authors {
-    padding: 80px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    &-wrap {
-      display: flex;
-      justify-content: space-between;
-    }
-    &-text {
-      max-width: 136px;
-    }
-  }
-  &__projects {
-    padding: 72px 0 88px;
-    height: 180svh;
-    &-inner {
-      position: sticky;
-      top: 0px;
-      display: flex;
-      flex-direction: column;
-      gap: 64px;
-    }
-  }
-  &__project {
-    &:nth-child(2) {
-      margin-top: v-bind(setMarginFirstEl);
-    }
-    &:last-child {
-      margin-top: v-bind(setMarginScndEl);
-    }
-  }
-  &__slide {
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
 }
 @include desktop-medium {
   .case {
@@ -348,16 +272,6 @@ onMounted(async () => {
         max-width: 623px;
       }
     }
-    &__authors {
-      padding: 56px 0;
-      &-wrap {
-        flex-wrap: wrap;
-        gap: 48px;
-      }
-      &-text {
-        max-width: 104px;
-      }
-    }
     &__desc {
       @include mob-H3;
       max-width: 623px;
@@ -385,30 +299,11 @@ onMounted(async () => {
     &__expirience {
       padding: 72px 0 56px;
     }
-    &__authors {
-      &-block {
-        margin: 0 -16px;
-        overflow-x: auto;
-        padding: 0 16px;
-        &::-webkit-scrollbar {
-          display: none;
-        }
-      }
-    }
     &__grid {
       &-card {
         &:last-child {
           margin-top: 56px;
         }
-      }
-    }
-    &__projects {
-      height: auto;
-    }
-    &__project {
-      &:last-child,
-      &:nth-child(2) {
-        margin-top: 0;
       }
     }
   }
