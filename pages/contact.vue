@@ -2,9 +2,18 @@
   TODO: анимированный задний фон сделать отдельным компонентом и документировать
 -->
 <script setup lang="ts">
+const store = useGlobalData()
+
+const contact = computed(() => {
+  return store.contacts
+})
+
 const target = ref<HTMLElement | null>(null)
 const isVisible = ref(false)
-onMounted(() => {
+
+onMounted(async () => {
+  await store.getContactPageInfo()
+
   const observer = new IntersectionObserver(
     (entries) => {
       if (entries[0].isIntersecting) isVisible.value = true
@@ -19,7 +28,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div cls="contacts">
+  <div v-if="contact" cls="contacts">
     <div class="container">
       <r-grid
         desktop-column="1"
@@ -30,19 +39,15 @@ onMounted(() => {
         :mobile-gaps="[24]"
         cls="contacts__banner"
       >
-        <a href="mailto:hello@repin.agency" cls="contacts__link">
+        <a :href="`mailto:${contact.email}`" cls="contacts__link">
           <div cls="contacts__link-icon">
             <svgo-link />
           </div>
-          <span class="underline-link -bold"> hello@repin.agency </span>
+          <span class="underline-link -bold"> {{ contact.email }} </span>
         </a>
-        <r-banner mobile-bottom-left title="Contacts">
+        <r-banner mobile-bottom-left :title="contact.title_page">
           <div class="texts">
-            <div class="text" cls="contacts__banner-text">
-              If you are interested in our services or you still have questions, contact us (we
-              answer fastest on
-              <a href="https://t.me/repinivan" class="underline-link">Telegram</a>).
-            </div>
+            <div class="text" cls="contacts__banner-text" v-html="contact.description" />
           </div>
         </r-banner>
       </r-grid>
@@ -67,7 +72,7 @@ onMounted(() => {
             :tablet-gaps="[24]"
             :mobile-gaps="[16]"
           >
-            <div cls="contacts__request-title"><span>Got an idea?</span> Leave a request</div>
+            <div cls="contacts__request-title" v-html="contact.subtitle_page" />
             <div cls="contacts__request-text">
               Tell us in general terms about the project and a manager will contact you for a short
               brief.
@@ -82,24 +87,10 @@ onMounted(() => {
             :tablet-gaps="[12]"
             :mobile-gaps="[12]"
           >
-            <a href="" cls="contacts__social">
+            <a v-for="m in contact.messengers" :href="m.link" cls="contacts__social">
               <div cls="contacts__social-box">
-                <!-- применить round-button -->
-                <div cls="contacts__social-icon">
-                  <svgo-tg />
-                </div>
-                Telegram
-              </div>
-              <div cls="contacts__social-arrow">
-                <svgo-arrow-up-right />
-              </div>
-            </a>
-            <a href="" cls="contacts__social">
-              <div cls="contacts__social-box">
-                <div cls="contacts__social-icon">
-                  <svgo-wh />
-                </div>
-                Telegram
+                <div cls="contacts__social-icon" v-html="m.icon" />
+                {{ m.name }}
               </div>
               <div cls="contacts__social-arrow">
                 <svgo-arrow-up-right />
@@ -110,6 +101,7 @@ onMounted(() => {
       </div>
       <div :cls="{ contacts__background: true, '-visible': isVisible }" />
     </div>
+    <!-- TODO: Надо поправить данные -->
     <reuse-social-media cls="contacts__social-media" />
   </div>
 </template>

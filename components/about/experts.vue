@@ -1,4 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+defineProps<{
+  title?:string
+  description?:string
+}>()
+</script>
 
 <template>
   <r-grid
@@ -8,16 +13,14 @@
     :tablet-gaps="[64]"
     :mobile-gaps="[48]"
   >
-    <r-title title="We are experts in:" align-position="start">
+    <r-title :title="title" align-position="start">
       <template #addons>
         <div class="texts -column">
           <r-round-button size="small" cls="experts__icon-info" pointer-events>
             <svgo-info />
           </r-round-button>
           <div class="text">
-            In 2024, we decided to enter into a strategic partnership with Mobicom, a company with
-            20 years of development experience. Now we are able to deliver a project of any
-            complexity.
+            {{ description }}
           </div>
         </div>
       </template>

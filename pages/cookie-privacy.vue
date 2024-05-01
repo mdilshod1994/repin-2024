@@ -1,17 +1,17 @@
 <script setup lang="ts">
 const store = useGlobalData()
 
-const pp = computed(() => {
-  return store.privacyPolicy
+const cp = computed(() => {
+  return store.cookiePrivacy
 })
 
 onMounted(async () => {
-  await store.getPrivacyPolicyPageInfo()
+  await store.getCookiePrivacyPageInfo()
 })
 </script>
 
 <template>
-  <div v-if="pp" cls="policy">
+  <div v-if="cp" cls="policy">
     <div class="container">
       <r-grid desktop-column="1" :desktop-gaps="[16]" :mobile-gaps="[32]">
         <div cls="policy__pretitle">
@@ -21,9 +21,9 @@ onMounted(async () => {
           We care about your data
         </div>
         <div cls="policy__wrap">
-          <div cls="policy__title">{{ pp.post_title }}</div>
+          <div cls="policy__title">{{ cp.post_title }}</div>
           <r-grid desktop-column="1" :desktop-gaps="[64]" :mobile-gaps="[48]">
-            <div v-html="pp.post_content" />
+            <div v-html="cp.post_content" />
             <!-- <r-grid cls="policy__box" desktop-column="1" :desktop-gaps="[24]">
               <div cls="policy__box-title">Information Collection And Use</div>
               <div cls="policy__box-desc">

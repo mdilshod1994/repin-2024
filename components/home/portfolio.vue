@@ -2,6 +2,7 @@
 import type { PortfolioElement } from "~/types/portfolio"
 
 const store = usePortfolio()
+const _store = useGlobalData()
 
 const portfolios = computed(() => {
   return store.portfolio?.slice(0, 6) as PortfolioElement[]
@@ -9,18 +10,20 @@ const portfolios = computed(() => {
 const categories = computed(() => {
   return store.categories
 })
-
 const activeSlug = computed(() => {
   return store.categoryPortfolio
 })
+const info = computed(() => {
+  return _store.home?.page
+})
+
+const slug = defineModel<string>("slug")
 
 const _getPortfolio = async (slug?: string) => {
   if (slug) {
     await store.getPortfolio(slug, 0)
   }
 }
-
-const slug = defineModel<string>("slug")
 
 onMounted(() => {
   _getPortfolio(activeSlug.value)
@@ -36,7 +39,7 @@ watch(slug, async (newSlug) => {
 
 <template>
   <div v-if="categories && portfolios" cls="portfolio">
-    <r-title pretitle="Portfolio" title="Our works">
+    <r-title :pretitle="info?.portfolio_subtitle" :title="info?.portfolio_title">
       <template #addons>
         <div cls="portfolio__filter">
           <portfolio-filters
@@ -75,7 +78,7 @@ watch(slug, async (newSlug) => {
         cls="portfolio__card"
       />
       <template #addons>
-        <r-button to="/portfolio"> Show more </r-button>
+        <r-button to="/portfolio"> {{ info?.portfolio_btn }} </r-button>
       </template>
     </r-grid>
   </div>

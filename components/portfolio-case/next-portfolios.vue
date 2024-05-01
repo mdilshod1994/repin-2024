@@ -18,7 +18,7 @@ const setMarginScndEl = computed(() => {
 onMounted(async () => {
   await store.getPortfolio("all", 0)
 
-  function setScrollVar() {
+  function setMargin() {
     const htmlElement = document.documentElement
     if (!portfolio.value) return
     const topPosition = portfolio.value?.offsetTop
@@ -30,9 +30,9 @@ onMounted(async () => {
       marginTop.value = 104 - (104 * Math.ceil(per)) / 100
     }
   }
-  window.addEventListener("resize", setScrollVar)
-  window.addEventListener("scroll", setScrollVar)
-  window.addEventListener("DOMContentLoaded", setScrollVar)
+  window.addEventListener("resize", setMargin)
+  window.addEventListener("scroll", setMargin)
+  window.addEventListener("DOMContentLoaded", setMargin)
 })
 </script>
 

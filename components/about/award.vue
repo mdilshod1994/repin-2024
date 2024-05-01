@@ -1,4 +1,14 @@
 <script setup lang="ts">
+import type { EnPage, ItemsB5 } from "~/types/about"
+
+const props = defineProps<{
+  awards: EnPage
+}>()
+
+const items = computed(() => {
+  return props.awards.items_b5 as ItemsB5[]
+})
+
 const hideImgBox = ref<boolean>(false)
 const curIdx = ref<number | null>(null)
 const cursorPos = ref({ x: 0, y: 0 })
@@ -27,6 +37,7 @@ onMounted(() => {
 
 <template>
   <r-grid
+    v-if="awards"
     :desktop-gaps="[104]"
     :tablet-gaps="[64]"
     :mobile-gaps="[48]"
@@ -35,16 +46,16 @@ onMounted(() => {
   >
     <r-title align-position="start">
       <template #title>
-        Awards <span>&</span> <br />
-        Recognitions
+        <div v-html="awards.title_b5" />
       </template>
       <template #addons>
         <div class="texts -column">
           <div class="text">
-            You can also view all of our work on Behance, feel free to leave your feedback and
-            reactions 👍
+            {{ awards.subtitle_b5 }}
           </div>
-          <a href="" cls="awards__behance-link" class="underline-link -bold"> Go to Behance </a>
+          <a :href="awards.link_b5" cls="awards__behance-link" class="underline-link -bold">
+            {{ awards.link_b5_text }}
+          </a>
         </div>
       </template>
     </r-title>
@@ -59,107 +70,32 @@ onMounted(() => {
       @mouseout="hideImgBox = false"
     >
       <div
+        v-for="(item, idx) in items"
         cls="awards__item"
-        @mouseover="setValue(0)"
+        @mouseover="setValue(idx)"
         @mouseleave="closeAnim"
         @mouseout="closeAnim"
       >
         <div cls="awards__item-name">
-          Health Lab
+          {{ item.name }}
           <div id="ava" :cls="{ ava: true, '-show': hideImgBox }">
-            <div :cls="{ 'ava-wrap': true, active: curIdx === 0, notactive: true }">
-              <div :cls="{ 'ava-img': true, active: curIdx === 0, notactive: true }">
-                <img src="@/assets/images/awards/h-l.png" alt="" />
+            <div :cls="{ 'ava-wrap': true, active: curIdx === idx, notactive: true }">
+              <div :cls="{ 'ava-img': true, active: curIdx === idx, notactive: true }">
+                <img :src="item.img" alt="" />
               </div>
             </div>
           </div>
         </div>
         <div cls="awards__item-block">
           <div cls="awards__item-texts">
-            <div cls="awards__item-text">Mobile Application</div>
-            <div cls="awards__item-text">Behance – UI/UX, Stock Gallery</div>
-          </div>
-          <div cls="awards__item-circles">
-            <svgo-st filled cls="st" />
-            <svgo-ui filled />
-          </div>
-        </div>
-      </div>
-      <div
-        cls="awards__item"
-        @mouseover="setValue(1)"
-        @mouseleave="closeAnim"
-        @mouseout="closeAnim"
-      >
-        <div cls="awards__item-name">
-          Capitalist
-          <div id="ava" :cls="{ ava: true, '-show': hideImgBox }">
-            <div :cls="{ 'ava-wrap': true, active: curIdx === 1, notactive: true }">
-              <div :cls="{ 'ava-img': true, active: curIdx === 1, notactive: true }">
-                <img src="@/assets/images/awards/c.png" alt="" />
-              </div>
+            <div v-for="category in item.categories" cls="awards__item-text">
+              {{ category.name }}
             </div>
           </div>
-        </div>
-        <div cls="awards__item-block">
-          <div cls="awards__item-texts">
-            <div cls="awards__item-text">Mobile Application</div>
-            <div cls="awards__item-text">Behance – UI/UX</div>
-          </div>
           <div cls="awards__item-circles">
-            <svgo-ui filled />
-          </div>
-        </div>
-      </div>
-      <div
-        cls="awards__item"
-        @mouseover="setValue(2)"
-        @mouseleave="closeAnim"
-        @mouseout="closeAnim"
-      >
-        <div cls="awards__item-name">
-          Trade-X
-          <div id="ava" :cls="{ ava: true, '-show': hideImgBox }">
-            <div :cls="{ 'ava-wrap': true, active: curIdx === 2, notactive: true }">
-              <div :cls="{ 'ava-img': true, active: curIdx === 2, notactive: true }">
-                <img src="@/assets/images/awards/t.png" alt="" />
-              </div>
+            <div v-for="icon in item.icons">
+              <div v-html="icon.svg" />
             </div>
-          </div>
-        </div>
-        <div cls="awards__item-block">
-          <div cls="awards__item-texts">
-            <div cls="awards__item-text">Platform</div>
-            <div cls="awards__item-text">Behance – UI/UX</div>
-          </div>
-          <div cls="awards__item-circles">
-            <svgo-ui filled />
-          </div>
-        </div>
-      </div>
-      <div
-        cls="awards__item"
-        @mouseover="setValue(3)"
-        @mouseleave="closeAnim"
-        @mouseout="closeAnim"
-      >
-        <div cls="awards__item-name">
-          Enograf
-          <div id="ava" :cls="{ ava: true, '-show': hideImgBox }">
-            <div :cls="{ 'ava-wrap': true, active: curIdx === 3, notactive: true }">
-              <div :cls="{ 'ava-img': true, active: curIdx === 3, notactive: true }">
-                <img src="@/assets/images/awards/e.png" alt="" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div cls="awards__item-block">
-          <div cls="awards__item-texts">
-            <div cls="awards__item-text">Promo site</div>
-            <div cls="awards__item-text">Behance – UI/UX</div>
-          </div>
-          <div cls="awards__item-circles">
-            <svgo-ui filled />
           </div>
         </div>
       </div>

@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+// defineProps<{
+//   social:
+// }>()
+</script>
 
 <template>
   <div cls="carousel">

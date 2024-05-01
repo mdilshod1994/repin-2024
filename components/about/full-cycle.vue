@@ -1,4 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { ItemsB2 } from "~/types/about"
+
+defineProps<{
+  fullCycle?: ItemsB2[]
+  title?: string
+  description?: string
+}>()
+</script>
 
 <template>
   <div cls="full-cycle">
@@ -10,11 +18,8 @@
       :mobile-gaps="[80]"
     >
       <div cls="full-cycle__block">
-        <div cls="full-cycle__title">About</div>
-        <div cls="full-cycle__desc">
-          Full-cycle agency for creating unique digital products
-          <span> from scratch and enhancing existing features </span>of your web projects
-        </div>
+        <div cls="full-cycle__title">{{ title }}</div>
+        <div cls="full-cycle__desc" v-html="description" />
       </div>
       <div cls="full-cycle__carousel">
         <r-carousel
@@ -25,10 +30,10 @@
           inner-padding-sides="32"
           inner-mob-padding-sides="16"
         >
-          <div v-for="s in 4" cls="full-cycle__item">
+          <div v-for="c in fullCycle" cls="full-cycle__item">
             <div cls="full-cycle__box">
-              <div cls="full-cycle__qnty">10+</div>
-              <div cls="full-cycle__text">Countries where we launched our solutions</div>
+              <div cls="full-cycle__qnty">{{ c.number }}</div>
+              <div cls="full-cycle__text">{{ c.value }}</div>
             </div>
           </div>
         </r-carousel>

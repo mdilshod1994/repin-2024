@@ -6,7 +6,6 @@ const store = useGlobalData()
 const footer = computed(() => {
   return store.footer as Footer
 })
-
 const scrollTop = () => {
   window.scrollTo({
     top: 0,
@@ -57,52 +56,13 @@ const playHoverSound = () => {
                 <div cls="footer__links-title">Follow us</div>
                 <div class="tabs">
                   <a
-                    href=""
+                    v-for="soc in footer.follow_us"
+                    :href="soc.link"
                     target="_blank"
                     cls="footer__links-item"
                     @mouseenter.prevent="playHoverSound()"
                   >
-                    <span> Behance </span>
-                  </a>
-                  <a
-                    href=""
-                    target="_blank"
-                    cls="footer__links-item"
-                    @mouseenter.prevent="playHoverSound()"
-                  >
-                    <span> Dribbble </span>
-                  </a>
-                  <a
-                    href=""
-                    target="_blank"
-                    cls="footer__links-item"
-                    @mouseenter.prevent="playHoverSound()"
-                  >
-                    <span> Instagram </span>
-                  </a>
-                  <a
-                    href=""
-                    target="_blank"
-                    cls="footer__links-item"
-                    @mouseenter.prevent="playHoverSound()"
-                  >
-                    <span> YouTube </span>
-                  </a>
-                  <a
-                    href=""
-                    target="_blank"
-                    cls="footer__links-item"
-                    @mouseenter.prevent="playHoverSound()"
-                  >
-                    <span> Telegram </span>
-                  </a>
-                  <a
-                    href=""
-                    target="_blank"
-                    cls="footer__links-item"
-                    @mouseenter.prevent="playHoverSound()"
-                  >
-                    <span> WhatsApp </span>
+                    <span> {{ soc.name }} </span>
                   </a>
                 </div>
               </div>
@@ -116,12 +76,12 @@ const playHoverSound = () => {
           <div cls="footer__bottom-box">
             <div cls="footer__bottom-text">© 2016 — {{ new Date().getFullYear() }}</div>
             <nuxt-link to="/privacy-policy" cls="footer__bottom-text">Privacy Policy</nuxt-link>
-            <div cls="footer__bottom-text">Offer contract</div>
+            <nuxt-link to="/offer-agreement" cls="footer__bottom-text">Offer contract</nuxt-link>
           </div>
           <div cls="footer__bottom-wrap">
-            <div cls="footer__bottom-text">hello@repin.agency</div>
+            <a :href="`mailto:${footer.email}`" cls="footer__bottom-text">{{ footer.email }}</a>
             <button href="/" cls="footer__bottom-to-top" @click="scrollTop">
-              On top <svgo-arrow-down />
+              {{ footer.top }} <svgo-arrow-down />
             </button>
           </div>
         </div>

@@ -9,6 +9,13 @@ export interface En {
 export interface Footer {
   menu: MenuElement[]
   contact: Contact
+  follow_us: MenuElement[]
+  copyright: string
+  email: string
+  top: string
+  cookies_text: string
+  cookies_more: string
+  cookies_accept: string
 }
 export interface Contact {
   title: string

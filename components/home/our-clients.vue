@@ -1,17 +1,19 @@
 <script lang="ts" setup>
-// import { type En } from "~/types/globaldata"
+import type { Page } from "~/types/home"
 
-defineProps<{
-  // en?: En
-}>()
+const store = useGlobalData()
+
+const reviews = computed(() => {
+  return store.home?.page as Page
+})
 </script>
 
 <template>
-  <div cls="clients">
-    <r-title :pretitle="en?.page.reviews_subtitle" :title="en?.page.reviews_title" />
+  <div v-if="reviews" cls="clients">
+    <r-title :pretitle="reviews.reviews_subtitle" :title="reviews.reviews_title" />
     <r-cursor-follow cursor-type="carousel">
       <r-carousel scroll-bar gap="48">
-        <div v-for="review in en?.page.reviews" cls="clients-card">
+        <div v-for="review in reviews.reviews" cls="clients-card">
           <div cls="clients-card__logo">
             <img :src="review.logo" alt="" />
           </div>

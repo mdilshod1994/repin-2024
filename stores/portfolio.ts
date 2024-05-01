@@ -74,11 +74,6 @@ export const usePortfolio = defineStore("portfolio", () => {
     }
   }
 
-  const getPortfolioCase = async (slug: string, id: number) => {
-    try {
-    } catch (error) {}
-  }
-
   return {
     getPortfolio,
     categories,

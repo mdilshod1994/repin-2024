@@ -1,54 +1,61 @@
 <script setup lang="ts">
-// import { type Slide } from "~/types/globaldata"
+const store = useGlobalData()
 
-// const { data: products } = await useFetch<Slide[]>("https://fakestoreapi.com/products?limit=3")
+const about = computed(() => {
+  return store.about
+})
+
+onMounted(async () => {
+  await store.getAboutPageInfo()
+})
 </script>
 
 <template>
-  <div cls="about">
+  <div v-if="about" cls="about">
     <div class="container">
       <div cls="about__promo">
         <div cls="about__promo-left">
           <r-round-button size="small" pointer-events>
             <svgo-info />
           </r-round-button>
-          Watch the video about the new stage of the agency's evolution
+          {{ about.title }}
         </div>
         <div cls="about__promo-right">
-          <div cls="about__promo-text">
-            <span> Repin Agency & </span>
-            Mobicom — is an alliance of experts: managers, designers and developers who are in love
-            with digital
-          </div>
+          <div cls="about__promo-text" v-html="about.title_big" />
         </div>
       </div>
     </div>
     <div cls="about__video">
-      <r-video />
+      <r-video :short-video="about.video_short" :long-video="about.video_long" />
     </div>
     <div cls="about__slider">
       <!-- <r-slider-content v-if="products" :products="products" /> -->
     </div>
     <div cls="about__full-cycle" class="dark-background">
-      <about-full-cycle />
+      <about-full-cycle
+        :full-cycle="about.items_b2"
+        :title="about.title_b2"
+        :description="about.description_b2"
+      />
     </div>
     <div class="container">
       <div cls="about__experts">
-        <about-experts />
+        <about-experts :title="about.title_b3" :description="about.description_b3" />
       </div>
     </div>
-    <about-outstaff class="dark-background" />
+    <about-outstaff class="dark-background" :staff="about" />
     <div class="container">
       <div cls="about__awards">
-        <about-award />
+        <about-award :awards="about" />
       </div>
     </div>
     <div cls="about__photo-team" class="dark-background">
-      <about-team-photos />
+      <!-- Возможно здесь будет несколько фоток -->
+      <about-team-photos :img="about.img_b6" />
     </div>
     <div class="container">
       <div cls="about__expirience">
-        <reuse-expirience />
+        <reuse-expirience :info="about.repin_agency_mobicom" />
       </div>
       <div v-if="false" cls="about__open-jobs">
         <about-open-jobs />

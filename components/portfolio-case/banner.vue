@@ -1,4 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { PortfolioCase } from "~/types/portfolio-case"
+
+defineProps<{
+  banner: PortfolioCase
+}>()
+</script>
 
 <template>
   <r-grid
@@ -10,30 +16,21 @@
     :mobile-gaps="[24]"
     cls="banner"
   >
-    <nuxt-link to="" cls="link">
+    <nuxt-link v-if="banner.block_1.link_work" :to="banner.block_1.link_work" cls="link">
       <div cls="link-icon">
         <svgo-link />
       </div>
-      <span class="underline-link"> www.macurtin.ru </span>
+      <span class="underline-link"> {{ banner.block_1.link_work_name }} </span>
     </nuxt-link>
-    <r-banner mobile-bottom-left>
-      <template #title>
-        <div cls="banner-title">Scandinavian Airlines Nordic</div>
-      </template>
+    <r-banner mobile-bottom-left :title="banner.title">
       <div class="texts -column">
         <div class="text">
-          Design and production of curtains and accessories for home and office. Moscow and Moscow
-          region.
-        </div>
-        <div class="text">
-          The client turned to the Studio for a complete repackaging of the brand. Previously, the
-          company was called "Isabelle". We have developed a new naming, a website with a catalog of
-          curtains and accessories, and the main elements of corporate identity.
+          {{ banner.block_1.subtitle }}
         </div>
       </div>
-      <template #bottom-left>
+      <template v-if="banner.block_1.tags.length" #bottom-left>
         <div class="tabs">
-          <div v-for="t in 6" :key="t" class="tab">Website</div>
+          <div v-for="t in banner.block_1.tags" class="tab">{{ t }}</div>
         </div>
       </template>
     </r-banner>

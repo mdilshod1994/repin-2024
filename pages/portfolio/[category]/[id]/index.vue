@@ -3,52 +3,30 @@ TODO: разделить на компоненты
 -->
 
 <script setup lang="ts">
-import type { PortfolioElement } from "~/types/portfolio"
+const store = usePortfolioCase()
+const { id } = useRoute().params
 
-const store = usePortfolio()
+const portfolio = computed(() => {
+  return store.portfolio
+})
+
 const openLightbox = ref(false)
-const portfolio = ref<HTMLElement | null>(null)
-const marginTop = ref<number>(104)
-
-const portfolios = computed(() => {
-  return store.portfolio?.slice(0, 3) as PortfolioElement[]
-})
-
-const setMarginFirstEl = computed(() => {
-  return `${marginTop.value}px`
-})
-const setMarginScndEl = computed(() => {
-  return `${marginTop.value * 2}px`
-})
 
 onMounted(async () => {
-  await store.getPortfolio("all", 0)
-
-  function setScrollVar() {
-    const htmlElement = document.documentElement
-    if (!portfolio.value) return
-    const topPosition = portfolio.value?.offsetTop
-    const scrolledFromTop = htmlElement.scrollTop
-    const topStart = portfolio.value.offsetHeight - window.screen.height
-    const topEnd = htmlElement.scrollTop - portfolio.value.offsetTop
-    const per = (topEnd / topStart) * 100
-    if (topPosition <= scrolledFromTop && per <= 100) {
-      marginTop.value = 104 - (104 * Math.ceil(per)) / 100
-    }
-  }
-  window.addEventListener("resize", setScrollVar)
-  window.addEventListener("scroll", setScrollVar)
-  window.addEventListener("DOMContentLoaded", setScrollVar)
+  await store.getPortfolioCase(`${id}`)
 })
 </script>
 
 <template>
-  <div cls="case">
+  <div v-if="portfolio" cls="case">
     <div class="container">
-      <portfolio-case-banner />
+      <portfolio-case-banner :banner="portfolio" />
     </div>
     <div cls="case__video">
-      <r-video />
+      <r-video
+        :short-video="portfolio.block_1.video_first"
+        :long-video="portfolio.block_1.video_first_full"
+      />
     </div>
     <div class="container">
       <div cls="case__wrap">
@@ -158,7 +136,7 @@ onMounted(async () => {
     </div>
     <div class="container">
       <div cls="case__expirience">
-        <reuse-expirience />
+        <!-- <reuse-expirience /> -->
       </div>
       <portfolio-case-authors />
       <portfolio-case-next-portfolios />

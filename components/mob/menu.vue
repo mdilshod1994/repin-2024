@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useResizeObserver } from "@vueuse/core"
 
-// import { type Menu } from "~/types/globaldata"
+import { type MenuElement } from "~/types/menu-header-footer"
 
 defineProps<{
-  // menu: Menu[]
+  menu: MenuElement[]
 }>()
 
 const mobMenu = ref<HTMLElement | null>(null)
@@ -49,7 +49,7 @@ const playHoverSound = () => {
             Home
           </nuxt-link>
         </div>
-        <!-- <div
+        <div
           v-for="item in menu"
           v-show="item.name !== 'Consulting' && item.name !== 'Blog'"
           @click.prevent="playHoverSound()"
@@ -57,7 +57,7 @@ const playHoverSound = () => {
           <nuxt-link cls="mobile__nav-link" :to="`/${item.name.toLowerCase()}`">
             {{ item.name }}
           </nuxt-link>
-        </div> -->
+        </div>
 
         <audio ref="hoverSound" preload="auto">
           <source src="/files/hover.mp3" />

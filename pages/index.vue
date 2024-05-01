@@ -1,37 +1,27 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const store = useGlobalData()
+
+const home = computed(() => {
+  return store.home
+})
+
+onMounted(async () => {
+  await store.getMainPageInfo()
+})
+</script>
 
 <template>
-  <div cls="home">
+  <div v-if="home" cls="home">
     <div class="container">
       <div cls="home__top">
-        <!-- <r-banner v-if="en" :scroll-to="en.page.scroll_down" bottom-line cls="home__banner">
-          <div cls="home__banner-top">
-            <r-round-button size="large" pointer-events>
-              <svgo-user-group />
-            </r-round-button>
-            <div cls="home__banner-bottom">
-              <div cls="home__banner-desc">
-                {{ en.page.promo_title_about }}
-              </div>
-              <nuxt-link to="/about" class="underline-link">
-                {{ en.page.promo_about_btn }}
-              </nuxt-link>
-            </div>
-          </div>
-          <template #title>
-            <div cls="title" v-html="en.page.promo_title" />
-          </template>
-          <template #bottom-left>
-            <div cls="home__banner-texts">
-              <div cls="home__banner-text">{{ en.page.promo_bottom_line_1 }}</div>
-              <div cls="home__banner-text">{{ en.page.promo_bottom_line_2 }}</div>
-            </div>
-          </template>
-        </r-banner> -->
+        <home-banner :banner="home.page" />
       </div>
     </div>
     <div id="video">
-      <r-video />
+      <r-video
+        :short-video="home.page.promo_video_short"
+        :long-video="home.page.promo_video_long"
+      />
     </div>
     <div class="container">
       <div cls="home__portfolio">
@@ -43,7 +33,7 @@
       <home-consulting />
     </div>
     <div cls="home__clients">
-      <!-- <home-our-clients :en="en" /> -->
+      <home-our-clients />
     </div>
     <!-- Скрыт временно -->
     <div v-if="false" class="container">
@@ -59,25 +49,6 @@
   padding-top: 152px;
   &__top {
     padding-bottom: 8px;
-  }
-  &__banner {
-    &-texts {
-      display: flex;
-      gap: 88px;
-    }
-    &-top {
-      display: flex;
-      flex-direction: column;
-      gap: 48px;
-    }
-    &-desc {
-      @include desctop-body-22;
-    }
-    &-bottom {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
   }
   &__portfolio {
     padding: 104px 0;
@@ -121,22 +92,6 @@
     &__stories {
       padding: 72px 0 88px;
     }
-    &__banner {
-      &-top {
-        gap: 24px;
-      }
-      &-desc {
-        @include mob-body-14;
-      }
-      &-texts {
-        flex-wrap: wrap;
-        column-gap: 88px;
-        row-gap: 16px;
-      }
-      &-bottom {
-        gap: 16px;
-      }
-    }
   }
 
   .title {
@@ -150,12 +105,6 @@
 }
 @include mobile {
   .home {
-    &__banner {
-      &-top {
-        flex-direction: row;
-        gap: 72px;
-      }
-    }
     &__top {
       padding-bottom: 24px;
     }

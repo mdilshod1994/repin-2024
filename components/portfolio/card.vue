@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <nuxt-link :to="`/portfolio/${'all'}/${portfolio.id}`" cls="card">
+  <nuxt-link :to="`/portfolio/${'all'}/${portfolio.slug}`" cls="card">
     <div cls="card__img">
       <r-gradient-border cls="card__gradient-border" />
       <img :src="portfolio.cover" alt="" />

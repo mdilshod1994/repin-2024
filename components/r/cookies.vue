@@ -1,4 +1,10 @@
 <script setup lang="ts">
+const store = useGlobalData()
+
+const cookie = computed(() => {
+  return store.footer
+})
+
 const accCookies = ref(false)
 
 setTimeout(() => {
@@ -11,13 +17,17 @@ const acceptCookies = () => {
 </script>
 
 <template>
-  <transition name="fade-cookies">
+  <transition v-if="cookie" name="fade-cookies">
     <div v-if="accCookies" cls="cookies">
       <div cls="cookies__wrap">
-        <div cls="cookies__text">This website uses cookies.</div>
-        <a href="" cls="cookies__link" class="underline-link -white"> Learn more </a>
+        <div cls="cookies__text">{{ cookie?.cookies_text }}</div>
+        <nuxt-link to="/cookie-privacy" cls="cookies__link" class="underline-link -white">
+          {{ cookie.cookies_more }}
+        </nuxt-link>
       </div>
-      <r-button bg-color="white" @click.prevent="acceptCookies()"> Accept </r-button>
+      <r-button bg-color="white" @click.prevent="acceptCookies()">
+        {{ cookie.cookies_accept }}
+      </r-button>
     </div>
   </transition>
 </template>

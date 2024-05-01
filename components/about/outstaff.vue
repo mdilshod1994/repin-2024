@@ -1,4 +1,14 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { EnPage, ItemsB4 } from "~/types/about"
+
+const props = defineProps<{
+  staff: EnPage
+}>()
+
+const items = computed(() => {
+  return props.staff.items_b4 as ItemsB4[]
+})
+</script>
 
 <template>
   <div cls="outstaff">
@@ -16,10 +26,9 @@
         :mobile-gaps="[56]"
         cls="outstaff__content"
       >
-        <r-title pretitle="Product team outstaff" text-align="center" color-white>
+        <r-title :pretitle="staff.title_b4" text-align="center" color-white>
           <template #title>
-            <span>Design &</span> <br />
-            Development
+            <div v-html="staff.subtitle_b4" />
           </template>
         </r-title>
         <r-grid
@@ -30,37 +39,15 @@
           :tablet-gaps="[20]"
           :mobile-gaps="[12]"
         >
-          <div cls="outstaff__card">
-            <div cls="outstaff__card-icon">
-              <svgo-chart filled />
-            </div>
-            <div cls="outstaff__card-text">We can allocate a project manager and testers.</div>
-          </div>
-          <div cls="outstaff__card">
-            <div cls="outstaff__card-icon">
-              <svgo-asana filled />
-            </div>
-            <div cls="outstaff__card-text">
-              You can contact a specialist directly. We use Asana.
-            </div>
-          </div>
-          <div cls="outstaff__card">
-            <div cls="outstaff__card-icon">
-              <svgo-zoom filled />
-            </div>
-            <div cls="outstaff__card-text">We are always available for technical interviews</div>
-          </div>
-          <div cls="outstaff__card">
-            <div cls="outstaff__card-icon">
-              <svgo-code filled />
-            </div>
-            <div cls="outstaff__card-text">
-              A broad stack of developers to quickly boost your team
-            </div>
+          <div v-for="s in items" cls="outstaff__card">
+            <div cls="outstaff__card-icon" v-html="s.icon" />
+            <div cls="outstaff__card-text">{{ s.title }}</div>
           </div>
         </r-grid>
       </r-grid>
-      <r-button bg-color="white" to="/contact" cls="outstaff__btn"> Contact a manager </r-button>
+      <r-button bg-color="white" :to="staff.btn_b4_link" cls="outstaff__btn">
+        {{ staff.btn_b4_text }}
+      </r-button>
     </r-grid>
     <div cls="outstaff__bg">
       <div cls="outstaff__gradient" />

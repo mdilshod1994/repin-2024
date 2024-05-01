@@ -2,10 +2,26 @@
 const openLightbox = ref(false)
 
 // watch(openLightbox, (val) => {})
+const props = defineProps<{
+  longVideo?: string
+  shortVideo?: string
+}>()
+
+const hasVideo = computed(() => {
+  if (props.longVideo && props.shortVideo) {
+    return "both"
+  } else if (props.longVideo) {
+    return "full"
+  } else if (props.shortVideo) {
+    return "short"
+  } else {
+    return false
+  }
+})
 </script>
 
 <template>
-  <div cls="video" class="dark-background">
+  <div v-if="hasVideo" cls="video" class="dark-background">
     <r-cursor-follow cursor-type="video" bg-color="white" cls="video__block">
       <div cls="video__wrap">
         <r-lightbox v-model:open="openLightbox">

@@ -1,8 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+defineProps<{
+  img?: string
+}>()
+</script>
 
 <template>
   <div cls="photos">
-    <img src="@/assets/images/tempImages/img.png" alt="" />
+    <img :src="img" alt="" />
   </div>
 </template>
 

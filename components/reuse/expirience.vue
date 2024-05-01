@@ -1,33 +1,28 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { Block1 } from "~/types/blockTypes"
+
+defineProps<{
+  info: Block1
+}>()
+</script>
 
 <template>
   <div cls="expirience">
     <div cls="expirience__content">
       <div cls="expirience__top">
-        <div cls="expirience__title">
-          <span>Repin Agency &</span> <br />
-          Mobicom
-        </div>
+        <div cls="expirience__title" v-html="info.title" />
         <div cls="expirience__text">
-          We teamed up and significantly improved the quality of customer service. Now we can use
-          all the knowledge and 20 years of experience of both companies' specialists to solve any
-          issues as efficiently as possible.
+          {{ info.description }}
         </div>
       </div>
       <div cls="expirience__ceo">
-        <r-author name="Ivan Repin" profession="Founder Repin Agency">
-          <img src="@/assets/images/avatar/ivan.png" alt="" />
-        </r-author>
-        <r-author name="Ilya Semenov " profession="CEO of Mobicom">
-          <img src="@/assets/images/avatar/ilya.png" alt="" />
+        <r-author v-for="(a, idx) in info.items" :key="idx" :name="a.name" :profession="a.status">
+          <img :src="a.photo" alt="" />
         </r-author>
       </div>
     </div>
     <div cls="expirience__img">
-      <img
-        src="https://i.vimeocdn.com/video/573150739-2be38bf1aaf4b5e60086ab76807d336b1f7d04dc31d85178b2db97434ed05754-d?f=webp"
-        alt=""
-      />
+      <img :src="info.img" alt="" />
     </div>
   </div>
 </template>
