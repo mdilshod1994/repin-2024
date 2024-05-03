@@ -1,8 +1,11 @@
+import type { reUseBlock1 } from "./blockTypes"
+
 export interface PortfolioCase {
   title: string
   block_1: Block1
   team: Team
   content: Content[]
+  repin_agency_mobicom: reUseBlock1
 }
 
 export interface Block1 {

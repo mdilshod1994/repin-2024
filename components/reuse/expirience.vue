@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Block1 } from "~/types/blockTypes"
+import type { reUseBlock1 } from "~/types/blockTypes"
 
 defineProps<{
-  info: Block1
+  info: reUseBlock1
 }>()
 </script>
 

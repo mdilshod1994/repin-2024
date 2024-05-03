@@ -1,10 +1,16 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { Team } from "~/types/portfolio-case"
+
+defineProps<{
+  authors: Team
+}>()
+</script>
 
 <template>
   <div cls="authors">
     <div class="line" />
     <div cls="authors__wrap">
-      <div cls="authors__text">The project was made by</div>
+      <div cls="authors__text">{{ authors.team_title }}</div>
       <div cls="authors__block">
         <r-grid
           desktop-column="2"
@@ -13,7 +19,14 @@
           :tablet-gaps="[24, 62]"
           :mobile-gaps="[24, 15]"
         >
-          <r-author v-for="a in 6" :key="a" name="Ivan Repin" profession="Art Direction" />
+          <r-author
+            v-for="(a, idx) in authors.team_list"
+            :key="idx"
+            :name="a.team_name"
+            :profession="a.team_sign"
+          >
+            <img :src="a.team_avatar" alt="" />
+          </r-author>
         </r-grid>
       </div>
     </div>

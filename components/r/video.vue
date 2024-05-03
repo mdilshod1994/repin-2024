@@ -1,27 +1,18 @@
 <script setup lang="ts">
-const openLightbox = ref(false)
-
-// watch(openLightbox, (val) => {})
 const props = defineProps<{
   longVideo?: string
   shortVideo?: string
 }>()
 
-const hasVideo = computed(() => {
-  if (props.longVideo && props.shortVideo) {
-    return "both"
-  } else if (props.longVideo) {
-    return "full"
-  } else if (props.shortVideo) {
-    return "short"
-  } else {
-    return false
-  }
+const hasBothVideo = computed(() => {
+  return props.longVideo && props.shortVideo
 })
+
+const openLightbox = ref(false)
 </script>
 
 <template>
-  <div v-if="hasVideo" cls="video" class="dark-background">
+  <div v-if="longVideo || shortVideo" cls="video" class="dark-background">
     <r-cursor-follow cursor-type="video" bg-color="white" cls="video__block">
       <div cls="video__wrap">
         <r-lightbox v-model:open="openLightbox">
@@ -29,7 +20,11 @@ const hasVideo = computed(() => {
             <source src="/files/MainComp_01.mp4" type="video/mp4" />
           </video>
         </r-lightbox>
-        <div v-if="!openLightbox" cls="video__wrap-overlay" @click="openLightbox = true" />
+        <div
+          v-if="!openLightbox && hasBothVideo"
+          cls="video__wrap-overlay"
+          @click="openLightbox = true"
+        />
       </div>
     </r-cursor-follow>
   </div>

@@ -1,5 +1,5 @@
 // Used on page about and portfolio cases
-export interface Block1 {
+export interface reUseBlock1 {
   title: string
   description: string
   items: Block1Item[]

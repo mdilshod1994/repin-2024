@@ -64,10 +64,10 @@ onMounted(() => {
 <template>
   <div cls="before-after" class="dark-background">
     <div cls="before-after__img">
-      <img src="@/assets/images/tempImages/after.png" alt="" />
+      <slot name="after" />
     </div>
     <div ref="after" :cls="{ 'before-after__img': true, '-after-anim': removeAnimation }">
-      <img src="@/assets/images/tempImages/before.png" alt="" />
+      <slot name="before" />
     </div>
     <button ref="baBtn" :cls="{ 'before-after__btn': true, '-btn-anim': removeAnimation }">
       <svgo-chevron-left />
