@@ -10,10 +10,17 @@ const portfolio = computed(() => {
   return store.portfolio
 })
 
-const openLightbox = ref(false)
-
 onMounted(async () => {
   await store.getPortfolioCase(`${id}`)
+})
+
+const hasVideo = computed(() => {
+  return (
+    portfolio.value?.block_1.anons_vimeo ||
+    portfolio.value?.block_1.anons_vimeo_full ||
+    portfolio.value?.block_1.video_first_mp4 ||
+    portfolio.value?.block_1.video_first_full_mp4
+  )
 })
 </script>
 
@@ -22,10 +29,13 @@ onMounted(async () => {
     <div class="container">
       <portfolio-case-banner :banner="portfolio" />
     </div>
-    <div cls="case__video">
+    <div v-if="hasVideo" cls="case__video">
       <r-video
-        :short-video="portfolio.block_1.video_first"
-        :long-video="portfolio.block_1.video_first_full"
+        :video="{
+          short: portfolio.block_1.video_first_mp4,
+          long: portfolio.block_1.video_first_full_mp4,
+        }"
+        :vimeo="{ short: portfolio.block_1.anons_vimeo, long: portfolio.block_1.anons_vimeo_full }"
       />
     </div>
     <div v-for="block in portfolio.content">
@@ -90,9 +100,18 @@ onMounted(async () => {
         <div cls="case__square" class="dark-background">
           <div cls="case__square-wrap">
             <div cls="case__square-inner">
-              <r-lightbox v-model:open="openLightbox" white-bg>
-                <img :src="block.img" alt="" @click="openLightbox = !openLightbox" />
-              </r-lightbox>
+              <a :href="block.img" data-fancybox="gallery">
+                <img :src="block.img" alt="" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-if="block.acf_fc_layout === 'flex_iframe'" class="container">
+        <div cls="case__square" class="dark-background">
+          <div cls="case__square-wrap">
+            <div cls="case__square-inner">
+              <div v-html="block.iframe" />
             </div>
           </div>
         </div>
@@ -112,16 +131,22 @@ onMounted(async () => {
       <div v-if="block.acf_fc_layout === 'two_images'" class="container">
         <r-grid desktop-column="2" tablet-column="2" cls="case__grid">
           <div cls="case__grid-card">
-            <img :src="block.image_1" alt="" />
+            <a :href="block.image_1" data-fancybox="gallery">
+              <img :src="block.image_1" alt="" />
+            </a>
           </div>
           <div cls="case__grid-card">
-            <img :src="block.image_2" alt="" />
+            <a :href="block.image_2" data-fancybox="gallery">
+              <img :src="block.image_2" alt="" />
+            </a>
           </div>
         </r-grid>
       </div>
       <div v-if="block.acf_fc_layout === 'flex_big_img'" cls="case__unknow" class="dark-background">
         <div cls="case__unknow-inner">
-          <img :src="block.fbi_img" alt="" />
+          <a :href="block.fbi_img" data-fancybox="gallery">
+            <img :src="block.fbi_img" alt="" />
+          </a>
           <video v-if="false" :src="block.fbi_video" />
         </div>
       </div>
@@ -154,8 +179,7 @@ onMounted(async () => {
     padding: 24px 0;
     &-wrap {
       width: 100%;
-      height: 0;
-      padding-bottom: 84.212%;
+      height: 100%;
       border-radius: 24px;
       overflow: hidden;
       position: relative;
@@ -165,11 +189,15 @@ onMounted(async () => {
       }
     }
     &-inner {
-      position: absolute;
       width: 100%;
       height: 100%;
-      left: 0;
-      top: 0;
+      div {
+        width: 100%;
+        height: 100%;
+      }
+      iframe {
+        width: 100%;
+      }
     }
   }
   &__texts {
@@ -214,7 +242,6 @@ onMounted(async () => {
     margin: 0 auto;
     &-inner {
       background: rgba(0, 0, 0, 0.3);
-      aspect-ratio: 16/9;
     }
   }
   &__expirience {

@@ -10,12 +10,14 @@ export interface PortfolioCase {
 
 export interface Block1 {
   img_pc: string
-  video_first: string
-  video_first_full: string
+  video_first_mp4: string
+  video_first_full_mp4: string
   subtitle: string
   link_work: string
   link_work_name: string
   tags: string[]
+  anons_vimeo: string
+  anons_vimeo_full: string
 }
 
 export interface Content {
@@ -34,6 +36,7 @@ export interface Content {
   image_2?: string
   fbi_img?: string
   fbi_video?: string
+  iframe?: string
 }
 
 export interface Team {

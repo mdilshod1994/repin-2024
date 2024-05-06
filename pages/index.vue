@@ -17,11 +17,8 @@ onMounted(async () => {
         <home-banner :banner="home.page" />
       </div>
     </div>
-    <div id="video">
-      <r-video
-        :short-video="home.page.promo_video_short"
-        :long-video="home.page.promo_video_long"
-      />
+    <div v-if="home.page.promo_video_short || home.page.promo_video_long" id="video">
+      <r-video :video="{ short: home.page.promo_video_short, long: home.page.promo_video_long }" />
     </div>
     <div class="container">
       <div cls="home__portfolio">

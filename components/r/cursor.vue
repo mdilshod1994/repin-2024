@@ -33,7 +33,7 @@ onMounted(() => {
   pointer-events: none;
   left: -2px;
   top: -4px;
-  z-index: 10;
+  z-index: 9999;
   mix-blend-mode: exclusion;
   svg {
     font-size: 21px;

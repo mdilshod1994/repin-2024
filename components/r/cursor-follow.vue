@@ -5,15 +5,16 @@ const props = withDefaults(
     video?: boolean
     carousel?: boolean
     cursorType?: "video" | "carousel"
+    removeCursor?: boolean
   }>(),
   {
     // cursorType: "default",
     bgColor: "black",
   },
 )
-
 const isDomLoaded = ref(false)
 const cursor = ref<HTMLElement | null>(null)
+const cursorbg = ref<HTMLElement | null>(null)
 const cursorPos = ref({ x: 0, y: 0 })
 const cursorPrevPos = ref({ x: 0, y: 0 })
 const cursorEasePos = ref({ x: 0, y: 0 })
@@ -59,7 +60,10 @@ onMounted(() => {
     const transformScale = `scale(${1 + currScale.value}, ${1 - currScale.value})`
     const transformRotate = `rotate(${currRotate.value}deg)`
 
-    cursor.value.style.transform = `${transformTranslateEase} ${transformRotate} ${transformScale} `
+    // cursor.value.style.transform = `${transformTranslateEase} ${transformRotate} ${transformScale} `
+    cursor.value.style.transform = `${transformTranslateEase}`
+    if (!cursorbg.value) return
+    cursorbg.value.style.transform = `${transformRotate} ${transformScale}`
 
     // if (props.cursorType === "carousel") {
     //   cursor.value.style.transform = `${transformTranslateEase} ${transformRotate} ${transformScale} `
@@ -74,9 +78,12 @@ onMounted(() => {
 <template>
   <div v-if="isDomLoaded" cls="cursor" @mousemove="showCursor(1)" @mouseleave="showCursor(0)">
     <div ref="cursor" :cls="{ 'cursor-wrap': true, [`-${bgColor}`]: true }">
-      <svgo-play v-if="cursorType === 'video'" cls="cursor-video" />
-      <div v-if="cursorType === 'carousel'" cls="cursor-carousel">
-        <svgo-arrow-right />
+      <div cls="cursor-block">
+        <div ref="cursorbg" :cls="{ 'cursor-inner': true, [`-${bgColor}`]: true }" />
+        <svgo-play v-if="cursorType === 'video'" cls="cursor-video" />
+        <div v-if="cursorType === 'carousel'" cls="cursor-carousel">
+          <svgo-arrow-right />
+        </div>
       </div>
     </div>
     <slot />
@@ -85,6 +92,27 @@ onMounted(() => {
 
 <style module lang="scss">
 .cursor {
+  &-block {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  &-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    transition:
+      width 0.15s ease-in,
+      height 0.15s ease-in,
+      background-color 0.15s ease-out;
+    &.-black {
+      background: var(--Black);
+    }
+    &.-white {
+      background: var(--White);
+    }
+  }
   &-wrap {
     display: flex;
     align-items: center;
@@ -106,13 +134,11 @@ onMounted(() => {
       opacity 0.3s ease-in-out;
     z-index: 2;
     &.-black {
-      background: var(--Black);
       svg {
         color: var(--White);
       }
     }
     &.-white {
-      background: var(--White);
       svg {
         color: var(--Black);
       }
@@ -120,8 +146,16 @@ onMounted(() => {
   }
   &-video {
     font-size: 32px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
   &-carousel {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
     justify-content: center;

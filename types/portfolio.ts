@@ -28,4 +28,5 @@ export interface PortfolioElement {
   slug: string
   cover: string
   description: string
+  anons_vimeo: string
 }

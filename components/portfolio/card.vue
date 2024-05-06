@@ -1,16 +1,34 @@
 <script setup lang="ts">
+import Player from "@vimeo/player"
+
 import type { PortfolioElement } from "~/types/portfolio"
 
-defineProps<{
+const props = defineProps<{
   portfolio: PortfolioElement
 }>()
+const videowrap = ref<HTMLElement | null>(null)
+onMounted(() => {
+  if (!videowrap.value) return
+  if (props.portfolio.anons_vimeo) {
+    new Player(videowrap.value, {
+      url: props.portfolio.anons_vimeo,
+      autoplay: true,
+      background: true,
+      loop: true,
+    })
+  }
+})
 </script>
 
 <template>
-  <nuxt-link :to="`/portfolio/${'all'}/${portfolio.slug}`" cls="card">
+  <nuxt-link
+    :to="`/portfolio/${'all'}/${portfolio.slug}`"
+    :cls="{ card: true, '-video': portfolio.anons_vimeo }"
+  >
     <div cls="card__img">
       <r-gradient-border cls="card__gradient-border" />
       <img :src="portfolio.cover" alt="" />
+      <div v-if="portfolio.anons_vimeo" ref="videowrap" />
     </div>
     <div cls="card__content">
       <div cls="card__top">
@@ -37,12 +55,16 @@ defineProps<{
     height: 0;
     border-radius: 24px;
     overflow: hidden;
-    img {
+    img,
+    iframe {
       position: absolute;
       width: 100%;
       height: 100%;
-      border-radius: inherit;
       transition: transform calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    iframe {
+      opacity: 0;
+      visibility: hidden;
     }
   }
   &__gradient-border {
@@ -74,6 +96,25 @@ defineProps<{
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
+  }
+  &.-video {
+    &:hover {
+      .card {
+        &__img {
+          img {
+            transform: scale(0.9);
+            opacity: 0;
+            transition: calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
+          }
+          iframe {
+            transform: scale(1.1);
+            opacity: 1;
+            transition: calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
+            visibility: visible;
+          }
+        }
+      }
+    }
   }
   &:hover {
     .card {
