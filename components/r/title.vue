@@ -132,6 +132,13 @@ withDefaults(
     }
     &__wrap {
       gap: 16px;
+      &.-start {
+        .block {
+          &__addons {
+            padding-top: 0px;
+          }
+        }
+      }
     }
   }
 }

@@ -222,6 +222,10 @@ defineProps<{
     &__card {
       padding: 16px 16px 20px 20px;
       border-radius: 16px;
+      &-btn{
+        margin-right: 0;
+        @include mob-body-14-db;
+      }
       &-arrow {
         margin-right: 0;
       }

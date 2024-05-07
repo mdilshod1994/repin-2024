@@ -9,7 +9,6 @@ const items = computed(() => {
   return props.awards.items_b5 as ItemsB5[]
 })
 
-const hideImgBox = ref<boolean>(false)
 const curIdx = ref<number | null>(null)
 const cursorPos = ref({ x: 0, y: 0 })
 const setValue = (idx: number) => {
@@ -33,6 +32,13 @@ onMounted(() => {
     requestAnimationFrame(setPos)
   })
 })
+const { $useScroll } = useNuxtApp()
+if (typeof $useScroll === "function") {
+  const { isScrolling, arrivedState, directions } = $useScroll()
+  watch(isScrolling, (v) => {
+    curIdx.value = null
+  })
+}
 </script>
 
 <template>
@@ -65,9 +71,6 @@ onMounted(() => {
       :desktop-gaps="[0]"
       :tablet-gaps="[0]"
       :mobile-gaps="[0]"
-      @mouseover="hideImgBox = true"
-      @mouseleave="hideImgBox = false"
-      @mouseout="hideImgBox = false"
     >
       <div
         v-for="(item, idx) in items"
@@ -78,7 +81,7 @@ onMounted(() => {
       >
         <div cls="awards__item-name">
           {{ item.name }}
-          <div id="ava" :cls="{ ava: true, '-show': hideImgBox }">
+          <div id="ava" cls="ava">
             <div :cls="{ 'ava-wrap': true, active: curIdx === idx, notactive: true }">
               <div :cls="{ 'ava-img': true, active: curIdx === idx, notactive: true }">
                 <img :src="item.img" alt="" />
@@ -134,6 +137,7 @@ onMounted(() => {
     }
     &:hover {
       z-index: 1;
+      border-bottom: 1px solid rgba(0, 0, 0, 0);
       &::after {
         opacity: 1;
         visibility: visible;
@@ -219,12 +223,7 @@ onMounted(() => {
   top: 0;
   border-radius: 8px;
   overflow: hidden;
-  opacity: 0;
-  visibility: hidden;
-  &.-show {
-    opacity: 1;
-    visibility: visible;
-  }
+  pointer-events: none;
   &-wrap {
     width: 200px;
     position: relative;
@@ -304,6 +303,9 @@ onMounted(() => {
   .awards {
     &__item {
       gap: 41px;
+      &::after {
+        display: none;
+      }
       &-name {
         white-space: nowrap;
         width: 200px;
@@ -329,6 +331,7 @@ onMounted(() => {
       align-items: flex-start;
       height: auto;
       position: relative;
+
       &-texts {
         flex-direction: column;
         align-items: flex-start;

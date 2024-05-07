@@ -26,9 +26,10 @@ onMounted(async () => {
       </div>
     </div>
     <div cls="about__video">
-      <r-video :short-video="about.video_short" :long-video="about.video_long" />
+      <r-video :video="{ short: about.video_short, long: about.video_long }" />
     </div>
-    <div cls="about__slider">
+    <!-- пока нет слайдера -->
+    <div v-if="false" cls="about__slider">
       <!-- <r-slider-content v-if="products" :products="products" /> -->
     </div>
     <div cls="about__full-cycle" class="dark-background">
@@ -157,6 +158,7 @@ onMounted(async () => {
 @include mobile {
   .about {
     &__promo {
+      padding: 72px 0 24px;
       &-text {
         @include mob-H3;
         span {

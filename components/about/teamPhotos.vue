@@ -20,4 +20,9 @@ defineProps<{
     width: 100%;
   }
 }
+@include mobile {
+  .photos {
+    padding: 16px 0;
+  }
+}
 </style>

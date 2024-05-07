@@ -35,6 +35,7 @@ defineProps<{
   gap: 24px;
   &__ceo {
     display: flex;
+    gap: 16px;
   }
   &__content {
     display: flex;
@@ -74,6 +75,7 @@ defineProps<{
 }
 @include tablet {
   .expirience {
+    flex-wrap: wrap;
     &__content {
       gap: 32px;
     }
@@ -82,6 +84,9 @@ defineProps<{
     }
     &__title {
       @include mob-H2;
+      span {
+        @include mob-H2-ram;
+      }
     }
     &__img {
       width: 340px;
@@ -98,7 +103,13 @@ defineProps<{
       display: none;
     }
     &__title {
-      @include mob-h4-22;
+      @include desctop-H5;
+      span {
+        @include mob-H5-ram;
+      }
+    }
+    &__ceo {
+      flex-wrap: wrap;
     }
   }
 }

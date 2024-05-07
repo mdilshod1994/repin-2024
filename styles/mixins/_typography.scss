@@ -214,6 +214,15 @@
   letter-spacing: -0.84px;
 }
 
+@mixin mob-H5-ram {
+  font-family: "Ramillas Trial";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 30px;
+  letter-spacing: -0.48px;
+}
+
 @mixin mob-h4-22-ram {
   font-family: "Ramillas Trial";
   font-size: 22px;

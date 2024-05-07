@@ -59,7 +59,7 @@ const items = computed(() => {
 <style module lang="scss">
 .outstaff {
   background: var(--Black);
-  padding: 24px 0 0;
+  margin: 24px 0;
   &__wrap {
     padding: 160px 80px 0;
     max-width: 1920px;
@@ -152,6 +152,7 @@ const items = computed(() => {
 }
 @include mobile {
   .outstaff {
+    margin: 16px 0;
     &__gradient {
       height: 157px;
     }
