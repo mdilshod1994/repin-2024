@@ -69,17 +69,23 @@ onMounted(() => {
       muted: true,
       loop: true,
       autoplay: true,
+      volume: 0,
     })
   }
+})
+
+watch(switchVideo, (nv) => {
   if (props.vimeo?.long) {
     if (!vimeolong.value) return
     const vimeoLong = new Player(vimeolong.value, {
-      background: true,
       url: props.vimeo?.short,
-      muted: true,
-      loop: true,
-      autoplay: true,
     })
+    if (nv) {
+      vimeoLong.play()
+    } else {
+      vimeoLong.setCurrentTime(0)
+      vimeoLong.pause()
+    }
   }
 })
 </script>
@@ -97,7 +103,7 @@ onMounted(() => {
       </r-cursor-follow>
       <div :cls="{ shorts: true, '-show': switchVideo }">
         <div v-if="vimeo?.short" ref="vimeoshort" cls="shorts__vimeo" />
-        <video v-else muted autoplay loop cls="">
+        <video v-else muted autoplay loop cls="" playsinline>
           <source :src="video?.short" type="video/mp4" />
         </video>
       </div>
@@ -107,7 +113,14 @@ onMounted(() => {
       <div cls="overlay__wrap">
         <div cls="overlay__video">
           <div v-if="vimeo?.long" ref="vimeolong" />
-          <video v-else ref="videoFull" else controls :cls="{ long: true, '-show': switchVideo }">
+          <video
+            v-else
+            ref="videoFull"
+            else
+            controls
+            :cls="{ long: true, '-show': switchVideo }"
+            playsinline
+          >
             <source :src="video?.long" type="video/mp4" />
           </video>
         </div>
