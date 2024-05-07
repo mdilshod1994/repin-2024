@@ -27,7 +27,6 @@ watch(
   () => route.fullPath,
   () => {
     active.value = false
-    useScrollLock(false)
   },
 )
 

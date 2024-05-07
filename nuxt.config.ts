@@ -9,11 +9,6 @@ export default defineNuxtConfig({
       ssr: false,
       mode: "client",
     },
-    {
-      src: "~/plugins/scroll-top.client.ts",
-      ssr: false,
-      mode: "client",
-    },
   ],
   vite: {
     plugins: [

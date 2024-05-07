@@ -33,4 +33,11 @@ export const useScrollLock = (state: boolean) => {
       body.style.removeProperty("overflow")
     }
   }
+  const route = useRoute()
+  watch(
+    () => route.fullPath,
+    () => {
+      enable()
+    },
+  )
 }
