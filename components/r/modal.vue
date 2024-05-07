@@ -5,9 +5,9 @@ watch(
   () => active.value,
   () => {
     if (active.value) {
-      useBodyLock(active.value)
+      useScrollLock(true)
     } else {
-      useBodyLock(false)
+      useScrollLock(false)
     }
   },
 )

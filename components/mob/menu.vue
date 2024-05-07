@@ -27,7 +27,7 @@ watch(
   () => route.fullPath,
   () => {
     active.value = false
-    useBodyLock(false)
+    useScrollLock(false)
   },
 )
 
@@ -82,7 +82,7 @@ const playHoverSound = () => {
   padding: 0 40px;
   display: none;
   z-index: 2;
-  height: 0;
+  height: 0vh;
   overflow: hidden;
   opacity: 0.5;
   visibility: hidden;

@@ -15,6 +15,9 @@ const videoFull = ref<HTMLVideoElement | null>(null)
 const container = ref<HTMLElement | null>(null)
 const overlay = ref<HTMLElement | null>(null)
 const switchVideo = ref<boolean>(false)
+const cursorlayer = ref<HTMLElement | null>(null)
+const vimeoshort = ref<HTMLElement | null>(null)
+const vimeolong = ref<HTMLElement | null>(null)
 
 const setBoundingClientRect = () => {
   const domRect = container.value?.getBoundingClientRect()
@@ -30,7 +33,7 @@ const setBoundingClientRect = () => {
 
 const openLongVideo = () => {
   setBoundingClientRect()
-  useBodyLock(true)
+  useScrollLock(true)
   switchVideo.value = true
   setTimeout(() => {
     if (!overlay.value) return
@@ -39,28 +42,29 @@ const openLongVideo = () => {
     overlay.value.style.left = `0px`
     overlay.value.style.right = `0px`
     overlay.value.style.width = `100vw`
-    overlay.value.style.height = `100svh`
+    overlay.value.style.height = `100vh`
     overlay.value.style.zIndex = `4`
     if (!videoFull.value) return
     videoFull.value.play()
-  }, 200)
+  }, 10)
 }
 
-watch(switchVideo, (nv) => {
-  if (!nv) {
-    useBodyLock(false)
-    setBoundingClientRect()
-    setTimeout(() => {
-      if (!videoFull.value) return
-      videoFull.value.currentTime = 0
-      videoFull.value.pause()
-    }, 200)
+const playVimeoLong = (state: boolean) => {
+  if (props.vimeo?.long) {
+    if (!vimeolong.value) return
+    const player = new Player(vimeolong.value, {
+      url: props.vimeo?.long,
+    })
+    if (state) {
+      player.play()
+    } else {
+      player.setCurrentTime(0)
+      player.pause()
+    }
   }
-})
+}
 
-const vimeoshort = ref<HTMLElement | null>(null)
-const vimeolong = ref<HTMLElement | null>(null)
-onMounted(() => {
+const playVimeoShort = () => {
   if (props.vimeo?.short) {
     if (!vimeoshort.value) return
     const vimeoShort = new Player(vimeoshort.value, {
@@ -69,24 +73,31 @@ onMounted(() => {
       muted: true,
       loop: true,
       autoplay: true,
-      volume: 0,
+      playsinline: true,
     })
+    vimeoShort.play()
+  }
+}
+
+watch(switchVideo, (nv) => {
+  if (nv) {
+    playVimeoLong(nv)
+  }
+  if (!nv) {
+    playVimeoLong(nv)
+    playVimeoShort()
+    useScrollLock(false)
+    setBoundingClientRect()
+    setTimeout(() => {
+      if (!videoFull.value) return
+      videoFull.value.currentTime = 0
+      videoFull.value.pause()
+    }, 100)
   }
 })
 
-watch(switchVideo, (nv) => {
-  if (props.vimeo?.long) {
-    if (!vimeolong.value) return
-    const vimeoLong = new Player(vimeolong.value, {
-      url: props.vimeo?.short,
-    })
-    if (nv) {
-      vimeoLong.play()
-    } else {
-      vimeoLong.setCurrentTime(0)
-      vimeoLong.pause()
-    }
-  }
+onMounted(() => {
+  playVimeoShort()
 })
 </script>
 
@@ -97,18 +108,16 @@ watch(switchVideo, (nv) => {
         cursor-type="video"
         bg-color="white"
         :cls="{ cursor: true, '-show': switchVideo }"
-        @click="openLongVideo()"
       >
-        <div cls="cursor-layer" />
+        <div ref="cursorlayer" cls="cursor-layer" @click="openLongVideo()" />
       </r-cursor-follow>
       <div :cls="{ shorts: true, '-show': switchVideo }">
         <div v-if="vimeo?.short" ref="vimeoshort" cls="shorts__vimeo" />
-        <video v-else muted autoplay loop cls="" playsinline>
+        <video v-else autoplay muted loop playsinline>
           <source :src="video?.short" type="video/mp4" />
         </video>
       </div>
     </div>
-
     <div ref="overlay" :cls="{ overlay: true, '-scale': switchVideo }">
       <div cls="overlay__wrap">
         <div cls="overlay__video">
@@ -227,12 +236,16 @@ watch(switchVideo, (nv) => {
     overflow: hidden;
     height: max-content;
     video {
+      aspect-ratio: 16 / 9;
       border-radius: 8px;
     }
     iframe {
       margin: 0 auto;
       border-radius: 8px;
+      aspect-ratio: 16 / 9;
       display: block;
+      width: 100%;
+      height: 100%;
     }
   }
 }
@@ -255,7 +268,7 @@ watch(switchVideo, (nv) => {
     }
     &__btn-close {
       margin-top: auto;
-      margin-bottom: 40px;
+      margin-bottom: 90px;
     }
     &__video {
       margin-top: auto;

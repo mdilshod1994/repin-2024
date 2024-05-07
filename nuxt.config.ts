@@ -3,6 +3,13 @@ import vueCssModule from "vite-plugin-vue-css-module"
 export default defineNuxtConfig({
   modules: ["nuxt-svgo", "@pinia/nuxt"],
   css: ["@/styles/main.scss"],
+  plugins: [
+    {
+      src: "~/plugins/use-scroll.ts",
+      ssr: false,
+      mode: "client",
+    },
+  ],
   vite: {
     plugins: [
       vueCssModule({

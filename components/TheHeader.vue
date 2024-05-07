@@ -8,26 +8,11 @@ const menu = computed(() => {
 defineProps<{
   bgBlack?: boolean
 }>()
-const oldScroll = ref(0)
 const scrolledUp = ref(true)
-onMounted(() => {
-  window.onscroll = () => {
-    if (window.scrollY >= 0 && window.scrollY < 100) {
-      scrolledUp.value = true
-    } else {
-      if (oldScroll.value > window.scrollY) {
-        scrolledUp.value = true
-      } else {
-        scrolledUp.value = false
-      }
-      oldScroll.value = window.scrollY
-    }
-  }
-})
 const isActive = ref(false)
 const showMenu = () => {
   isActive.value = !isActive.value
-  useBodyLock(isActive.value)
+  useScrollLock(isActive.value)
 }
 
 // sound on hover
@@ -42,7 +27,6 @@ const playHoverSound = () => {
 
 // to check dark background
 const isBackgroundDark = ref(false)
-const didScroll = ref(false)
 function checkIfDarkBackgroud(el?: HTMLElement) {
   if (el)
     if (window.scrollY > el.offsetTop && window.scrollY < el.offsetTop + el.offsetHeight) {
@@ -60,22 +44,29 @@ function checkIfDarkBackgroud(el?: HTMLElement) {
       isBackgroundDark.value = true
     }
 }
-
-onMounted(() => {
-  window.addEventListener("scroll", () => {
-    didScroll.value = true
+const { $useScroll } = useNuxtApp()
+if (typeof $useScroll === "function") {
+  const { isScrolling, arrivedState, directions } = $useScroll()
+  watch(isScrolling, (v) => {
+    const arrTestclass = document.querySelectorAll(".dark-background")
+    arrTestclass.forEach((el) => {
+      const element = el as HTMLElement
+      checkIfDarkBackgroud(element)
+    })
   })
-  setInterval(() => {
-    if (didScroll.value) {
-      const arrTestclass = document.querySelectorAll(".dark-background")
-      didScroll.value = false
-      arrTestclass.forEach((el) => {
-        const element = el as HTMLElement
-        checkIfDarkBackgroud(element)
-      })
+  watch(arrivedState, (a) => {
+    if (a.bottom || a.top) {
+      scrolledUp.value = true
     }
-  }, 250)
-})
+  })
+  watch(directions, (d) => {
+    if (d.top) {
+      scrolledUp.value = true
+    } else if (d.bottom) {
+      scrolledUp.value = false
+    }
+  })
+}
 </script>
 
 <template>
@@ -266,11 +257,9 @@ onMounted(() => {
     display: none;
   }
 }
-
 .mobile {
   display: none;
 }
-
 @include desktop-medium {
   .header {
     &__wrap {
@@ -278,7 +267,6 @@ onMounted(() => {
     }
   }
 }
-
 @include tablet {
   .header {
     padding: 0 40px;
@@ -337,7 +325,7 @@ onMounted(() => {
       left: 0;
       top: -24px;
       width: 100%;
-      height: 100svh;
+      height: 120vh;
       display: block;
       z-index: 1;
     }
