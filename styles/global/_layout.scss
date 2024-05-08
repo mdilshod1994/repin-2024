@@ -6,6 +6,10 @@
 }
 html {
   scrollbar-gutter: stable;
+  ::selection {
+    background: #000000;
+    color: #fff;
+  }
 }
 html,
 button,
@@ -21,6 +25,9 @@ body {
   font-family: "Interphases Pro Trial";
   @include desctop-caption-17;
   color: var(--Black);
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .container {

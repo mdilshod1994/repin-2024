@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Player from "@vimeo/player"
+import gsap from "gsap"
 
 import type { PortfolioElement } from "~/types/portfolio"
 
@@ -7,6 +8,7 @@ const props = defineProps<{
   portfolio: PortfolioElement
 }>()
 const videowrap = ref<HTMLElement | null>(null)
+
 onMounted(() => {
   if (!videowrap.value) return
   if (props.portfolio.anons_vimeo) {
@@ -18,33 +20,57 @@ onMounted(() => {
     })
   }
 })
+
+const beforeEnter = (el) => {
+  gsap.from(el, {
+    duration: 0.5,
+    opacity: 0,
+    scale: 0,
+  })
+}
+const enter = (el) => {
+  gsap.to(el, {
+    duration: 0.5,
+    opacity: 1,
+    scale: 1,
+  })
+}
 </script>
 
 <template>
-  <nuxt-link
-    :to="`/portfolio/${'all'}/${portfolio.slug}`"
-    :cls="{ card: true, '-video': portfolio.anons_vimeo }"
-  >
-    <div cls="card__img">
-      <r-gradient-border cls="card__gradient-border" />
-      <img :src="portfolio.cover" alt="" />
-      <div v-if="portfolio.anons_vimeo" ref="videowrap" />
-    </div>
-    <div cls="card__content">
-      <div cls="card__top">
-        <div cls="card__title">{{ portfolio.title }}</div>
-        <r-round-button cls="card__btn" size="small">
-          <svgo-arrow-right />
-        </r-round-button>
+  <transition appear name="t-card" @before-enter="beforeEnter" @enter="enter">
+    <nuxt-link
+      v-show="portfolio"
+      :to="`/portfolio/${'all'}/${portfolio.slug}`"
+      :cls="{ card: true, '-video': portfolio.anons_vimeo }"
+      class="p-card"
+    >
+      <div cls="card__img">
+        <r-gradient-border cls="card__gradient-border" />
+        <img :src="portfolio.cover" alt="" />
+        <div v-if="portfolio.anons_vimeo" ref="videowrap" />
       </div>
-      <div cls="card__desc">
-        {{ portfolio.description }}
+      <div cls="card__content">
+        <div cls="card__top">
+          <div cls="card__title">{{ portfolio.title }}</div>
+          <r-round-button cls="card__btn" size="small">
+            <svgo-arrow-right />
+          </r-round-button>
+        </div>
+        <div cls="card__desc">
+          {{ portfolio.description }}
+        </div>
       </div>
-    </div>
-  </nuxt-link>
+    </nuxt-link>
+  </transition>
 </template>
 
 <style module lang="scss">
+.card-wrap {
+  width: 100%;
+  height: 100%;
+  position: relative !important;
+}
 .card {
   display: flex;
   flex-direction: column;
@@ -102,12 +128,10 @@ onMounted(() => {
       .card {
         &__img {
           img {
-            transform: scale(0.9);
             opacity: 0;
             transition: calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
           }
           iframe {
-            transform: scale(1.1);
             opacity: 1;
             transition: calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
             visibility: visible;
@@ -128,14 +152,6 @@ onMounted(() => {
       }
       &__title {
         text-decoration-color: var(--Black);
-      }
-      &__gradient-border {
-        opacity: 1;
-      }
-      &__img {
-        img {
-          transform: scale(1.1);
-        }
       }
     }
   }

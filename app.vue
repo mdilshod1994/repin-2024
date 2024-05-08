@@ -1,5 +1,5 @@
 <template>
-  <div cls="app" data-scroll>
+  <div cls="app">
     <nuxt-layout>
       <r-preloader v-if="false" />
       <nuxt-page />
