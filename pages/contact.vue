@@ -13,17 +13,12 @@ const isVisible = ref(false)
 
 onMounted(async () => {
   await store.getContactPageInfo()
+})
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      if (entries[0].isIntersecting) isVisible.value = true
-    },
-    {
-      threshold: 0.8,
-    },
-  )
-  if (!target.value) return
-  observer.observe(target.value)
+watch(contact, () => {
+  setTimeout(() => {
+    isVisible.value = true
+  }, 2000)
 })
 </script>
 
@@ -51,56 +46,57 @@ onMounted(async () => {
           </div>
         </r-banner>
       </r-grid>
-    </div>
-    <div ref="target" cls="contacts__request" class="dark-background">
-      <div cls="contacts__request-wrap">
-        <r-grid
-          cls="contacts__request-block"
-          desktop-column="1"
-          tablet-column="1"
-          mobile-column="1"
-          :desktop-gaps="[104]"
-          :tablet-gaps="[56]"
-          :mobile-gaps="[80]"
-        >
+      <div ref="target" cls="contacts__request" class="dark-background">
+        <div cls="contacts__request-wrap">
           <r-grid
-            cls="contacts__request-box"
+            cls="contacts__request-block"
             desktop-column="1"
             tablet-column="1"
             mobile-column="1"
-            :desktop-gaps="[32]"
-            :tablet-gaps="[24]"
-            :mobile-gaps="[16]"
+            :desktop-gaps="[104]"
+            :tablet-gaps="[56]"
+            :mobile-gaps="[80]"
           >
-            <div cls="contacts__request-title" v-html="contact.subtitle_page" />
-            <div cls="contacts__request-text">
-              Tell us in general terms about the project and a manager will contact you for a short
-              brief.
-            </div>
-          </r-grid>
-          <r-grid
-            cls="contacts__request-socials"
-            desktop-column="2"
-            tablet-column="2"
-            mobile-column="1"
-            :desktop-gaps="[24]"
-            :tablet-gaps="[12]"
-            :mobile-gaps="[12]"
-          >
-            <a v-for="m in contact.messengers" :href="m.link" cls="contacts__social">
-              <div cls="contacts__social-box">
-                <div cls="contacts__social-icon" v-html="m.icon" />
-                {{ m.name }}
+            <r-grid
+              cls="contacts__request-box"
+              desktop-column="1"
+              tablet-column="1"
+              mobile-column="1"
+              :desktop-gaps="[32]"
+              :tablet-gaps="[24]"
+              :mobile-gaps="[16]"
+            >
+              <div cls="contacts__request-title" v-html="contact.subtitle_page" />
+              <div cls="contacts__request-text">
+                Tell us in general terms about the project and a manager will contact you for a
+                short brief.
               </div>
-              <div cls="contacts__social-arrow">
-                <svgo-arrow-up-right />
-              </div>
-            </a>
+            </r-grid>
+            <r-grid
+              cls="contacts__request-socials"
+              desktop-column="2"
+              tablet-column="2"
+              mobile-column="1"
+              :desktop-gaps="[24]"
+              :tablet-gaps="[12]"
+              :mobile-gaps="[12]"
+            >
+              <a v-for="m in contact.messengers" :href="m.link" cls="contacts__social">
+                <div cls="contacts__social-box">
+                  <div cls="contacts__social-icon" v-html="m.icon" />
+                  {{ m.name }}
+                </div>
+                <div cls="contacts__social-arrow">
+                  <svgo-arrow-up-right />
+                </div>
+              </a>
+            </r-grid>
           </r-grid>
-        </r-grid>
+        </div>
+        <div :cls="{ contacts__background: true, '-visible': isVisible }" />
       </div>
-      <div :cls="{ contacts__background: true, '-visible': isVisible }" />
     </div>
+
     <!-- TODO: Надо поправить данные -->
     <reuse-social-media cls="contacts__social-media" />
   </div>
@@ -141,14 +137,17 @@ onMounted(async () => {
   &__background {
     position: absolute;
     top: 24px;
-    width: calc(100% - 48px);
+    left: 0;
+    width: 100%;
     height: calc(100% - 24px);
     background: var(--Black);
     border-radius: 24px;
     transform-origin: 50% 100%;
     transform: scale3d(1, 0, 1);
     transition: transform 2s cubic-bezier(0.19, 1, 0.22, 1);
-
+    margin: 0 auto;
+    max-width: 1520px;
+    padding: 0 24px;
     &.-visible {
       transform-origin: 50% 0%;
       transform: scale3d(1, 1, 1);
@@ -266,7 +265,7 @@ onMounted(async () => {
     &__background {
       border-radius: 16px;
       top: 16px;
-      width: calc(100% - 32px);
+      width: 100%;
       height: calc(100% - 16px);
     }
     &__request {
