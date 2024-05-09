@@ -12,14 +12,6 @@ const scrollTop = () => {
     behavior: "smooth",
   })
 }
-
-const hoverSound = ref<HTMLAudioElement | null>(null)
-
-const playHoverSound = () => {
-  if (!hoverSound.value) return
-  hoverSound.value.volume = 0.2
-  hoverSound.value?.play()
-}
 </script>
 
 <template>
@@ -42,7 +34,6 @@ const playHoverSound = () => {
                   <div
                     v-for="link in footer.menu"
                     v-show="link.name !== 'Consulting' && link.name !== 'Blog'"
-                    @mouseenter="playHoverSound()"
                   >
                     <nuxt-link :to="`/${link.name.toLowerCase()}`" cls="footer__links-item">
                       <span>
@@ -60,15 +51,11 @@ const playHoverSound = () => {
                     :href="soc.link"
                     target="_blank"
                     cls="footer__links-item"
-                    @mouseenter.prevent="playHoverSound()"
                   >
                     <span> {{ soc.name }} </span>
                   </a>
                 </div>
               </div>
-              <audio ref="hoverSound" preload="auto">
-                <source src="/files/footer-sound.wav" />
-              </audio>
             </div>
           </div>
         </div>

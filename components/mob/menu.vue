@@ -29,14 +29,6 @@ watch(
     active.value = false
   },
 )
-
-const hoverSound = ref<HTMLAudioElement | null>(null)
-
-const playHoverSound = () => {
-  if (!hoverSound.value) return
-  hoverSound.value.volume = 0.2
-  hoverSound.value.play()
-}
 </script>
 
 <template>
@@ -44,23 +36,13 @@ const playHoverSound = () => {
     <div cls="mobile__wrap">
       <nav cls="mobile__nav">
         <div>
-          <nuxt-link cls="mobile__nav-link" to="/" @click.prevent="playHoverSound()">
-            Home
-          </nuxt-link>
+          <nuxt-link cls="mobile__nav-link" to="/"> Home </nuxt-link>
         </div>
-        <div
-          v-for="item in menu"
-          v-show="item.name !== 'Consulting' && item.name !== 'Blog'"
-          @click.prevent="playHoverSound()"
-        >
+        <div v-for="item in menu" v-show="item.name !== 'Consulting' && item.name !== 'Blog'">
           <nuxt-link cls="mobile__nav-link" :to="`/${item.name.toLowerCase()}`">
             {{ item.name }}
           </nuxt-link>
         </div>
-
-        <audio ref="hoverSound" preload="auto">
-          <source src="/files/hover.mp3" />
-        </audio>
       </nav>
       <div class="line" />
       <div cls="mobile__bottom">

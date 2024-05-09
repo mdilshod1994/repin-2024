@@ -15,16 +15,6 @@ const showMenu = () => {
   useScrollLock(isActive.value)
 }
 
-// sound on hover
-
-const hoverSound = ref<HTMLAudioElement | null>(null)
-
-const playHoverSound = () => {
-  if (!hoverSound.value) return
-  hoverSound.value.volume = 0.2
-  hoverSound.value.play()
-}
-
 // to check dark background
 const isBackgroundDark = ref(false)
 function checkIfDarkBackgroud(el?: HTMLElement) {
@@ -87,18 +77,11 @@ if (typeof $useScroll === "function") {
         <svgo-r-logo cls="header__logo-mob" />
       </nuxt-link>
       <nav cls="header__nav">
-        <div
-          v-for="item in menu"
-          v-show="item.name !== 'Consulting' && item.name !== 'Blog'"
-          @mouseenter="playHoverSound()"
-        >
+        <div v-for="item in menu" v-show="item.name !== 'Consulting' && item.name !== 'Blog'">
           <nuxt-link cls="header__nav-link" :to="`/${item.name.toLowerCase()}`">
             <span>{{ item.name }}</span>
           </nuxt-link>
         </div>
-        <audio ref="hoverSound" preload="auto">
-          <source src="/files/hover.mp3" />
-        </audio>
       </nav>
       <div cls="header__btns">
         <r-button cls="header__btn" to="mailto:hello@repin.agency" bg-hover radius-hover
