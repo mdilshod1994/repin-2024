@@ -12,43 +12,46 @@ const items = computed(() => {
 
 <template>
   <div cls="outstaff">
-    <r-grid
-      desktop-column="1"
-      :desktop-gaps="[80]"
-      :tablet-gaps="[64]"
-      :mobile-gaps="[56]"
-      cls="outstaff__wrap"
-    >
+    <div class="container">
       <r-grid
         desktop-column="1"
-        :desktop-gaps="[104]"
-        :tablet-gaps="[80]"
+        :desktop-gaps="[80]"
+        :tablet-gaps="[64]"
         :mobile-gaps="[56]"
-        cls="outstaff__content"
+        cls="outstaff__wrap"
       >
-        <r-title :pretitle="staff.title_b4" text-align="center" color-white>
-          <template #title>
-            <div v-html="staff.subtitle_b4" />
-          </template>
-        </r-title>
         <r-grid
-          cls="outstaff__list"
-          desktop-column="4"
-          mobile-column="2"
-          :desktop-gaps="[24]"
-          :tablet-gaps="[20]"
-          :mobile-gaps="[12]"
+          desktop-column="1"
+          :desktop-gaps="[104]"
+          :tablet-gaps="[80]"
+          :mobile-gaps="[56]"
+          cls="outstaff__content"
         >
-          <div v-for="s in items" cls="outstaff__card">
-            <div cls="outstaff__card-icon" v-html="s.icon" />
-            <div cls="outstaff__card-text">{{ s.title }}</div>
-          </div>
+          <r-title :pretitle="staff.title_b4" text-align="center" color-white>
+            <template #title>
+              <div v-html="staff.subtitle_b4" />
+            </template>
+          </r-title>
+          <r-grid
+            cls="outstaff__list"
+            desktop-column="4"
+            mobile-column="2"
+            :desktop-gaps="[24]"
+            :tablet-gaps="[20]"
+            :mobile-gaps="[12]"
+          >
+            <div v-for="s in items" cls="outstaff__card">
+              <div cls="outstaff__card-icon" v-html="s.icon" />
+              <div cls="outstaff__card-text">{{ s.title }}</div>
+            </div>
+          </r-grid>
         </r-grid>
+        <r-button bg-color="white" :to="staff.btn_b4_link" cls="outstaff__btn">
+          {{ staff.btn_b4_text }}
+        </r-button>
       </r-grid>
-      <r-button bg-color="white" :to="staff.btn_b4_link" cls="outstaff__btn">
-        {{ staff.btn_b4_text }}
-      </r-button>
-    </r-grid>
+    </div>
+
     <div cls="outstaff__bg">
       <div cls="outstaff__gradient" />
       <img src="@/assets/images/tempImages/r.png" alt="" />
@@ -61,7 +64,7 @@ const items = computed(() => {
   background: var(--Black);
   margin: 24px 0;
   &__wrap {
-    padding: 160px 80px 0;
+    padding: 160px 0 0;
     max-width: 1920px;
     margin: 0 auto;
   }
@@ -114,7 +117,6 @@ const items = computed(() => {
     margin: 0 auto;
   }
   &__bg {
-    max-width: 1920px;
     margin: 0 auto;
     position: relative;
     img {
@@ -139,7 +141,7 @@ const items = computed(() => {
 @include tablet {
   .outstaff {
     &__wrap {
-      padding: 104px 40px 0;
+      padding: 104px 0 0;
     }
     &__card {
       padding: 32px 16px;
