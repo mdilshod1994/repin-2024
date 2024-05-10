@@ -1,4 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { Vacancy } from "~/types/about"
+
+defineProps<{
+  vacancies: Vacancy[]
+}>()
+</script>
 
 <template>
   <r-grid
@@ -36,25 +42,30 @@
       :mobile-gaps="[48]"
       cls="open-jobs__list"
     >
-      <div v-for="j in 2" cls="open-jobs__item">
-        <div cls="open-jobs__item-title"><span /> UX/UI Design</div>
+      <div v-for="vacancy in vacancies" cls="open-jobs__item">
+        <div cls="open-jobs__item-title"><span /> {{ vacancy.categories_name }}</div>
         <r-grid
           desktop-column="2"
           :desktop-gaps="[12]"
           mobile-column="1"
           cls="open-jobs__item-list"
         >
-          <div v-for="p in 4" cls="open-jobs__item-box">
+          <nuxt-link
+            v-for="(v, idx) in vacancy.list"
+            :key="idx"
+            cls="open-jobs__item-box"
+            :to="v.link"
+          >
             <div cls="open-jobs__item-content">
-              <div cls="open-jobs__item-name">Full Time Assistant</div>
-              <div cls="open-jobs__item-tasks">Lots of interesting tasks</div>
+              <div cls="open-jobs__item-name">{{ v.name }}</div>
+              <div cls="open-jobs__item-tasks">{{ v.description }}</div>
             </div>
             <div cls="open-jobs__item-icon">
               <r-round-button size="small" bg-color="white">
                 <svgo-arrow-right />
               </r-round-button>
             </div>
-          </div>
+          </nuxt-link>
         </r-grid>
       </div>
     </r-grid>
@@ -140,8 +151,12 @@
 @include tablet-small {
   .open-jobs {
     &__item {
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 16px;
+      &-list,
+      &-box {
+        max-width: 100%;
+      }
     }
   }
 }
@@ -149,12 +164,6 @@
   .open-jobs {
     &__info-icon {
       display: none;
-    }
-    &__item {
-      &-list,
-      &-box {
-        max-width: 100%;
-      }
     }
   }
 }

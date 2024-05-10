@@ -28,15 +28,15 @@ onMounted(async () => {
     <div cls="about__video">
       <r-video :video="{ short: about.video_short, long: about.video_long }" />
     </div>
-    <div v-if="about.slides" cls="about__slider">
-      <r-slider-content :contents="about.slides" />
-    </div>
     <div cls="about__full-cycle" class="dark-background">
       <about-full-cycle
         :full-cycle="about.items_b2"
         :title="about.title_b2"
         :description="about.description_b2"
       />
+    </div>
+    <div v-if="about.slides" cls="about__slider">
+      <r-slider-content :contents="about.slides" />
     </div>
     <div class="container">
       <div cls="about__experts">
@@ -57,8 +57,8 @@ onMounted(async () => {
       <div cls="about__expirience">
         <reuse-expirience :info="about.repin_agency_mobicom" />
       </div>
-      <div v-if="false" cls="about__open-jobs">
-        <about-open-jobs />
+      <div v-if="about.vacancies" cls="about__open-jobs">
+        <about-open-jobs :vacancies="about.vacancies" />
       </div>
     </div>
   </div>
