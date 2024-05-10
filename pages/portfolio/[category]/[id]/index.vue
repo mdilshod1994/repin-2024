@@ -142,14 +142,25 @@ const hasVideo = computed(() => {
           </div>
         </r-grid>
       </div>
-      <div v-if="block.acf_fc_layout === 'flex_big_img'" cls="case__unknow" class="dark-background">
+      <div v-if="block.acf_fc_layout === 'flex_big_img'" class="container">
+        <div cls="case__square" class="dark-background">
+          <div cls="case__square-wrap">
+            <div cls="case__square-inner">
+              <a :href="block.fbi_img" data-fancybox="gallery">
+                <img :src="block.fbi_img" alt="" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div v-if="block.acf_fc_layout === 'flex_big_img'" cls="case__unknow" class="dark-background">
         <div cls="case__unknow-inner">
           <a :href="block.fbi_img" data-fancybox="gallery">
             <img :src="block.fbi_img" alt="" />
           </a>
           <video v-if="false" :src="block.fbi_video" />
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="container">
       <div v-if="portfolio.repin_agency_mobicom" cls="case__expirience">

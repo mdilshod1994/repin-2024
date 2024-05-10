@@ -1,0 +1,15 @@
+<svg width="388" height="186" viewBox="0 0 388 186" fill="none" xmlns="http://www.w3.org/2000/svg">
+<line x1="312" y1="50.9167" x2="312" y2="146.667" stroke="black" stroke-opacity="0.05" stroke-width="2" stroke-linecap="round"/>
+<path d="M2 130.417C10.9228 119.51 26.6605 95.9743 50.3891 95.9743C78.6239 95.9743 91.5714 119.223 123.488 119.223C174.965 119.223 181.143 54.6434 214.089 54.6434C241.887 55.5045 243.946 86.5026 265.566 86.5026C287.187 86.5026 296.633 46.2924 335.358 45.053C370.147 43.9396 370.147 5.34032 386 2" stroke="#CFB8FF" stroke-width="4" stroke-linecap="round"/>
+<ellipse cx="312" cy="53.7501" rx="19" ry="18.2083" fill="black" fill-opacity="0.04"/>
+<ellipse cx="312" cy="53.7501" rx="7" ry="6.70833" fill="#956EE9"/>
+<line x1="2" y1="147.167" x2="386" y2="147.167" stroke="black" stroke-opacity="0.1" stroke-dasharray="5 5"/>
+<line x1="2" y1="70.5" x2="386" y2="70.5" stroke="black" stroke-opacity="0.1" stroke-dasharray="5 5"/>
+<path d="M50.3891 95.8874C26.6605 95.8874 10.9228 119.401 2 130.298V186H386V2C370.147 5.33723 370.147 43.9008 335.358 45.0132C296.633 46.2514 287.187 86.4245 265.566 86.4245C243.946 86.4245 241.887 55.455 214.089 54.5948C181.143 54.5948 174.965 119.115 123.488 119.115C91.5714 119.115 78.6239 95.8874 50.3891 95.8874Z" fill="url(#paint0_linear_5502_8306)" fill-opacity="0.1"/>
+<defs>
+<linearGradient id="paint0_linear_5502_8306" x1="194" y1="2" x2="194" y2="262.138" gradientUnits="userSpaceOnUse">
+<stop stop-color="#CFB8FF"/>
+<stop offset="1" stop-color="#CFB8FF" stop-opacity="0"/>
+</linearGradient>
+</defs>
+</svg>

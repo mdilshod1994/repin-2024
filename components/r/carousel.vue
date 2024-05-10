@@ -19,6 +19,7 @@ const props = defineProps<{
   mobGap?: string
   innerPaddingSides?: string
   innerMobPaddingSides?: string
+  paddingSides?: string
   removeMargin?: boolean
 }>()
 
@@ -101,6 +102,10 @@ onMounted(() => {
   // carousel на всю ширину экрана, т.е. максимум ширина 1920px
   // первоначальное положение первого слайда(отступ слева) начинается где .container, т.е. в линию по вертикали
   setMarginsToSlides()
+})
+
+const deskPaddingSides = computed(() => {
+  return `${props.paddingSides}px`
 })
 
 const paddingSides = computed(() => {
@@ -227,6 +232,16 @@ const cursorToggle = (e: any) => {
     }
   }
 }
+
+@include desktop-medium {
+  .carousel {
+    &__slider {
+      padding-left: v-bind(deskPaddingSides);
+      padding-right: v-bind(deskPaddingSides);
+    }
+  }
+}
+
 @include tablet {
   .carousel {
     gap: 40px;
