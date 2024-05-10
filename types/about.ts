@@ -1,4 +1,4 @@
-import type { Block1 } from "./blockTypes"
+import type { reUseBlock1 } from "./blockTypes"
 
 export interface About {
   en: En
@@ -31,7 +31,7 @@ export interface EnPage {
   link_b5: string
   items_b5: ItemsB5[]
   img_b6: string
-  repin_agency_mobicom: Block1
+  repin_agency_mobicom: reUseBlock1
 }
 
 export interface ItemsB2 {
@@ -85,7 +85,7 @@ export interface RuPage {
   link_b5: string
   items_b5: ItemsB5[]
   img_b6: string
-  repin_agency_mobicom: Block1
+  repin_agency_mobicom: reUseBlock1
 }
 
 export interface ItemsB3 {
