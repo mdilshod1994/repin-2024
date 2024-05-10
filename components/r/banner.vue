@@ -96,8 +96,32 @@ const scrollToId = () => {
     border: 1px solid #b6a2e0;
     flex-shrink: 0;
     align-self: flex-start;
+    overflow: hidden;
     svg {
       font-size: 16px;
+    }
+    &:hover {
+      svg {
+        animation:
+          MoveScaleUpInitial 0.3s forwards,
+          MoveScaleUpEnd 0.3s forwards 0.3s;
+      }
+    }
+    @keyframes MoveScaleUpInitial {
+      100% {
+        transform: translate3d(0, 100%, 0) scale3d(1, 2, 1);
+        opacity: 0;
+      }
+    }
+    @keyframes MoveScaleUpEnd {
+      0% {
+        transform: translate3d(0, -105%, 0) scale3d(1, 2, 1);
+        opacity: 0;
+      }
+      100% {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+      }
     }
   }
   &__bottom {
