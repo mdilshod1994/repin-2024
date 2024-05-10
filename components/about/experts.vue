@@ -40,8 +40,7 @@ defineProps<{
             <div cls="experts__card-content">
               <div cls="experts__card-title">Brand design</div>
               <div cls="experts__card-desc">
-                The brand designer will help create the original style and identity of the project
-                and a guideline on how to use the new style.
+                A brand designer will help to create original style, identity of a project and a guideline on how to use the new style.
               </div>
             </div>
             <div class="tabs">
@@ -97,7 +96,7 @@ defineProps<{
             <div cls="experts__card-content">
               <div cls="experts__card-title">{{'</Development>'}}</div>
               <div cls="experts__card-desc">
-                We create any IT solutions your business needs and have enough knowledge and resources to develop a SaaS or mobile apps.
+                We create any IT solutions your business needs. We have enough knowledge and resources to develop SaaS or mobile apps.
               </div>
             </div>
             <div class="tabs">
