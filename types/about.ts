@@ -32,6 +32,8 @@ export interface EnPage {
   items_b5: ItemsB5[]
   img_b6: string
   repin_agency_mobicom: reUseBlock1
+  vacancies: Vacancy[]
+  slides: Slide[]
 }
 
 export interface ItemsB2 {
@@ -86,6 +88,8 @@ export interface RuPage {
   items_b5: ItemsB5[]
   img_b6: string
   repin_agency_mobicom: reUseBlock1
+  vacancies: Vacancy[]
+  slides: Slide[]
 }
 
 export interface ItemsB3 {
@@ -97,4 +101,19 @@ export interface ItemsB3 {
 
 export interface Tag {
   tag: string
+}
+
+export interface Slide {
+  name: string
+  text: string
+}
+
+export interface Vacancy {
+  categories_name: string
+  list: List[]
+}
+export interface List {
+  name: string
+  description: string
+  link: string
 }

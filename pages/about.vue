@@ -28,9 +28,8 @@ onMounted(async () => {
     <div cls="about__video">
       <r-video :video="{ short: about.video_short, long: about.video_long }" />
     </div>
-    <!-- пока нет слайдера -->
-    <div v-if="false" cls="about__slider">
-      <!-- <r-slider-content v-if="products" :products="products" /> -->
+    <div v-if="about.slides" cls="about__slider">
+      <r-slider-content :contents="about.slides" />
     </div>
     <div cls="about__full-cycle" class="dark-background">
       <about-full-cycle

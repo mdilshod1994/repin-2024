@@ -1,9 +1,9 @@
 <script setup lang="ts">
-// import { type Slide } from "~/types/globaldata"
+import type { Slide } from "~/types/about"
 
 const props = defineProps<{
   styleNumbers?: boolean
-  products: Array<Slide>
+  contents: Slide[]
 }>()
 
 const cIdx = ref(0),
@@ -15,8 +15,8 @@ const cIdx = ref(0),
 
 // цикл слайдера
 const loopSlides = () => {
-  if (!props.products) return
-  if (cIdx.value < props.products.length - 1) {
+  if (!props.contents) return
+  if (cIdx.value < props.contents.length - 1) {
     cIdx.value++
   } else {
     cIdx.value = 0
@@ -79,20 +79,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="products?.length" cls="block">
-    <r-slider-pagination-number v-model:cIdx="currentPreviewIdx" :qnty-slides="products.length" />
+  <div v-if="contents?.length" cls="block">
+    <r-slider-pagination-number v-model:cIdx="currentPreviewIdx" :qnty-slides="contents.length" />
     <div cls="block__right">
       <div cls="block__right-box">
-        <div v-if="products" cls="block__contents">
+        <div v-if="contents" cls="block__contents">
           <div
-            v-for="(c, idx) in products"
+            v-for="(c, idx) in contents"
             :cls="{ 'block__contents-item': true, '-active': idx === cIdx && setKeyframe }"
             @click="toCurrSlide(idx)"
             @mousemove="pause(idx, $event)"
             @touchstart="pause(idx, $event)"
             @mouseleave="play"
           >
-            {{ c.price }} <span :style="`width: ${percentageOfLine}%`" />
+            {{ c.name }} <span :style="`width: ${percentageOfLine}%`" />
           </div>
         </div>
       </div>
@@ -103,12 +103,7 @@ onMounted(() => {
         mode="out-in"
       >
         <div v-if="currentPreviewIdx" :key="cIdx" cls="block__descriptions-block">
-          <div cls="block__descriptions-text">
-            {{ products[cIdx].title }}
-          </div>
-          <div cls="block__descriptions-text -bold">
-            {{ products[cIdx].description }}
-          </div>
+          <div cls="block__descriptions-text" v-html="contents[cIdx].text" />
         </div>
       </transition>
     </div>
@@ -177,11 +172,11 @@ onMounted(() => {
   &__descriptions {
     &-block {
       max-width: 411px;
+    }
+    &-text {
       display: flex;
       flex-direction: column;
       gap: 16px;
-    }
-    &-text {
       @include desctop-caption-17;
       &.-bold {
         @include desctop-caption-17-med;
@@ -256,6 +251,8 @@ onMounted(() => {
     &__descriptions {
       &-block {
         max-width: 100%;
+      }
+      &-text {
         gap: 8px;
       }
     }
