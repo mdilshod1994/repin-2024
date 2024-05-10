@@ -16,9 +16,13 @@ defineProps<{
         </div>
       </div>
       <div cls="expirience__ceo">
-        <r-author v-for="(a, idx) in info.items" :key="idx" :name="a.name" :profession="a.status">
-          <img :src="a.photo" alt="" />
-        </r-author>
+        <r-author
+          v-for="(a, idx) in info.items"
+          :key="idx"
+          :name="a.name"
+          :profession="a.status"
+          :avatar="a.photo"
+        />
       </div>
     </div>
     <div cls="expirience__img">

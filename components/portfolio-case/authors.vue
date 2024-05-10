@@ -24,9 +24,8 @@ defineProps<{
             :key="idx"
             :name="a.team_name"
             :profession="a.team_sign"
-          >
-            <img :src="a.team_avatar" alt="" />
-          </r-author>
+            :avatar="a.team_avatar"
+          />
         </r-grid>
       </div>
     </div>

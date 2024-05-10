@@ -8,8 +8,8 @@ defineProps<{
 
 <template>
   <div cls="author">
-    <div cls="author__avatar">
-      <slot />
+    <div v-if="avatar" cls="author__avatar">
+      <img :src="avatar" alt="" />
     </div>
     <div cls="author__box">
       <div cls="author__name">
