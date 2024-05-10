@@ -1,15 +1,23 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   name?: string
-  avatar?: string
+  avatar?: string | boolean
   profession?: string
 }>()
+
+const isNotBoolean = computed(() => {
+  if (typeof props.avatar === "string") {
+    return props.avatar
+  } else {
+    return ""
+  }
+})
 </script>
 
 <template>
   <div cls="author">
-    <div v-if="avatar" cls="author__avatar">
-      <img :src="avatar" alt="" />
+    <div v-if="isNotBoolean" cls="author__avatar">
+      <img :src="isNotBoolean" alt="" />
     </div>
     <div cls="author__box">
       <div cls="author__name">
