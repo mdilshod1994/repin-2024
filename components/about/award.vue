@@ -96,7 +96,7 @@ if (typeof $useScroll === "function") {
             </div>
           </div>
           <div cls="awards__item-circles">
-            <div v-for="icon in item.icons">
+            <div v-for="icon in item.icons" cls="awards__item-circle">
               <div v-html="icon.svg" />
             </div>
           </div>
@@ -187,11 +187,20 @@ if (typeof $useScroll === "function") {
       display: flex;
       align-items: center;
     }
+    &-circle {
+      &:nth-child(2) {
+        margin-left: -12px;
+      }
+    }
     &-texts {
       gap: 48px;
     }
     &-text {
       color: var(--dark-grey);
+      white-space: nowrap;
+      &:nth-child(1) {
+        min-width: 250px;
+      }
     }
     &-block {
       max-width: 737px;
@@ -319,6 +328,22 @@ if (typeof $useScroll === "function") {
       }
       &-album {
         display: none;
+      }
+    }
+  }
+}
+@include tablet-small {
+  .awards {
+    &__item {
+      &-texts {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+      }
+      &-text {
+        &:nth-child(1) {
+          min-width: max-content;
+        }
       }
     }
   }
