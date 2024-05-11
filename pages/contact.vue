@@ -111,6 +111,39 @@ watch(contact, () => {
       @include desctop-body-22;
       a {
         @include desctop-body-22;
+        width: max-content;
+        position: relative;
+        &::after,
+        &::before {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 1px;
+          background: var(--Black);
+          top: 100%;
+          left: 0;
+          pointer-events: none;
+        }
+        &::before {
+          transform: scaleX(1);
+          transform-origin: right;
+          transition: transform 0.3s;
+        }
+        &::after {
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.3s;
+          transition-delay: 0s;
+        }
+        &:hover {
+          &::before {
+            transform: scaleX(0);
+          }
+          &::after {
+            transition-delay: 0.2s;
+            transform: scaleX(1);
+          }
+        }
       }
     }
   }
