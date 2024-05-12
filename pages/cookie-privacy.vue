@@ -22,41 +22,7 @@ onMounted(async () => {
         </div>
         <div cls="policy__wrap">
           <div cls="policy__title">{{ cp.post_title }}</div>
-          <r-grid desktop-column="1" :desktop-gaps="[64]" :mobile-gaps="[48]">
-            <div v-html="cp.post_content" />
-            <!-- <r-grid cls="policy__box" desktop-column="1" :desktop-gaps="[24]">
-              <div cls="policy__box-title">Information Collection And Use</div>
-              <div cls="policy__box-desc">
-                The client turned to the Studio for a complete repackaging of the brand. Previously,
-                the company was called "Isabelle". We have developed a new naming, a website with a
-                catalog of curtains and accessories, and the main elements of corporate identity.
-                The client turned to the Studio for a complete repackaging of the brand. Previously,
-                the company was called "Isabelle". We have developed a new naming, a website with a
-                catalog of curtains and accessories, and the main elements of corporate identity.The
-                client turned to the Studio for a complete repackaging of the brand. Previously, the
-                company was called "Isabelle". We have developed a new naming, a website with a
-                catalog of curtains and accessories, and the main elements of corporate identity.
-              </div>
-            </r-grid>
-            <r-grid desktop-column="1" :desktop-gaps="[24]">
-              <div cls="policy__box-title">Information Collection And Use</div>
-              <r-grid desktop-column="1" :desktop-gaps="[8]">
-                <div cls="policy__box-pretitle">Information Collection And Use</div>
-                <div cls="policy__box-desc">
-                  The client turned to the Studio for a complete repackaging of the brand.
-                  Previously, the company was called "Isabelle". We have developed a new naming, a
-                  website with a catalog of curtains and accessories, and the main elements of
-                  corporate identity. The client turned to the Studio for a complete repackaging of
-                  the brand. Previously, the company was called "Isabelle". We have developed a new
-                  naming, a website with a catalog of curtains and accessories, and the main
-                  elements of corporate identity.The client turned to the Studio for a complete
-                  repackaging of the brand. Previously, the company was called "Isabelle". We have
-                  developed a new naming, a website with a catalog of curtains and accessories, and
-                  the main elements of corporate identity.
-                </div>
-              </r-grid>
-            </r-grid> -->
-          </r-grid>
+          <div cls="policy__content" v-html="cp.post_content" />
         </div>
       </r-grid>
     </div>
@@ -67,9 +33,28 @@ onMounted(async () => {
 .policy {
   padding: 136px 0 160px;
   &__wrap {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(375px, 1fr));
+    display: flex;
     gap: 32px;
+    justify-content: space-between;
+  }
+  &__content {
+    max-width: 628px;
+    p {
+      margin-top: 24px;
+      &:nth-child(1) {
+        margin-top: 0;
+      }
+    }
+    h2 {
+      @include desctop-H4;
+    }
+    h3 {
+      @include desctop-caption-17-db;
+      margin-top: 24px;
+    }
+    ul {
+      padding-left: 24px;
+    }
   }
   &__pretitle {
     display: flex;
@@ -80,28 +65,30 @@ onMounted(async () => {
     @include desctop-H2;
     white-space: nowrap;
   }
-  &__box {
-    &-title {
-      @include desctop-H4;
-    }
-    &-pretitle {
-      @include desctop-caption-17-db;
-    }
-  }
 }
-@include mobile {
+@include tablet-small {
   .policy {
     padding: 72px 0 88px;
     &__wrap {
-      gap: 72px;
+      flex-direction: column;
     }
-    &__title {
-      @include mob-H1;
-    }
-    &__box {
-      &-title {
+    &__content {
+      max-width: 100%;
+      p {
+        margin-top: 16px;
+      }
+      h2 {
         @include mob-h4-22;
       }
+      h3 {
+        margin-top: 16px;
+      }
+      ul {
+        padding-left: 16px;
+      }
+    }
+    &__title {
+      @include mob-H2;
     }
   }
 }
