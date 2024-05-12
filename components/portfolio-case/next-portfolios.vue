@@ -13,27 +13,30 @@ const portfolios = computed(() => {
 onMounted(async () => {
   await store.getPortfolio("all", 0)
   gsap.registerPlugin(ScrollTrigger)
-  gsap.to(".first", {
-    scrollTrigger: {
-      trigger: ".first",
-      start: "-30% 60%",
-      end: "10% 40%",
-      scrub: 2,
-    },
-    y: -104,
-    ease: "power1.inOut",
-    duration: 3,
-  })
-  gsap.to(".second", {
-    scrollTrigger: {
-      trigger: ".first",
-      start: "-30% 60%",
-      end: "10% 40%",
-      scrub: 2,
-    },
-    y: -208,
-    ease: "power1.inOut",
-    duration: 3,
+  const mm = gsap.matchMedia()
+  mm.add("(min-width: 768px)", () => {
+    gsap.to(".first", {
+      scrollTrigger: {
+        trigger: ".first",
+        start: "-30% 60%",
+        end: "10% 40%",
+        scrub: 2,
+      },
+      y: -104,
+      ease: "power1.inOut",
+      duration: 3,
+    })
+    gsap.to(".second", {
+      scrollTrigger: {
+        trigger: ".first",
+        start: "-30% 60%",
+        end: "10% 40%",
+        scrub: 2,
+      },
+      y: -208,
+      ease: "power1.inOut",
+      duration: 3,
+    })
   })
 })
 </script>
@@ -70,6 +73,14 @@ onMounted(async () => {
   }
   &:nth-child(3) {
     margin-top: 208px;
+  }
+}
+@include mobile {
+  .project {
+    &:nth-child(2),
+    &:nth-child(3) {
+      margin-top: 0;
+    }
   }
 }
 </style>
