@@ -52,6 +52,7 @@ const setCategory = (slugc: string) => {
     <div ref="filterBtns" :cls="{ filter__btns: true, '-show': show }">
       <button
         :cls="{ filter__btn: true, '-active': activeSlug === 'all' }"
+        data-cursor="pointer"
         @click="setCategory('all')"
       >
         <span>All</span>
@@ -59,6 +60,7 @@ const setCategory = (slugc: string) => {
       <button
         v-for="category in categories"
         :cls="{ filter__btn: true, '-active': activeSlug === category.slug, '-show': show }"
+        data-cursor="pointer"
         @click="setCategory(category.slug)"
       >
         <span> {{ category.name }}</span>

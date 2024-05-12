@@ -76,7 +76,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="isDomLoaded" cls="cursor" @mousemove="showCursor(1)" @mouseleave="showCursor(0)">
+  <div
+    v-if="isDomLoaded"
+    cls="cursor"
+    data-cursor="hide"
+    @mousemove="showCursor(1)"
+    @mouseleave="showCursor(0)"
+  >
     <div ref="cursor" :cls="{ 'cursor-wrap': true, [`-${bgColor}`]: true }">
       <div cls="cursor-block">
         <div ref="cursorbg" :cls="{ 'cursor-inner': true, [`-${bgColor}`]: true }" />

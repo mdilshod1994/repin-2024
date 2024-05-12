@@ -67,7 +67,7 @@ const scrollTop = () => {
           </div>
           <div cls="footer__bottom-wrap">
             <a :href="`mailto:${footer.email}`" cls="footer__bottom-text">{{ footer.email }}</a>
-            <button href="/" cls="footer__bottom-to-top" @click="scrollTop">
+            <button href="/" cls="footer__bottom-to-top" data-cursor="pointer" @click="scrollTop">
               {{ footer.top }} <svgo-arrow-down />
             </button>
           </div>

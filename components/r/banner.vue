@@ -43,7 +43,7 @@ const scrollToId = () => {
       <div v-if="bottomLine" class="line" />
       <div cls="banner__bottom-wrap">
         <slot name="bottom-left" />
-        <div v-if="scrollTo" cls="banner__scroll-to" @click="scrollToId">
+        <div v-if="scrollTo" cls="banner__scroll-to" data-cursor="pointer" @click="scrollToId">
           {{ scrollTo }}
           <svgo-arrow-down filled />
         </div>
