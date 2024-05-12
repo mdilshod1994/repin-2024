@@ -38,9 +38,7 @@ onMounted(() => {
       toggleCursorType()
     }
     const a = e.target.closest("a")
-    const video = e.target.closest("video")
-    const iframe = e.target.closest("iframe")
-    if (a || video || iframe) {
+    if (a) {
       changeCursor.value = true
     } else {
       changeCursor.value = false
