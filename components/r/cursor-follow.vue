@@ -20,6 +20,7 @@ const cursorPrevPos = ref({ x: 0, y: 0 })
 const cursorEasePos = ref({ x: 0, y: 0 })
 const currScale = ref(0)
 const currRotate = ref(0)
+const arrowDirecton = ref("right")
 function showCursor(opacity: number) {
   if (cursor.value) {
     cursor.value.style.opacity = `${opacity}`
@@ -32,6 +33,12 @@ onMounted(() => {
   document.addEventListener("mousemove", (e) => {
     cursorPos.value.x = e.clientX
     cursorPos.value.y = e.clientY
+    const halfScreen = window.screen.width / 2
+    if (e.clientX > halfScreen) {
+      arrowDirecton.value = "right"
+    } else {
+      arrowDirecton.value = "left"
+    }
   })
 
   requestAnimationFrame(function loop() {
@@ -87,7 +94,10 @@ onMounted(() => {
       <div cls="cursor-block">
         <div ref="cursorbg" :cls="{ 'cursor-inner': true, [`-${bgColor}`]: true }" />
         <svgo-play v-if="cursorType === 'video'" cls="cursor-video" />
-        <div v-if="cursorType === 'carousel'" cls="cursor-carousel">
+        <div
+          v-if="cursorType === 'carousel'"
+          :cls="{ 'cursor-carousel': true, [`-${arrowDirecton}`]: true }"
+        >
           <svgo-arrow-right />
         </div>
       </div>
@@ -166,8 +176,15 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
     gap: 4px;
+    transition: 0.3s ease-in-out;
     svg {
       font-size: 24px;
+    }
+    &.-right {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    &.-left {
+      transform: translate(-50%, -50%) rotate(-180deg);
     }
   }
 }

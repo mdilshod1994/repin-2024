@@ -20,7 +20,8 @@ const slider = ref<HTMLElement | null>(null),
   pageX = ref(0),
   startScrollLeft = ref(0),
   cIdx = ref(0),
-  transitionNumberName = ref("down")
+  transitionNumberName = ref("down"),
+  isMousemove = ref(false)
 
 const dragging = (e: any) => {
   if (slider.value && isDragging.value) {
@@ -28,15 +29,20 @@ const dragging = (e: any) => {
     pageX.value = e.type === "mousemove" ? e.pageX : e.touches[0].pageX
     slider.value.scrollLeft = startScrollLeft.value - (pageX.value - startX.value)
   }
+  if (!isDragging.value) return
+  isMousemove.value = true
+  e.preventDefault()
 }
 const dragStart = (e: any) => {
   isDragging.value = true
+  isMousemove.value = false
   stopMoveSlideByClick.value = false
   startX.value = e.type === "mousedown" ? e.pageX : e.touches[0].pageX
   if (slider.value) startScrollLeft.value = slider.value.scrollLeft
 }
 const dragStop = () => {
   isDragging.value = false
+
   if (slider.value && stopMoveSlideByClick.value) {
     if (pageX.value - startX.value > 70 && cIdx.value > 0) {
       transitionNumberName.value = "up"
@@ -65,6 +71,19 @@ const scrollIntoView = (index: number) => {
     }
   })
 }
+
+const clickSides = (e: any) => {
+  const halfScreen = window.screen.width / 2
+  if (!isMousemove.value) {
+    if (e.pageX > halfScreen) {
+      cIdx.value++
+      scrollIntoView(cIdx.value)
+    } else {
+      cIdx.value--
+      scrollIntoView(cIdx.value)
+    }
+  }
+}
 </script>
 
 <template>
@@ -79,6 +98,7 @@ const scrollIntoView = (index: number) => {
       @touchstart="dragStart"
       @touchmove="dragging"
       @touchend="dragStop"
+      @click="clickSides"
     >
       <slot name="slides" />
     </div>
