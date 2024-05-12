@@ -14,15 +14,15 @@ function toggleCursorType() {
   if (!dataSetS.value) return
   dataSetS.value.forEach((item) => {
     item.addEventListener("mouseover", (e) => {
-      if (item.dataset.cursor === "pointer") {
-        changeCursor.value = true
-      }
+      // if (item.dataset.cursor === "pointer") {
+      //   changeCursor.value = true
+      // }
       if (item.dataset.cursor === "hide") {
         hideCursorIfDataset.value = true
       }
     })
     item.addEventListener("mouseout", () => {
-      changeCursor.value = false
+      // changeCursor.value = false
       hideCursorIfDataset.value = false
     })
   })
@@ -38,7 +38,9 @@ onMounted(() => {
       toggleCursorType()
     }
     const a = e.target.closest("a")
-    if (a) {
+    const video = e.target.closest("video")
+    const iframe = e.target.closest("iframe")
+    if (a || video || iframe) {
       changeCursor.value = true
     } else {
       changeCursor.value = false
