@@ -73,14 +73,19 @@ const scrollIntoView = (index: number) => {
 }
 
 const clickSides = (e: any) => {
-  const halfScreen = window.screen.width / 2
+  const body = document.querySelector("body") as HTMLElement
+  const halfScreen = body.clientWidth / 2
   if (!isMousemove.value) {
     if (e.pageX > halfScreen) {
-      cIdx.value++
-      scrollIntoView(cIdx.value)
+      if (slider.value.children.length - 1 > cIdx.value) {
+        cIdx.value++
+        scrollIntoView(cIdx.value)
+      }
     } else {
-      cIdx.value--
-      scrollIntoView(cIdx.value)
+      if (cIdx.value > 0) {
+        cIdx.value--
+        scrollIntoView(cIdx.value)
+      }
     }
   }
 }

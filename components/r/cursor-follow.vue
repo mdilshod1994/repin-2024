@@ -33,8 +33,9 @@ onMounted(() => {
   document.addEventListener("mousemove", (e) => {
     cursorPos.value.x = e.clientX
     cursorPos.value.y = e.clientY
-    const halfScreen = window.screen.width / 2
-    if (e.clientX > halfScreen) {
+    const body = document.querySelector("body") as HTMLElement
+    const halfScreen = body.clientWidth / 2
+    if (e.pageX > halfScreen) {
       arrowDirecton.value = "right"
     } else {
       arrowDirecton.value = "left"
