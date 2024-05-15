@@ -23,7 +23,7 @@ export interface Category {
 }
 
 export interface PortfolioElement {
-  id: number
+  id: string
   title: string
   slug: string
   cover: string

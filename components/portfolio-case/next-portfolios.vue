@@ -2,24 +2,28 @@
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-import type { PortfolioElement } from "~/types/portfolio"
+import type { Portfolio, PortfolioElement } from "~/types/portfolio"
 
-const store = usePortfolio()
-const portfolio = ref<HTMLElement | null>(null)
+gsap.registerPlugin(ScrollTrigger)
+
+const { en } = await $fetch<Portfolio>("https://repin.agency/wp-json/api/v1/projects/all/0")
 
 const portfolios = computed(() => {
-  return store.portfolio?.slice(0, 3) as PortfolioElement[]
+  const p = en.portfolio as PortfolioElement[]
+  if (p) {
+    const sortedPortfolio = p.sort(() => (Math.random() > 0.5 ? 1 : -1)).slice(0, 3)
+    return sortedPortfolio
+  }
 })
-onMounted(async () => {
-  await store.getPortfolio("all", 0)
-  gsap.registerPlugin(ScrollTrigger)
+const container = ref()
+const setGSAP = () => {
   const mm = gsap.matchMedia()
   mm.add("(min-width: 768px)", () => {
     gsap.to(".first", {
       scrollTrigger: {
         trigger: ".first",
-        start: "-30% 60%",
-        end: "10% 40%",
+        start: "-30% 100%",
+        end: "40% 70%",
         scrub: 2,
       },
       y: -104,
@@ -29,20 +33,29 @@ onMounted(async () => {
     gsap.to(".second", {
       scrollTrigger: {
         trigger: ".first",
-        start: "-30% 60%",
-        end: "10% 40%",
+        start: "-30% 100%",
+        end: "40% 70%",
         scrub: 2,
+        markers: true,
       },
       y: -208,
       ease: "power1.inOut",
       duration: 3,
     })
   })
+}
+onMounted(() => {
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      setGSAP()
+    }
+  })
+  observer.observe(container.value)
 })
 </script>
 
 <template>
-  <div v-if="portfolios" ref="portfolio" cls="projects">
+  <div ref="container" cls="projects">
     <div cls="projects__inner">
       <r-title pretitle="Our projects" title="Next projects" flex-start />
       <r-grid mobile-column="1" tablet-column="3" :mobile-gaps="[40]" button>
@@ -51,6 +64,7 @@ onMounted(async () => {
           :key="portfolio.id"
           :portfolio="portfolio"
           cls="project"
+          class="project"
           :class="`${idx === 1 ? 'first' : ''} ${idx === 2 ? 'second' : ''} `"
         />
       </r-grid>
