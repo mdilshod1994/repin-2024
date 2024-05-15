@@ -36,7 +36,6 @@ const setGSAP = () => {
         start: "-30% 100%",
         end: "40% 70%",
         scrub: 2,
-        markers: true,
       },
       y: -208,
       ease: "power1.inOut",
