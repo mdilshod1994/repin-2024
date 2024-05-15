@@ -83,7 +83,7 @@ const setCursorType = (type: string) => {
     }
   }
 }
-@include tablet {
+@include mobile {
   .banner {
     &__top {
       flex-direction: row;
