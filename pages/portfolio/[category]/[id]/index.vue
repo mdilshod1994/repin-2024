@@ -69,7 +69,11 @@ watch(video, (nv) => {
     <div v-for="block in portfolio.content">
       <div v-if="block.acf_fc_layout === 'flex_text_desc'" class="container">
         <div cls="case__wrap">
-          <r-title :title="block.ftd_title" align-position="start">
+          <r-title
+            :title="block.ftd_title"
+            align-position="start"
+            :text-rigth="block.acf_fc_layout === 'flex_text_desc' && !block.ftd_title"
+          >
             <template #addons>
               <div class="texts">
                 <div class="text" v-html="block.ftd_desc" />

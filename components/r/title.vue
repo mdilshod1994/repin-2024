@@ -7,6 +7,7 @@ withDefaults(
     flexStart?: boolean
     textAlign?: "left" | "center" | "right" // для стилизации title
     colorWhite?: boolean
+    textRigth?: boolean
   }>(),
   {
     alignPosition: "end",
@@ -31,7 +32,7 @@ withDefaults(
       <div v-if="title || $slots.title" :cls="{ block__title: true, '-text-aling': textAlign }">
         <slot name="title">{{ title }}</slot>
       </div>
-      <div v-if="$slots.addons" cls="block__addons">
+      <div v-if="$slots.addons" :cls="{ block__addons: true, '-left': textRigth }">
         <slot name="addons" />
       </div>
     </div>
@@ -99,6 +100,11 @@ withDefaults(
     }
     &.-center {
       align-items: center;
+    }
+  }
+  &__addons {
+    &.-left {
+      margin-left: auto;
     }
   }
 }
