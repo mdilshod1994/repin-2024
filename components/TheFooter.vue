@@ -285,17 +285,17 @@ const setCursorType = (type: string) => {
       &:hover {
         svg {
           animation:
-            MoveScaleUpInitial 0.3s forwards,
-            MoveScaleUpEnd 0.3s forwards 0.3s;
+            MoveScaleUpInitialArrow 0.3s forwards,
+            MoveScaleUpEndArrow 0.3s forwards 0.3s;
         }
       }
-      @keyframes MoveScaleUpInitial {
+      @keyframes MoveScaleUpInitialArrow {
         100% {
           transform: translate3d(0, -105%, 0) scale3d(1, 2, 1) rotate(180deg);
           opacity: 0;
         }
       }
-      @keyframes MoveScaleUpEnd {
+      @keyframes MoveScaleUpEndArrow {
         0% {
           transform: translate3d(0, 100%, 0) scale3d(1, 2, 1) rotate(180deg);
           opacity: 0;
