@@ -28,7 +28,7 @@ onMounted(async () => {
     <div cls="about__video">
       <r-video :video="{ short: about.video_short, long: about.video_long }" />
     </div>
-    <div cls="about__full-cycle" class="dark-background">
+    <div class="dark-background">
       <about-full-cycle
         :full-cycle="about.items_b2"
         :title="about.title_b2"

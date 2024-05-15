@@ -83,9 +83,7 @@ defineProps<{
 
 <style lang="scss" module>
 .full-cycle {
-  max-width: 1920px;
   width: 100%;
-  padding: 24px;
   margin: 0 auto;
   &__wrap {
     border-radius: 24px;
@@ -95,6 +93,9 @@ defineProps<{
   &__block {
     display: flex;
     justify-content: space-between;
+    max-width: 1440px;
+    padding: 0 24px;
+    margin: 0 auto;
   }
   &__title {
     @include desctop-H5-ram;
@@ -159,12 +160,23 @@ defineProps<{
     color: #000;
     max-width: 256px;
   }
+  &__carousel {
+    max-width: 1440px;
+    padding: 0 24px;
+    margin: 0 auto;
+  }
 }
 @include desktop-medium {
   .full-cycle {
     padding: 24px 0;
     &__carousel {
+      max-width: 100%;
       overflow: hidden;
+      padding: 0;
+    }
+    &__block {
+      max-width: 100%;
+      padding: 0;
     }
   }
 }
