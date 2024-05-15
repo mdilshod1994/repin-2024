@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useResizeObserver } from "@vueuse/core"
+import { createReusableTemplate, useResizeObserver } from "@vueuse/core"
 
 import { type MenuElement } from "~/types/menu-header-footer"
 
@@ -29,9 +29,30 @@ watch(
     active.value = false
   },
 )
+
+const [SocialsTemplate, ReuseSocialsTemplate] = createReusableTemplate()
 </script>
 
 <template>
+  <socials-template>
+    <div cls="mobile__socials">
+      <a href="">
+        <svgo-youtube />
+      </a>
+      <a href="">
+        <svgo-ins />
+      </a>
+      <a href="">
+        <svgo-x />
+      </a>
+      <a href="">
+        <svgo-behance />
+      </a>
+      <a href="">
+        <svgo-dirble />
+      </a>
+    </div>
+  </socials-template>
   <div v-if="true" ref="mobMenu" :cls="{ mobile: true, '-active': active }">
     <div cls="mobile__wrap">
       <nav cls="mobile__nav">
@@ -44,10 +65,15 @@ watch(
           </nuxt-link>
         </div>
       </nav>
+      <div cls="mobile__soc -mob">
+        <reuse-socials-template />
+      </div>
       <div class="line" />
       <div cls="mobile__bottom">
         <r-button cls="mobile__bottom-btn"> Connect </r-button>
-        <div cls="mobile__langs" />
+        <div cls="mobile__soc -tab">
+          <reuse-socials-template />
+        </div>
       </div>
     </div>
   </div>
@@ -96,6 +122,30 @@ watch(
   }
   &__bottom {
     padding: 20px 24px 24px;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__soc {
+    &.-mob {
+      display: none;
+    }
+  }
+  &__socials {
+    display: flex;
+    gap: 8px;
+    a {
+      display: block;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      svg {
+        font-size: 15px;
+      }
+    }
   }
 }
 
@@ -120,12 +170,24 @@ watch(
     :global(.line) {
       display: none;
     }
+    &__wrap {
+      gap: 24px;
+    }
     &__nav {
       padding: 24px 0 0 24px;
-      margin-bottom: 88px;
+      margin-bottom: 0;
       align-items: flex-start;
       &-link {
         @include mob-H3;
+      }
+    }
+    &__soc {
+      &.-tab {
+        display: none;
+      }
+      &.-mob {
+        padding: 0 24px;
+        display: block;
       }
     }
     &__bottom {
