@@ -4,6 +4,12 @@ import type { Page } from "~/types/home"
 defineProps<{
   banner: Page
 }>()
+
+const { updateType } = useMousemove()
+
+const setCursorType = (type: string) => {
+  updateType(type)
+}
 </script>
 
 <template>
@@ -16,7 +22,12 @@ defineProps<{
         <div cls="banner__desc">
           {{ banner.promo_title_about }}
         </div>
-        <nuxt-link to="/about" class="underline-link">
+        <nuxt-link
+          to="/about"
+          class="underline-link"
+          @mouseover="setCursorType('link')"
+          @mouseleave="setCursorType('')"
+        >
           {{ banner.promo_about_btn }}
         </nuxt-link>
       </div>

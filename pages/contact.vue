@@ -20,6 +20,11 @@ watch(contact, () => {
     isVisible.value = true
   }, 2000)
 })
+const { updateType } = useMousemove()
+
+const setCursorType = (type: string) => {
+  updateType(type)
+}
 </script>
 
 <template>
@@ -34,7 +39,12 @@ watch(contact, () => {
         :mobile-gaps="[24]"
         cls="contacts__banner"
       >
-        <a :href="`mailto:${contact.email}`" cls="contacts__link">
+        <a
+          :href="`mailto:${contact.email}`"
+          cls="contacts__link"
+          @mouseover="setCursorType('link')"
+          @mouseleave="setCursorType('')"
+        >
           <div cls="contacts__link-icon">
             <svgo-link />
           </div>
@@ -81,7 +91,13 @@ watch(contact, () => {
               :tablet-gaps="[12]"
               :mobile-gaps="[12]"
             >
-              <a v-for="m in contact.messengers" :href="m.link" cls="contacts__social">
+              <a
+                v-for="m in contact.messengers"
+                :href="m.link"
+                cls="contacts__social"
+                @mouseover="setCursorType('link')"
+                @mouseleave="setCursorType('')"
+              >
                 <div cls="contacts__social-box">
                   <div cls="contacts__social-icon" v-html="m.icon" />
                   {{ m.name }}

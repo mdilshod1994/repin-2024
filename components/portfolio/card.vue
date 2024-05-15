@@ -35,6 +35,11 @@ const enter = (el) => {
     scale: 1,
   })
 }
+const { updateType } = useMousemove()
+
+const setCursorType = (type: string) => {
+  updateType(type)
+}
 </script>
 
 <template>
@@ -44,6 +49,8 @@ const enter = (el) => {
       :to="`/portfolio/${'all'}/${portfolio.slug}`"
       :cls="{ card: true, '-video': portfolio.anons_vimeo }"
       class="p-card"
+      @mouseover="setCursorType('link')"
+      @mouseleave="setCursorType('')"
     >
       <div cls="card__img">
         <r-gradient-border cls="card__gradient-border" />

@@ -39,6 +39,11 @@ if (typeof $useScroll === "function") {
     curIdx.value = null
   })
 }
+
+const { updateType } = useMousemove()
+const setCursorType = (type: string) => {
+  updateType(type)
+}
 </script>
 
 <template>
@@ -59,7 +64,13 @@ if (typeof $useScroll === "function") {
           <div class="text">
             {{ awards.subtitle_b5 }}
           </div>
-          <a :href="awards.link_b5" cls="awards__behance-link" class="underline-link -bold">
+          <a
+            :href="awards.link_b5"
+            cls="awards__behance-link"
+            class="underline-link -bold"
+            @mouseover="setCursorType('link')"
+            @mouseleave="setCursorType('')"
+          >
             {{ awards.link_b5_text }}
           </a>
         </div>

@@ -99,19 +99,16 @@ watch(switchVideo, (nv) => {
 onMounted(() => {
   playVimeoShort()
 })
+const { updateType } = useMousemove()
+const setCursorType = (type: string) => {
+  updateType(type)
+}
 </script>
 
 <template>
   <div ref="container" cls="video" class="dark-background">
-    <div cls="video__wrap">
-      <r-cursor-follow
-        cursor-type="video"
-        bg-color="white"
-        :cls="{ cursor: true, '-show': switchVideo }"
-      >
-        <div ref="cursorlayer" cls="cursor-layer" @click="openLongVideo()" />
-      </r-cursor-follow>
-      <div :cls="{ shorts: true, '-show': switchVideo }">
+    <div cls="video__wrap" @mouseover="setCursorType('video')" @mouseleave="setCursorType('')">
+      <div :cls="{ shorts: true, '-show': switchVideo }" @click="openLongVideo()">
         <div v-if="vimeo?.short" ref="vimeoshort" cls="shorts__vimeo" />
         <video v-else autoplay muted loop playsinline>
           <source :src="video?.short" type="video/mp4" />

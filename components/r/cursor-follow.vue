@@ -12,8 +12,8 @@ const props = withDefaults(
     bgColor: "black",
   },
 )
-const isDomLoaded = ref(false)
-const cursor = ref<HTMLElement | null>(null)
+
+const cursorElastic = ref<HTMLElement | null>(null)
 const cursorbg = ref<HTMLElement | null>(null)
 const cursorPos = ref({ x: 0, y: 0 })
 const cursorPrevPos = ref({ x: 0, y: 0 })
@@ -22,14 +22,12 @@ const currScale = ref(0)
 const currRotate = ref(0)
 const arrowDirecton = ref("right")
 function showCursor(opacity: number) {
-  if (cursor.value) {
-    cursor.value.style.opacity = `${opacity}`
+  if (cursorElastic.value) {
+    cursorElastic.value.style.opacity = `${opacity}`
   }
 }
 
 onMounted(() => {
-  isDomLoaded.value = true
-
   document.addEventListener("mousemove", (e) => {
     cursorPos.value.x = e.clientX
     cursorPos.value.y = e.clientY
@@ -46,7 +44,7 @@ onMounted(() => {
     const easting = 0.19
     cursorEasePos.value.x += (cursorPos.value.x - cursorEasePos.value.x) * easting
     cursorEasePos.value.y += (cursorPos.value.y - cursorEasePos.value.y) * easting
-    if (!cursor.value) return
+    if (!cursorElastic.value) return
 
     // Squeeze
     const deltaMouseX = cursorPos.value.x - cursorPrevPos.value.x
@@ -69,7 +67,7 @@ onMounted(() => {
     const transformRotate = `rotate(${currRotate.value}deg)`
 
     // cursor.value.style.transform = `${transformTranslateEase} ${transformRotate} ${transformScale} `
-    cursor.value.style.transform = `${transformTranslateEase}`
+    cursorElastic.value.style.transform = `${transformTranslateEase}`
     if (!cursorbg.value) return
     cursorbg.value.style.transform = `${transformRotate} ${transformScale}`
 
@@ -85,19 +83,18 @@ onMounted(() => {
 
 <template>
   <div
-    v-if="isDomLoaded"
-    cls="cursor"
+    cls="cursor-elastic"
     data-cursor="hide"
     @mousemove="showCursor(1)"
     @mouseleave="showCursor(0)"
   >
-    <div ref="cursor" :cls="{ 'cursor-wrap': true, [`-${bgColor}`]: true }">
-      <div cls="cursor-block">
-        <div ref="cursorbg" :cls="{ 'cursor-inner': true, [`-${bgColor}`]: true }" />
-        <svgo-play v-if="cursorType === 'video'" cls="cursor-video" />
+    <div ref="cursorElastic" :cls="{ 'cursor-elastic-wrap': true, [`-${bgColor}`]: true }">
+      <div cls="cursor-elastic-block">
+        <div ref="cursorbg" :cls="{ 'cursor-elastic-inner': true, [`-${bgColor}`]: true }" />
+        <svgo-play v-if="cursorType === 'video'" cls="cursor-elastic-video" />
         <div
           v-if="cursorType === 'carousel'"
-          :cls="{ 'cursor-carousel': true, [`-${arrowDirecton}`]: true }"
+          :cls="{ 'cursor-elastic-carousel': true, [`-${arrowDirecton}`]: true }"
         >
           <svgo-arrow-right />
         </div>
@@ -108,7 +105,7 @@ onMounted(() => {
 </template>
 
 <style module lang="scss">
-.cursor {
+.cursor-elastic {
   &-block {
     position: relative;
     width: 100%;
@@ -191,7 +188,7 @@ onMounted(() => {
 }
 
 @include tablet {
-  .cursor {
+  .cursor-elastic {
     &-wrap {
       display: none;
     }

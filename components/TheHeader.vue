@@ -57,6 +57,10 @@ if (typeof $useScroll === "function") {
     }
   })
 }
+const { updateType } = useMousemove()
+const setCursorType = (type: string) => {
+  updateType(type)
+}
 </script>
 
 <template>
@@ -72,19 +76,35 @@ if (typeof $useScroll === "function") {
     }"
   >
     <div :cls="{ header__wrap: true, '-delay': !isActive }">
-      <nuxt-link to="/" cls="header__logo">
+      <nuxt-link
+        to="/"
+        cls="header__logo"
+        @mouseover="setCursorType('link')"
+        @mouseleave="setCursorType('')"
+      >
         <svgo-logo cls="header__logo-desk" />
         <svgo-r-logo cls="header__logo-mob" />
       </nuxt-link>
       <nav cls="header__nav">
         <div v-for="item in menu" v-show="item.name !== 'Consulting' && item.name !== 'Blog'">
-          <nuxt-link cls="header__nav-link" :to="`/${item.name.toLowerCase()}`">
+          <nuxt-link
+            cls="header__nav-link"
+            :to="`/${item.name.toLowerCase()}`"
+            @mouseover="setCursorType('link')"
+            @mouseleave="setCursorType('')"
+          >
             <span>{{ item.name }}</span>
           </nuxt-link>
         </div>
       </nav>
       <div cls="header__btns">
-        <r-button cls="header__btn" to="mailto:hello@repin.agency" bg-hover radius-hover
+        <r-button
+          cls="header__btn"
+          to="mailto:hello@repin.agency"
+          bg-hover
+          radius-hover
+          @mouseover="setCursorType('link')"
+          @mouseleave="setCursorType('')"
           >Connect
           <template #icon>
             <svgo-arrow-up-right />

@@ -4,6 +4,11 @@ import type { PortfolioCase } from "~/types/portfolio-case"
 defineProps<{
   banner: PortfolioCase
 }>()
+const { updateType } = useMousemove()
+
+const setCursorType = (type: string) => {
+  updateType(type)
+}
 </script>
 
 <template>
@@ -16,7 +21,13 @@ defineProps<{
     :mobile-gaps="[24]"
     cls="banner"
   >
-    <nuxt-link v-if="banner.block_1.link_work" :to="banner.block_1.link_work" cls="link">
+    <nuxt-link
+      v-if="banner.block_1.link_work"
+      :to="banner.block_1.link_work"
+      cls="link"
+      @mouseover="setCursorType('link')"
+      @mouseleave="setCursorType('')"
+    >
       <div cls="link-icon">
         <svgo-link />
       </div>

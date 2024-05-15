@@ -6,26 +6,33 @@ const store = useGlobalData()
 const reviews = computed(() => {
   return store.home?.page as Page
 })
+const { updateType } = useMousemove()
+const setCursorType = (type: string) => {
+  updateType(type)
+}
 </script>
 
 <template>
   <div v-if="reviews" cls="clients">
     <r-title :pretitle="reviews.reviews_subtitle" :title="reviews.reviews_title" />
-    <r-cursor-follow cursor-type="carousel">
-      <r-carousel scroll-bar gap="48">
-        <div v-for="review in reviews.reviews" cls="clients-card">
-          <div cls="clients-card__logo">
-            <img :src="review.logo" alt="" />
-          </div>
-          <div cls="clients-card__content">
-            <div cls="clients-card__title">{{ review.name }}</div>
-            <div cls="clients-card__text">
-              {{ review.text }}
-            </div>
+    <r-carousel
+      scroll-bar
+      gap="48"
+      @mouseover="setCursorType('carousel')"
+      @mouseleave="setCursorType('')"
+    >
+      <div v-for="review in reviews.reviews" cls="clients-card">
+        <div cls="clients-card__logo">
+          <img v-if="review.logo" :src="review.logo" alt="" />
+        </div>
+        <div cls="clients-card__content">
+          <div cls="clients-card__title">{{ review.name }}</div>
+          <div cls="clients-card__text">
+            {{ review.text }}
           </div>
         </div>
-      </r-carousel>
-    </r-cursor-follow>
+      </div>
+    </r-carousel>
   </div>
 </template>
 

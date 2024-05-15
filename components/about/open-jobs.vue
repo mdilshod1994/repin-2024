@@ -4,6 +4,10 @@ import type { Vacancy } from "~/types/about"
 defineProps<{
   vacancies: Vacancy[]
 }>()
+const { updateType } = useMousemove()
+const setCursorType = (type: string) => {
+  updateType(type)
+}
 </script>
 
 <template>
@@ -55,6 +59,8 @@ defineProps<{
             :key="idx"
             cls="open-jobs__item-box"
             :to="v.link"
+            @mouseover="setCursorType('link')"
+            @mouseleave="setCursorType('')"
           >
             <div cls="open-jobs__item-content">
               <div cls="open-jobs__item-name">{{ v.name }}</div>

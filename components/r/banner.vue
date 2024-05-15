@@ -22,6 +22,12 @@ const scrollToId = () => {
     behavior: "smooth",
   })
 }
+
+const { updateType } = useMousemove()
+
+const setCursorType = (type: string) => {
+  updateType(type)
+}
 </script>
 
 <template>
@@ -43,7 +49,14 @@ const scrollToId = () => {
       <div v-if="bottomLine" class="line" />
       <div cls="banner__bottom-wrap">
         <slot name="bottom-left" />
-        <div v-if="scrollTo" cls="banner__scroll-to" data-cursor="pointer" @click="scrollToId">
+        <div
+          v-if="scrollTo"
+          cls="banner__scroll-to"
+          data-cursor="pointer"
+          @click="scrollToId"
+          @mouseover="setCursorType('link')"
+          @mouseleave="setCursorType('')"
+        >
           {{ scrollTo }}
           <svgo-arrow-down filled />
         </div>

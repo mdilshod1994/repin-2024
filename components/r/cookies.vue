@@ -14,6 +14,12 @@ setTimeout(() => {
 const acceptCookies = () => {
   accCookies.value = false
 }
+
+const { updateType } = useMousemove()
+
+const setCursorType = (type: string) => {
+  updateType(type)
+}
 </script>
 
 <template>
@@ -21,11 +27,22 @@ const acceptCookies = () => {
     <div v-if="accCookies" cls="cookies">
       <div cls="cookies__wrap">
         <div cls="cookies__text">{{ cookie?.cookies_text }}</div>
-        <nuxt-link to="/cookie-privacy" cls="cookies__link" class="underline-link -white">
+        <nuxt-link
+          to="/cookie-privacy"
+          cls="cookies__link"
+          class="underline-link -white"
+          @mouseover="setCursorType('link')"
+          @mouseleave="setCursorType('')"
+        >
           {{ cookie.cookies_more }}
         </nuxt-link>
       </div>
-      <r-button bg-color="white" @click.prevent="acceptCookies()">
+      <r-button
+        bg-color="white"
+        @click.prevent="acceptCookies()"
+        @mouseover="setCursorType('link')"
+        @mouseleave="setCursorType('')"
+      >
         {{ cookie.cookies_accept }}
       </r-button>
     </div>

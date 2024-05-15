@@ -2,6 +2,12 @@
 // defineProps<{
 //   social:
 // }>()
+
+const { updateType } = useMousemove()
+
+const setCursorType = (type: string) => {
+  updateType(type)
+}
 </script>
 
 <template>
@@ -21,7 +27,12 @@
       </div>
       <div cls="carousel__social" class="hover-border">
         <img src="@/assets/images/tempImages/soc-1.png" alt="" cls="carousel__social-img" />
-        <a href="" cls="carousel__social-link">
+        <a
+          href=""
+          cls="carousel__social-link"
+          @mouseover="setCursorType('link')"
+          @mouseleave="setCursorType('')"
+        >
           <div cls="carousel__social-icon">
             <svgo-ins />
           </div>

@@ -12,6 +12,12 @@ const scrollTop = () => {
     behavior: "smooth",
   })
 }
+
+const { updateType } = useMousemove()
+
+const setCursorType = (type: string) => {
+  updateType(type)
+}
 </script>
 
 <template>
@@ -19,7 +25,12 @@ const scrollTop = () => {
     <div class="container">
       <div cls="footer__wrap">
         <div cls="footer__top">
-          <nuxt-link to="/" cls="footer__logo">
+          <nuxt-link
+            to="/"
+            cls="footer__logo"
+            @mouseover="setCursorType('link')"
+            @mouseleave="setCursorType('')"
+          >
             <svgo-logo-white />
           </nuxt-link>
           <div cls="footer__top-block">
@@ -35,7 +46,12 @@ const scrollTop = () => {
                     v-for="link in footer.menu"
                     v-show="link.name !== 'Consulting' && link.name !== 'Blog'"
                   >
-                    <nuxt-link :to="`/${link.name.toLowerCase()}`" cls="footer__links-item">
+                    <nuxt-link
+                      :to="`/${link.name.toLowerCase()}`"
+                      cls="footer__links-item"
+                      @mouseover="setCursorType('link')"
+                      @mouseleave="setCursorType('')"
+                    >
                       <span>
                         {{ link.name }}
                       </span>
@@ -51,6 +67,8 @@ const scrollTop = () => {
                     :href="soc.link"
                     target="_blank"
                     cls="footer__links-item"
+                    @mouseover="setCursorType('link')"
+                    @mouseleave="setCursorType('')"
                   >
                     <span> {{ soc.name }} </span>
                   </a>
@@ -62,12 +80,35 @@ const scrollTop = () => {
         <div cls="footer__bottom">
           <div cls="footer__bottom-box">
             <div cls="footer__bottom-text">© 2016 — {{ new Date().getFullYear() }}</div>
-            <nuxt-link to="/privacy-policy" cls="footer__bottom-text">Privacy Policy</nuxt-link>
-            <nuxt-link to="/offer-agreement" cls="footer__bottom-text">Offer contract</nuxt-link>
+            <nuxt-link
+              to="/privacy-policy"
+              cls="footer__bottom-text"
+              @mouseover="setCursorType('link')"
+              @mouseleave="setCursorType('')"
+              >Privacy Policy</nuxt-link
+            >
+            <nuxt-link
+              to="/offer-agreement"
+              cls="footer__bottom-text"
+              @mouseover="setCursorType('link')"
+              @mouseleave="setCursorType('')"
+              >Offer contract</nuxt-link
+            >
           </div>
           <div cls="footer__bottom-wrap">
-            <a :href="`mailto:${footer.email}`" cls="footer__bottom-text">{{ footer.email }}</a>
-            <button href="/" cls="footer__bottom-to-top" data-cursor="pointer" @click="scrollTop">
+            <a
+              :href="`mailto:${footer.email}`"
+              cls="footer__bottom-text"
+              @mouseover="setCursorType('link')"
+              @mouseleave="setCursorType('')"
+              >{{ footer.email }}</a
+            >
+            <button
+              cls="footer__bottom-to-top"
+              @click="scrollTop"
+              @mouseover="setCursorType('link')"
+              @mouseleave="setCursorType('')"
+            >
               {{ footer.top }} <svgo-arrow-down />
             </button>
           </div>
