@@ -185,6 +185,22 @@ watch(video, (nv) => {
           </div>
         </div>
       </div>
+      <div v-if="block.acf_fc_layout === 'flex_desc_author'" class="container">
+        <div cls="case__expirience">
+          <reuse-expirience :feedback-desc="block?.fda_desc">
+            <template #author>
+              <r-author
+                :name="block?.fda_name"
+                :profession="block?.fda_sign"
+                :avatar="block?.fda_avatar"
+              />
+            </template>
+          </reuse-expirience>
+        </div>
+      </div>
+      <!-- fda_avatar
+fda_name
+fda_sign -->
       <!-- <div v-if="block.acf_fc_layout === 'flex_big_img'" cls="case__unknow" class="dark-background">
         <div cls="case__unknow-inner">
           <a :href="block.fbi_img" data-fancybox="gallery">
@@ -195,9 +211,9 @@ watch(video, (nv) => {
       </div> -->
     </div>
     <div class="container">
-      <div v-if="portfolio.repin_agency_mobicom" cls="case__expirience">
+      <!-- <div v-if="portfolio.repin_agency_mobicom" cls="case__expirience">
         <reuse-expirience :info="portfolio.repin_agency_mobicom" />
-      </div>
+      </div> -->
       <portfolio-case-authors v-if="portfolio.team" :authors="portfolio.team" />
       <portfolio-case-next-portfolios />
     </div>

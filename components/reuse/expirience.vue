@@ -2,20 +2,26 @@
 import type { reUseBlock1 } from "~/types/blockTypes"
 
 defineProps<{
-  info: reUseBlock1
+  info?: reUseBlock1
+  feedbackDesc?: string
 }>()
 </script>
 
 <template>
-  <div cls="expirience">
+  <div :cls="{ expirience: true, '-feedback': feedbackDesc }">
     <div cls="expirience__content">
       <div cls="expirience__top">
-        <div cls="expirience__title" v-html="info.title" />
-        <div cls="expirience__text">
+        <div v-if="info?.title" cls="expirience__title" v-html="info.title" />
+        <div v-if="info?.description" cls="expirience__text">
           {{ info.description }}
         </div>
+        <div
+          v-if="feedbackDesc"
+          :cls="{ expirience__text: true, '-feedback': feedbackDesc }"
+          v-html="feedbackDesc"
+        />
       </div>
-      <div cls="expirience__ceo">
+      <div v-if="info?.items" cls="expirience__ceo">
         <r-author
           v-for="(a, idx) in info.items"
           :key="idx"
@@ -24,8 +30,11 @@ defineProps<{
           :avatar="a.photo"
         />
       </div>
+      <div v-if="!info?.items">
+        <slot name="author" />
+      </div>
     </div>
-    <div cls="expirience__img">
+    <div v-if="info?.img" cls="expirience__img">
       <img :src="info.img" alt="" />
     </div>
   </div>
@@ -40,6 +49,23 @@ defineProps<{
   &__ceo {
     display: flex;
     gap: 16px;
+  }
+  &.-feedback {
+    margin-left: 50%;
+  }
+  &__text {
+    &.-feedback {
+      p {
+        &:nth-child(1) {
+          margin-bottom: 24px;
+          @include desctop-H3;
+          span {
+            @include desctop-H3-ram;
+            font-style: italic;
+          }
+        }
+      }
+    }
   }
   &__content {
     display: flex;
@@ -92,6 +118,19 @@ defineProps<{
         @include mob-H2-ram;
       }
     }
+    &__text {
+      &.-feedback {
+        p {
+          &:nth-child(1) {
+            margin-bottom: 16px;
+            @include mob-H2;
+            span {
+              @include mob-H2-ram;
+            }
+          }
+        }
+      }
+    }
     &__img {
       width: 340px;
       height: 318px;
@@ -103,6 +142,9 @@ defineProps<{
     &__content {
       max-width: 100%;
     }
+    &.-feedback {
+      margin-left: 0;
+    }
     &__img {
       display: none;
     }
@@ -110,6 +152,18 @@ defineProps<{
       @include desctop-H5;
       span {
         @include mob-H5-ram;
+      }
+    }
+    &__text {
+      &.-feedback {
+        p {
+          &:nth-child(1) {
+            @include desctop-H5;
+            span {
+              @include mob-H5-ram;
+            }
+          }
+        }
       }
     }
     &__ceo {

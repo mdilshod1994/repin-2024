@@ -45,6 +45,10 @@ export interface Content {
   fbi_img?: string
   fbi_video?: string
   iframe?: string
+  fda_desc?: string
+  fda_avatar?: string
+  fda_name?: string
+  fda_sign?: string
 }
 
 export interface Team {
