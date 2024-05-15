@@ -109,7 +109,7 @@ const setCursorType = (type: string) => {
               @mouseover="setCursorType('link')"
               @mouseleave="setCursorType('')"
             >
-              {{ footer.top }} <svgo-arrow-down />
+              {{ footer.top }} <svgo-arrow-down filled />
             </button>
           </div>
         </div>
@@ -269,6 +269,7 @@ const setCursorType = (type: string) => {
       gap: 24px;
     }
     &-to-top {
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -279,6 +280,29 @@ const setCursorType = (type: string) => {
         transform: rotate(180deg);
         path {
           stroke: white;
+        }
+      }
+      &:hover {
+        svg {
+          animation:
+            MoveScaleUpInitial 0.3s forwards,
+            MoveScaleUpEnd 0.3s forwards 0.3s;
+        }
+      }
+      @keyframes MoveScaleUpInitial {
+        100% {
+          transform: translate3d(0, -105%, 0) scale3d(1, 2, 1) rotate(180deg);
+          opacity: 0;
+        }
+      }
+      @keyframes MoveScaleUpEnd {
+        0% {
+          transform: translate3d(0, 100%, 0) scale3d(1, 2, 1) rotate(180deg);
+          opacity: 0;
+        }
+        100% {
+          transform: translate3d(0, 0, 0) rotate(180deg);
+          opacity: 1;
         }
       }
     }
