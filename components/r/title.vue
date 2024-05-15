@@ -73,7 +73,7 @@ withDefaults(
   }
   &__title {
     @include desctop-H2;
-    white-space: nowrap;
+    max-width: 877px;
     span {
       @include desctop-H2-ram;
       font-style: italic;

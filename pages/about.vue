@@ -58,7 +58,7 @@ onMounted(async () => {
         <reuse-expirience :info="about.repin_agency_mobicom" />
       </div>
       <div v-if="about.vacancies" cls="about__open-jobs">
-        <about-open-jobs :vacancies="about.vacancies" />
+        <about-open-jobs :about="about" />
       </div>
     </div>
   </div>

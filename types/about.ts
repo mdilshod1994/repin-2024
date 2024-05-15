@@ -34,6 +34,8 @@ export interface EnPage {
   repin_agency_mobicom: reUseBlock1
   vacancies: Vacancy[]
   slides: Slide[]
+  title_vacancies: string
+  subtitle_vacancies: string
 }
 
 export interface ItemsB2 {

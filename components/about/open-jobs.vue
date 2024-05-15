@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Vacancy } from "~/types/about"
+import type { EnPage } from "~/types/about"
 
 defineProps<{
-  vacancies: Vacancy[]
+  about: EnPage
 }>()
 const { updateType } = useMousemove()
 const setCursorType = (type: string) => {
@@ -20,21 +20,15 @@ const setCursorType = (type: string) => {
   >
     <r-title align-position="start">
       <template #title>
-        <div cls="open-jobs__title">
-          Do you want to be a <br />
-          part of our team? <br />
-          <span> Send to us your CV </span>
-        </div>
+        <div cls="open-jobs__title" v-html="about.title_vacancies" />
       </template>
       <template #addons>
         <div class="texts -column">
-          <r-round-button size="small" cls="open-jobs__info-icon">
+          <r-round-button size="small" cls="open-jobs__info-icon" pointer-events>
             <svgo-info />
           </r-round-button>
           <div class="text">
-            In 2024, we decided to enter into a strategic partnership with Mobicom, a company with
-            20 years of development experience. Now we are able to deliver a project of any
-            complexity.
+            {{ about.subtitle_vacancies }}
           </div>
         </div>
       </template>
@@ -46,7 +40,7 @@ const setCursorType = (type: string) => {
       :mobile-gaps="[48]"
       cls="open-jobs__list"
     >
-      <div v-for="vacancy in vacancies" cls="open-jobs__item">
+      <div v-for="vacancy in about.vacancies" cls="open-jobs__item">
         <div cls="open-jobs__item-title"><span /> {{ vacancy.categories_name }}</div>
         <r-grid
           desktop-column="2"
