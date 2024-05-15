@@ -25,7 +25,7 @@ const beforeEnter = (el) => {
   gsap.from(el, {
     duration: 0.5,
     opacity: 0,
-    scale: 0,
+    scale: 0.7,
   })
 }
 const enter = (el) => {
