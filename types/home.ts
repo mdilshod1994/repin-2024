@@ -6,6 +6,20 @@ export interface Home {
 export interface HomeEn {
   page: Page
   blog?: Blog[]
+  categories: Category[]
+}
+
+export interface Category {
+  term_id: number
+  name: string
+  slug: string
+  term_group: number
+  term_taxonomy_id: number
+  taxonomy: string
+  description: string
+  parent: number
+  count: number
+  filter: string
 }
 
 export interface Blog {

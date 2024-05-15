@@ -3,24 +3,24 @@ TODO: разделить на компоненты
 -->
 
 <script setup lang="ts">
-const store = usePortfolioCase()
+import type { PortfolioCase } from "~/types/portfolio-case"
+
 const { id } = useRoute().params
-
-const portfolio = computed(() => {
-  return store.portfolio
-})
-
-onMounted(async () => {
-  await store.getPortfolioCase(`${id}`)
-})
-
-const hasVideo = computed(() => {
-  return (
-    portfolio.value?.block_1.anons_vimeo ||
-    portfolio.value?.block_1.anons_vimeo_full ||
-    portfolio.value?.block_1.video_first_mp4 ||
-    portfolio.value?.block_1.video_first_full_mp4
-  )
+const video = ref<HTMLVideoElement>()
+const reverse = ref(false)
+const { data: portfolio } = await useFetch<PortfolioCase>(
+  `https://repin.agency/wp-json/api/v1/project/${id}`,
+  {
+    lazy: true,
+  },
+)
+watch(video, (nv) => {
+  if (nv) {
+    console.log(nv)
+    nv.onplaying = () => {
+      reverse.value = true
+    }
+  }
 })
 </script>
 
@@ -28,8 +28,36 @@ const hasVideo = computed(() => {
   <div v-if="portfolio" cls="case">
     <div class="container">
       <portfolio-case-banner :banner="portfolio" />
+      <div cls="case__cover">
+        <div cls="case__square" class="dark-background">
+          <div cls="case__square-wrap">
+            <div cls="case__square-inner">
+              <video
+                v-if="portfolio.block_1.cover_in_project.img_proj_vid_mp4"
+                ref="video"
+                autoplay
+                muted
+                loop
+                playsinline
+                :cls="{ '-active': reverse }"
+              >
+                <source
+                  :src="portfolio.block_1.cover_in_project.img_proj_vid_mp4"
+                  type="video/mp4"
+                />
+              </video>
+              <img
+                :cls="{ '-not-active': reverse }"
+                :src="portfolio.block_1.cover_in_project.img_proj"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div v-if="hasVideo" cls="case__video">
+
+    <!-- <div v-if="hasVideo" cls="case__video">
       <r-video
         :video="{
           short: portfolio.block_1.video_first_mp4,
@@ -37,7 +65,7 @@ const hasVideo = computed(() => {
         }"
         :vimeo="{ short: portfolio.block_1.anons_vimeo, long: portfolio.block_1.anons_vimeo_full }"
       />
-    </div>
+    </div> -->
     <div v-for="block in portfolio.content">
       <div v-if="block.acf_fc_layout === 'flex_text_desc'" class="container">
         <div cls="case__wrap">
@@ -175,6 +203,24 @@ const hasVideo = computed(() => {
 <style module lang="scss">
 .case {
   padding-top: 152px;
+  &__cover {
+    video {
+      position: absolute;
+      opacity: 0;
+      &.-active {
+        position: relative;
+        opacity: 1;
+      }
+    }
+    img {
+      position: relative;
+      opacity: 1;
+      &.-not-active {
+        position: absolute;
+        opacity: 0;
+      }
+    }
+  }
   &__wrap {
     padding: 104px 0;
   }

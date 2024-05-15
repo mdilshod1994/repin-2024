@@ -4,10 +4,6 @@ const store = useGlobalData()
 const home = computed(() => {
   return store.home
 })
-
-onMounted(async () => {
-  await store.getMainPageInfo()
-})
 </script>
 
 <template>

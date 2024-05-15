@@ -9,6 +9,7 @@ export interface PortfolioCase {
 }
 
 export interface Block1 {
+  cover_in_project: CoverInProject
   img_pc: string
   video_first_mp4: string
   video_first_full_mp4: string
@@ -18,6 +19,13 @@ export interface Block1 {
   tags: string[]
   anons_vimeo: string
   anons_vimeo_full: string
+}
+export interface CoverInProject {
+  img_proj: string
+  img_proj_mob: boolean
+  img_proj_vid_mp4: string
+  img_proj_vid_mp4_mob: boolean
+  "img-proj_vimeo": string
 }
 
 export interface Content {

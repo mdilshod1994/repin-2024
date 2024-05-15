@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Category } from "~/types/portfolio"
+import { type Category } from "~/types/home"
 
 const filterBtns = ref<HTMLElement | null>(null)
 const widthFirstBtn = computed(() => {

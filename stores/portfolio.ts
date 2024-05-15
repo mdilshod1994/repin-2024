@@ -1,9 +1,8 @@
 import { defineStore } from "pinia"
 
-import type { Category, Portfolio, PortfolioElement } from "~/types/portfolio"
+import type { Portfolio, PortfolioElement } from "~/types/portfolio"
 
 export const usePortfolio = defineStore("portfolio", () => {
-  const categories = ref<Category[]>()
   const _portfolio = ref<PortfolioElement[]>()
   const portfolio = ref<PortfolioElement[]>()
   const _slug = ref<string | undefined>()
@@ -60,7 +59,6 @@ export const usePortfolio = defineStore("portfolio", () => {
       )
       if (!en) return
       totalProjects.value = en.portfolio_count
-      categories.value = en.categories
       if (page === 0 || page === undefined) {
         _portfolio.value = en.portfolio
       } else {
@@ -76,7 +74,6 @@ export const usePortfolio = defineStore("portfolio", () => {
 
   return {
     getPortfolio,
-    categories,
     portfolio,
     currentPageNumber,
     categoryPortfolio,

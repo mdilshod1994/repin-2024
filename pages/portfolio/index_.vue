@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { type Category, type PortfolioElement } from "~/types/portfolio"
+import { type Category } from "~/types/home"
+import { type PortfolioElement } from "~/types/portfolio"
 
 const props = defineProps<{
   portfolios: PortfolioElement[]

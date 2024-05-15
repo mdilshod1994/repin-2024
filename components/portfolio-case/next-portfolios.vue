@@ -6,13 +6,28 @@ import type { Portfolio, PortfolioElement } from "~/types/portfolio"
 
 gsap.registerPlugin(ScrollTrigger)
 
-const { en } = await $fetch<Portfolio>("https://repin.agency/wp-json/api/v1/projects/all/0")
+const { id } = useRoute().params
 
-const portfolios = computed(() => {
-  const p = en.portfolio as PortfolioElement[]
-  if (p) {
-    const sortedPortfolio = p.sort(() => (Math.random() > 0.5 ? 1 : -1)).slice(0, 3)
-    return sortedPortfolio
+const { data: portfolios } = await useFetch<Portfolio>(
+  "https://repin.agency/wp-json/api/v1/projects-all/all/0/",
+  {
+    lazy: true,
+    server: false,
+  },
+)
+
+const sortedPortfolios = ref<PortfolioElement[]>()
+
+watch(portfolios, (nv) => {
+  if (nv) {
+    sortedPortfolios.value = nv.en.portfolio
+      .filter((x) => {
+        if (x.slug !== id) {
+          return x
+        }
+      })
+      .sort(() => (Math.random() > 0.5 ? 1 : -1))
+      .slice(0, 3)
   }
 })
 const container = ref()
@@ -22,7 +37,7 @@ const setGSAP = () => {
     gsap.to(".first", {
       scrollTrigger: {
         trigger: ".first",
-        start: "-30% 100%",
+        start: "-10% 100%",
         end: "40% 70%",
         scrub: 2,
       },
@@ -33,7 +48,7 @@ const setGSAP = () => {
     gsap.to(".second", {
       scrollTrigger: {
         trigger: ".first",
-        start: "-30% 100%",
+        start: "-10% 100%",
         end: "40% 70%",
         scrub: 2,
       },
@@ -59,7 +74,7 @@ onMounted(() => {
       <r-title pretitle="Our projects" title="Next projects" flex-start />
       <r-grid mobile-column="1" tablet-column="3" :mobile-gaps="[40]" button>
         <portfolio-card
-          v-for="(portfolio, idx) in portfolios"
+          v-for="(portfolio, idx) in sortedPortfolios"
           :key="portfolio.id"
           :portfolio="portfolio"
           cls="project"

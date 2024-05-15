@@ -4,12 +4,14 @@ import type { PortfolioElement } from "~/types/portfolio"
 import PageImpl from "./../index_.vue"
 
 const store = usePortfolio()
+const _store = useGlobalData()
 const page = ref<number>(0)
 const portfolios = computed(() => {
   return store.portfolio as PortfolioElement[]
 })
+
 const categories = computed(() => {
-  return store.categories
+  return _store.home?.categories
 })
 const activeSlug = computed(() => {
   return store.categoryPortfolio

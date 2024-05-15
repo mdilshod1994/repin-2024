@@ -8,7 +8,7 @@ const portfolios = computed(() => {
   return store.portfolio?.slice(0, 6) as PortfolioElement[]
 })
 const categories = computed(() => {
-  return store.categories
+  return _store.home?.categories
 })
 const activeSlug = computed(() => {
   return store.categoryPortfolio
