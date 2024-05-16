@@ -1,6 +1,6 @@
 export const useMousemove = () => {
   const store = useChangeCursorState()
-
+  const route = useRoute()
   const position = ref({ x: 0, y: 0 })
 
   const updatePosition = (event: any) => {
@@ -25,5 +25,18 @@ export const useMousemove = () => {
 
   onMounted(() => document.addEventListener("mousemove", updatePosition))
   onUnmounted(() => document.removeEventListener("mousemove", updatePosition))
+
+  watch(
+    () => route.fullPath,
+    (nr) => {
+      if (nr) {
+        store.changeCursorType("")
+      }
+    },
+    {
+      deep: true,
+    },
+  )
+
   return { position, updateType }
 }
