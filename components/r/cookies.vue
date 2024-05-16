@@ -1,18 +1,23 @@
 <script setup lang="ts">
+const cookies = useCookie<{ accCookies: number }>("accCookies")
+
 const store = useGlobalData()
 
-const cookie = computed(() => {
+const cookieInfo = computed(() => {
   return store.footer
 })
 
-const accCookies = ref(false)
+const accCookies = ref(0)
+const show = ref(false)
 
 setTimeout(() => {
-  accCookies.value = true
+  show.value = true
 }, 3000)
 
 const acceptCookies = () => {
-  accCookies.value = false
+  show.value = false
+  accCookies.value++
+  cookies.value = { accCookies: accCookies.value }
 }
 
 const { updateType } = useMousemove()
@@ -20,13 +25,15 @@ const { updateType } = useMousemove()
 const setCursorType = (type: string) => {
   updateType(type)
 }
+
+const isAccepted = useCookie("accCookies")
 </script>
 
 <template>
-  <transition v-if="cookie" name="fade-cookies">
-    <div v-if="accCookies" cls="cookies">
+  <transition v-if="cookieInfo" name="fade-cookies">
+    <div v-if="show && !isAccepted" cls="cookies">
       <div cls="cookies__wrap">
-        <div cls="cookies__text">{{ cookie?.cookies_text }}</div>
+        <div cls="cookies__text">{{ cookieInfo?.cookies_text }}</div>
         <nuxt-link
           to="/cookie-privacy"
           cls="cookies__link"
@@ -34,7 +41,7 @@ const setCursorType = (type: string) => {
           @mouseover="setCursorType('link')"
           @mouseleave="setCursorType('')"
         >
-          {{ cookie.cookies_more }}
+          {{ cookieInfo.cookies_more }}
         </nuxt-link>
       </div>
       <r-button
@@ -43,7 +50,7 @@ const setCursorType = (type: string) => {
         @mouseover="setCursorType('link')"
         @mouseleave="setCursorType('')"
       >
-        {{ cookie.cookies_accept }}
+        {{ cookieInfo.cookies_accept }}
       </r-button>
     </div>
   </transition>
