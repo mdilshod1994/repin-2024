@@ -1,7 +1,9 @@
 <script setup lang="ts">
-// defineProps<{
-//   social:
-// }>()
+import type { SocialMedia } from "~/types/contacts"
+
+defineProps<{
+  socialMedia: SocialMedia
+}>()
 
 const { updateType } = useMousemove()
 
@@ -13,66 +15,32 @@ const setCursorType = (type: string) => {
 <template>
   <div cls="carousel">
     <div class="container">
-      <r-title pretitle="We're online" title="Social Media" flex-start />
+      <r-title :pretitle="socialMedia.subtitle" :title="socialMedia.title" flex-start />
     </div>
-    <r-carousel gap="24">
-      <div cls="carousel__social" class="hover-border">
-        <img src="@/assets/images/tempImages/soc-1.png" alt="" cls="carousel__social-img" />
-        <a href="" cls="carousel__social-link">
-          <div cls="carousel__social-icon">
-            <svgo-behance />
-          </div>
-          <span> Behance </span>
-        </a>
-      </div>
-      <div cls="carousel__social" class="hover-border">
-        <img src="@/assets/images/tempImages/soc-1.png" alt="" cls="carousel__social-img" />
+    <r-carousel
+      gap="24"
+      tablet-gap="20"
+      mob-gap="16"
+      @mouseover="setCursorType('carousel')"
+      @mouseleave="setCursorType('')"
+    >
+      <div
+        v-for="soc in socialMedia.items"
+        :cls="{ carousel__social: true, [`-${soc.rounding}`]: true }"
+        class="hover-border"
+      >
+        <img :src="soc.img" alt="" cls="carousel__social-img" />
         <a
-          href=""
+          :href="soc.link"
           cls="carousel__social-link"
+          target="_blank"
           @mouseover="setCursorType('link')"
           @mouseleave="setCursorType('')"
         >
-          <div cls="carousel__social-icon">
-            <svgo-ins />
+          <div v-if="soc['web-service-name_icon']" cls="carousel__social-icon">
+            <img :src="soc['web-service-name_icon']" alt="" />
           </div>
-          <span> Instagram </span>
-        </a>
-      </div>
-      <div cls="carousel__social" class="hover-border">
-        <img src="@/assets/images/tempImages/soc-1.png" alt="" cls="carousel__social-img" />
-        <a href="" cls="carousel__social-link">
-          <div cls="carousel__social-icon">
-            <svgo-tw />
-          </div>
-          <span> Twitter </span>
-        </a>
-      </div>
-      <div cls="carousel__social" class="hover-border">
-        <img src="@/assets/images/tempImages/soc-1.png" alt="" cls="carousel__social-img" />
-        <a href="" cls="carousel__social-link">
-          <div cls="carousel__social-icon">
-            <svgo-dirble />
-          </div>
-          <span> Dribble </span>
-        </a>
-      </div>
-      <div cls="carousel__social" class="hover-border">
-        <img src="@/assets/images/tempImages/soc-1.png" alt="" cls="carousel__social-img" />
-        <a href="" cls="carousel__social-link">
-          <div cls="carousel__social-icon">
-            <svgo-youtube />
-          </div>
-          <span> Youtube </span>
-        </a>
-      </div>
-      <div cls="carousel__social" class="hover-border">
-        <img src="@/assets/images/tempImages/soc-1.png" alt="" cls="carousel__social-img" />
-        <a href="" cls="carousel__social-link">
-          <div cls="carousel__social-icon">
-            <svgo-behance />
-          </div>
-          <span> Instagram </span>
+          <span> {{ soc["web-service"] }} </span>
         </a>
       </div>
     </r-carousel>
@@ -93,6 +61,13 @@ const setCursorType = (type: string) => {
     position: relative;
     flex-shrink: 0;
     overflow: hidden;
+    &.-hard {
+      width: 302px;
+      border-radius: 256px;
+      img {
+        border-radius: 256px;
+      }
+    }
     &-link {
       position: absolute;
       left: 50%;
@@ -133,14 +108,7 @@ const setCursorType = (type: string) => {
       border-radius: 24px;
       transition: 1.3s cubic-bezier(0.19, 1, 0.22, 1);
     }
-    &:first-child,
-    &:nth-child(3) {
-      width: 302px;
-      border-radius: 256px;
-      img {
-        border-radius: 256px;
-      }
-    }
+
     &:hover {
       img {
         transform: scale(1.2);
@@ -155,8 +123,7 @@ const setCursorType = (type: string) => {
       width: 342px;
       height: 342px;
       border-radius: 16px;
-      &:first-child,
-      &:nth-child(3) {
+      &.-hard {
         width: 221px;
       }
       &-link {
@@ -173,8 +140,7 @@ const setCursorType = (type: string) => {
     &__social {
       width: 183px;
       height: 183px;
-      &:first-child,
-      &:nth-child(3) {
+      &.-hard {
         width: 128px;
       }
       &-link {

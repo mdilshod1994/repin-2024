@@ -29,10 +29,11 @@ export interface SocialMedia {
 }
 
 export interface Item {
-  link: string
-  link_name: string
-  link_icon: string
   img: string
-  video: string
-  rounding: boolean
+  link: string
+  rounding: string
+  video_vimeo: string
+  "web-service": string
+  "web-service-name": string
+  "web-service-name_icon": false
 }

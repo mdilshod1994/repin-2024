@@ -9,6 +9,9 @@ const page = ref<number>(0)
 const portfolios = computed(() => {
   return store.portfolio as PortfolioElement[]
 })
+const contactSoc = computed(() => {
+  return _store.contacts?.social_media
+})
 const categories = computed(() => {
   return _store.home?.categories
 })
@@ -29,6 +32,7 @@ onMounted(async () => {
   } else {
     await store.getPortfolio(activeSlug.value, 0)
   }
+  await _store.getContactPageInfo()
 })
 </script>
 
@@ -38,6 +42,7 @@ onMounted(async () => {
     :portfolios="portfolios"
     :categories="categories"
     :active-slug="activeSlug"
+    :social-media="contactSoc"
   />
 </template>
 

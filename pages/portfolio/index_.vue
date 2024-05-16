@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { SocialMedia } from "~/types/contacts"
 import { type Category } from "~/types/home"
 import { type PortfolioElement } from "~/types/portfolio"
 
@@ -6,6 +7,7 @@ const props = defineProps<{
   portfolios: PortfolioElement[]
   categories: Category[]
   activeSlug?: string
+  socialMedia?: SocialMedia
 }>()
 const firstPage = ref<number>(0)
 const store = usePortfolio()
@@ -76,7 +78,11 @@ watch(slug, (newSlug) => {
         </r-grid>
       </div>
     </div>
-    <reuse-social-media cls="portfolio__social-media" />
+    <reuse-social-media
+      v-if="socialMedia"
+      cls="portfolio__social-media"
+      :social-media="socialMedia"
+    />
   </div>
 </template>
 

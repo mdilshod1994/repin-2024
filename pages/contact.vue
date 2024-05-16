@@ -114,7 +114,7 @@ const setCursorType = (type: string) => {
     </div>
 
     <!-- TODO: Надо поправить данные -->
-    <reuse-social-media cls="contacts__social-media" />
+    <reuse-social-media cls="contacts__social-media" :social-media="contact.social_media" />
   </div>
 </template>
 
