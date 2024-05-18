@@ -58,8 +58,46 @@ const setCursorType = (type: string) => {
           @mouseover="setCursorType('link')"
           @mouseleave="setCursorType('')"
         >
-          <div v-if="soc['web-service-name_icon']" cls="carousel__social-icon">
-            <img :src="soc['web-service-name_icon']" alt="" />
+          <div cls="carousel__social-icon">
+            <div
+              v-if="soc['web-service'].toLowerCase() === 'behance'"
+              cls="carousel__social-icon-wrap"
+            >
+              <svgo-behance />
+              <svgo-behance-active filled />
+            </div>
+            <div
+              v-else-if="soc['web-service'].toLowerCase() === 'instagram'"
+              cls="carousel__social-icon-wrap"
+            >
+              <svgo-ins />
+              <svgo-ins-active filled />
+            </div>
+            <div
+              v-else-if="soc['web-service'].toLowerCase() === 'twitter'"
+              cls="carousel__social-icon-wrap"
+            >
+              <svgo-tw />
+              <svgo-tw-active filled />
+            </div>
+            <div
+              v-else-if="soc['web-service'].toLowerCase() === 'youtube'"
+              cls="carousel__social-icon-wrap"
+            >
+              <svgo-youtube />
+              <svgo-youtube-active filled />
+            </div>
+            <div
+              v-else-if="soc['web-service'].toLowerCase() === 'dribble'"
+              cls="carousel__social-icon-wrap"
+            >
+              <svgo-dirble />
+              <svgo-dirble-active filled />
+            </div>
+            <div v-else cls="carousel__social-icon-wrap">
+              <svgo-link />
+              <svgo-link-active cls="-black" />
+            </div>
           </div>
           <span> {{ soc["web-service"] }} </span>
         </a>
@@ -125,14 +163,30 @@ const setCursorType = (type: string) => {
     }
     &-icon {
       display: flex;
-      width: 24px;
-      height: 24px;
-      padding: 1px;
       justify-content: center;
       align-items: center;
-      svg {
-        font-size: 24px;
-        color: var(--White);
+      position: relative;
+      &-wrap {
+        display: flex;
+        width: 24px;
+        height: 24px;
+        justify-content: center;
+        flex-shrink: 0;
+        align-items: center;
+        svg {
+          position: absolute;
+          font-size: 24px;
+          transition: 0.3s ease-in-out;
+          &:nth-child(1) {
+            color: #fff;
+          }
+          &:nth-child(2) {
+            opacity: 0;
+          }
+          &.-black {
+            color: #000;
+          }
+        }
       }
     }
     &-video {
@@ -154,10 +208,19 @@ const setCursorType = (type: string) => {
         transition: 1.3s cubic-bezier(0.19, 1, 0.22, 1);
       }
     }
-
     &:hover {
       img {
         transform: scale(1.2);
+      }
+    }
+    &:hover &-icon {
+      svg {
+        &:nth-child(1) {
+          opacity: 0;
+        }
+        &:nth-child(2) {
+          opacity: 1;
+        }
       }
     }
   }
@@ -191,18 +254,27 @@ const setCursorType = (type: string) => {
       }
       &-link {
         border-radius: 50%;
-        padding: 10px;
         bottom: 16px;
+        padding: 0;
+        height: auto;
+
         span {
           display: none;
         }
       }
       &-icon {
-        padding: 3.333px 1.112px 3.333px 1.11px;
-        width: 20px;
-        height: 20px;
-        svg {
-          font-size: 17px;
+        &-wrap {
+          width: 40px;
+          height: 40px;
+          svg {
+            &:nth-child(1) {
+              display: none;
+            }
+            &:nth-child(2) {
+              opacity: block;
+              opacity: 1;
+            }
+          }
         }
       }
     }
