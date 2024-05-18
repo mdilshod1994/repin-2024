@@ -15,19 +15,12 @@ const videoFull = ref<HTMLVideoElement | null>(null)
 const container = ref<HTMLElement | null>(null)
 const overlay = ref<HTMLElement | null>(null)
 const switchVideo = ref<boolean>(false)
-const cursorlayer = ref<HTMLElement | null>(null)
 const vimeoshort = ref<HTMLElement | null>(null)
 const vimeolong = ref<HTMLElement | null>(null)
 
 const setBoundingClientRect = () => {
   const domRect = container.value?.getBoundingClientRect()
   if (!overlay.value) return
-  overlay.value.style.top = `${domRect?.top}px`
-  overlay.value.style.bottom = `${domRect?.bottom}px`
-  overlay.value.style.left = `${domRect?.left}px`
-  overlay.value.style.right = `${domRect?.right}px`
-  overlay.value.style.width = `${domRect?.width}px`
-  overlay.value.style.height = `${domRect?.height}px`
   overlay.value.style.zIndex = `-1`
 }
 
@@ -98,6 +91,7 @@ watch(switchVideo, (nv) => {
 
 onMounted(() => {
   playVimeoShort()
+  playVimeoLong(false)
 })
 const { updateType } = useMousemove()
 const setCursorType = (type: string) => {
@@ -117,19 +111,10 @@ const setCursorType = (type: string) => {
     </div>
     <div ref="overlay" :cls="{ overlay: true, '-scale': switchVideo }">
       <div cls="overlay__wrap">
-        <div cls="overlay__video">
-          <div v-if="vimeo?.long" ref="vimeolong" />
-          <video
-            v-else
-            ref="videoFull"
-            else
-            controls
-            :cls="{ long: true, '-show': switchVideo }"
-            playsinline
-          >
-            <source :src="video?.long" type="video/mp4" />
-          </video>
-        </div>
+        <div v-if="vimeo?.long" ref="vimeolong" />
+        <video v-else ref="videoFull" else controls :cls="{ long: true, '-show': switchVideo }">
+          <source :src="video?.long" type="video/mp4" />
+        </video>
         <r-round-button
           cls="overlay__btn-close"
           size="large"
@@ -168,21 +153,14 @@ const setCursorType = (type: string) => {
   &.-show {
     opacity: 0;
   }
-  &-layer {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-  }
 }
 .shorts {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  transition-delay: 0.2s;
   height: 100%;
+  transition: 0.3s ease-in-out;
   &__vimeo {
     width: 100%;
     height: 100%;
@@ -202,47 +180,28 @@ const setCursorType = (type: string) => {
   &.-show {
     opacity: 1;
     width: 100% !important;
-    height: 102% !important;
+    height: 100% !important;
   }
 }
 .overlay {
   position: fixed;
   background: rgba(0, 0, 0, 0.8);
-  transition: 0.2s ease-in-out;
   z-index: -1;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   &__wrap {
     position: relative;
-    aspect-ratio: 16/9;
-    max-width: 1400px;
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    min-height: 0;
-    margin: 0px 24px;
-  }
-  &__video {
-    width: 100%;
-    min-height: 0;
+    width: 76%;
+    max-height: 100%;
     border-radius: 24px;
     border: 20px solid #fff;
-    background: #fff;
-    overflow: hidden;
-    height: max-content;
-    video {
-      aspect-ratio: 16 / 9;
-      border-radius: 8px;
-    }
-    iframe {
-      margin: 0 auto;
-      border-radius: 8px;
-      aspect-ratio: 16 / 9;
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
+  }
+  &__btn-close {
+    position: absolute;
+    right: -100px;
+    top: -20px;
   }
 }
 @include tablet {
@@ -256,20 +215,21 @@ const setCursorType = (type: string) => {
   }
   .overlay {
     &__wrap {
-      flex-direction: column;
-      align-items: center;
-      height: 100%;
-      width: 100%;
-      padding: 0 24px;
+      width: 95%;
+      border: 8px solid #fff;
+      border-radius: 8px;
+      position: initial;
     }
     &__btn-close {
-      margin-top: auto;
-      margin-bottom: 90px;
+      right: auto;
+      top: auto;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
     }
     &__video {
       margin-top: auto;
-      border: 8px solid #fff;
-      border-radius: 8px;
+
       video {
         border-radius: 4px;
       }
@@ -296,11 +256,6 @@ const setCursorType = (type: string) => {
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-  }
-  .overlay {
-    &__wrap {
-      padding: 0 16px;
     }
   }
 }
