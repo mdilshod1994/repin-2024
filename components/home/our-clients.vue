@@ -17,7 +17,9 @@ const setCursorType = (type: string) => {
     <r-title :pretitle="reviews.reviews_subtitle" :title="reviews.reviews_title" />
     <r-carousel
       scroll-bar
-      gap="48"
+      gap="56"
+      tablet-gap="48"
+      mob-gap="41"
       @mouseover="setCursorType('carousel')"
       @mouseleave="setCursorType('')"
     >
