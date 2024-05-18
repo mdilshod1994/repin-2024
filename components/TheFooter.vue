@@ -274,7 +274,7 @@ const setCursorType = (type: string) => {
       align-items: center;
       justify-content: center;
       gap: 8px;
-      border-bottom: 2px solid var(--White);
+      border-bottom: 1px solid var(--White);
       flex-shrink: 0;
       svg {
         transform: rotate(180deg);

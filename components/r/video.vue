@@ -130,7 +130,6 @@ const setCursorType = (type: string) => {
             <source :src="video?.long" type="video/mp4" />
           </video>
         </div>
-
         <r-round-button
           cls="overlay__btn-close"
           size="large"
