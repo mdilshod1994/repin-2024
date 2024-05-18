@@ -8,18 +8,20 @@ defineProps<{
 }>()
 onMounted(() => {
   document.querySelectorAll("#videowrap").forEach((el) => {
-    const vv = new Player(el, {
-      background: true,
-      loop: true,
-      muted: true,
-      height: 410,
-      playsinline: true,
-    })
-    vv.on("play", () => {
-      const parent = el.parentElement
-      if (!parent) return
-      parent.style.width = `${el.clientWidth}px`
-    })
+    if (el) {
+      const vv = new Player(el, {
+        background: true,
+        loop: true,
+        muted: true,
+        height: el.clientHeight,
+        playsinline: true,
+      })
+      vv.on("play", () => {
+        const parent = el.parentElement
+        if (!parent) return
+        parent.style.width = `${el.clientWidth}px`
+      })
+    }
   })
 })
 
@@ -140,6 +142,7 @@ const setCursorType = (type: string) => {
       position: absolute;
       width: max-content;
       z-index: 1;
+      height: 100%;
     }
     &-img {
       width: 100%;
