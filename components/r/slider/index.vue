@@ -89,10 +89,26 @@ const clickSides = (e: any) => {
     }
   }
 }
+
+const currentPreviewIdx = computed(() => {
+  return cIdx.value + 1
+})
+
+const { updateType } = useMousemove()
+const setCursorType = (type: string) => {
+  updateType(type)
+}
 </script>
 
 <template>
-  <div cls="block">
+  <div cls="block" @mouseover="setCursorType('slider')" @mouseleave="setCursorType('')">
+    <r-slider-pagination-number
+      v-if="slider"
+      v-model:cIdx="currentPreviewIdx"
+      :qnty-slides="slider.children.length"
+      cls="block__numbers"
+      :style-numbers="styleNumbers"
+    />
     <div
       ref="slider"
       cls="sliders"
@@ -120,6 +136,11 @@ const clickSides = (e: any) => {
   margin: 0 auto;
   position: relative;
   overflow: hidden;
+  &__numbers {
+    position: absolute;
+    top: 56px;
+    left: 32px;
+  }
   &__right {
     display: flex;
     justify-content: space-between;
@@ -209,31 +230,6 @@ const clickSides = (e: any) => {
     user-drag: none;
   }
 }
-.numbers {
-  width: 81px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-  overflow: hidden;
-  z-index: 1;
-  &.-styled {
-    position: absolute;
-    top: 56px;
-    height: 40px;
-    left: 56px;
-    color: var(--White);
-    border-radius: 48px;
-    background: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-  }
-  div {
-    width: 14.5px;
-    display: flex;
-    justify-content: center;
-  }
-}
 .pagination {
   display: flex;
   gap: 6px;
@@ -260,18 +256,20 @@ const clickSides = (e: any) => {
   .sliders {
     border-radius: 16px;
   }
-  .numbers {
-    width: 75px;
-    height: 32px;
-    top: 32px;
-    left: 32px;
-    @include mob-body-14;
-  }
+
   .pagination {
     bottom: 40px;
     span {
       width: 6px;
       height: 6px;
+    }
+  }
+}
+@include tablet-small {
+  .block {
+    &__numbers {
+      left: 16px;
+      top: 40px;
     }
   }
 }

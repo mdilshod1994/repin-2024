@@ -82,6 +82,13 @@ watch(video, (nv) => {
           </r-title>
         </div>
       </div>
+      <div v-if="block.acf_fc_layout === 'slider_images'" cls="case__sliders" class="container">
+        <portfolio-case-slider>
+          <div v-for="img in block.images">
+            <img :src="img" alt="" />
+          </div>
+        </portfolio-case-slider>
+      </div>
       <div v-if="block.acf_fc_layout === 'flex_before_after'" cls="case__before-after">
         <r-before-after>
           <template #after>
@@ -101,15 +108,6 @@ watch(video, (nv) => {
               </div>
             </template>
           </r-title>
-        </div>
-      </div>
-      <div v-if="block.acf_fc_layout === 'slider_images'" class="container">
-        <div cls="case__slider" class="dark-background">
-          <portfolio-case-slider>
-            <div v-for="img in block.images">
-              <img :src="img" alt="" />
-            </div>
-          </portfolio-case-slider>
         </div>
       </div>
       <div v-if="block.acf_fc_layout === 'left_title-right_two_text'" class="container">
@@ -185,9 +183,10 @@ watch(video, (nv) => {
           </div>
         </div>
       </div>
+
       <div v-if="block.acf_fc_layout === 'flex_desc_author'" class="container">
         <div cls="case__expirience">
-          <reuse-expirience :feedback-desc="block?.fda_desc">
+          <re-use-expirience :feedback-desc="block?.fda_desc">
             <template #author>
               <r-author
                 :name="block?.fda_name"
@@ -195,7 +194,7 @@ watch(video, (nv) => {
                 :avatar="block?.fda_avatar"
               />
             </template>
-          </reuse-expirience>
+          </re-use-expirience>
         </div>
       </div>
       <!-- fda_avatar

@@ -198,6 +198,13 @@ const setCursorType = (type: string) => {
     &__desc {
       display: none;
     }
+    &__btn {
+      width: 24px !important;
+      height: 24px !important;
+      svg {
+        font-size: 10px !important;
+      }
+    }
   }
 }
 </style>

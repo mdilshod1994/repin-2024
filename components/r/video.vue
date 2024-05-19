@@ -213,6 +213,11 @@ const setCursorType = (type: string) => {
   .short {
     border-radius: 16px;
   }
+  .video {
+    &__wrap {
+      border-radius: 16px;
+    }
+  }
   .overlay {
     &__wrap {
       width: 95%;

@@ -3,7 +3,8 @@ import type { PortfolioElement } from "~/types/portfolio"
 
 const store = usePortfolio()
 const _store = useGlobalData()
-
+const leftArrow = ref<HTMLElement | null>()
+const rightArrow = ref<HTMLElement | null>()
 const portfolios = computed(() => {
   return store.portfolio?.slice(0, 6) as PortfolioElement[]
 })
@@ -28,6 +29,20 @@ const _getPortfolio = async (slug?: string) => {
 onMounted(() => {
   _getPortfolio(activeSlug.value)
   window.sessionStorage.removeItem("totalLoadedProjects")
+
+  const firstTab = document.querySelector(".tab")
+
+  const obserber = new IntersectionObserver(
+    (entries) => {
+      if (!leftArrow.value) return
+      leftArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
+    },
+    {
+      threshold: 0.8,
+    },
+  )
+  if (!firstTab) return
+  obserber.observe(firstTab)
 })
 
 watch(slug, async (newSlug) => {
@@ -35,6 +50,21 @@ watch(slug, async (newSlug) => {
     await _getPortfolio(newSlug)
   }
 })
+
+const handleArrows = () => {
+  const tabs = document.querySelectorAll(".tab")
+  const obserber = new IntersectionObserver(
+    (entries) => {
+      if (!rightArrow.value) return
+      rightArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
+    },
+    {
+      threshold: 0.8,
+    },
+  )
+  const lastItem = tabs.length - 1
+  obserber.observe(tabs[lastItem])
+}
 </script>
 
 <template>
@@ -50,8 +80,14 @@ watch(slug, async (newSlug) => {
         </div>
       </template>
     </r-title>
-    <div cls="portfolio__mob-filter">
-      <r-carousel gap="8">
+    <div cls="portfolio__mob-filter" @touchmove="handleArrows">
+      <div ref="leftArrow" cls="portfolio__mob-filter-arrow -left">
+        <svgo-arrow-right />
+      </div>
+      <div ref="rightArrow" cls="portfolio__mob-filter-arrow -right">
+        <svgo-arrow-right />
+      </div>
+      <r-carousel gap="8" tablet-gap="8" mob-gap="8">
         <div :class="{ tab: true, '-active': activeSlug === 'all' }" @click="_getPortfolio('all')">
           All
         </div>
@@ -133,6 +169,44 @@ watch(slug, async (newSlug) => {
     gap: 0;
     &__mob-filter {
       margin: 56px -16px 32px;
+      position: relative;
+      &-arrow {
+        position: absolute;
+        top: 0px;
+        height: 100%;
+        width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 4;
+        &.-left {
+          left: 0;
+          background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 1),
+            rgba(255, 255, 255, 1),
+            rgba(255, 255, 255, 0.6),
+            rgba(255, 255, 255, 0)
+          );
+          svg {
+            transform: rotate(-180deg);
+          }
+        }
+        &.-right {
+          right: 0;
+          background: linear-gradient(
+            to left,
+            rgba(255, 255, 255, 1),
+            rgba(255, 255, 255, 1),
+            rgba(255, 255, 255, 0.6),
+            rgba(255, 255, 255, 0)
+          );
+        }
+        svg {
+          font-size: 12px;
+          color: #000;
+        }
+      }
     }
     &__grid {
       padding-top: 40px;

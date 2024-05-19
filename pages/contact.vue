@@ -100,7 +100,9 @@ const setCursorType = (type: string) => {
               >
                 <div cls="contacts__social-box">
                   <div cls="contacts__social-icon" v-html="m.icon" />
-                  {{ m.name }}
+                  <span>
+                    {{ m.name }}
+                  </span>
                 </div>
                 <div cls="contacts__social-arrow">
                   <svgo-arrow-up-right />
@@ -112,9 +114,7 @@ const setCursorType = (type: string) => {
         <div :cls="{ contacts__background: true, '-visible': isVisible }" />
       </div>
     </div>
-
-    <!-- TODO: Надо поправить данные -->
-    <reuse-social-media cls="contacts__social-media" :social-media="contact.social_media" />
+    <re-use-social-media cls="contacts__social-media" :social-media="contact.social_media" />
   </div>
 </template>
 
@@ -262,6 +262,24 @@ const setCursorType = (type: string) => {
       align-items: center;
       gap: 20px;
       @include desctop-H5;
+      span {
+        display: block;
+        position: relative;
+        width: max-content;
+        &::before {
+          content: "";
+          transform-origin: 100% 50%;
+          transform: scale3d(0, 1, 1);
+          transition: transform 0.3s;
+          position: absolute;
+          width: 100%;
+          height: 1px;
+          background: var(--White);
+          top: 100%;
+          left: 0;
+          pointer-events: none;
+        }
+      }
     }
     &-icon {
       background: var(--White);
@@ -286,6 +304,14 @@ const setCursorType = (type: string) => {
     &:hover {
       .contacts {
         &__social {
+          &-box {
+            span {
+              &::before {
+                transform-origin: 0% 50%;
+                transform: scale3d(1, 1, 1);
+              }
+            }
+          }
           &-icon {
             svg {
               transform: scale(1.2);

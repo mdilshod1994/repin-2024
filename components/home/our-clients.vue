@@ -28,7 +28,7 @@ const setCursorType = (type: string) => {
           <img v-if="review.logo" :src="review.logo" alt="" />
         </div>
         <div cls="clients-card__content">
-          <div cls="clients-card__title">{{ review.name }}</div>
+          <r-author :name="review.name" :profession="review.position" :avatar="review.photo" />
           <div cls="clients-card__text">
             {{ review.text }}
           </div>
@@ -59,7 +59,7 @@ const setCursorType = (type: string) => {
     &__content {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 20px;
     }
     &__title {
       @include desctop-H5-ram;

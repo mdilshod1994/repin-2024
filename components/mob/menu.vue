@@ -30,11 +30,11 @@ watch(
   },
 )
 
-const [SocialsTemplate, ReuseSocialsTemplate] = createReusableTemplate()
+const [SocialLinks, ReuseSocialLinks] = createReusableTemplate()
 </script>
 
 <template>
-  <socials-template>
+  <social-links>
     <div cls="mobile__socials">
       <a href="">
         <svgo-youtube />
@@ -43,7 +43,7 @@ const [SocialsTemplate, ReuseSocialsTemplate] = createReusableTemplate()
         <svgo-ins />
       </a>
       <a href="">
-        <svgo-x />
+        <svgo-tw />
       </a>
       <a href="">
         <svgo-behance />
@@ -52,7 +52,7 @@ const [SocialsTemplate, ReuseSocialsTemplate] = createReusableTemplate()
         <svgo-dirble />
       </a>
     </div>
-  </socials-template>
+  </social-links>
   <div v-if="true" ref="mobMenu" :cls="{ mobile: true, '-active': active }">
     <div cls="mobile__wrap">
       <nav cls="mobile__nav">
@@ -65,14 +65,14 @@ const [SocialsTemplate, ReuseSocialsTemplate] = createReusableTemplate()
           </nuxt-link>
         </div>
       </nav>
-      <div cls="mobile__soc -mob">
-        <reuse-socials-template />
+      <div v-if="active" cls="mobile__soc -mob">
+        <reuse-social-links />
       </div>
       <div class="line" />
       <div cls="mobile__bottom">
         <r-button cls="mobile__bottom-btn"> Connect </r-button>
-        <div cls="mobile__soc -tab">
-          <reuse-socials-template />
+        <div v-if="active" cls="mobile__soc -tab">
+          <reuse-social-links />
         </div>
       </div>
     </div>

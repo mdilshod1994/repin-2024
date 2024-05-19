@@ -61,4 +61,6 @@ export interface Review {
   logo: string
   name: string
   text: string
+  photo: string | boolean
+  position: string
 }

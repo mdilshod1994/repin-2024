@@ -10,6 +10,8 @@ const props = defineProps<{
   socialMedia?: SocialMedia
 }>()
 const firstPage = ref<number>(0)
+const leftArrow = ref<HTMLElement | null>()
+const rightArrow = ref<HTMLElement | null>()
 const store = usePortfolio()
 
 const showMore = async () => {
@@ -25,20 +27,59 @@ const hideBtn = computed(() => {
 })
 
 const slug = defineModel<string>("slug")
-
+const _getPortfolio = async (slug?: string) => {
+  if (slug) {
+    await store.getPortfolio(slug, 0)
+  }
+}
 watch(slug, (newSlug) => {
   if (newSlug) {
     store.getPortfolio(newSlug, firstPage.value)
     window.sessionStorage.removeItem("totalLoadedProjects")
   }
 })
+
+onMounted(() => {
+  const firstTab = document.querySelector(".tab")
+
+  const obserber = new IntersectionObserver(
+    (entries) => {
+      if (!leftArrow.value) return
+      leftArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
+    },
+    {
+      threshold: 0.8,
+    },
+  )
+  if (!firstTab) return
+  obserber.observe(firstTab)
+  handleArrows()
+})
+
+const handleArrows = () => {
+  const tabs = document.querySelectorAll(".tab")
+  const obserber = new IntersectionObserver(
+    (entries) => {
+      if (!rightArrow.value) return
+      rightArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
+    },
+    {
+      threshold: 0.8,
+    },
+  )
+  const lastItem = tabs.length - 1
+  obserber.observe(tabs[lastItem])
+}
 </script>
 
 <template>
   <div cls="portfolio">
     <div class="container">
       <div cls="portfolio__wrap">
-        <r-title title="Our works">
+        <r-title cls="portfolio__wrap-addons" mobile-center>
+          <template #title>
+            <div cls="portfolio__wrap-title">Our works</div>
+          </template>
           <template #addons>
             <portfolio-filters
               v-model:slug="slug"
@@ -47,13 +88,26 @@ watch(slug, (newSlug) => {
               cls="portfolio__filter"
             />
           </template>
+          <template #title_addons> <div cls="portfolio__wrap-addons">(14)</div> </template>
         </r-title>
-        <div cls="portfolio__mob-filter">
-          <r-carousel gap="8">
-            <div :class="{ tab: true, '-active': activeSlug === 'all' }">All</div>
+        <div cls="portfolio__mob-filter" @touchmove="handleArrows">
+          <div ref="leftArrow" cls="portfolio__mob-filter-arrow -left">
+            <svgo-arrow-right />
+          </div>
+          <div ref="rightArrow" cls="portfolio__mob-filter-arrow -right">
+            <svgo-arrow-right />
+          </div>
+          <r-carousel gap="8" tablet-gap="8" mob-gap="8">
+            <div
+              :class="{ tab: true, '-active': activeSlug === 'all' }"
+              @click="_getPortfolio('all')"
+            >
+              All
+            </div>
             <div
               v-for="category in categories"
               :class="{ tab: true, '-active': activeSlug === category.slug }"
+              @click="_getPortfolio(category.slug)"
             >
               {{ category.name }}
             </div>
@@ -78,7 +132,7 @@ watch(slug, (newSlug) => {
         </r-grid>
       </div>
     </div>
-    <reuse-social-media
+    <re-use-social-media
       v-if="socialMedia"
       cls="portfolio__social-media"
       :social-media="socialMedia"
@@ -102,6 +156,18 @@ watch(slug, (newSlug) => {
     flex-direction: column;
     gap: 104px;
     padding-bottom: 80px;
+    &-title {
+      color: var(--Black);
+      font-size: 104px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 112px;
+      letter-spacing: -5.2px;
+    }
+    &-addons {
+      @include desctop-caption-17;
+      letter-spacing: normal;
+    }
   }
   &__mob-filter {
     display: none;
@@ -144,6 +210,12 @@ watch(slug, (newSlug) => {
     }
     &__wrap {
       gap: 0;
+      &-addons {
+        @include mob-body-14;
+      }
+      &-title {
+        @include mob-H1;
+      }
     }
   }
 }
@@ -151,6 +223,44 @@ watch(slug, (newSlug) => {
   .portfolio {
     &__mob-filter {
       margin: 88px -16px 32px;
+      position: relative;
+      &-arrow {
+        position: absolute;
+        top: 0px;
+        height: 100%;
+        width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 4;
+        &.-left {
+          left: 0;
+          background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 1),
+            rgba(255, 255, 255, 1),
+            rgba(255, 255, 255, 0.6),
+            rgba(255, 255, 255, 0)
+          );
+          svg {
+            transform: rotate(-180deg);
+          }
+        }
+        &.-right {
+          right: 0;
+          background: linear-gradient(
+            to left,
+            rgba(255, 255, 255, 1),
+            rgba(255, 255, 255, 1),
+            rgba(255, 255, 255, 0.6),
+            rgba(255, 255, 255, 0)
+          );
+        }
+        svg {
+          font-size: 12px;
+          color: #000;
+        }
+      }
     }
 
     &__grid {

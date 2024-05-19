@@ -31,18 +31,24 @@ const cIdx = defineModel<number>("cIdx")
   z-index: 1;
   &.-styled {
     position: absolute;
-    top: 56px;
     height: 40px;
-    left: 56px;
     color: var(--White);
     border-radius: 48px;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
   }
   div {
     width: 14.5px;
     display: flex;
     justify-content: center;
+  }
+}
+@include tablet-small {
+  .numbers {
+    width: 75px;
+    &.-styled {
+      height: 32px;
+    }
   }
 }
 </style>

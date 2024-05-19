@@ -57,7 +57,7 @@ const setCursorType = (type: string) => {
             @mouseleave="setCursorType('')"
           >
             <div cls="open-jobs__item-content">
-              <div cls="open-jobs__item-name">{{ v.name }}</div>
+              <div cls="open-jobs__item-name " class="underline-fade">{{ v.name }}</div>
               <div cls="open-jobs__item-tasks">{{ v.description }}</div>
             </div>
             <div cls="open-jobs__item-icon">
@@ -99,6 +99,13 @@ const setCursorType = (type: string) => {
       max-width: 845px;
       width: 100%;
     }
+    &-icon {
+      button {
+        svg {
+          transform: rotate(-45deg);
+        }
+      }
+    }
     &-box {
       display: flex;
       width: 100%;
@@ -110,6 +117,28 @@ const setCursorType = (type: string) => {
       flex-shrink: 0;
       border-radius: 12px;
       background: #f5f5f5;
+
+      &:hover {
+        .open-jobs {
+          &__item {
+            &-icon {
+              button {
+                background: var(--Black);
+                svg {
+                  color: #fff;
+                  transform: rotate(0deg);
+                }
+              }
+            }
+            &-name {
+              &::before {
+                transform-origin: 0% 50%;
+                transform: scale3d(1, 1, 1);
+              }
+            }
+          }
+        }
+      }
     }
     &-content {
       display: flex;
@@ -118,6 +147,21 @@ const setCursorType = (type: string) => {
     }
     &-name {
       @include desctop-body-22-med;
+      position: relative;
+      width: max-content;
+      &::before {
+        content: "";
+        transform-origin: 100% 50%;
+        transform: scale3d(0, 1, 1);
+        transition: transform 0.3s;
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        background: currentColor;
+        top: 100%;
+        left: 0;
+        pointer-events: none;
+      }
     }
     &-tasks {
       color: rgba(20, 20, 20, 0.6);

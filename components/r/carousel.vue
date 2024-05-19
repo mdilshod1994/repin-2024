@@ -127,12 +127,6 @@ const tGap = computed(() => {
 const mGap = computed(() => {
   return `${props.mobGap}px`
 })
-
-const cursorToggle = (e: any) => {
-  if (e.type !== "mouseout" && carousel.value) {
-    // carousel.value.style.cursor = "none"
-  }
-}
 </script>
 
 <template>
@@ -144,8 +138,6 @@ const cursorToggle = (e: any) => {
       @mousedown="dragStart"
       @mouseup="dragStop"
       @mouseleave="dragStop"
-      @mouseover="cursorToggle"
-      @mouseout="cursorToggle"
     >
       <slot />
     </div>

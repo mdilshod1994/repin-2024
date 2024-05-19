@@ -8,6 +8,7 @@ withDefaults(
     textAlign?: "left" | "center" | "right" // для стилизации title
     colorWhite?: boolean
     textRigth?: boolean
+    mobileCenter?: boolean
   }>(),
   {
     alignPosition: "end",
@@ -29,8 +30,14 @@ withDefaults(
       {{ pretitle }}
     </div>
     <div :cls="{ block__wrap: true, [`-${alignPosition}`]: true }">
-      <div v-if="title || $slots.title" :cls="{ block__title: true, '-text-aling': textAlign }">
+      <div
+        v-if="title || $slots.title"
+        :cls="{ block__title: true, '-text-aling': textAlign, '-mob-center': mobileCenter }"
+      >
         <slot name="title">{{ title }}</slot>
+        <div v-if="$slots.title_addons" cls="block__title-addons">
+          <slot name="title_addons" />
+        </div>
       </div>
       <div v-if="$slots.addons" :cls="{ block__addons: true, '-left': textRigth }">
         <slot name="addons" />
@@ -75,12 +82,20 @@ withDefaults(
   &__title {
     @include desctop-H2;
     max-width: 877px;
+    position: relative;
     span {
       @include desctop-H2-ram;
       font-style: italic;
     }
     &.-text-aling {
       text-align: v-bind(textAlign);
+    }
+    &-addons {
+      position: absolute;
+      right: -26px;
+      top: 0;
+      color: var(--Black);
+      letter-spacing: normal;
     }
   }
   &__wrap {
@@ -144,6 +159,11 @@ withDefaults(
             padding-top: 0px;
           }
         }
+      }
+    }
+    &__title {
+      &.-mob-center {
+        margin: 0 auto;
       }
     }
   }

@@ -159,6 +159,7 @@ const setCursorType = (type: string) => {
       span {
         color: var(--White);
         @include desctop-caption-17-db;
+        transition: 0.3s ease-in-out;
       }
     }
     &-icon {
@@ -223,6 +224,12 @@ const setCursorType = (type: string) => {
         }
       }
     }
+    &:hover &-link {
+      background: rgba(255, 255, 255, 1);
+      span {
+        color: var(--Black);
+      }
+    }
   }
 }
 @include tablet {
@@ -257,23 +264,18 @@ const setCursorType = (type: string) => {
         bottom: 16px;
         padding: 0;
         height: auto;
-
         span {
           display: none;
         }
       }
       &-icon {
+        width: 40px;
+        height: 40px;
         &-wrap {
-          width: 40px;
-          height: 40px;
+          width: 16px;
+          height: 16px;
           svg {
-            &:nth-child(1) {
-              display: none;
-            }
-            &:nth-child(2) {
-              opacity: block;
-              opacity: 1;
-            }
+            font-size: 16px;
           }
         }
       }

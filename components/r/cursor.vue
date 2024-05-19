@@ -88,7 +88,7 @@ onMounted(() => {
       <svgo-cursor v-else />
     </div>
     <div
-      v-show="ct === 'video' || ct === 'carousel'"
+      v-show="ct === 'video' || ct === 'carousel' || ct === 'slider'"
       :cls="{
         'cursor-elastic': true,
         '-white': ct === 'video' || ct === 'slider',
@@ -100,7 +100,7 @@ onMounted(() => {
           <div ref="cursorbg" cls="cursor-elastic-inner" />
           <svgo-play v-if="ct === 'video'" cls="cursor-elastic-video" />
           <div
-            v-if="ct === 'carousel' || ct === 'carousel'"
+            v-if="ct === 'carousel' || ct === 'slider'"
             :cls="{ 'cursor-elastic-carousel': true, [`-${ad}`]: true }"
           >
             <svgo-arrow-right />
@@ -138,6 +138,7 @@ onMounted(() => {
   &.-white .cursor-elastic {
     &-inner {
       background: var(--White);
+      box-shadow: 0px 3px 24px 0px rgba(0, 0, 0, 0.1);
     }
     &-wrap {
       svg {
