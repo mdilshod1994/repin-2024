@@ -45,6 +45,8 @@ watch(slug, (newSlug) => {
 
 onMounted(() => {
   handleArrows()
+  if (!leftArrow.value) return
+  leftArrow.value.style.display = "none"
 })
 
 const handleArrows = () => {

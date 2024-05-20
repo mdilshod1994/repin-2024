@@ -32,6 +32,8 @@ onMounted(() => {
   setTimeout(() => {
     handleArrows()
   }, 2000)
+  if (!leftArrow.value) return
+  leftArrow.value.style.display = "none"
 })
 
 watch(slug, async (newSlug) => {
