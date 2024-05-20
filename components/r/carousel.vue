@@ -74,9 +74,11 @@ const updateThumbPosition = () => {
 
 const setMarginsToSlides = () => {
   const globalContainer = document.querySelector(".container") as HTMLElement
+  const body = document.querySelector("body")
+  if (!body) return
   const paddingX = parseFloat(getComputedStyle(globalContainer).paddingLeft) * 2
   const containerWidth = globalContainer ? globalContainer.clientWidth - paddingX : 1920 - paddingX
-  const screenWidth = window.screen.width > 1920 ? 1920 : window.screen.width
+  const screenWidth = body?.clientWidth > 1920 ? 1920 : body?.clientWidth
   const marginSide = (screenWidth - containerWidth) / 2
 
   if (carousel.value && !props.removeMargin) {

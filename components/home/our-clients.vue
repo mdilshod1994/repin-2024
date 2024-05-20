@@ -50,7 +50,7 @@ const setCursorType = (type: string) => {
     flex-direction: column;
     gap: 40px;
     &__logo {
-      height: 60px;
+      max-height: 60px;
       svg {
         height: 100%;
         width: auto;
@@ -74,9 +74,6 @@ const setCursorType = (type: string) => {
       max-width: 256px;
       &__content {
         gap: 8px;
-      }
-      &__logo {
-        height: 48px;
       }
       &__title {
         @include mob-sub-16;
