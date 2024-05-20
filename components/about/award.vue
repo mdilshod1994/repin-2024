@@ -345,6 +345,9 @@ const setCursorType = (type: string) => {
 }
 @include tablet-small {
   .awards {
+    &__behance-link {
+      display: none;
+    }
     &__item {
       &-texts {
         flex-direction: column;

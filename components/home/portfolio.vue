@@ -29,20 +29,9 @@ const _getPortfolio = async (slug?: string) => {
 onMounted(() => {
   _getPortfolio(activeSlug.value)
   window.sessionStorage.removeItem("totalLoadedProjects")
-
-  const firstTab = document.querySelector(".tab")
-
-  const obserber = new IntersectionObserver(
-    (entries) => {
-      if (!leftArrow.value) return
-      leftArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
-    },
-    {
-      threshold: 0.8,
-    },
-  )
-  if (!firstTab) return
-  obserber.observe(firstTab)
+  setTimeout(() => {
+    handleArrows()
+  }, 2000)
 })
 
 watch(slug, async (newSlug) => {
@@ -53,7 +42,18 @@ watch(slug, async (newSlug) => {
 
 const handleArrows = () => {
   const tabs = document.querySelectorAll(".tab")
-  const obserber = new IntersectionObserver(
+  const firstCatObserver = new IntersectionObserver(
+    (entries) => {
+      if (!leftArrow.value) return
+      leftArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
+    },
+    {
+      threshold: 0.8,
+    },
+  )
+  const firstCat = tabs[0]
+  firstCatObserver.observe(firstCat)
+  const lastCatObserver = new IntersectionObserver(
     (entries) => {
       if (!rightArrow.value) return
       rightArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
@@ -62,8 +62,8 @@ const handleArrows = () => {
       threshold: 0.8,
     },
   )
-  const lastItem = tabs.length - 1
-  obserber.observe(tabs[lastItem])
+  const lastCat = tabs.length - 1
+  lastCatObserver.observe(tabs[lastCat])
 }
 </script>
 
@@ -178,7 +178,7 @@ const handleArrows = () => {
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 4;
+        z-index: 1;
         &.-left {
           left: 0;
           background: linear-gradient(

@@ -152,6 +152,29 @@ const items = computed(() => {
     }
   }
 }
+@include tablet-small {
+  .outstaff {
+    &__card {
+      &-icon {
+        width: 48px;
+        height: 48px;
+      }
+      &:nth-child(1),
+      &:nth-child(4),
+      &:nth-child(2) {
+        svg {
+          font-size: 21px;
+          width: 21px;
+        }
+      }
+      &:nth-child(3) {
+        svg {
+          font-size: 36px;
+        }
+      }
+    }
+  }
+}
 @include mobile {
   .outstaff {
     margin: 16px 0;
@@ -163,6 +186,9 @@ const items = computed(() => {
         height: 560px;
         object-position: left;
       }
+    }
+    &__card {
+      padding: 24px 16px;
     }
   }
 }

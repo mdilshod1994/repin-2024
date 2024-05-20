@@ -88,7 +88,7 @@ const setCursorType = (type: string) => {
               <svgo-youtube-active filled />
             </div>
             <div
-              v-else-if="soc['web-service'].toLowerCase() === 'dribble'"
+              v-else-if="soc['web-service'].toLowerCase() === 'dribbble'"
               cls="carousel__social-icon-wrap"
             >
               <svgo-dirble />

@@ -7,8 +7,32 @@ const props = defineProps<{
   subtitle?: string
   bottomLine?: boolean
   mobileBottomLeft?: boolean
+  gap?: string
+  tabGap?: string
+  mobGap?: string
 }>()
 
+const deskGap = computed(() => {
+  if (props.gap) {
+    return `${props.gap}px`
+  } else {
+    return "24px"
+  }
+})
+const tabletGap = computed(() => {
+  if (props.tabGap) {
+    return `${props.tabGap}px`
+  } else {
+    return "24px"
+  }
+})
+const mobileGap = computed(() => {
+  if (props.mobGap) {
+    return `${props.mobGap}px`
+  } else {
+    return "64px"
+  }
+})
 const banner = ref<HTMLElement | null>(null)
 
 const scrollValue = computed(() => {
@@ -73,7 +97,7 @@ const setCursorType = (type: string) => {
   &__top {
     display: flex;
     justify-content: space-between;
-    gap: 24px;
+    gap: v-bind(deskGap);
   }
   &__left {
     max-width: 729px;
@@ -196,7 +220,7 @@ const setCursorType = (type: string) => {
       }
     }
     &__top {
-      gap: 64px;
+      gap: v-bind(mobGap);
     }
     &__right {
       max-width: 100%;

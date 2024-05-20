@@ -51,9 +51,8 @@ const setCursorType = (type: string) => {
     gap: 40px;
     &__logo {
       max-height: 60px;
-      svg {
+      img {
         height: 100%;
-        width: auto;
       }
     }
     &__content {
@@ -77,6 +76,9 @@ const setCursorType = (type: string) => {
       }
       &__title {
         @include mob-sub-16;
+      }
+      &__logo {
+        max-height: 48px;
       }
     }
   }

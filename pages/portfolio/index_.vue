@@ -21,6 +21,10 @@ const showMore = async () => {
   window.sessionStorage.setItem("totalLoadedProjects", JSON.stringify(currentPage))
 }
 
+const totalProject = computed(() => {
+  return store.totalProjects
+})
+
 const hideBtn = computed(() => {
   if (!store.totalProjects) return
   return store.totalProjects > props.portfolios.length
@@ -40,9 +44,12 @@ watch(slug, (newSlug) => {
 })
 
 onMounted(() => {
-  const firstTab = document.querySelector(".tab")
+  handleArrows()
+})
 
-  const obserber = new IntersectionObserver(
+const handleArrows = () => {
+  const tabs = document.querySelectorAll(".tab")
+  const firstCatObserver = new IntersectionObserver(
     (entries) => {
       if (!leftArrow.value) return
       leftArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
@@ -51,14 +58,9 @@ onMounted(() => {
       threshold: 0.8,
     },
   )
-  if (!firstTab) return
-  obserber.observe(firstTab)
-  handleArrows()
-})
-
-const handleArrows = () => {
-  const tabs = document.querySelectorAll(".tab")
-  const obserber = new IntersectionObserver(
+  const firstCat = tabs[0]
+  firstCatObserver.observe(firstCat)
+  const lastCatObserver = new IntersectionObserver(
     (entries) => {
       if (!rightArrow.value) return
       rightArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
@@ -67,8 +69,8 @@ const handleArrows = () => {
       threshold: 0.8,
     },
   )
-  const lastItem = tabs.length - 1
-  obserber.observe(tabs[lastItem])
+  const lastCat = tabs.length - 1
+  lastCatObserver.observe(tabs[lastCat])
 }
 </script>
 
@@ -88,7 +90,9 @@ const handleArrows = () => {
               cls="portfolio__filter"
             />
           </template>
-          <template #title_addons> <div cls="portfolio__wrap-addons">(14)</div> </template>
+          <template #title_addons>
+            <div cls="portfolio__wrap-addons">({{ totalProject }})</div>
+          </template>
         </r-title>
         <div cls="portfolio__mob-filter" @touchmove="handleArrows">
           <div ref="leftArrow" cls="portfolio__mob-filter-arrow -left">
@@ -232,7 +236,7 @@ const handleArrows = () => {
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 4;
+        z-index: 1;
         &.-left {
           left: 0;
           background: linear-gradient(

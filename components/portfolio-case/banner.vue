@@ -18,7 +18,7 @@ const setCursorType = (type: string) => {
     mobile-column="1"
     :desktop-gaps="[16]"
     :tablet-gaps="[16]"
-    :mobile-gaps="[24]"
+    :mobile-gaps="[32]"
     cls="banner"
   >
     <nuxt-link
@@ -33,14 +33,14 @@ const setCursorType = (type: string) => {
       </div>
       <span class="underline-link"> {{ banner.block_1.link_work_name }} </span>
     </nuxt-link>
-    <r-banner mobile-bottom-left :title="banner.title">
+    <r-banner mobile-bottom-left :title="banner.title" mob-gap="24">
       <div class="texts -column">
         <div class="text">
           {{ banner.block_1.subtitle }}
         </div>
       </div>
-      <template v-if="banner.block_1.tags.length" #bottom-left>
-        <div class="tabs">
+      <template #bottom-left>
+        <div v-if="banner.block_1.tags.length" class="tabs">
           <div v-for="t in banner.block_1.tags" class="tab">{{ t }}</div>
         </div>
       </template>
@@ -77,6 +77,11 @@ const setCursorType = (type: string) => {
     &-title {
       max-width: 356px;
     }
+  }
+}
+@include mobile {
+  .banner {
+    padding-bottom: 24px;
   }
 }
 </style>

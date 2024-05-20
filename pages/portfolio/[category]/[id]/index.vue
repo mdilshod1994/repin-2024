@@ -16,7 +16,6 @@ const { data: portfolio } = await useFetch<PortfolioCase>(
 )
 watch(video, (nv) => {
   if (nv) {
-    console.log(nv)
     nv.onplaying = () => {
       reverse.value = true
     }
@@ -39,7 +38,7 @@ watch(video, (nv) => {
                 muted
                 loop
                 playsinline
-                :cls="{ '-active': reverse }"
+                :cls="{ 'case__cover-video': true, '-active': reverse }"
               >
                 <source
                   :src="portfolio.block_1.cover_in_project.img_proj_vid_mp4"
@@ -138,7 +137,10 @@ watch(video, (nv) => {
         </div>
       </div>
       <div v-if="block.acf_fc_layout === 'flex_iframe'" class="container">
-        <div cls="case__square" class="dark-background">
+        <div
+          :cls="{ case__square: true, '-figma': block.iframe?.includes('figma') }"
+          class="dark-background"
+        >
           <div cls="case__square-wrap">
             <div cls="case__square-inner">
               <div v-html="block.iframe" />
@@ -386,6 +388,22 @@ fda_sign -->
         &:last-child {
           margin-top: 56px;
         }
+      }
+    }
+    &__cover {
+      &-video {
+        min-width: 835px;
+      }
+    }
+    &__square {
+      &.-figma {
+        iframe {
+          max-height: 300px;
+        }
+      }
+      &-inner {
+        display: flex;
+        justify-content: center;
       }
     }
   }

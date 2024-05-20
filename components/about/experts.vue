@@ -241,6 +241,7 @@ defineProps<{
       }
       &-title {
         @include mob-H3;
+        font-weight: 400;
       }
       :global(.tabs) {
         margin-bottom: auto;
@@ -255,6 +256,10 @@ defineProps<{
     }
     :global(.text) {
       max-width: 297px;
+    }
+    &__card{
+      padding: 16px 16px 24px 24px;
+
     }
   }
 }

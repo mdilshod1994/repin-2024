@@ -187,6 +187,7 @@ defineProps<{
     &__title {
       @include mob-sub-16;
     }
+
     &__desc {
       max-width: 454px;
       @include mob-H3;
@@ -212,6 +213,7 @@ defineProps<{
     }
     &__wrap {
       width: auto;
+      padding: 72px 0;
     }
     &__qnty {
       @include mob-H3;

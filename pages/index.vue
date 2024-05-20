@@ -101,9 +101,6 @@ const home = computed(() => {
     &__top {
       padding-bottom: 24px;
     }
-    &__clients {
-      padding: 56px 0;
-    }
   }
 }
 </style>

@@ -47,6 +47,9 @@ onMounted(async () => {
     <div class="container">
       <div cls="about__awards">
         <about-award :awards="about" />
+        <div cls="about__awards-link">
+          <r-button :to="about.link_b5"> {{ about.link_b5_text }} </r-button>
+        </div>
       </div>
     </div>
     <div cls="about__photo-team" class="dark-background">
@@ -110,6 +113,11 @@ onMounted(async () => {
   &__awards {
     padding: 104px 0;
   }
+  &__awards {
+    &-link {
+      display: none;
+    }
+  }
   &__open-jobs {
     padding: 104px 0 160px;
   }
@@ -152,6 +160,16 @@ onMounted(async () => {
         max-width: 100%;
       }
     }
+    &__awards {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      &-link {
+        display: block;
+        max-width: max-content;
+        margin: 0 auto;
+      }
+    }
   }
 }
 @include mobile {
@@ -171,6 +189,9 @@ onMounted(async () => {
     }
     &__expirience {
       padding: 72px 0 56px;
+    }
+    &__awards {
+      gap: 56px;
     }
   }
 }

@@ -228,7 +228,7 @@ const setCursorType = (type: string) => {
     &__btn-close {
       right: auto;
       top: auto;
-      bottom: 40px;
+      bottom: 100px;
       left: 50%;
       transform: translateX(-50%);
     }

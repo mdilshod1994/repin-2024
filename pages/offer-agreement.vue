@@ -48,6 +48,7 @@ onMounted(async () => {
     h2 {
       @include desctop-H4;
     }
+    h4,
     h3 {
       @include desctop-caption-17-db;
       margin-top: 24px;
@@ -80,6 +81,7 @@ onMounted(async () => {
       h2 {
         @include mob-h4-22;
       }
+      h4,
       h3 {
         @include desctop-caption-17-db;
         margin-top: 24px;

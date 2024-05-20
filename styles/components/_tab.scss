@@ -22,3 +22,11 @@
     color: var(--Black);
   }
 }
+@include mobile {
+  .tab {
+    @include mob-body-14;
+    &.-active {
+      @include mob-body-14-db;
+    }
+  }
+}

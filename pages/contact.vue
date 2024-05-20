@@ -257,6 +257,7 @@ const setCursorType = (type: string) => {
     border-radius: 16px;
     border: 0.5px solid rgba(255, 255, 255, 0.1);
     background: rgba(144, 144, 144, 0.1);
+    transition: 0.3s ease-in-out;
     &-box {
       display: flex;
       align-items: center;
@@ -302,6 +303,7 @@ const setCursorType = (type: string) => {
       }
     }
     &:hover {
+      background: rgba(144, 144, 144, 0.25);
       .contacts {
         &__social {
           &-box {
