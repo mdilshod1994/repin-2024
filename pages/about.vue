@@ -26,7 +26,10 @@ onMounted(async () => {
       </div>
     </div>
     <div cls="about__video">
-      <r-video :video="{ short: about.video_short, long: about.video_long }" />
+      <r-video
+        :video="{ short: about.video_short, long: about.video_long }"
+        :vimeo="{ short: about.video_short_vimeo, long: about.video_long_vimeo }"
+      />
     </div>
     <div class="dark-background">
       <about-full-cycle

@@ -13,6 +13,8 @@ export interface EnPage {
   title: string
   title_big: string
   video_short: string
+  video_long_vimeo: string
+  video_short_vimeo: string
   video_long: string
   title_b2: string
   description_b2: string
