@@ -93,7 +93,7 @@ const setCursorType = (type: string) => {
       position: absolute;
       width: 100%;
       height: 100%;
-      transition: transform calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
+      transition: transform calc(1s * 1.9) cubic-bezier(0.19, 1, 0.22, 1);
     }
     iframe {
       opacity: 0;
@@ -142,6 +142,17 @@ const setCursorType = (type: string) => {
             opacity: 1;
             transition: calc(1s * 1.3) cubic-bezier(0.19, 1, 0.22, 1);
             visibility: visible;
+          }
+        }
+      }
+    }
+  }
+  &:not(.-video) {
+    &:hover {
+      .card {
+        &__img {
+          img {
+            transform: scale(1.09);
           }
         }
       }
