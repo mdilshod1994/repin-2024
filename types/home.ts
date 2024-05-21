@@ -46,6 +46,8 @@ export interface Page {
   reviews: Review[]
   promo_video_short: string
   promo_video_long: string
+  promo_video_short_vimeo: string
+  promo_video_long_vimeo: string
   title_consalting: string
   subtitle_consalting: string
   description_consalting: string

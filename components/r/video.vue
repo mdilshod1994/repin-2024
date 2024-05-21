@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import Player from "@vimeo/player"
+import { useMediaQuery } from "@vueuse/core"
 
+const isLargeScreen = useMediaQuery("(min-width: 1024px)")
 interface videoLinks {
   short: string
   long: string
@@ -18,8 +20,15 @@ const switchVideo = ref<boolean>(false)
 const vimeoshort = ref<HTMLElement | null>(null)
 const vimeolong = ref<HTMLElement | null>(null)
 
+const percent = computed(() => {
+  if (isLargeScreen.value) {
+    return 0.75
+  } else {
+    return 0.9
+  }
+})
+
 const setBoundingClientRect = () => {
-  const domRect = container.value?.getBoundingClientRect()
   if (!overlay.value) return
   overlay.value.style.zIndex = `-1`
 }
@@ -45,14 +54,19 @@ const openLongVideo = () => {
 const playVimeoLong = (state: boolean) => {
   if (props.vimeo?.long) {
     if (!vimeolong.value) return
-    const player = new Player(vimeolong.value, {
-      url: props.vimeo?.long,
-    })
-    if (state) {
-      player.play()
-    } else {
-      player.setCurrentTime(0)
-      player.pause()
+    const bodyWidth = document.querySelector("body")?.clientWidth
+    if (bodyWidth) {
+      const player = new Player(vimeolong.value, {
+        url: props.vimeo?.long,
+        width: bodyWidth * percent.value,
+      })
+      if (state) {
+        player.play()
+      } else {
+        player.play()
+        player.setCurrentTime(0)
+        player.pause()
+      }
     }
   }
 }
@@ -193,7 +207,6 @@ const setCursorType = (type: string) => {
   flex-direction: column;
   &__wrap {
     position: relative;
-    width: 76%;
     max-height: 100%;
     border-radius: 24px;
     border: 20px solid #fff;
@@ -220,7 +233,6 @@ const setCursorType = (type: string) => {
   }
   .overlay {
     &__wrap {
-      width: 95%;
       border: 8px solid #fff;
       border-radius: 8px;
       position: initial;

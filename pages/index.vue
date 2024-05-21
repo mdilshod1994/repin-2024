@@ -13,8 +13,22 @@ const home = computed(() => {
         <home-banner :banner="home.page" />
       </div>
     </div>
-    <div v-if="home.page.promo_video_short || home.page.promo_video_long" id="video">
-      <r-video :video="{ short: home.page.promo_video_short, long: home.page.promo_video_long }" />
+    <div
+      v-if="
+        home.page.promo_video_short ||
+        home.page.promo_video_long ||
+        home.page.promo_video_short_vimeo ||
+        home.page.promo_video_long_vimeo
+      "
+      id="video"
+    >
+      <r-video
+        :video="{ short: home.page.promo_video_short, long: home.page.promo_video_long }"
+        :vimeo="{
+          short: home.page.promo_video_short_vimeo,
+          long: home.page.promo_video_long_vimeo,
+        }"
+      />
     </div>
     <div class="container">
       <div cls="home__portfolio">
