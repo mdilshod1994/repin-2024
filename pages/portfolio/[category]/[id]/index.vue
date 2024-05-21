@@ -223,7 +223,7 @@ fda_sign -->
 
 <style module lang="scss">
 .case {
-  padding-top: 152px;
+  padding-top: 136px;
   &__cover {
     video {
       position: absolute;

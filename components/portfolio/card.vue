@@ -201,13 +201,14 @@ const setCursorType = (type: string) => {
 }
 @include mobile {
   .card {
-    gap: 8px;
+    gap: clamp(8px, 2vw, 16px);
 
-    &__title {
-      @include mob-body-14-ram;
-    }
     &__desc {
-      display: none;
+      height: 40px;
+    }
+    &__title {
+      // @include mob-body-14-ram;
+      font-size: clamp(14px, 4vw, 24px);
     }
     &__btn {
       width: 24px !important;

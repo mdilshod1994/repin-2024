@@ -6,11 +6,7 @@ const widthFirstBtn = computed(() => {
   if (!filterBtns.value) return
   return `${Math.ceil(filterBtns.value?.children[0].clientWidth)}px`
 })
-
-const width = computed(() => {
-  if (!filterBtns.value) return
-  return `${filterBtns.value?.scrollWidth}px`
-})
+const width = ref("")
 defineProps<{
   categories?: Category[]
   activeSlug?: string
@@ -25,6 +21,18 @@ const slug = defineModel<string>("slug")
 const setCategory = (slugc: string) => {
   slug.value = slugc
 }
+
+watch(
+  () => show,
+  (nv) => {
+    if (nv) {
+      width.value = `${filterBtns.value?.scrollWidth}px`
+    }
+  },
+  {
+    deep: true,
+  },
+)
 </script>
 
 <template>
@@ -52,7 +60,6 @@ const setCategory = (slugc: string) => {
     <div ref="filterBtns" :cls="{ filter__btns: true, '-show': show }">
       <button
         :cls="{ filter__btn: true, '-active': activeSlug === 'all' }"
-        data-cursor="pointer"
         @click="setCategory('all')"
       >
         <span>All</span>
@@ -60,7 +67,7 @@ const setCategory = (slugc: string) => {
       <button
         v-for="category in categories"
         :cls="{ filter__btn: true, '-active': activeSlug === category.slug, '-show': show }"
-        data-cursor="pointer"
+        class="-category"
         @click="setCategory(category.slug)"
       >
         <span> {{ category.name }}</span>
@@ -245,10 +252,6 @@ const setCategory = (slugc: string) => {
             MoveScaleUpEnd 0.3s forwards 0.3s;
         }
       }
-    }
-
-    &.-show {
-      transform: translateY(0) !important;
     }
     @keyframes MoveScaleUpInitial {
       100% {

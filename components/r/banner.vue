@@ -1,8 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
   scrollTo?: string
-  // заголовок баннера в начале страницы
-  // поумолчанию стоит desktop-H1
   title?: string
   subtitle?: string
   bottomLine?: boolean
@@ -125,7 +123,7 @@ const setCursorType = (type: string) => {
     @include desctop-caption-17;
     display: flex;
     padding: 0 12px 0 16px;
-    height: 36px;
+    height: 38px;
     justify-content: center;
     align-items: center;
     gap: 6px;
@@ -184,10 +182,16 @@ const setCursorType = (type: string) => {
         font-style: italic;
       }
     }
+    &__top {
+      gap: v-bind(tabletGap);
+    }
     &__right {
       padding-top: 8px;
       gap: 24px;
       max-width: 301px;
+    }
+    &__top {
+      gap: v-bind(tabGap);
     }
     &__desc {
       gap: 16px;
@@ -213,6 +217,9 @@ const setCursorType = (type: string) => {
 @include mobile {
   .banner {
     gap: 64px;
+    &__title {
+      max-width: 281px;
+    }
     &__bottom {
       display: none;
       &.-mobile {
@@ -220,7 +227,7 @@ const setCursorType = (type: string) => {
       }
     }
     &__top {
-      gap: v-bind(mobGap);
+      gap: v-bind(mobileGap);
     }
     &__right {
       max-width: 100%;

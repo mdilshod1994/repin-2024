@@ -1,6 +1,3 @@
-<!--
-  TODO: анимированный задний фон сделать отдельным компонентом и документировать
--->
 <script setup lang="ts">
 const store = useGlobalData()
 
@@ -9,17 +6,11 @@ const contact = computed(() => {
 })
 
 const target = ref<HTMLElement | null>(null)
-const isVisible = ref(false)
 
 onMounted(async () => {
   await store.getContactPageInfo()
 })
 
-watch(contact, () => {
-  setTimeout(() => {
-    isVisible.value = true
-  }, 2000)
-})
 const { updateType } = useMousemove()
 
 const setCursorType = (type: string) => {
@@ -111,7 +102,6 @@ const setCursorType = (type: string) => {
             </r-grid>
           </r-grid>
         </div>
-        <div :cls="{ contacts__background: true, '-visible': isVisible }" />
       </div>
     </div>
     <re-use-social-media cls="contacts__social-media" :social-media="contact.social_media" />
@@ -183,39 +173,12 @@ const setCursorType = (type: string) => {
       }
     }
   }
-  &__background {
-    position: absolute;
-    top: 24px;
-    left: 0;
-    width: 100%;
-    height: calc(100% - 24px);
-    background: var(--Black);
-    border-radius: 24px;
-    transform-origin: 50% 100%;
-    transform: scale3d(1, 0, 1);
-    transition: transform 2s cubic-bezier(0.19, 1, 0.22, 1);
-    margin: 0 auto;
-    max-width: 1520px;
-    padding: 0 24px;
-    &.-visible {
-      transform-origin: 50% 0%;
-      transform: scale3d(1, 1, 1);
-    }
-    &.reverse {
-      top: auto;
-      bottom: 24px;
-      transform-origin: 50% 100%;
-      transform: scale3d(1, 1, 1);
-      &.-visible {
-        transform: scale3d(1, 0, 1);
-      }
-    }
-  }
+
   &__request {
     position: relative;
     margin: 0 auto;
     max-width: 1920px;
-    padding: 24px;
+    padding: 24px 0;
     color: var(--White);
     background: var(--White);
     overflow: hidden;
@@ -232,9 +195,12 @@ const setCursorType = (type: string) => {
     &-wrap {
       padding: 160px 0;
       border-radius: 24px;
-      mix-blend-mode: difference;
+      // mix-blend-mode: difference;
       position: relative;
       z-index: 1;
+      background: url("@/assets/images/contact/bg.png");
+      background-size: cover;
+      background-position: center;
     }
     &-box {
       max-width: 486px;
@@ -258,6 +224,7 @@ const setCursorType = (type: string) => {
     border: 0.5px solid rgba(255, 255, 255, 0.1);
     background: rgba(144, 144, 144, 0.1);
     transition: 0.3s ease-in-out;
+    backdrop-filter: blur(8px);
     &-box {
       display: flex;
       align-items: center;
@@ -339,14 +306,9 @@ const setCursorType = (type: string) => {
     &__banner {
       padding-bottom: 64px;
     }
-    &__background {
-      border-radius: 16px;
-      top: 16px;
-      width: 100%;
-      height: calc(100% - 16px);
-    }
+
     &__request {
-      padding: 16px;
+      padding: 16px 0;
       &-wrap {
         border-radius: 16px;
         padding: 104px 0 120px;
@@ -382,6 +344,7 @@ const setCursorType = (type: string) => {
         height: 48px;
         svg {
           font-size: 20px;
+          width: 20px;
         }
       }
       &-arrow {
@@ -398,20 +361,18 @@ const setCursorType = (type: string) => {
     :global(.text) {
       max-width: 282px;
     }
-    &__background {
-      border-radius: 16px;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
+
     &__request {
+      margin: 0 -16px;
       &-title {
         @include mob-H2;
         span {
           @include mob-H2-ram;
           font-style: italic;
         }
+      }
+      &-wrap {
+        padding: 104px 16px 120px;
       }
     }
   }

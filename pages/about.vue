@@ -99,7 +99,7 @@ onMounted(async () => {
   &__slider {
     max-width: 1063px;
     width: 100%;
-    padding: 104px 24px 104px;
+    padding: 110px 24px 174px;
     margin: 0 auto;
   }
   &__slide {

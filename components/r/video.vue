@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Player from "@vimeo/player"
-import { useMediaQuery } from "@vueuse/core"
+import { onClickOutside, useMediaQuery } from "@vueuse/core"
 
 const isLargeScreen = useMediaQuery("(min-width: 1024px)")
 interface videoLinks {
@@ -20,11 +20,13 @@ const switchVideo = ref<boolean>(false)
 const vimeoshort = ref<HTMLElement | null>(null)
 const vimeolong = ref<HTMLElement | null>(null)
 
+onClickOutside(vimeolong, () => (switchVideo.value = false))
+
 const percent = computed(() => {
   if (isLargeScreen.value) {
     return 0.75
   } else {
-    return 0.9
+    return 1
   }
 })
 
@@ -125,7 +127,7 @@ const setCursorType = (type: string) => {
     </div>
     <div ref="overlay" :cls="{ overlay: true, '-scale': switchVideo }">
       <div cls="overlay__wrap">
-        <div v-if="vimeo?.long" ref="vimeolong" />
+        <div v-if="vimeo?.long" ref="vimeolong" cls="long-vimeo" />
         <video v-else ref="videoFull" else controls :cls="{ long: true, '-show': switchVideo }">
           <source :src="video?.long" type="video/mp4" />
         </video>
@@ -187,10 +189,15 @@ const setCursorType = (type: string) => {
     opacity: 0;
   }
 }
+.long-vimeo {
+  border-radius: 24px;
+  overflow: hidden;
+}
 .long {
   opacity: 0;
   transition: 0.3s ease-in-out;
-
+  border-radius: 24px;
+  overflow: hidden;
   &.-show {
     opacity: 1;
     width: 100% !important;
@@ -208,13 +215,11 @@ const setCursorType = (type: string) => {
   &__wrap {
     position: relative;
     max-height: 100%;
-    border-radius: 24px;
-    border: 20px solid #fff;
   }
   &__btn-close {
     position: absolute;
     right: -100px;
-    top: -20px;
+    top: 0px;
   }
 }
 @include tablet {
@@ -223,17 +228,12 @@ const setCursorType = (type: string) => {
   }
 }
 @include tablet-small {
+  .long-vimeo,
   .short {
     border-radius: 16px;
   }
-  .video {
-    &__wrap {
-      border-radius: 16px;
-    }
-  }
   .overlay {
     &__wrap {
-      border: 8px solid #fff;
       border-radius: 8px;
       position: initial;
     }
@@ -274,6 +274,9 @@ const setCursorType = (type: string) => {
       align-items: center;
       justify-content: center;
     }
+  }
+  .long-vimeo {
+    border-radius: 0;
   }
 }
 </style>

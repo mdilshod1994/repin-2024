@@ -24,16 +24,14 @@ withDefaults(
       '-flex-start': $slots.addons || flexStart,
       '-row': !title && !$slots.title && pretitle && $slots.addons,
       '-color-white': colorWhite,
+      '-mob-center': mobileCenter,
     }"
   >
     <div v-if="pretitle" cls="block__pretitle">
       {{ pretitle }}
     </div>
     <div :cls="{ block__wrap: true, [`-${alignPosition}`]: true }">
-      <div
-        v-if="title || $slots.title"
-        :cls="{ block__title: true, '-text-aling': textAlign, '-mob-center': mobileCenter }"
-      >
+      <div v-if="title || $slots.title" :cls="{ block__title: true, '-text-aling': textAlign }">
         <slot name="title">{{ title }}</slot>
         <div v-if="$slots.title_addons" cls="block__title-addons">
           <slot name="title_addons" />
@@ -151,6 +149,9 @@ withDefaults(
     &.-row {
       flex-direction: column;
     }
+    &.-mob-center {
+      align-items: center;
+    }
     &__wrap {
       gap: 16px;
       &.-start {
@@ -159,11 +160,6 @@ withDefaults(
             padding-top: 0px;
           }
         }
-      }
-    }
-    &__title {
-      &.-mob-center {
-        margin: 0 auto;
       }
     }
   }

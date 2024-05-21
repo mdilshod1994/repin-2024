@@ -41,7 +41,7 @@ const setGSAP = () => {
         end: "40% 70%",
         scrub: 2,
       },
-      y: -104,
+      marginTop: 0,
       ease: "power1.inOut",
       duration: 3,
     })
@@ -52,7 +52,7 @@ const setGSAP = () => {
         end: "40% 70%",
         scrub: 2,
       },
-      y: -208,
+      marginTop: 0,
       ease: "power1.inOut",
       duration: 3,
     })
@@ -71,7 +71,7 @@ onMounted(() => {
 <template>
   <div ref="container" cls="projects">
     <div cls="projects__inner">
-      <r-title pretitle="Our projects" title="Next projects" flex-start />
+      <r-title pretitle="Our projects" title="Next projects" mobile-center flex-start />
       <r-grid mobile-column="1" tablet-column="3" :mobile-gaps="[40]" button>
         <portfolio-card
           v-for="(portfolio, idx) in sortedPortfolios"
@@ -88,7 +88,8 @@ onMounted(() => {
 
 <style module lang="scss">
 .projects {
-  padding: 72px 0 88px;
+  padding: 104px 0 160px;
+
   &__inner {
     display: flex;
     flex-direction: column;
@@ -109,6 +110,9 @@ onMounted(() => {
     &:nth-child(3) {
       margin-top: 0;
     }
+  }
+  .projects {
+    padding: 72px 0 88px;
   }
 }
 </style>
