@@ -124,6 +124,9 @@ const setCursorType = (type: string) => {
           <source :src="video?.short" type="video/mp4" />
         </video>
       </div>
+      <div cls="video__wrap-btn">
+        <svgo-play />
+      </div>
     </div>
     <div ref="overlay" :cls="{ overlay: true, '-scale': switchVideo }">
       <div cls="overlay__wrap">
@@ -156,6 +159,22 @@ const setCursorType = (type: string) => {
     height: 100%;
     border-radius: 24px;
     overflow: hidden;
+    &-btn {
+      position: absolute;
+      left: 32px;
+      bottom: 32px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--White);
+      // display: flex;
+      align-items: center;
+      justify-content: center;
+      display: none;
+      svg {
+        font-size: 17.143px;
+      }
+    }
   }
 }
 .cursor {
@@ -225,6 +244,11 @@ const setCursorType = (type: string) => {
 @include tablet {
   .video {
     padding: 16px;
+    &__wrap {
+      &-btn {
+        display: flex;
+      }
+    }
   }
 }
 @include tablet-small {
@@ -252,6 +276,14 @@ const setCursorType = (type: string) => {
       }
     }
   }
+  .video {
+    &__wrap {
+      &-btn {
+        left: 24px;
+        bottom: 24px;
+      }
+    }
+  }
 }
 @include mobile {
   .video {
@@ -259,6 +291,10 @@ const setCursorType = (type: string) => {
     aspect-ratio: auto;
     &__wrap {
       height: 480px;
+      &-btn {
+        left: 16px;
+        bottom: 16px;
+      }
     }
   }
   .shorts {
