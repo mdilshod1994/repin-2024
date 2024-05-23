@@ -677,7 +677,7 @@ watch(isTabletScreen, (nv) => {
         display: flex;
         gap: 16px;
         overflow-x: scroll;
-        // scroll-snap-type: x mandatory;
+        scroll-snap-type: x mandatory;
         padding: 10px 16px;
         &::-webkit-scrollbar {
           display: none;
