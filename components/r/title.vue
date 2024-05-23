@@ -27,12 +27,10 @@ withDefaults(
       '-mob-center': mobileCenter,
     }"
   >
-    <div v-if="pretitle" cls="block__pretitle">
-      {{ pretitle }}
-    </div>
+    <div v-if="pretitle" cls="block__pretitle" v-html="pretitle" />
     <div :cls="{ block__wrap: true, [`-${alignPosition}`]: true }">
       <div v-if="title || $slots.title" :cls="{ block__title: true, '-text-aling': textAlign }">
-        <slot name="title">{{ title }}</slot>
+        <slot name="title"><div v-html="title" /></slot>
         <div v-if="$slots.title_addons" cls="block__title-addons">
           <slot name="title_addons" />
         </div>

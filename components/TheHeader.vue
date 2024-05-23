@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const store = useGlobalData()
 
+const localePath = useLocalePath()
+
 const menu = computed(() => {
   return store.header?.menu
 })
@@ -77,7 +79,7 @@ const setCursorType = (type: string) => {
   >
     <div :cls="{ header__wrap: true, '-delay': !isActive }">
       <nuxt-link
-        to="/"
+        :to="localePath('/')"
         cls="header__logo"
         @mouseover="setCursorType('link')"
         @mouseleave="setCursorType('')"
@@ -86,10 +88,18 @@ const setCursorType = (type: string) => {
         <svgo-r-logo cls="header__logo-mob" />
       </nuxt-link>
       <nav cls="header__nav">
-        <div v-for="item in menu" v-show="item.name !== 'Consulting' && item.name !== 'Blog'">
+        <div
+          v-for="item in menu"
+          v-show="
+            item.name !== 'Consulting' &&
+            item.name !== 'Blog' &&
+            item.name !== 'Агенство' &&
+            item.name !== 'Академия'
+          "
+        >
           <nuxt-link
             cls="header__nav-link"
-            :to="`/${item.name.toLowerCase()}`"
+            :to="localePath(`/${item.name.toLowerCase()}`)"
             @mouseover="setCursorType('link')"
             @mouseleave="setCursorType('')"
           >

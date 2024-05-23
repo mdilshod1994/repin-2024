@@ -149,7 +149,7 @@ const setCursorType = (type: string) => {
 
 <style module lang="scss">
 .video {
-  aspect-ratio: 16 / 9;
+  // aspect-ratio: 16 / 9;
   max-width: 1920px;
   padding: 24px;
   margin: 0 auto;
@@ -190,9 +190,6 @@ const setCursorType = (type: string) => {
   }
 }
 .shorts {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   transition: 0.3s ease-in-out;

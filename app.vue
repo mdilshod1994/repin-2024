@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const store = useGlobalData()
-
 onMounted(async () => {
   await store.getMainPageInfo()
 })
@@ -9,7 +8,7 @@ onMounted(async () => {
 <template>
   <div cls="app">
     <nuxt-layout>
-      <r-preloader v-if="false" />
+      <!-- <r-preloader /> -->
       <nuxt-page />
     </nuxt-layout>
   </div>

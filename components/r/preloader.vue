@@ -1,12 +1,23 @@
 <script setup lang="ts">
+const nuxtApp = useNuxtApp()
+const store = useGlobalData()
 const test = ref(true)
 const text = ref(false)
+
+const fetchState = computed(() => {
+  return store.fetchState
+})
 
 const intervalTest = 2 // секунда автоплэй
 
 const percentageOfLine = ref(0)
 const timerCount = ref(0)
 const timerId = ref<any>(null) // для определения ID setInterval
+const loading = ref(true)
+// nuxtApp.hook("page:start", () => {
+//   loading.value = true
+//   intervalFn()
+// })
 
 const intervalFn = () => {
   return setInterval(
@@ -34,13 +45,14 @@ const percentVal = computed(() => {
 watch(
   () => percentageOfLine.value,
   (n) => {
-    if (+n.toFixed() >= 95) {
+    if (+n.toFixed() >= 90) {
       percentageOfLine.value = 100
       clearInterval(timerId.value)
       setTimeout(() => {
         test.value = false
         percentageOfLine.value = 0
         text.value = false
+        loading.value = false
       }, 1000)
     }
   },
@@ -53,7 +65,7 @@ onBeforeMount(() => {
 
 <template>
   <transition name="fade-loader">
-    <div v-if="test" cls="preloader">
+    <div v-if="loading" cls="preloader">
       <div cls="preloader__wrap">
         <div cls="preloader__texts">
           <div cls="preloader__text">Kiss my pixel</div>
@@ -68,7 +80,6 @@ onBeforeMount(() => {
 </template>
 
 <style>
-.fade-loader-enter-active,
 .fade-loader-leave-active {
   transition: opacity 0.5s ease;
 }

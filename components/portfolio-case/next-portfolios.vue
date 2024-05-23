@@ -4,6 +4,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 import type { Portfolio, PortfolioElement } from "~/types/portfolio"
 
+const { locale } = useI18n()
+
 gsap.registerPlugin(ScrollTrigger)
 
 const { id } = useRoute().params
@@ -20,7 +22,13 @@ const sortedPortfolios = ref<PortfolioElement[]>()
 
 watch(portfolios, (nv) => {
   if (nv) {
-    sortedPortfolios.value = nv.en.portfolio
+    let portfolio
+    if (locale.value === "en") {
+      portfolio = nv.en.portfolio
+    } else {
+      portfolio = nv.ru.portfolio
+    }
+    sortedPortfolios.value = portfolio
       .filter((x) => {
         if (x.slug !== id) {
           return x

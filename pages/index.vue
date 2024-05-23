@@ -1,8 +1,13 @@
 <script setup lang="ts">
+const { locale } = useI18n()
 const store = useGlobalData()
 
 const home = computed(() => {
-  return store.home
+  if (locale.value === "en") {
+    return store.home?.en
+  } else {
+    return store.home?.ru
+  }
 })
 </script>
 
@@ -32,7 +37,12 @@ const home = computed(() => {
     </div>
     <div class="container">
       <div cls="home__portfolio">
-        <home-portfolio />
+        <home-portfolio
+          :title="home.page.portfolio_title"
+          :subtitle="home.page.portfolio_subtitle"
+          :portfolio_btn="home.page.portfolio_btn"
+          :categories="home.categories"
+        />
       </div>
     </div>
     <!-- Скрыт временно -->
@@ -40,7 +50,11 @@ const home = computed(() => {
       <home-consulting />
     </div>
     <div cls="home__clients">
-      <home-our-clients />
+      <home-our-clients
+        :reviews="home.page.reviews"
+        :title="home.page.reviews_title"
+        :subtitle="home.page.reviews_subtitle"
+      />
     </div>
     <!-- Скрыт временно -->
     <div v-if="false" class="container">

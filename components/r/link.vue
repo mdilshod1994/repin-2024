@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const localePath = useLocalePath()
+
 defineProps<{
   to?: string
 }>()
@@ -11,7 +13,11 @@ const setCursorType = (type: string) => {
 </script>
 
 <template>
-  <nuxt-link :to="to" @mouseover="setCursorType('link')" @mouseleave="setCursorType('')">
+  <nuxt-link
+    :to="localePath(`${to}`)"
+    @mouseover="setCursorType('link')"
+    @mouseleave="setCursorType('')"
+  >
     <slot />
   </nuxt-link>
 </template>

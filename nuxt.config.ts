@@ -1,7 +1,27 @@
 import vueCssModule from "vite-plugin-vue-css-module"
 
 export default defineNuxtConfig({
-  modules: ["nuxt-svgo", "@pinia/nuxt"],
+  modules: [
+    "nuxt-svgo",
+    "@pinia/nuxt",
+    [
+      "@nuxtjs/i18n",
+      {
+        locales: [
+          {
+            code: "en",
+            name: "English",
+          },
+          {
+            code: "ru",
+            name: "Russian",
+          },
+        ],
+        defaultLocale: "en",
+        strategy: "prefix_except_default",
+      },
+    ],
+  ],
   css: ["@/styles/main.scss"],
   plugins: [
     {
@@ -10,6 +30,7 @@ export default defineNuxtConfig({
       mode: "client",
     },
   ],
+
   vite: {
     plugins: [
       vueCssModule({

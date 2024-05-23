@@ -1,12 +1,19 @@
 <script setup lang="ts">
 import type { About, En } from "~/types/about"
 
+const store = useGlobalData()
+
+const { locale } = useI18n()
+
 const { data: about } = await useFetch<About>("https://repin.agency/wp-json/api/v1/about", {
   lazy: true,
+  onResponse: () => {
+    store.handleLoader(true)
+  },
 })
 
 const aboutContent = computed(() => {
-  if (true) {
+  if (locale.value === "en") {
     if (!about.value) return
     return about.value.en as En
   } else {

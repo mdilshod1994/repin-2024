@@ -1,8 +1,14 @@
 <script setup lang="ts">
+const { locale } = useI18n()
+
 const store = useGlobalData()
 
 const contact = computed(() => {
-  return store.contacts
+  if (locale.value === "en") {
+    return store.contacts?.en.page
+  } else {
+    return store.contacts?.ru.page
+  }
 })
 
 const target = ref<HTMLElement | null>(null)

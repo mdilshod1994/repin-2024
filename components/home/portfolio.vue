@@ -1,23 +1,23 @@
 <script setup lang="ts">
+import type { Category } from "~/types/home"
 import type { PortfolioElement } from "~/types/portfolio"
 
+defineProps<{
+  title: string
+  subtitle: string
+  categories: Category[]
+  portfolio_btn: string
+}>()
+
 const store = usePortfolio()
-const _store = useGlobalData()
 const leftArrow = ref<HTMLElement | null>()
 const rightArrow = ref<HTMLElement | null>()
 const portfolios = computed(() => {
   return store.portfolio?.slice(0, 6) as PortfolioElement[]
 })
-const categories = computed(() => {
-  return _store.home?.categories
-})
 const activeSlug = computed(() => {
   return store.categoryPortfolio
 })
-const info = computed(() => {
-  return _store.home?.page
-})
-
 const slug = defineModel<string>("slug")
 
 const _getPortfolio = async (slug?: string) => {
@@ -71,7 +71,7 @@ const handleArrows = () => {
 
 <template>
   <div v-if="categories && portfolios" cls="portfolio">
-    <r-title :pretitle="info?.portfolio_subtitle" :title="info?.portfolio_title">
+    <r-title :pretitle="subtitle" :title="title">
       <template #addons>
         <div cls="portfolio__filter">
           <portfolio-filters
@@ -116,7 +116,7 @@ const handleArrows = () => {
         cls="portfolio__card"
       />
       <template #addons>
-        <r-button to="/portfolio"> {{ info?.portfolio_btn }} </r-button>
+        <r-button to="/portfolio"> {{ portfolio_btn }} </r-button>
       </template>
     </r-grid>
   </div>

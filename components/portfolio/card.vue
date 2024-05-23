@@ -4,6 +4,8 @@ import gsap from "gsap"
 
 import type { PortfolioElement } from "~/types/portfolio"
 
+const localePath = useLocalePath()
+
 const props = defineProps<{
   portfolio: PortfolioElement
 }>()
@@ -46,7 +48,7 @@ const setCursorType = (type: string) => {
   <transition appear name="t-card" @before-enter="beforeEnter" @enter="enter">
     <nuxt-link
       v-show="portfolio"
-      :to="`/portfolio/${'all'}/${portfolio.slug}`"
+      :to="localePath(`/portfolio/${'all'}/${portfolio.slug}`)"
       :cls="{ card: true, '-video': portfolio.anons_vimeo }"
       class="p-card"
       @mouseover="setCursorType('link')"

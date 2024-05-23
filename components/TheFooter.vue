@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { type Footer } from "~/types/menu-header-footer"
 
+const localePath = useLocalePath()
+
 const store = useGlobalData()
 
 const footer = computed(() => {
@@ -26,7 +28,7 @@ const setCursorType = (type: string) => {
       <div cls="footer__wrap">
         <div cls="footer__top">
           <nuxt-link
-            to="/"
+            :to="localePath('/')"
             cls="footer__logo"
             @mouseover="setCursorType('link')"
             @mouseleave="setCursorType('')"
@@ -44,10 +46,15 @@ const setCursorType = (type: string) => {
                 <div class="tabs">
                   <div
                     v-for="link in footer.menu"
-                    v-show="link.name !== 'Consulting' && link.name !== 'Blog'"
+                    v-show="
+                      link.name !== 'Consulting' &&
+                      link.name !== 'Blog' &&
+                      link.name !== 'Агенство' &&
+                      link.name !== 'Академия'
+                    "
                   >
                     <nuxt-link
-                      :to="`/${link.name.toLowerCase()}`"
+                      :to="localePath(`/${link.name.toLowerCase()}`)"
                       cls="footer__links-item"
                       @mouseover="setCursorType('link')"
                       @mouseleave="setCursorType('')"
@@ -81,14 +88,14 @@ const setCursorType = (type: string) => {
           <div cls="footer__bottom-box">
             <div cls="footer__bottom-text">© 2016 — {{ new Date().getFullYear() }}</div>
             <nuxt-link
-              to="/privacy-policy"
+              :to="localePath('/privacy-policy')"
               cls="footer__bottom-text"
               @mouseover="setCursorType('link')"
               @mouseleave="setCursorType('')"
               >Privacy Policy</nuxt-link
             >
             <nuxt-link
-              to="/offer-agreement"
+              :to="localePath('/offer-agreement')"
               cls="footer__bottom-text"
               @mouseover="setCursorType('link')"
               @mouseleave="setCursorType('')"

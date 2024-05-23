@@ -3,6 +3,8 @@ import { createReusableTemplate, useResizeObserver } from "@vueuse/core"
 
 import { type MenuElement } from "~/types/menu-header-footer"
 
+const localePath = useLocalePath()
+
 defineProps<{
   menu: MenuElement[]
 }>()
@@ -57,10 +59,18 @@ const [SocialLinks, ReuseSocialLinks] = createReusableTemplate()
     <div cls="mobile__wrap">
       <nav cls="mobile__nav">
         <div>
-          <nuxt-link cls="mobile__nav-link" to="/"> Home </nuxt-link>
+          <nuxt-link cls="mobile__nav-link" :to="localePath('/')"> Home </nuxt-link>
         </div>
-        <div v-for="item in menu" v-show="item.name !== 'Consulting' && item.name !== 'Blog'">
-          <nuxt-link cls="mobile__nav-link" :to="`/${item.name.toLowerCase()}`">
+        <div
+          v-for="item in menu"
+          v-show="
+            item.name !== 'Consulting' &&
+            item.name !== 'Blog' &&
+            item.name !== 'Агенство' &&
+            item.name !== 'Академия'
+          "
+        >
+          <nuxt-link cls="mobile__nav-link" :to="localePath(`/${item.name.toLowerCase()}`)">
             {{ item.name }}
           </nuxt-link>
         </div>

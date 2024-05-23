@@ -8,6 +8,8 @@ export const usePortfolio = defineStore("portfolio", () => {
   const _slug = ref<string | undefined>()
   const _page = ref<number | undefined>()
   const totalProjects = ref<number>()
+  const portfolios = ref<Portfolio>()
+  const { locale } = useI18n()
 
   const currentPageNumber = computed(() => {
     const pageNumberFromStorage = window.sessionStorage.getItem("page-number")
@@ -54,15 +56,24 @@ export const usePortfolio = defineStore("portfolio", () => {
     _slug.value = slug
     _page.value = page
     try {
-      const { en } = await $fetch<Portfolio>(
+      portfolios.value = await $fetch(
         `https://repin.agency/wp-json/api/v1/projects/${_slug.value}/${_page.value}`,
       )
-      if (!en) return
-      totalProjects.value = en.portfolio_count
-      if (page === 0 || page === undefined) {
-        _portfolio.value = en.portfolio
+      if (!portfolios.value) return
+      if (locale.value === "en") {
+        totalProjects.value = portfolios.value.en.portfolio_count
+        if (page === 0 || page === undefined) {
+          _portfolio.value = portfolios.value.en.portfolio
+        } else {
+          _portfolio.value?.push(...portfolios.value.en.portfolio)
+        }
       } else {
-        _portfolio.value?.push(...en.portfolio)
+        totalProjects.value = portfolios.value.ru.portfolio_count
+        if (page === 0 || page === undefined) {
+          _portfolio.value = portfolios.value.ru.portfolio
+        } else {
+          _portfolio.value?.push(...portfolios.value.ru.portfolio)
+        }
       }
     } catch (error) {
       console.log(error)

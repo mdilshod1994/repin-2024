@@ -3,6 +3,8 @@ import type { PortfolioElement } from "~/types/portfolio"
 
 import PageImpl from "./index_.vue"
 
+const { locale } = useI18n()
+
 const store = usePortfolio()
 const _store = useGlobalData()
 const page = ref<number>(0)
@@ -10,10 +12,18 @@ const portfolios = computed(() => {
   return store.portfolio as PortfolioElement[]
 })
 const contactSoc = computed(() => {
-  return _store.contacts?.social_media
+  if (locale.value === "en") {
+    return _store.contacts?.en.page.social_media
+  } else {
+    return _store.contacts?.ru.page.social_media
+  }
 })
 const categories = computed(() => {
-  return _store.home?.categories
+  if (locale.value === "en") {
+    return _store.home?.en.categories
+  } else {
+    return _store.home?.ru.categories
+  }
 })
 const activeSlug = computed(() => {
   return store.categoryPortfolio

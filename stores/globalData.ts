@@ -1,50 +1,66 @@
-// Возможно данные стр будут загружены тут
-
 import { defineStore } from "pinia"
 
 import type { Block2, Block2En } from "~/types/blockTypes"
-import type { Contacts, Page } from "~/types/contacts"
-import type { Home, HomeEn } from "~/types/home"
+import type { Contacts } from "~/types/contacts"
+import type { Home } from "~/types/home"
 import type { Footer, Header, Menu } from "~/types/menu-header-footer"
 
 export const useGlobalData = defineStore("globaldata", () => {
+  const { locale } = useI18n()
+  const fetchState = ref(false)
+
+  const handleLoader = (state?: boolean) => {
+    if (state) {
+      fetchState.value = state
+    } else {
+      fetchState.value = false
+    }
+  }
+
   // HEADER & FOOTER
   const footer = ref<Footer>()
   const header = ref<Header>()
-
+  const menuHeaderFooter = ref<Menu>()
   const getMenuHeaderFooter = async () => {
     try {
-      const { en } = await $fetch<Menu>("https://repin.agency/wp-json/api/v1/headerAndFooter")
-      if (!en) return
-      header.value = en.header
-      footer.value = en.footer
+      menuHeaderFooter.value = await $fetch("https://repin.agency/wp-json/api/v1/headerAndFooter")
+      if (!menuHeaderFooter.value) return
+      if (locale.value === "en") {
+        header.value = menuHeaderFooter.value.en.header
+        footer.value = menuHeaderFooter.value.en.footer
+      } else {
+        header.value = menuHeaderFooter.value.ru.header
+        footer.value = menuHeaderFooter.value.ru.footer
+      }
     } catch (error) {
       console.log(error)
+    } finally {
+      fetchState.value = true
     }
   }
   // HOME PAGE
-  const home = ref<HomeEn>()
+  const home = ref<Home>()
 
   const getMainPageInfo = async () => {
     try {
-      const { en } = await $fetch<Home>("https://repin.agency/wp-json/api/v1/getHomePage")
-      if (!en) return
-      home.value = en
+      home.value = await $fetch("https://repin.agency/wp-json/api/v1/getHomePage")
     } catch (error) {
       console.log(error)
+    } finally {
+      fetchState.value = true
     }
   }
 
   // CONTACTS PAGE
-  const contacts = ref<Page>()
+  const contacts = ref<Contacts>()
 
   const getContactPageInfo = async () => {
     try {
-      const { en } = await $fetch<Contacts>("https://repin.agency/wp-json/api/v1/contacts")
-      if (!en) return
-      contacts.value = en.page
+      contacts.value = await $fetch("https://repin.agency/wp-json/api/v1/contacts")
     } catch (error) {
       console.log(error)
+    } finally {
+      fetchState.value = true
     }
   }
   // PRIVACY POLICY PAGE
@@ -57,6 +73,8 @@ export const useGlobalData = defineStore("globaldata", () => {
       privacyPolicy.value = en
     } catch (error) {
       console.log(error)
+    } finally {
+      fetchState.value = true
     }
   }
   // OFFER AGREEMENT PAGE
@@ -69,6 +87,8 @@ export const useGlobalData = defineStore("globaldata", () => {
       offerAgreement.value = en
     } catch (error) {
       console.log(error)
+    } finally {
+      fetchState.value = true
     }
   }
   // OFFER AGREEMENT PAGE
@@ -81,6 +101,8 @@ export const useGlobalData = defineStore("globaldata", () => {
       cookiePrivacy.value = en
     } catch (error) {
       console.log(error)
+    } finally {
+      fetchState.value = true
     }
   }
   return {
@@ -90,6 +112,7 @@ export const useGlobalData = defineStore("globaldata", () => {
     getPrivacyPolicyPageInfo,
     getOfferAgreementPageInfo,
     getCookiePrivacyPageInfo,
+    handleLoader,
     header,
     footer,
     home,
@@ -97,5 +120,6 @@ export const useGlobalData = defineStore("globaldata", () => {
     privacyPolicy,
     offerAgreement,
     cookiePrivacy,
+    fetchState,
   }
 })

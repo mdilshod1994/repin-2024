@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { Page } from "~/types/home"
+import type { Review } from "~/types/home"
 
-const store = useGlobalData()
-
-const reviews = computed(() => {
-  return store.home?.page as Page
-})
+defineProps<{
+  reviews: Review[]
+  title: string
+  subtitle: string
+}>()
 const { updateType } = useMousemove()
 const setCursorType = (type: string) => {
   updateType(type)
@@ -14,7 +14,7 @@ const setCursorType = (type: string) => {
 
 <template>
   <div v-if="reviews" cls="clients">
-    <r-title :pretitle="reviews.reviews_subtitle" :title="reviews.reviews_title" />
+    <r-title :pretitle="subtitle" :title="title" />
     <r-carousel
       scroll-bar
       gap="56"
@@ -23,7 +23,7 @@ const setCursorType = (type: string) => {
       @mouseover="setCursorType('carousel')"
       @mouseleave="setCursorType('')"
     >
-      <div v-for="review in reviews.reviews" cls="clients-card">
+      <div v-for="review in reviews" cls="clients-card">
         <div cls="clients-card__logo">
           <img v-if="review.logo" :src="review.logo" alt="" />
         </div>
