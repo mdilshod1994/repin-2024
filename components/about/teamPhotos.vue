@@ -605,7 +605,7 @@ watch(isTabletScreen, (nv) => {
         rgba(255, 255, 255, 0.06) 137.11%
       );
       box-shadow: 0px 1px 16px 0px rgba(0, 0, 0, 0.06);
-      // backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
       transition: 1.3s cubic-bezier(0.19, 1, 0.22, 1);
       transform: translateY(-15px);
       transition-delay: 0.2s;
