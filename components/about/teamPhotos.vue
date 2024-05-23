@@ -76,7 +76,7 @@ const updateOnScroll = () => {
 const stopAnimation = () => {
   pause.value = true
   clearInterval(interval.value)
-  autoPlay()
+  // autoPlay()
   pause.value = false
 }
 
@@ -112,7 +112,7 @@ onMounted(() => {
   setThumbWidth()
   setObserver()
   updateOnScroll()
-  autoPlay()
+  // autoPlay()
 })
 
 watch(isTabletScreen, (nv) => {
@@ -282,6 +282,21 @@ watch(isTabletScreen, (nv) => {
       >
         <div cls="photos__card" class="team-card">
           <img
+            src="@/assets/images/about/4.webp"
+            alt=""
+            cls="photos__card-img"
+            class="team-card-img"
+          />
+          <div cls="photos__card-info" class="team-card-info">
+            <div cls="photos__card-name">Ivan <span>Repin</span></div>
+            <div cls="photos__card-positions">
+              <div cls="photos__card-position">Founder</div>
+              <div cls="photos__card-position">Art-director</div>
+            </div>
+          </div>
+        </div>
+        <div cls="photos__card" class="team-card">
+          <img
             src="@/assets/images/about/1.webp"
             alt=""
             cls="photos__card-img"
@@ -322,21 +337,7 @@ watch(isTabletScreen, (nv) => {
             </div>
           </div>
         </div>
-        <div cls="photos__card" class="team-card">
-          <img
-            src="@/assets/images/about/4.webp"
-            alt=""
-            cls="photos__card-img"
-            class="team-card-img"
-          />
-          <div cls="photos__card-info" class="team-card-info">
-            <div cls="photos__card-name">Ivan <span>Repin</span></div>
-            <div cls="photos__card-positions">
-              <div cls="photos__card-position">Founder</div>
-              <div cls="photos__card-position">Art-director</div>
-            </div>
-          </div>
-        </div>
+
         <div cls="photos__card" class="team-card">
           <img
             src="@/assets/images/about/5.webp"
@@ -675,7 +676,7 @@ watch(isTabletScreen, (nv) => {
         display: flex;
         gap: 16px;
         overflow-x: scroll;
-        scroll-snap-type: x proximity;
+        scroll-snap-type: x mandatory;
         padding: 10px 16px;
         &::-webkit-scrollbar {
           display: none;
