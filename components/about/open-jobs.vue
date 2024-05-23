@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { EnPage } from "~/types/about"
+import type { En } from "~/types/about"
 
 defineProps<{
-  about: EnPage
+  about: En
 }>()
 const { updateType } = useMousemove()
 const setCursorType = (type: string) => {
@@ -20,7 +20,7 @@ const setCursorType = (type: string) => {
   >
     <r-title align-position="start">
       <template #title>
-        <div cls="open-jobs__title" v-html="about.title_vacancies" />
+        <div cls="open-jobs__title" v-html="about.page.title_vacancies" />
       </template>
       <template #addons>
         <div class="texts -column">
@@ -28,7 +28,7 @@ const setCursorType = (type: string) => {
             <svgo-info />
           </r-round-button>
           <div class="text">
-            {{ about.subtitle_vacancies }}
+            {{ about.page.subtitle_vacancies }}
           </div>
         </div>
       </template>
@@ -40,7 +40,7 @@ const setCursorType = (type: string) => {
       :mobile-gaps="[48]"
       cls="open-jobs__list"
     >
-      <div v-for="vacancy in about.vacancies" cls="open-jobs__item">
+      <div v-for="vacancy in about.page.vacancies" cls="open-jobs__item">
         <div cls="open-jobs__item-title"><span /> {{ vacancy.categories_name }}</div>
         <r-grid
           desktop-column="2"

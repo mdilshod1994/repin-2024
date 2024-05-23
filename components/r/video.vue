@@ -278,6 +278,7 @@ const setCursorType = (type: string) => {
   }
   .video {
     &__wrap {
+      border-radius: 16px;
       &-btn {
         left: 24px;
         bottom: 24px;
@@ -287,10 +288,10 @@ const setCursorType = (type: string) => {
 }
 @include mobile {
   .video {
-    overflow: hidden;
-    aspect-ratio: auto;
+    // overflow: hidden;
+    // aspect-ratio: auto;
     &__wrap {
-      height: 480px;
+      // height: 480px;
       &-btn {
         left: 16px;
         bottom: 16px;
@@ -303,7 +304,7 @@ const setCursorType = (type: string) => {
     justify-content: center;
     iframe,
     video {
-      min-width: 853px;
+      // min-width: 853px;
     }
     &__vimeo {
       display: flex;

@@ -195,10 +195,9 @@ const setCursorType = (type: string) => {
     &-wrap {
       padding: 160px 0;
       border-radius: 24px;
-      // mix-blend-mode: difference;
       position: relative;
       z-index: 1;
-      background: url("@/assets/images/contact/bg.png");
+      background: url("@/assets/images/contact/bg.webp");
       background-size: cover;
       background-position: center;
     }

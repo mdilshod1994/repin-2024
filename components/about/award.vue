@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { EnPage, ItemsB5 } from "~/types/about"
+import type { En, ItemsB5 } from "~/types/about"
 
 const props = defineProps<{
-  awards: EnPage
+  awards: En
 }>()
 
 const items = computed(() => {
-  return props.awards.items_b5 as ItemsB5[]
+  return props.awards.page.items_b5 as ItemsB5[]
 })
 
 const curIdx = ref<number | null>(null)
@@ -57,21 +57,21 @@ const setCursorType = (type: string) => {
   >
     <r-title align-position="start">
       <template #title>
-        <div v-html="awards.title_b5" />
+        <div v-html="awards.page.title_b5" />
       </template>
       <template #addons>
         <div class="texts -column">
           <div class="text">
-            {{ awards.subtitle_b5 }}
+            {{ awards.page.subtitle_b5 }}
           </div>
           <a
-            :href="awards.link_b5"
+            :href="awards.page.link_b5"
             cls="awards__behance-link"
             class="underline-link -bold"
             @mouseover="setCursorType('link')"
             @mouseleave="setCursorType('')"
           >
-            {{ awards.link_b5_text }}
+            {{ awards.page.link_b5_text }}
           </a>
         </div>
       </template>

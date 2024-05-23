@@ -2,7 +2,6 @@
 
 import { defineStore } from "pinia"
 
-import type { About, EnPage } from "~/types/about"
 import type { Block2, Block2En } from "~/types/blockTypes"
 import type { Contacts, Page } from "~/types/contacts"
 import type { Home, HomeEn } from "~/types/home"
@@ -35,18 +34,7 @@ export const useGlobalData = defineStore("globaldata", () => {
       console.log(error)
     }
   }
-  // ABOUT PAGE
-  const about = ref<EnPage>()
 
-  const getAboutPageInfo = async () => {
-    try {
-      const { en } = await $fetch<About>("https://repin.agency/wp-json/api/v1/about")
-      if (!en) return
-      about.value = en.page
-    } catch (error) {
-      console.log(error)
-    }
-  }
   // CONTACTS PAGE
   const contacts = ref<Page>()
 
@@ -98,7 +86,6 @@ export const useGlobalData = defineStore("globaldata", () => {
   return {
     getMenuHeaderFooter,
     getMainPageInfo,
-    getAboutPageInfo,
     getContactPageInfo,
     getPrivacyPolicyPageInfo,
     getOfferAgreementPageInfo,
@@ -106,7 +93,6 @@ export const useGlobalData = defineStore("globaldata", () => {
     header,
     footer,
     home,
-    about,
     contacts,
     privacyPolicy,
     offerAgreement,

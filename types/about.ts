@@ -73,13 +73,15 @@ export interface RuPage {
   title: string
   title_big: string
   video_short: string
+  video_long_vimeo: string
+  video_short_vimeo: string
   video_long: string
   title_b2: string
   description_b2: string
   items_b2: ItemsB2[]
   title_b3: string
   description_b3: string
-  items_b3: ItemsB3[]
+  items_b3: boolean
   title_b4: string
   subtitle_b4: string
   items_b4: ItemsB4[]
@@ -94,6 +96,8 @@ export interface RuPage {
   repin_agency_mobicom: reUseBlock1
   vacancies: Vacancy[]
   slides: Slide[]
+  title_vacancies: string
+  subtitle_vacancies: string
 }
 
 export interface ItemsB3 {

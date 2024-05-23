@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { EnPage, ItemsB4 } from "~/types/about"
+import type { En, ItemsB4 } from "~/types/about"
 
 const props = defineProps<{
-  staff: EnPage
+  staff: En
 }>()
 
 const items = computed(() => {
-  return props.staff.items_b4 as ItemsB4[]
+  return props.staff.page.items_b4 as ItemsB4[]
 })
 </script>
 
@@ -27,9 +27,9 @@ const items = computed(() => {
           :mobile-gaps="[56]"
           cls="outstaff__content"
         >
-          <r-title :pretitle="staff.title_b4" text-align="center" color-white>
+          <r-title :pretitle="staff.page.title_b4" text-align="center" color-white>
             <template #title>
-              <div v-html="staff.subtitle_b4" />
+              <div v-html="staff.page.subtitle_b4" />
             </template>
           </r-title>
           <r-grid
@@ -46,15 +46,15 @@ const items = computed(() => {
             </div>
           </r-grid>
         </r-grid>
-        <r-button bg-color="white" :to="staff.btn_b4_link" cls="outstaff__btn">
-          {{ staff.btn_b4_text }}
+        <r-button bg-color="white" :to="staff.page.btn_b4_link" cls="outstaff__btn">
+          {{ staff.page.btn_b4_text }}
         </r-button>
       </r-grid>
     </div>
 
     <div cls="outstaff__bg">
       <div cls="outstaff__gradient" />
-      <img src="@/assets/images/tempImages/r.png" alt="" />
+      <img src="@/assets/images/about/bg.webp" alt="" />
     </div>
   </div>
 </template>
@@ -180,12 +180,6 @@ const items = computed(() => {
     margin: 16px 0;
     &__gradient {
       height: 157px;
-    }
-    &__bg {
-      img {
-        height: 560px;
-        object-position: left;
-      }
     }
     &__card {
       padding: 24px 16px;

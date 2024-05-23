@@ -1,70 +1,82 @@
 <script setup lang="ts">
-const store = useGlobalData()
+import type { About, En } from "~/types/about"
 
-const about = computed(() => {
-  return store.about
+const { data: about } = await useFetch<About>("https://repin.agency/wp-json/api/v1/about", {
+  lazy: true,
 })
 
-onMounted(async () => {
-  await store.getAboutPageInfo()
+const aboutContent = computed(() => {
+  if (true) {
+    if (!about.value) return
+    return about.value.en as En
+  } else {
+    return about.value?.ru as En
+  }
 })
 </script>
 
 <template>
-  <div v-if="about" cls="about">
+  <div v-if="aboutContent" cls="about">
     <div class="container">
       <div cls="about__promo">
         <div cls="about__promo-left">
           <r-round-button size="small" pointer-events>
             <svgo-info />
           </r-round-button>
-          {{ about.title }}
+          {{ aboutContent.page.title }}
         </div>
         <div cls="about__promo-right">
-          <div cls="about__promo-text" v-html="about.title_big" />
+          <div cls="about__promo-text" v-html="aboutContent.page.title_big" />
         </div>
       </div>
     </div>
     <div cls="about__video">
       <r-video
-        :video="{ short: about.video_short, long: about.video_long }"
-        :vimeo="{ short: about.video_short_vimeo, long: about.video_long_vimeo }"
+        :video="{ short: aboutContent.page.video_short, long: aboutContent.page.video_long }"
+        :vimeo="{
+          short: aboutContent.page.video_short_vimeo,
+          long: aboutContent.page.video_long_vimeo,
+        }"
       />
     </div>
     <div class="dark-background">
       <about-full-cycle
-        :full-cycle="about.items_b2"
-        :title="about.title_b2"
-        :description="about.description_b2"
+        :full-cycle="aboutContent.page.items_b2"
+        :title="aboutContent.page.title_b2"
+        :description="aboutContent.page.description_b2"
       />
     </div>
-    <div v-if="about.slides" cls="about__slider">
-      <r-slider-content :contents="about.slides" />
+    <div v-if="aboutContent.page.slides" cls="about__slider">
+      <r-slider-content :contents="aboutContent.page.slides" />
     </div>
     <div class="container">
       <div cls="about__experts">
-        <about-experts :title="about.title_b3" :description="about.description_b3" />
+        <about-experts
+          :title="aboutContent.page.title_b3"
+          :description="aboutContent.page.description_b3"
+        />
       </div>
     </div>
-    <about-outstaff class="dark-background" :staff="about" />
+    <about-outstaff class="dark-background" :staff="aboutContent" />
     <div class="container">
       <div cls="about__awards">
-        <about-award :awards="about" />
+        <about-award :awards="aboutContent" />
         <div cls="about__awards-link">
-          <r-button :to="about.link_b5"> {{ about.link_b5_text }} </r-button>
+          <r-button :to="aboutContent.page.link_b5">
+            {{ aboutContent.page.link_b5_text }}
+          </r-button>
         </div>
       </div>
     </div>
-    <div cls="about__photo-team" class="dark-background">
-      <!-- Возможно здесь будет несколько фоток -->
-      <about-team-photos :img="about.img_b6" />
+    <div cls="about__photo-team">
+      <about-team-photos :img="aboutContent.page.img_b6" />
     </div>
     <div class="container">
       <div cls="about__expirience">
-        <re-use-expirience :info="about.repin_agency_mobicom" />
+        <re-use-expirience :info="aboutContent.page.repin_agency_mobicom" />
       </div>
-      <div v-if="about.vacancies" cls="about__open-jobs">
-        <about-open-jobs :about="about" />
+      <div v-if="aboutContent.page.vacancies" cls="about__open-jobs">
+        <about-open-jobs :about="aboutContent" />
       </div>
     </div>
   </div>
@@ -124,6 +136,9 @@ onMounted(async () => {
   &__open-jobs {
     padding: 104px 0 160px;
   }
+  &__photo-team {
+    padding: 104px 0 88px;
+  }
 }
 
 @include tablet {
@@ -177,6 +192,9 @@ onMounted(async () => {
 }
 @include mobile {
   .about {
+    &__photo-team {
+      padding: 72px 0 56px;
+    }
     &__promo {
       padding: 72px 0 24px;
       &-text {

@@ -23,8 +23,7 @@ const props = defineProps<{
   removeMargin?: boolean
 }>()
 
-const carouselWrap = ref<HTMLElement | null>(null), // карусель
-  carousel = ref<HTMLElement | null>(null), // контейнер карусель
+const carousel = ref<HTMLElement | null>(null), // контейнер карусель
   scrollbar = ref<HTMLElement | null>(null), // скролбар
   thumb = ref<HTMLElement | null>(null), // кнопка скролбара
   isDragging = ref(false),

@@ -222,6 +222,7 @@ defineProps<{
       min-width: 390px;
       height: 220px;
       padding: 16px 24px 24px;
+      border-radius: 16px;
       &-img {
         width: 185px;
       }
