@@ -297,6 +297,35 @@ watch(isTabletScreen, (nv) => {
         </div>
         <div cls="photos__card" class="team-card">
           <img
+            src="@/assets/images/about/5.webp"
+            alt=""
+            cls="photos__card-img"
+            class="team-card-img"
+          />
+          <div cls="photos__card-info" class="team-card-info">
+            <div cls="photos__card-name">Ilya <span>Semenov</span></div>
+            <div cls="photos__card-positions">
+              <div cls="photos__card-position">CEO of Mobicom</div>
+              <div cls="photos__card-position">Chief of Development</div>
+            </div>
+          </div>
+        </div>
+        <div cls="photos__card" class="team-card">
+          <img
+            src="@/assets/images/about/3.webp"
+            alt=""
+            cls="photos__card-img"
+            class="team-card-img"
+          />
+          <div cls="photos__card-info" class="team-card-info">
+            <div cls="photos__card-name">Vadim <span>Timofeev</span></div>
+            <div cls="photos__card-positions">
+              <div cls="photos__card-position">CTO of Mobicom</div>
+            </div>
+          </div>
+        </div>
+        <div cls="photos__card" class="team-card">
+          <img
             src="@/assets/images/about/1.webp"
             alt=""
             cls="photos__card-img"
@@ -320,36 +349,6 @@ watch(isTabletScreen, (nv) => {
             <div cls="photos__card-name">Evgeny <span>Fedorovsky</span></div>
             <div cls="photos__card-positions">
               <div cls="photos__card-position">Web developer</div>
-            </div>
-          </div>
-        </div>
-        <div cls="photos__card" class="team-card">
-          <img
-            src="@/assets/images/about/3.webp"
-            alt=""
-            cls="photos__card-img"
-            class="team-card-img"
-          />
-          <div cls="photos__card-info" class="team-card-info">
-            <div cls="photos__card-name">Vadim <span>Timofeev</span></div>
-            <div cls="photos__card-positions">
-              <div cls="photos__card-position">CTO of Mobicom</div>
-            </div>
-          </div>
-        </div>
-
-        <div cls="photos__card" class="team-card">
-          <img
-            src="@/assets/images/about/5.webp"
-            alt=""
-            cls="photos__card-img"
-            class="team-card-img"
-          />
-          <div cls="photos__card-info" class="team-card-info">
-            <div cls="photos__card-name">Ilya <span>Semenov</span></div>
-            <div cls="photos__card-positions">
-              <div cls="photos__card-position">CEO of Mobicom</div>
-              <div cls="photos__card-position">Chief of Development</div>
             </div>
           </div>
         </div>
