@@ -116,6 +116,7 @@ defineProps<{
       @include mob-H2;
       span {
         @include mob-H2-ram;
+        font-style: italic;
       }
     }
     &__text {
@@ -152,6 +153,7 @@ defineProps<{
       @include desctop-H5;
       span {
         @include mob-H5-ram;
+        font-style: italic;
       }
     }
     &__text {

@@ -88,18 +88,10 @@ const setCursorType = (type: string) => {
         <svgo-r-logo cls="header__logo-mob" />
       </nuxt-link>
       <nav cls="header__nav">
-        <div
-          v-for="item in menu"
-          v-show="
-            item.name !== 'Consulting' &&
-            item.name !== 'Blog' &&
-            item.name !== 'Агенство' &&
-            item.name !== 'Академия'
-          "
-        >
+        <div v-for="item in menu" v-show="item.link !== 'consulting' && item.link !== 'blog'">
           <nuxt-link
             cls="header__nav-link"
-            :to="localePath(`/${item.name.toLowerCase()}`)"
+            :to="localePath(`/${item.link}`)"
             @mouseover="setCursorType('link')"
             @mouseleave="setCursorType('')"
           >
@@ -110,7 +102,7 @@ const setCursorType = (type: string) => {
       <div cls="header__btns">
         <r-button
           cls="header__btn"
-          to="mailto:hello@repin.agency"
+          to="https://t.me/repinivan"
           bg-hover
           radius-hover
           @mouseover="setCursorType('link')"

@@ -46,15 +46,10 @@ const setCursorType = (type: string) => {
                 <div class="tabs">
                   <div
                     v-for="link in footer.menu"
-                    v-show="
-                      link.name !== 'Consulting' &&
-                      link.name !== 'Blog' &&
-                      link.name !== 'Агенство' &&
-                      link.name !== 'Академия'
-                    "
+                    v-show="link.link !== 'consulting' && link.link !== 'blog'"
                   >
                     <nuxt-link
-                      :to="localePath(`/${link.name.toLowerCase()}`)"
+                      :to="localePath(`/${link.link}`)"
                       cls="footer__links-item"
                       @mouseover="setCursorType('link')"
                       @mouseleave="setCursorType('')"

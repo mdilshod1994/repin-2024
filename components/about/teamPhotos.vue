@@ -143,7 +143,7 @@ watch(isTabletScreen, (nv) => {
             <div cls="photos__card-info">
               <div cls="photos__card-name">Dmitry <span>Kotenko</span></div>
               <div cls="photos__card-positions">
-                <div cls="photos__card-position">Mobile developer</div>
+                <div cls="photos__card-position">Mobile Developer</div>
               </div>
             </div>
           </div>
@@ -152,7 +152,7 @@ watch(isTabletScreen, (nv) => {
             <div cls="photos__card-info">
               <div cls="photos__card-name">Evgeny <span>Fedorovsky</span></div>
               <div cls="photos__card-positions">
-                <div cls="photos__card-position">Web developer</div>
+                <div cls="photos__card-position">Web Developer</div>
               </div>
             </div>
           </div>
@@ -199,7 +199,7 @@ watch(isTabletScreen, (nv) => {
             <div cls="photos__card-info">
               <div cls="photos__card-name">Vladimir <span>Savichev</span></div>
               <div cls="photos__card-positions">
-                <div cls="photos__card-position">Project manager</div>
+                <div cls="photos__card-position">Project Manager</div>
               </div>
             </div>
           </div>
@@ -212,7 +212,7 @@ watch(isTabletScreen, (nv) => {
             <div cls="photos__card-info">
               <div cls="photos__card-name">Alexey <span>Malov</span></div>
               <div cls="photos__card-positions">
-                <div cls="photos__card-position">Mobile developer</div>
+                <div cls="photos__card-position">Mobile Developer</div>
               </div>
             </div>
           </div>
@@ -221,7 +221,7 @@ watch(isTabletScreen, (nv) => {
             <div cls="photos__card-info">
               <div cls="photos__card-name">Katherine <span>Gorokhova</span></div>
               <div cls="photos__card-positions">
-                <div cls="photos__card-position">Project manager</div>
+                <div cls="photos__card-position">Project Manager</div>
               </div>
             </div>
           </div>
@@ -230,7 +230,7 @@ watch(isTabletScreen, (nv) => {
             <div cls="photos__card-info">
               <div cls="photos__card-name">Dilshod <span>Mirzoev</span></div>
               <div cls="photos__card-positions">
-                <div cls="photos__card-position">Web developer</div>
+                <div cls="photos__card-position">Web Developer</div>
               </div>
             </div>
           </div>
@@ -240,7 +240,7 @@ watch(isTabletScreen, (nv) => {
               <div cls="photos__card-name">Tania <span>Trunova</span></div>
               <div cls="photos__card-positions">
                 <div cls="photos__card-position">Product Owner</div>
-                <div cls="photos__card-position">Project manager</div>
+                <div cls="photos__card-position">Project Manager</div>
               </div>
             </div>
           </div>
@@ -334,7 +334,7 @@ watch(isTabletScreen, (nv) => {
           <div cls="photos__card-info" class="team-card-info">
             <div cls="photos__card-name">Dmitry <span>Kotenko</span></div>
             <div cls="photos__card-positions">
-              <div cls="photos__card-position">Mobile developer</div>
+              <div cls="photos__card-position">Mobile Developer</div>
             </div>
           </div>
         </div>
@@ -348,7 +348,7 @@ watch(isTabletScreen, (nv) => {
           <div cls="photos__card-info" class="team-card-info">
             <div cls="photos__card-name">Evgeny <span>Fedorovsky</span></div>
             <div cls="photos__card-positions">
-              <div cls="photos__card-position">Web developer</div>
+              <div cls="photos__card-position">Web Developer</div>
             </div>
           </div>
         </div>
@@ -376,7 +376,7 @@ watch(isTabletScreen, (nv) => {
           <div cls="photos__card-info" class="team-card-info">
             <div cls="photos__card-name">Vladimir <span>Savichev</span></div>
             <div cls="photos__card-positions">
-              <div cls="photos__card-position">Project manager</div>
+              <div cls="photos__card-position">Project Manager</div>
             </div>
           </div>
         </div>
@@ -390,7 +390,7 @@ watch(isTabletScreen, (nv) => {
           <div cls="photos__card-info" class="team-card-info">
             <div cls="photos__card-name">Alexey <span>Malov</span></div>
             <div cls="photos__card-positions">
-              <div cls="photos__card-position">Mobile developer</div>
+              <div cls="photos__card-position">Mobile Developer</div>
             </div>
           </div>
         </div>
@@ -404,7 +404,7 @@ watch(isTabletScreen, (nv) => {
           <div cls="photos__card-info" class="team-card-info">
             <div cls="photos__card-name">Katherine <span>Gorokhova</span></div>
             <div cls="photos__card-positions">
-              <div cls="photos__card-position">Project manager</div>
+              <div cls="photos__card-position">Project Manager</div>
             </div>
           </div>
         </div>
@@ -418,7 +418,7 @@ watch(isTabletScreen, (nv) => {
           <div cls="photos__card-info" class="team-card-info">
             <div cls="photos__card-name">Dilshod <span>Mirzoev</span></div>
             <div cls="photos__card-positions">
-              <div cls="photos__card-position">Web developer</div>
+              <div cls="photos__card-position">Web Developer</div>
             </div>
           </div>
         </div>
@@ -433,7 +433,7 @@ watch(isTabletScreen, (nv) => {
             <div cls="photos__card-name">Tania <span>Trunova</span></div>
             <div cls="photos__card-positions">
               <div cls="photos__card-position">Product Owner</div>
-              <div cls="photos__card-position">Project manager</div>
+              <div cls="photos__card-position">Project Manager</div>
             </div>
           </div>
         </div>
