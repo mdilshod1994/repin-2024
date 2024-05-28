@@ -10,7 +10,7 @@
 -->
 
 <script setup lang="ts">
-import { useResizeObserver } from "@vueuse/core"
+import { useMediaQuery, useResizeObserver } from "@vueuse/core"
 
 const props = defineProps<{
   scrollBar?: boolean // показать/скрыть скролбар
@@ -21,7 +21,11 @@ const props = defineProps<{
   innerMobPaddingSides?: string
   paddingSides?: string
   removeMargin?: boolean
+  destroyCarousel?: string
 }>()
+
+const _destroyCarouselFrom = useMediaQuery(`(max-width: ${props.destroyCarousel}px)`)
+const isMounted = ref(false)
 
 const carousel = ref<HTMLElement | null>(null), // контейнер карусель
   scrollbar = ref<HTMLElement | null>(null), // скролбар
@@ -103,6 +107,7 @@ onMounted(() => {
   // carousel на всю ширину экрана, т.е. максимум ширина 1920px
   // первоначальное положение первого слайда(отступ слева) начинается где .container, т.е. в линию по вертикали
   setMarginsToSlides()
+  isMounted.value = true
 })
 
 const deskPaddingSides = computed(() => {
@@ -131,7 +136,11 @@ const mGap = computed(() => {
 </script>
 
 <template>
-  <div ref="carousel-wrap" cls="carousel">
+  <div
+    v-if="isMounted"
+    ref="carousel-wrap"
+    :cls="{ carousel: true, '-destroy': _destroyCarouselFrom }"
+  >
     <div
       ref="carousel"
       cls="carousel__slider"
@@ -142,7 +151,7 @@ const mGap = computed(() => {
     >
       <slot />
     </div>
-    <div v-if="scrollBar" class="container">
+    <div v-if="scrollBar && !_destroyCarouselFrom" class="container">
       <div cls="carousel__scrollbar">
         <div ref="scrollbar" cls="carousel__scrollbar-track">
           <div ref="thumb" cls="carousel__scrollbar-thumb" />
@@ -159,6 +168,14 @@ const mGap = computed(() => {
   gap: 64px;
   width: 100%;
   margin: 0 auto;
+  &.-destroy {
+    .carousel {
+      &__slider {
+        overflow: hidden !important;
+        flex-direction: column;
+      }
+    }
+  }
   &__slider {
     display: flex;
     align-self: stretch;

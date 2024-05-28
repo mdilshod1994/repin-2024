@@ -255,7 +255,7 @@ const setCursorType = (type: string) => {
   .carousel {
     &__social {
       width: 183px;
-      height: 183px;
+      height: 220px;
       &.-hard {
         width: 128px;
       }

@@ -8,6 +8,7 @@ const localePath = useLocalePath()
 
 const props = defineProps<{
   portfolio: PortfolioElement
+  mobTitleFontSize?: boolean
 }>()
 const videowrap = ref<HTMLElement | null>(null)
 
@@ -61,7 +62,7 @@ const setCursorType = (type: string) => {
       </div>
       <div cls="card__content">
         <div cls="card__top">
-          <div cls="card__title">{{ portfolio.title }}</div>
+          <div :cls="{ card__title: true, '-fz': mobTitleFontSize }">{{ portfolio.title }}</div>
           <r-round-button cls="card__btn" size="small">
             <svgo-arrow-right />
           </r-round-button>
@@ -211,6 +212,9 @@ const setCursorType = (type: string) => {
     &__title {
       // @include mob-body-14-ram;
       font-size: clamp(14px, 4vw, 24px);
+      &.-fz {
+        font-size: 22px;
+      }
     }
     &__btn {
       width: 24px !important;

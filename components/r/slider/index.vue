@@ -102,13 +102,13 @@ const setCursorType = (type: string) => {
 
 <template>
   <div cls="block" @mouseover="setCursorType('slider')" @mouseleave="setCursorType('')">
-    <r-slider-pagination-number
+    <!-- <r-slider-pagination-number
       v-if="slider"
       v-model:cIdx="currentPreviewIdx"
       :qnty-slides="slider.children.length"
       cls="block__numbers"
       :style-numbers="styleNumbers"
-    />
+    /> -->
     <div
       ref="slider"
       cls="sliders"
@@ -275,7 +275,7 @@ const setCursorType = (type: string) => {
 }
 @include mobile {
   .sliders {
-    height: 480px;
+    // height: 480px;
   }
 }
 </style>

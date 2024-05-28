@@ -25,6 +25,7 @@ const setCursorType = (type: string) => {
       v-if="banner.block_1.link_work"
       :to="banner.block_1.link_work"
       cls="link"
+      target="_blank"
       @mouseover="setCursorType('link')"
       @mouseleave="setCursorType('')"
     >

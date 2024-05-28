@@ -85,6 +85,7 @@ onMounted(() => {
           v-for="(portfolio, idx) in sortedPortfolios"
           :key="portfolio.id"
           :portfolio="portfolio"
+          mob-title-font-size
           cls="project"
           class="project"
           :class="`${idx === 1 ? 'first' : ''} ${idx === 2 ? 'second' : ''} `"

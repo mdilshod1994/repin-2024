@@ -100,18 +100,18 @@ const setCursorType = (type: string) => {
         </div>
       </nav>
       <div cls="header__btns">
-        <r-button
+        <nuxt-link
           cls="header__btn"
           to="https://t.me/repinivan"
+          target="_blank"
           bg-hover
           radius-hover
           @mouseover="setCursorType('link')"
           @mouseleave="setCursorType('')"
-          >Connect
-          <template #icon>
-            <svgo-arrow-up-right />
-          </template>
-        </r-button>
+        >
+          <span> Connect </span>
+          <svgo-arrow-up-right />
+        </nuxt-link>
       </div>
       <div cls="header__menu" @click="showMenu">
         <r-round-button
@@ -234,24 +234,34 @@ const setCursorType = (type: string) => {
   &__btns {
     display: flex;
     align-items: center;
-    border-radius: 48px;
-    background: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.3s ease-in-out;
-    cursor: pointer;
-    &:hover {
-      box-shadow: 0px 2px 10px 0px rgba(0, 2, 25, 0.08);
-      background: var(--White);
-    }
   }
   &__btn {
     height: 50px;
-    padding: 0 24px;
+    border-radius: 48px;
+    background: var(--Black);
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    padding: 0 20px 0 24px;
+    transition: 0.3s ease-in-out;
+    span {
+      @include desctop-caption-17-db;
+      color: var(--White);
+      transition: 0.3s ease-in-out;
+    }
+    svg {
+      font-size: 18px;
+      color: var(--White);
+      transition: 0.3s ease-in-out;
+    }
     &:hover {
+      background: var(--White);
       svg {
+        color: var(--Black);
         transform: rotate(45deg);
+      }
+      span {
+        color: var(--Black);
       }
     }
   }

@@ -28,16 +28,17 @@ defineProps<{
           remove-margin
           gap="24"
           tablet-gap="20"
-          mob-gap="12"
+          mob-gap="20"
           padding-sides="24"
           inner-padding-sides="16"
           inner-mob-padding-sides="16"
+          destroy-carousel="450"
         >
           <div cls="full-cycle__item">
             <div cls="full-cycle__box">
               <div cls="full-cycle__box-wrap">
                 <div cls="full-cycle__qnty">10</div>
-                <div cls="full-cycle__text">Countries where we  launched our apps</div>
+                <div cls="full-cycle__text -first">Countries where we  launched our apps</div>
               </div>
               <img src="@/assets/images/about/graphic.svg" alt="" cls="full-cycle__box-graphic" />
             </div>
@@ -210,6 +211,7 @@ defineProps<{
     &__carousel {
       padding: 0;
       overflow: hidden;
+      margin: 0;
     }
     &__wrap {
       width: auto;
@@ -275,6 +277,33 @@ defineProps<{
           height: 48px;
           margin-left: -16px;
         }
+      }
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .full-cycle {
+    &__item {
+      min-width: 100%;
+      max-width: 100%;
+      height: 208px;
+      padding: 22px 24px 24px;
+      &-img {
+        width: 174px;
+        right: -14px;
+      }
+    }
+    &__qnty {
+      font-size: 34.433px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 41.32px;
+      letter-spacing: -1.033px;
+    }
+    &__text {
+      &.-first {
+        max-width: 146px;
       }
     }
   }

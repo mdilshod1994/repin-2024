@@ -80,7 +80,7 @@ onMounted(() => {
 
 <template>
   <div v-if="contents?.length" cls="block">
-    <r-slider-pagination-number v-model:cIdx="currentPreviewIdx" :qnty-slides="contents.length" />
+    <!-- <r-slider-pagination-number v-model:cIdx="currentPreviewIdx" :qnty-slides="contents.length" /> -->
     <div cls="block__right">
       <div cls="block__right-box">
         <div v-if="contents" cls="block__contents">

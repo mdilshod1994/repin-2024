@@ -397,7 +397,7 @@ fda_sign -->
     }
     &__cover {
       &-video {
-        min-width: 835px;
+        // min-width: 835px;
       }
     }
     &__square {
