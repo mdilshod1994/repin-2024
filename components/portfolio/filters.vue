@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { type Category } from "~/types/home"
 
+const { locale } = useI18n()
+
 const filterBtns = ref<HTMLElement | null>(null)
 const widthFirstBtn = computed(() => {
   if (!filterBtns.value) return
@@ -62,7 +64,8 @@ watch(
         :cls="{ filter__btn: true, '-active': activeSlug === 'all' }"
         @click="setCategory('all')"
       >
-        <span>All</span>
+        <span v-if="locale === 'en'">All</span>
+        <span v-if="locale === 'ru'">Все</span>
       </button>
       <button
         v-for="category in categories"
