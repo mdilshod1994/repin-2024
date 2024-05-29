@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const store = useGlobalData()
+const { locale } = useI18n()
 
 const localePath = useLocalePath()
 
@@ -109,7 +110,8 @@ const setCursorType = (type: string) => {
           @mouseover="setCursorType('link')"
           @mouseleave="setCursorType('')"
         >
-          <span> Connect </span>
+          <span v-if="locale === 'en'">Connect</span> <span v-else>Написать</span>
+
           <svgo-arrow-up-right />
         </nuxt-link>
       </div>

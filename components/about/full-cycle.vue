@@ -38,7 +38,7 @@ defineProps<{
             <div cls="full-cycle__box">
               <div cls="full-cycle__box-wrap">
                 <div cls="full-cycle__qnty">10</div>
-                <div cls="full-cycle__text -first">Countries where we  launched our apps</div>
+                <div cls="full-cycle__text -first">Countries where we launched our apps</div>
               </div>
               <img src="@/assets/images/about/graphic.svg" alt="" cls="full-cycle__box-graphic" />
             </div>

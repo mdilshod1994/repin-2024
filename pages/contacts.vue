@@ -363,6 +363,42 @@ const setCursorType = (type: string) => {
 }
 @include mobile {
   .contacts {
+    padding: 82.023px 0 88px;
+    &__banner {
+      padding-bottom: 73px;
+    }
+    :global(.text) {
+      max-width: 321px;
+      font-size: 15.949px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 22.784px;
+      a {
+        font-size: 15.949px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 22.784px;
+      }
+    }
+
+    &__request {
+      margin: 0 -16px;
+      &-title {
+        @include mob-H2;
+        span {
+          @include mob-H2-ram;
+          font-style: italic;
+        }
+      }
+      &-wrap {
+        padding: 104px 16px 120px;
+      }
+    }
+  }
+}
+
+@media (max-width: 429px) {
+  .contacts {
     :global(.text) {
       max-width: 282px;
     }

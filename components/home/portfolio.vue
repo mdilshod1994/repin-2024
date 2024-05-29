@@ -2,6 +2,8 @@
 import type { Category } from "~/types/home"
 import type { PortfolioElement } from "~/types/portfolio"
 
+const { locale } = useI18n()
+
 defineProps<{
   title: string
   subtitle: string
@@ -29,11 +31,6 @@ const _getPortfolio = async (slug?: string) => {
 onMounted(() => {
   _getPortfolio(activeSlug.value)
   window.sessionStorage.removeItem("totalLoadedProjects")
-  setTimeout(() => {
-    handleArrows()
-  }, 2000)
-  if (!leftArrow.value) return
-  leftArrow.value.style.display = "none"
 })
 
 watch(slug, async (newSlug) => {
@@ -91,14 +88,18 @@ const handleArrows = () => {
       </div>
       <r-carousel gap="8" tablet-gap="8" mob-gap="8">
         <div :class="{ tab: true, '-active': activeSlug === 'all' }" @click="_getPortfolio('all')">
-          All
+          <span v-if="locale === 'en'">All</span>
+          <span v-if="locale === 'en'">All</span>
+          <span v-if="locale === 'ru'">Все</span>
+          <span v-if="locale === 'ru'">Все</span>
         </div>
         <div
           v-for="category in categories"
           :class="{ tab: true, '-active': activeSlug === category.slug }"
           @click="_getPortfolio(category.slug)"
         >
-          {{ category.name }}
+          <span>{{ category.name }}</span>
+          <span>{{ category.name }}</span>
         </div>
       </r-carousel>
     </div>
@@ -182,6 +183,7 @@ const handleArrows = () => {
         justify-content: center;
         z-index: 1;
         &.-left {
+          display: none;
           left: 0;
           background: linear-gradient(
             to right,

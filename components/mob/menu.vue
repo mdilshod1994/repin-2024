@@ -3,6 +3,8 @@ import { createReusableTemplate, useResizeObserver } from "@vueuse/core"
 
 import { type MenuElement } from "~/types/menu-header-footer"
 
+const { locale } = useI18n()
+
 const localePath = useLocalePath()
 
 defineProps<{
@@ -59,7 +61,9 @@ const [SocialLinks, ReuseSocialLinks] = createReusableTemplate()
     <div cls="mobile__wrap">
       <nav cls="mobile__nav">
         <div>
-          <nuxt-link cls="mobile__nav-link" :to="localePath('/')"> Home </nuxt-link>
+          <nuxt-link cls="mobile__nav-link" :to="localePath('/')">
+            <span v-if="locale === 'en'">Home</span> <span v-else>Главная</span>
+          </nuxt-link>
         </div>
         <div v-for="item in menu" v-show="item.link !== 'consulting' && item.link !== 'blog'">
           <nuxt-link cls="mobile__nav-link" :to="localePath(`/${item.link}`)">
@@ -72,7 +76,9 @@ const [SocialLinks, ReuseSocialLinks] = createReusableTemplate()
       </div>
       <div class="line" />
       <div cls="mobile__bottom">
-        <r-button cls="mobile__bottom-btn"> Connect </r-button>
+        <a href="https://t.me/repinivan/" cls="mobile__bottom-btn">
+          <span v-if="locale === 'en'">Connect</span> <span v-else>Написать</span>
+        </a>
         <div v-if="active" cls="mobile__soc -tab">
           <reuse-social-links />
         </div>
@@ -157,6 +163,13 @@ const [SocialLinks, ReuseSocialLinks] = createReusableTemplate()
     &__bottom {
       &-btn {
         height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 32px;
+        border-radius: 50px;
+        background: var(--Black);
+        color: var(--White);
       }
     }
   }
@@ -179,6 +192,7 @@ const [SocialLinks, ReuseSocialLinks] = createReusableTemplate()
       padding: 24px 0 0 24px;
       margin-bottom: 0;
       align-items: flex-start;
+      gap: 4px;
       &-link {
         @include mob-H3;
       }

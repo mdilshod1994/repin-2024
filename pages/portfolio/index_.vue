@@ -3,6 +3,13 @@ import type { SocialMedia } from "~/types/contacts"
 import { type Category } from "~/types/home"
 import { type PortfolioElement } from "~/types/portfolio"
 
+const { locale } = useI18n()
+
+useSeoMeta({
+  title: () => "Repin Agency | Our works",
+  ogTitle: () => "Repin Agency | Our works",
+})
+
 const props = defineProps<{
   portfolios: PortfolioElement[]
   categories: Category[]
@@ -24,12 +31,10 @@ const showMore = async () => {
 const totalProject = computed(() => {
   return store.totalProjects
 })
-
 const hideBtn = computed(() => {
   if (!store.totalProjects) return
   return store.totalProjects > props.portfolios.length
 })
-
 const slug = defineModel<string>("slug")
 const _getPortfolio = async (slug?: string) => {
   if (slug) {
@@ -43,46 +48,43 @@ watch(slug, (newSlug) => {
   }
 })
 
-onMounted(() => {
-  handleArrows()
-  if (!leftArrow.value) return
-  leftArrow.value.style.display = "none"
-})
-
 const handleArrows = () => {
   const tabs = document.querySelectorAll(".tab")
-  const firstCatObserver = new IntersectionObserver(
-    (entries) => {
-      if (!leftArrow.value) return
-      leftArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
-    },
-    {
-      threshold: 0.8,
-    },
-  )
-  const firstCat = tabs[0]
-  firstCatObserver.observe(firstCat)
-  const lastCatObserver = new IntersectionObserver(
-    (entries) => {
-      if (!rightArrow.value) return
-      rightArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
-    },
-    {
-      threshold: 0.8,
-    },
-  )
-  const lastCat = tabs.length - 1
-  lastCatObserver.observe(tabs[lastCat])
+  if (tabs) {
+    const firstCatObserver = new IntersectionObserver(
+      (entries) => {
+        if (!leftArrow.value) return
+        leftArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
+      },
+      {
+        threshold: 0.8,
+      },
+    )
+    const firstCat = tabs[0]
+    firstCatObserver.observe(firstCat)
+    const lastCatObserver = new IntersectionObserver(
+      (entries) => {
+        if (!rightArrow.value) return
+        rightArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
+      },
+      {
+        threshold: 0.8,
+      },
+    )
+    const lastCat = tabs.length - 1
+    lastCatObserver.observe(tabs[lastCat])
+  }
 }
 </script>
 
 <template>
-  <div cls="portfolio">
+  <div v-if="portfolios" cls="portfolio">
     <div class="container">
       <div cls="portfolio__wrap">
         <r-title cls="portfolio__wrap-addons" mobile-center>
           <template #title>
-            <div cls="portfolio__wrap-title">Our works</div>
+            <div v-if="locale === 'en'" cls="portfolio__wrap-title">Our works</div>
+            <div v-else cls="portfolio__wrap-title">Наши работы</div>
           </template>
           <template #addons>
             <portfolio-filters
@@ -108,14 +110,18 @@ const handleArrows = () => {
               :class="{ tab: true, '-active': activeSlug === 'all' }"
               @click="_getPortfolio('all')"
             >
-              All
+              <span v-if="locale === 'en'">All</span>
+              <span v-if="locale === 'en'">All</span>
+              <span v-if="locale === 'ru'">Все</span>
+              <span v-if="locale === 'ru'">Все</span>
             </div>
             <div
               v-for="category in categories"
               :class="{ tab: true, '-active': activeSlug === category.slug }"
               @click="_getPortfolio(category.slug)"
             >
-              {{ category.name }}
+              <span>{{ category.name }}</span>
+              <span>{{ category.name }}</span>
             </div>
           </r-carousel>
         </div>
@@ -241,6 +247,7 @@ const handleArrows = () => {
         z-index: 1;
         &.-left {
           left: 0;
+          display: none;
           background: linear-gradient(
             to right,
             rgba(255, 255, 255, 1),

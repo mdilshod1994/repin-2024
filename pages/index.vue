@@ -9,6 +9,12 @@ const home = computed(() => {
     return store.home?.ru
   }
 })
+useSeoMeta({
+  title: "Repin Agency",
+  ogTitle: "Repin Agency",
+  description: () => home.value?.page.promo_title_about,
+  ogDescription: () => home.value?.page.promo_title_about,
+})
 </script>
 
 <template>
