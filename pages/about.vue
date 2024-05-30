@@ -76,7 +76,7 @@ const aboutContent = computed(() => {
         </div>
       </div>
     </div>
-    <div cls="about__photo-team">
+    <div v-if="locale === 'en'" cls="about__photo-team">
       <about-team-photos :img="aboutContent.page.img_b6" />
     </div>
     <div class="container">

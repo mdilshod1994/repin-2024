@@ -20,7 +20,6 @@ const startLoad = () => {
     i.value = 1
     setTimeout(() => {
       width.value = 1
-      count.value++
       idInterval.value = setInterval(() => {
         interval()
       }, 100)
@@ -34,28 +33,29 @@ function interval() {
       i.value = 0
       store.finishLoader()
       width.value = 0
+      count.value++
     }, 700)
   } else {
     width.value++
-    if (width.value > 40 && width.value < 65) {
+    if (width.value < 65) {
       clearInterval(idInterval.value)
       setTimeout(() => {
         interval()
-      }, 50)
+      }, 20)
     } else {
       if (dataIsload.value) {
         width.value++
-        if (width.value > 65 && width.value < 84) {
+        if (width.value > 60 && width.value < 84) {
           clearInterval(idInterval.value)
           setTimeout(() => {
             interval()
-          }, 50)
+          }, 20)
         } else {
           if (videoIsPlayed.value) {
             width.value++
             setTimeout(() => {
               interval()
-            }, 50)
+            }, 20)
           }
         }
       }
@@ -71,13 +71,17 @@ onMounted(() => {
 watch(
   () => dataIsload.value,
   () => {
-    interval()
+    if (width.value >= 60) {
+      interval()
+    }
   },
 )
 watch(
   () => videoIsPlayed.value,
   () => {
-    interval()
+    if (width.value >= 60) {
+      interval()
+    }
   },
 )
 </script>
