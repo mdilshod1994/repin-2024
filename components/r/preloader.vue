@@ -1,78 +1,99 @@
 <script setup lang="ts">
+const store = usePreloaderTrigger()
+const progess = ref<HTMLElement | null>(null)
+const progessText = ref<HTMLElement | null>(null)
+const i = ref(0)
+const width = ref(0)
+const idInterval = ref()
+const count = ref(0)
 const nuxtApp = useNuxtApp()
-const store = useGlobalData()
-const test = ref(true)
-const text = ref(false)
 
-const fetchState = computed(() => {
-  return store.fetchState
+const dataIsload = computed(() => {
+  return store.dataIsload
+})
+const videoIsPlayed = computed(() => {
+  return store.videoIsload
 })
 
-const intervalTest = 2 // секунда автоплэй
-
-const percentageOfLine = ref(0)
-const timerCount = ref(0)
-const timerId = ref<any>(null) // для определения ID setInterval
-const loading = ref(true)
-// nuxtApp.hook("page:start", () => {
-//   loading.value = true
-//   intervalFn()
-// })
-
-const intervalFn = () => {
-  return setInterval(
-    () => {
-      timerCount.value++
-
-      if (timerCount.value === intervalTest * (intervalTest * 10)) {
-        timerCount.value = 0
-      }
-      percentageOfLine.value = (timerCount.value / (intervalTest * (intervalTest * 10))) * 100
-    },
-    1000 / (intervalTest * 10),
-  )
+const startLoad = () => {
+  if (i.value == 0) {
+    i.value = 1
+    setTimeout(() => {
+      width.value = 1
+      count.value++
+      idInterval.value = setInterval(() => {
+        interval()
+      }, 100)
+    }, 1000)
+  }
 }
-
-onMounted(() => {
-  timerId.value = intervalFn()
-  text.value = true
-})
-
-const percentVal = computed(() => {
-  return `${percentageOfLine.value}%`
-})
-
-watch(
-  () => percentageOfLine.value,
-  (n) => {
-    if (+n.toFixed() >= 90) {
-      percentageOfLine.value = 100
-      clearInterval(timerId.value)
+function interval() {
+  if (width.value >= 100) {
+    clearInterval(idInterval.value)
+    setTimeout(() => {
+      i.value = 0
+      store.finishLoader()
+      width.value = 0
+    }, 700)
+  } else {
+    width.value++
+    if (width.value > 40 && width.value < 65) {
+      clearInterval(idInterval.value)
       setTimeout(() => {
-        test.value = false
-        percentageOfLine.value = 0
-        text.value = false
-        loading.value = false
-      }, 1000)
+        interval()
+      }, 50)
+    } else {
+      if (dataIsload.value) {
+        width.value++
+        if (width.value > 65 && width.value < 84) {
+          clearInterval(idInterval.value)
+          setTimeout(() => {
+            interval()
+          }, 50)
+        } else {
+          if (videoIsPlayed.value) {
+            width.value++
+            setTimeout(() => {
+              interval()
+            }, 50)
+          }
+        }
+      }
     }
+  }
+}
+nuxtApp.hook("page:start", () => {
+  startLoad()
+})
+onMounted(() => {
+  startLoad()
+})
+watch(
+  () => dataIsload.value,
+  () => {
+    interval()
   },
 )
-
-onBeforeMount(() => {
-  clearInterval(timerId.value)
-})
+watch(
+  () => videoIsPlayed.value,
+  () => {
+    interval()
+  },
+)
 </script>
 
 <template>
-  <transition name="fade-loader">
-    <div v-if="loading" cls="preloader">
+  <transition :name="`${count ? 'fade-loader' : ''}`">
+    <div v-if="i" cls="preloader">
       <div cls="preloader__wrap">
         <div cls="preloader__texts">
           <div cls="preloader__text">Kiss my pixel</div>
-          <div v-show="text" cls="preloader__text">Kiss my pixel</div>
+          <div ref="progessText" cls="preloader__text" :style="`width: ${width}%`">
+            Kiss my pixel
+          </div>
         </div>
-        <div cls="preloader__progess">
-          <div cls="preloader__percentage">{{ percentageOfLine.toFixed() }}%</div>
+        <div ref="progess" cls="preloader__progess" :style="`width: ${width}%`">
+          <div cls="preloader__percentage">{{ width }}%</div>
         </div>
       </div>
     </div>
@@ -80,13 +101,24 @@ onBeforeMount(() => {
 </template>
 
 <style>
+.fade-loader-enter-active,
 .fade-loader-leave-active {
-  transition: opacity 0.5s ease;
+  transition: 0.7s ease-in-out;
 }
-
-.fade-loader-enter-from,
+.fade-loader-enter-active {
+  transition-delay: 0.3s;
+}
+.fade-loader-enter-from {
+  transform: translateY(-100px);
+  opacity: 0;
+}
+.fade-loader-enter-to {
+  transform: translateY(0);
+  opacity: 1;
+}
 .fade-loader-leave-to {
   opacity: 0;
+  transform: translateY(100px);
 }
 </style>
 
@@ -123,10 +155,10 @@ onBeforeMount(() => {
       color: var(--Black);
       z-index: 1;
       overflow: hidden;
-      width: v-bind(percentVal);
-      transition: 0.1s ease-in-out;
+      width: 0%;
       position: absolute !important;
       left: 0 !important;
+      transition: 0.2s ease-in-out;
     }
   }
   &__progess {
@@ -134,9 +166,7 @@ onBeforeMount(() => {
     bottom: 0;
     left: 0;
     border-bottom: 4px solid var(--Black);
-    width: v-bind(percentVal);
     display: flex;
-    transition: 0.1s ease-in-out;
     justify-content: flex-end;
   }
   &__percentage {

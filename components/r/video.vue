@@ -2,6 +2,8 @@
 import Player from "@vimeo/player"
 import { onClickOutside, useMediaQuery } from "@vueuse/core"
 
+const store = usePreloaderTrigger()
+
 const isLargeScreen = useMediaQuery("(min-width: 1024px)")
 interface videoLinks {
   short: string
@@ -12,8 +14,8 @@ const props = defineProps<{
   video?: videoLinks
   vimeo?: videoLinks
 }>()
-
 const videoFull = ref<HTMLVideoElement | null>(null)
+const videoshort = ref<HTMLVideoElement | null>(null)
 const container = ref<HTMLElement | null>(null)
 const overlay = ref<HTMLElement | null>(null)
 const switchVideo = ref<boolean>(false)
@@ -104,10 +106,23 @@ watch(switchVideo, (nv) => {
     }, 100)
   }
 })
-
+watch(videoshort, (nv) => {
+  if (nv) {
+    const idInterval = setInterval(() => {
+      if (nv.readyState >= 2) {
+        store.handleLoadVideo(true)
+        clearInterval(idInterval)
+      }
+    }, 100)
+  }
+})
 onMounted(() => {
   playVimeoShort()
   playVimeoLong(false)
+  if (!videoshort.value) return
+  if (videoshort.value.readyState >= 2) {
+    store.handleLoadVideo(true)
+  }
 })
 const { updateType } = useMousemove()
 const setCursorType = (type: string) => {
@@ -120,7 +135,7 @@ const setCursorType = (type: string) => {
     <div cls="video__wrap" @mouseover="setCursorType('video')" @mouseleave="setCursorType('')">
       <div :cls="{ shorts: true, '-show': switchVideo }" @click="openLongVideo()">
         <div v-if="vimeo?.short" ref="vimeoshort" cls="shorts__vimeo" />
-        <video v-else autoplay muted loop playsinline>
+        <video v-else ref="videoshort" autoplay muted loop playsinline>
           <source :src="video?.short" type="video/mp4" />
         </video>
       </div>

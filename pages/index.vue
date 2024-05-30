@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const { locale } = useI18n()
 const store = useGlobalData()
+const _store = usePreloaderTrigger()
 
 const home = computed(() => {
   if (locale.value === "en") {
@@ -15,6 +16,17 @@ useSeoMeta({
   description: () => home.value?.page.promo_title_about,
   ogDescription: () => home.value?.page.promo_title_about,
 })
+onMounted(() => {
+  if (home.value) {
+    _store.handleLoadData(true)
+  }
+})
+watch(
+  () => home,
+  () => {
+    _store.handleLoadData(true)
+  },
+)
 </script>
 
 <template>

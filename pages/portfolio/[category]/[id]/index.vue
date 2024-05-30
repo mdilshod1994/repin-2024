@@ -5,7 +5,7 @@ TODO: разделить на компоненты
 <script setup lang="ts">
 import type { PortfolioCase } from "~/types/portfolio-case"
 
-const store = useGlobalData()
+const _store = usePreloaderTrigger()
 
 const { id } = useRoute().params
 const video = ref<HTMLVideoElement>()
@@ -14,16 +14,30 @@ const { data: portfolio } = await useFetch<PortfolioCase>(
   `https://repin.agency/wp-json/api/v1/project/${id}`,
   {
     lazy: true,
+    server: false,
     onResponse: () => {
-      store.handleLoader(true)
+      _store.handleLoadData(true)
     },
   },
 )
+
 watch(video, (nv) => {
   if (nv) {
-    nv.onplaying = () => {
-      reverse.value = true
-    }
+    const idInterval = setInterval(() => {
+      if (nv.readyState >= 2) {
+        _store.handleLoadVideo(true)
+        reverse.value = true
+        clearInterval(idInterval)
+      }
+    }, 100)
+  }
+})
+
+onMounted(() => {
+  if (!video.value) return
+  if (video.value.readyState >= 2) {
+    _store.handleLoadVideo(true)
+    reverse.value = true
   }
 })
 </script>

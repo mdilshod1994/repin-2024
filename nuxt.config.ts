@@ -61,6 +61,7 @@ export default defineNuxtConfig({
         { rel: "manifest", href: "/site.webmanifest" },
       ],
     },
+    pageTransition: { name: "page", mode: "out-in" },
   },
   svgo: {
     explicitImportsOnly: true,

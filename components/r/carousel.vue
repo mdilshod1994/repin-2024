@@ -25,7 +25,6 @@ const props = defineProps<{
 }>()
 
 const _destroyCarouselFrom = useMediaQuery(`(max-width: ${props.destroyCarousel}px)`)
-const isMounted = ref(false)
 
 const carousel = ref<HTMLElement | null>(null), // контейнер карусель
   scrollbar = ref<HTMLElement | null>(null), // скролбар
@@ -95,10 +94,6 @@ const setMarginsToSlides = () => {
 }
 
 onMounted(() => {
-  // задаем ширину кнопке скроллбара
-  if (thumb.value && carousel.value) {
-    thumb.value.style.width = `${carousel.value.clientWidth / carousel.value.children.length}px`
-  }
   // вызываем функцию updateThumbPosition, если пользователь скролил нажав соечетаний клавиш "Shift + scroll"
   // вызываем функцию, чтобы обновить место положение кнопки скролбара
   carousel.value?.addEventListener("scroll", () => {
@@ -107,7 +102,6 @@ onMounted(() => {
   // carousel на всю ширину экрана, т.е. максимум ширина 1920px
   // первоначальное положение первого слайда(отступ слева) начинается где .container, т.е. в линию по вертикали
   setMarginsToSlides()
-  isMounted.value = true
 })
 
 const deskPaddingSides = computed(() => {
@@ -136,11 +130,7 @@ const mGap = computed(() => {
 </script>
 
 <template>
-  <div
-    v-if="isMounted"
-    ref="carousel-wrap"
-    :cls="{ carousel: true, '-destroy': _destroyCarouselFrom }"
-  >
+  <div ref="carousel-wrap" :cls="{ carousel: true, '-destroy': _destroyCarouselFrom }">
     <div
       ref="carousel"
       cls="carousel__slider"
@@ -220,6 +210,7 @@ const mGap = computed(() => {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
+      width: 100px;
     }
   }
   &__btn {

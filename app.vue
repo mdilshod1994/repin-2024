@@ -7,9 +7,23 @@ onMounted(async () => {
 
 <template>
   <div cls="app">
+    <r-preloader />
     <nuxt-layout>
-      <!-- <r-preloader /> -->
       <nuxt-page />
     </nuxt-layout>
   </div>
 </template>
+
+<style>
+.page-enter-active,
+.page-leave-active {
+  transition: 1s ease-in-out;
+}
+
+.page-enter-from {
+  transform: translateY(-100px);
+}
+.page-leave-to {
+  transform: translateY(100px);
+}
+</style>

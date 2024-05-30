@@ -7,15 +7,7 @@ import type { Footer, Header, Menu } from "~/types/menu-header-footer"
 
 export const useGlobalData = defineStore("globaldata", () => {
   const { locale } = useI18n()
-  const fetchState = ref(false)
-
-  const handleLoader = (state?: boolean) => {
-    if (state) {
-      fetchState.value = state
-    } else {
-      fetchState.value = false
-    }
-  }
+  const _store = usePreloaderTrigger()
 
   // HEADER & FOOTER
   const footer = ref<Footer>()
@@ -25,6 +17,8 @@ export const useGlobalData = defineStore("globaldata", () => {
     try {
       menuHeaderFooter.value = await $fetch("https://repin.agency/wp-json/api/v1/headerAndFooter")
       if (!menuHeaderFooter.value) return
+      _store.handleLoadVideo(true)
+      _store.handleLoadData(true)
       if (locale.value === "en") {
         header.value = menuHeaderFooter.value.en.header
         footer.value = menuHeaderFooter.value.en.footer
@@ -35,7 +29,7 @@ export const useGlobalData = defineStore("globaldata", () => {
     } catch (error) {
       console.log(error)
     } finally {
-      fetchState.value = true
+      _store.handleLoadData(true)
     }
   }
   // HOME PAGE
@@ -47,7 +41,6 @@ export const useGlobalData = defineStore("globaldata", () => {
     } catch (error) {
       console.log(error)
     } finally {
-      fetchState.value = true
     }
   }
 
@@ -57,10 +50,14 @@ export const useGlobalData = defineStore("globaldata", () => {
   const getContactPageInfo = async () => {
     try {
       contacts.value = await $fetch("https://repin.agency/wp-json/api/v1/contacts")
+      if (contacts.value) {
+        _store.handleLoadVideo(true)
+        _store.handleLoadData(true)
+      }
     } catch (error) {
       console.log(error)
     } finally {
-      fetchState.value = true
+      _store.handleLoadData(true)
     }
   }
   // PRIVACY POLICY PAGE
@@ -70,11 +67,12 @@ export const useGlobalData = defineStore("globaldata", () => {
     try {
       const { en } = await $fetch<Block2>("https://repin.agency/wp-json/api/v1/privacy-policy")
       if (!en) return
+      _store.handleLoadVideo(true)
+      _store.handleLoadData(true)
       privacyPolicy.value = en
     } catch (error) {
       console.log(error)
     } finally {
-      fetchState.value = true
     }
   }
   // OFFER AGREEMENT PAGE
@@ -84,11 +82,12 @@ export const useGlobalData = defineStore("globaldata", () => {
     try {
       const { en } = await $fetch<Block2>("https://repin.agency/wp-json/api/v1/offer-agreement")
       if (!en) return
+      _store.handleLoadVideo(true)
+      _store.handleLoadData(true)
       offerAgreement.value = en
     } catch (error) {
       console.log(error)
     } finally {
-      fetchState.value = true
     }
   }
   // OFFER AGREEMENT PAGE
@@ -98,11 +97,12 @@ export const useGlobalData = defineStore("globaldata", () => {
     try {
       const { en } = await $fetch<Block2>("https://repin.agency/wp-json/api/v1/cookie-privacy")
       if (!en) return
+      _store.handleLoadVideo(true)
+      _store.handleLoadData(true)
       cookiePrivacy.value = en
     } catch (error) {
       console.log(error)
     } finally {
-      fetchState.value = true
     }
   }
   return {
@@ -112,7 +112,6 @@ export const useGlobalData = defineStore("globaldata", () => {
     getPrivacyPolicyPageInfo,
     getOfferAgreementPageInfo,
     getCookiePrivacyPageInfo,
-    handleLoader,
     header,
     footer,
     home,
@@ -120,6 +119,5 @@ export const useGlobalData = defineStore("globaldata", () => {
     privacyPolicy,
     offerAgreement,
     cookiePrivacy,
-    fetchState,
   }
 })

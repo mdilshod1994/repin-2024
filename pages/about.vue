@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import type { About, En } from "~/types/about"
 
-const store = useGlobalData()
+const _store = usePreloaderTrigger()
 
 const { locale } = useI18n()
 
 const { data: about } = await useFetch<About>("https://repin.agency/wp-json/api/v1/about", {
   lazy: true,
+  server: false,
   onResponse: () => {
-    store.handleLoader(true)
+    _store.handleLoadData(true)
   },
 })
 
