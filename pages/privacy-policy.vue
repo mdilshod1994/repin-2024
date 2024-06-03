@@ -4,7 +4,10 @@ const store = useGlobalData()
 const pp = computed(() => {
   return store.privacyPolicy
 })
-
+useSeoMeta({
+  title: () => `Repin Agency | ${pp.value?.post_title}`,
+  ogTitle: () => `Repin Agency | ${pp.value?.post_title}`,
+})
 onMounted(async () => {
   await store.getPrivacyPolicyPageInfo()
 })

@@ -1,4 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { updateType } = useMousemove()
+
+const setCursorType = (type: string) => {
+  updateType(type)
+}
+</script>
 
 <template>
   <div cls="stories">
@@ -9,7 +15,13 @@
       </template>
     </r-title>
     <div cls="stories__list">
-      <nuxt-link v-for="c in 3" to="" cls="stories__card">
+      <nuxt-link
+        v-for="c in 3"
+        to=""
+        cls="stories__card"
+        @mouseover="setCursorType('link')"
+        @mouseleave="setCursorType('')"
+      >
         <div cls="stories__card-content">
           <div cls="stories__card-box">
             <div cls="stories__card-title">

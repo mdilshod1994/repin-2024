@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import type { About, En } from "~/types/about"
 
-const _store = usePreloaderTrigger()
-
+// const store = usePreloaderTrigger()
 const { locale } = useI18n()
 
 const { data: about } = await useFetch<About>("https://repin.agency/wp-json/api/v1/about", {
   lazy: true,
   server: false,
   onResponse: () => {
-    _store.handleLoadData(true)
+    // store.handlePreloader(true)
   },
 })
 
@@ -20,6 +19,12 @@ const aboutContent = computed(() => {
   } else {
     return about.value?.ru as En
   }
+})
+useSeoMeta({
+  title: () => `Repin Agency | About`,
+  ogTitle: () => `Repin Agency | About`,
+  // description: () => aboutContent.value?.page.title_big,
+  // ogDescription: () => aboutContent.value?.page.title_big,
 })
 </script>
 
@@ -40,7 +45,6 @@ const aboutContent = computed(() => {
     </div>
     <div cls="about__video">
       <r-video
-        :video="{ short: aboutContent.page.video_short, long: aboutContent.page.video_long }"
         :vimeo="{
           short: aboutContent.page.video_short_vimeo,
           long: aboutContent.page.video_long_vimeo,

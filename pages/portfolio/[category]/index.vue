@@ -7,16 +7,10 @@ const { locale } = useI18n()
 
 const store = usePortfolio()
 const _store = useGlobalData()
+
 const page = ref<number>(0)
 const portfolios = computed(() => {
   return store.portfolio as PortfolioElement[]
-})
-const contactSoc = computed(() => {
-  if (locale.value === "en") {
-    return _store.contacts?.en.page.social_media
-  } else {
-    return _store.contacts?.ru.page.social_media
-  }
 })
 
 const categories = computed(() => {
@@ -43,7 +37,6 @@ onMounted(async () => {
   } else {
     await store.getPortfolio(activeSlug.value, 0)
   }
-  await _store.getContactPageInfo()
 })
 </script>
 
@@ -53,7 +46,6 @@ onMounted(async () => {
     :portfolios="portfolios"
     :categories="categories"
     :active-slug="activeSlug"
-    :social-media="contactSoc"
   />
 </template>
 

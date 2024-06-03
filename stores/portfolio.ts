@@ -3,7 +3,6 @@ import { defineStore } from "pinia"
 import type { Portfolio, PortfolioElement } from "~/types/portfolio"
 
 export const usePortfolio = defineStore("portfolio", () => {
-  const _store = usePreloaderTrigger()
   const _portfolio = ref<PortfolioElement[]>()
   const portfolio = ref<PortfolioElement[]>()
   const _slug = ref<string | undefined>()
@@ -11,6 +10,7 @@ export const usePortfolio = defineStore("portfolio", () => {
   const totalProjects = ref<number>()
   const portfolios = ref<Portfolio>()
   const { locale } = useI18n()
+  const $store = usePreloaderTrigger()
 
   const currentPageNumber = computed(() => {
     const pageNumberFromStorage = window.sessionStorage.getItem("page-number")
@@ -61,8 +61,6 @@ export const usePortfolio = defineStore("portfolio", () => {
         `https://repin.agency/wp-json/api/v1/projects/${_slug.value}/${_page.value}`,
       )
       if (!portfolios.value) return
-      _store.handleLoadVideo(true)
-      _store.handleLoadData(true)
       if (locale.value === "en") {
         totalProjects.value = portfolios.value.en.portfolio_count
         if (page === 0 || page === undefined) {

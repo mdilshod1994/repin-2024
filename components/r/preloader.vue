@@ -2,88 +2,15 @@
 const store = usePreloaderTrigger()
 const progess = ref<HTMLElement | null>(null)
 const progessText = ref<HTMLElement | null>(null)
-const i = ref(0)
-const width = ref(0)
-const idInterval = ref()
-const count = ref(0)
-const nuxtApp = useNuxtApp()
-
-const dataIsload = computed(() => {
-  return store.dataIsload
+const i = computed(() => {
+  return store.i
 })
-const videoIsPlayed = computed(() => {
-  return store.videoIsload
+const width = computed(() => {
+  return store.width
 })
-
-const startLoad = () => {
-  if (i.value == 0) {
-    i.value = 1
-    setTimeout(() => {
-      width.value = 1
-      idInterval.value = setInterval(() => {
-        interval()
-      }, 100)
-    }, 1000)
-  }
-}
-function interval() {
-  if (width.value >= 100) {
-    clearInterval(idInterval.value)
-    setTimeout(() => {
-      i.value = 0
-      store.finishLoader()
-      width.value = 0
-      count.value++
-    }, 700)
-  } else {
-    width.value++
-    if (width.value < 65) {
-      clearInterval(idInterval.value)
-      setTimeout(() => {
-        interval()
-      }, 20)
-    } else {
-      if (dataIsload.value) {
-        width.value++
-        if (width.value > 60 && width.value < 84) {
-          clearInterval(idInterval.value)
-          setTimeout(() => {
-            interval()
-          }, 20)
-        } else {
-          if (videoIsPlayed.value) {
-            width.value++
-            setTimeout(() => {
-              interval()
-            }, 20)
-          }
-        }
-      }
-    }
-  }
-}
-nuxtApp.hook("page:start", () => {
-  startLoad()
+const count = computed(() => {
+  return store.count
 })
-onMounted(() => {
-  startLoad()
-})
-watch(
-  () => dataIsload.value,
-  () => {
-    if (width.value >= 60) {
-      interval()
-    }
-  },
-)
-watch(
-  () => videoIsPlayed.value,
-  () => {
-    if (width.value >= 60) {
-      interval()
-    }
-  },
-)
 </script>
 
 <template>
@@ -132,9 +59,10 @@ watch(
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100svh;
   background: var(--White);
   z-index: 9;
+  overflow: hidden;
   &__wrap {
     position: relative;
     display: flex;
@@ -172,12 +100,24 @@ watch(
     border-bottom: 4px solid var(--Black);
     display: flex;
     justify-content: flex-end;
+    transition: 0.2s ease-in-out;
   }
   &__percentage {
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: 18px;
+  }
+}
+@include mobile {
+  .preloader {
+    &__text {
+      font-size: 40px;
+      font-style: italic;
+      font-weight: 400;
+      line-height: 48px;
+      letter-spacing: -1.2px;
+    }
   }
 }
 </style>

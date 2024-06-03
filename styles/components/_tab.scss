@@ -22,7 +22,7 @@
     color: var(--Black);
   }
 }
-@include mobile {
+@include tablet-small {
   .tab {
     @include mob-body-14;
     position: relative;

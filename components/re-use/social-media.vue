@@ -1,12 +1,19 @@
 <script setup lang="ts">
 import Player from "@vimeo/player"
 
-import type { SocialMedia } from "~/types/contacts"
+const { locale } = useI18n()
 
-defineProps<{
-  socialMedia: SocialMedia
-}>()
-onMounted(() => {
+const store = useGlobalData()
+const contactSoc = computed(() => {
+  if (locale.value === "en") {
+    return store.contacts?.en.page.social_media
+  } else {
+    return store.contacts?.ru.page.social_media
+  }
+})
+onMounted(async () => {
+  await store.getContactPageInfo()
+
   document.querySelectorAll("#videowrap").forEach((el) => {
     if (el) {
       const vv = new Player(el, {
@@ -35,11 +42,11 @@ const setCursorType = (type: string) => {
 <template>
   <div cls="carousel">
     <div class="container">
-      <r-title :pretitle="socialMedia.subtitle" :title="socialMedia.title" flex-start />
+      <r-title :pretitle="contactSoc?.subtitle" :title="contactSoc?.title" flex-start />
     </div>
     <r-carousel gap="24" tablet-gap="20" mob-gap="16">
       <div
-        v-for="soc in socialMedia.items"
+        v-for="soc in contactSoc?.items"
         :cls="{ carousel__social: true, [`-${soc.rounding}`]: true }"
         class="hover-border"
       >

@@ -22,6 +22,11 @@ const { updateType } = useMousemove()
 const setCursorType = (type: string) => {
   updateType(type)
 }
+
+useSeoMeta({
+  title: () => `Repin Agency | ${contact.value?.title_page}`,
+  ogTitle: () => `Repin Agency | ${contact.value?.title_page}`,
+})
 </script>
 
 <template>
@@ -33,7 +38,7 @@ const setCursorType = (type: string) => {
         mobile-column="1"
         :desktop-gaps="[16]"
         :tablet-gaps="[16]"
-        :mobile-gaps="[24]"
+        :mobile-gaps="[32]"
         cls="contacts__banner"
       >
         <a
@@ -47,11 +52,19 @@ const setCursorType = (type: string) => {
           </div>
           <span class="underline-link -bold"> {{ contact.email }} </span>
         </a>
-        <r-banner mobile-bottom-left :title="contact.title_page">
+        <div cls="contacts__banner-wrap">
+          <div cls="contacts__banner-title">
+            {{ contact.title_page }}
+          </div>
           <div class="texts">
             <div class="text" cls="contacts__banner-text" v-html="contact.description" />
           </div>
-        </r-banner>
+        </div>
+        <!-- <r-banner mobile-bottom-left :title="contact.title_page" mob-gap="27.341">
+          <div class="texts">
+            <div class="text" cls="contacts__banner-text" v-html="contact.description" />
+          </div>
+        </r-banner> -->
       </r-grid>
       <div ref="target" cls="contacts__request" class="dark-background">
         <div cls="contacts__request-wrap">
@@ -119,10 +132,24 @@ const setCursorType = (type: string) => {
   padding: 136px 0 160px;
   &__banner {
     padding-bottom: 104px;
+    &-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-self: stretch;
+    }
+    &-title {
+      color: var(--Black);
+      font-size: 104px;
+      font-weight: 500;
+      line-height: 112px;
+      letter-spacing: -5.2px;
+    }
     &-text {
       @include desctop-body-22;
+      margin-top: 16px;
       a {
         @include desctop-body-22;
+        display: inline-block;
         width: max-content;
         position: relative;
         &::after,
@@ -308,8 +335,43 @@ const setCursorType = (type: string) => {
 @include tablet {
   .contacts {
     padding: 56px 0 88px;
+    &__link {
+      span {
+        @include mob-body-14-db;
+      }
+      &-icon {
+        width: 28px;
+        height: 28px;
+        svg {
+          font-size: 14px;
+        }
+      }
+    }
     &__banner {
       padding-bottom: 64px;
+      &-title {
+        @include mob-H1;
+      }
+      &-text {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+        margin-top: 8px;
+        a {
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 20px;
+          &::before {
+            transform: scaleX(0);
+          }
+          &::after {
+            transition-delay: 0.2s;
+            transform: scaleX(1);
+          }
+        }
+      }
     }
 
     &__request {
@@ -366,6 +428,13 @@ const setCursorType = (type: string) => {
     padding: 82.023px 0 88px;
     &__banner {
       padding-bottom: 73px;
+      &-wrap {
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      &-text {
+        margin-top: 0;
+      }
     }
     :global(.text) {
       max-width: 321px;
@@ -382,7 +451,8 @@ const setCursorType = (type: string) => {
     }
 
     &__request {
-      margin: 0 -16px;
+      margin: 0 -7px;
+      padding: 17.624px 0;
       &-title {
         @include mob-H2;
         span {
@@ -391,7 +461,11 @@ const setCursorType = (type: string) => {
         }
       }
       &-wrap {
-        padding: 104px 16px 120px;
+        padding: 114.55px 0 132.18px;
+        background: url("@/assets/images/contact/mob-bg.webp");
+        background-position: center;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
       }
     }
   }
@@ -402,7 +476,6 @@ const setCursorType = (type: string) => {
     :global(.text) {
       max-width: 282px;
     }
-
     &__request {
       margin: 0 -16px;
       &-title {

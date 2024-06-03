@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { SocialMedia } from "~/types/contacts"
 import { type Category } from "~/types/home"
 import { type PortfolioElement } from "~/types/portfolio"
 
@@ -14,11 +13,8 @@ const props = defineProps<{
   portfolios: PortfolioElement[]
   categories: Category[]
   activeSlug?: string
-  socialMedia?: SocialMedia
 }>()
 const firstPage = ref<number>(0)
-const leftArrow = ref<HTMLElement | null>()
-const rightArrow = ref<HTMLElement | null>()
 const store = usePortfolio()
 
 const showMore = async () => {
@@ -48,33 +44,34 @@ watch(slug, (newSlug) => {
   }
 })
 
-const handleArrows = () => {
-  const tabs = document.querySelectorAll(".tab")
-  if (tabs) {
-    const firstCatObserver = new IntersectionObserver(
-      (entries) => {
-        if (!leftArrow.value) return
-        leftArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
-      },
-      {
-        threshold: 0.8,
-      },
-    )
-    const firstCat = tabs[0]
-    firstCatObserver.observe(firstCat)
-    const lastCatObserver = new IntersectionObserver(
-      (entries) => {
-        if (!rightArrow.value) return
-        rightArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
-      },
-      {
-        threshold: 0.8,
-      },
-    )
-    const lastCat = tabs.length - 1
-    lastCatObserver.observe(tabs[lastCat])
-  }
-}
+onMounted(() => {
+  const arrows = document.querySelectorAll(".filter-arrow")
+  const first = document.querySelector(".first") as Element
+  const last = document.querySelector(".last")
+  nextTick(() => {
+    if (first) {
+      observer.observe(first)
+    }
+    if (last) {
+      observer.observe(last)
+    }
+  })
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((ob) => {
+        if (ob.target.classList.contains("first")) {
+          arrows[0].style.display = ob.isIntersecting ? "none" : "flex"
+        }
+        if (ob.target.classList.contains("last")) {
+          arrows[1].style.display = ob.isIntersecting ? "none" : "flex"
+        }
+      })
+    },
+    {
+      threshold: 0.8,
+    },
+  )
+})
 </script>
 
 <template>
@@ -98,16 +95,16 @@ const handleArrows = () => {
             <div cls="portfolio__wrap-addons">({{ totalProject }})</div>
           </template>
         </r-title>
-        <div cls="portfolio__mob-filter" @touchmove="handleArrows">
-          <div ref="leftArrow" cls="portfolio__mob-filter-arrow -left">
+        <div cls="portfolio__mob-filter">
+          <div cls="portfolio__mob-filter-arrow -left" class="filter-arrow">
             <svgo-arrow-right />
           </div>
-          <div ref="rightArrow" cls="portfolio__mob-filter-arrow -right">
+          <div cls="portfolio__mob-filter-arrow -right" class="filter-arrow">
             <svgo-arrow-right />
           </div>
           <r-carousel gap="8" tablet-gap="8" mob-gap="8">
             <div
-              :class="{ tab: true, '-active': activeSlug === 'all' }"
+              :class="{ tab: true, '-active': activeSlug === 'all', first: true }"
               @click="_getPortfolio('all')"
             >
               <span v-if="locale === 'en'">All</span>
@@ -116,8 +113,12 @@ const handleArrows = () => {
               <span v-if="locale === 'ru'">Все</span>
             </div>
             <div
-              v-for="category in categories"
-              :class="{ tab: true, '-active': activeSlug === category.slug }"
+              v-for="(category, idx) in categories"
+              :class="{
+                tab: true,
+                '-active': activeSlug === category.slug,
+                last: idx === categories.length - 1,
+              }"
               @click="_getPortfolio(category.slug)"
             >
               <span>{{ category.name }}</span>
@@ -144,11 +145,7 @@ const handleArrows = () => {
         </r-grid>
       </div>
     </div>
-    <re-use-social-media
-      v-if="socialMedia"
-      cls="portfolio__social-media"
-      :social-media="socialMedia"
-    />
+    <re-use-social-media cls="portfolio__social-media" />
   </div>
 </template>
 

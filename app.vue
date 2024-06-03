@@ -1,7 +1,15 @@
 <script setup lang="ts">
 const store = useGlobalData()
+const _store = usePreloaderTrigger()
 onMounted(async () => {
   await store.getMainPageInfo()
+  _store.handlePreloader()
+})
+
+const nuxtApp = useNuxtApp()
+
+nuxtApp.hook("page:start", () => {
+  _store.handlePreloader()
 })
 </script>
 

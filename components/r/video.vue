@@ -9,17 +9,19 @@ interface videoLinks {
   short: string
   long: string
 }
-
+const vimeoShort = ref()
+const options = {
+  loop: true,
+  muted: true,
+  autoplay: true,
+  background: true,
+}
 const props = defineProps<{
-  video?: videoLinks
   vimeo?: videoLinks
 }>()
-const videoFull = ref<HTMLVideoElement | null>(null)
-const videoshort = ref<HTMLVideoElement | null>(null)
 const container = ref<HTMLElement | null>(null)
 const overlay = ref<HTMLElement | null>(null)
 const switchVideo = ref<boolean>(false)
-const vimeoshort = ref<HTMLElement | null>(null)
 const vimeolong = ref<HTMLElement | null>(null)
 
 onClickOutside(vimeolong, () => (switchVideo.value = false))
@@ -35,6 +37,7 @@ const percent = computed(() => {
 const setBoundingClientRect = () => {
   if (!overlay.value) return
   overlay.value.style.zIndex = `-1`
+  overlay.value.style.opacity = `0`
 }
 
 const openLongVideo = () => {
@@ -50,8 +53,7 @@ const openLongVideo = () => {
     overlay.value.style.width = `100vw`
     overlay.value.style.height = `100vh`
     overlay.value.style.zIndex = `4`
-    if (!videoFull.value) return
-    videoFull.value.play()
+    overlay.value.style.opacity = `1`
   }, 10)
 }
 
@@ -75,58 +77,44 @@ const playVimeoLong = (state: boolean) => {
   }
 }
 
-const playVimeoShort = () => {
-  if (props.vimeo?.short) {
-    if (!vimeoshort.value) return
-    const vimeoShort = new Player(vimeoshort.value, {
-      background: true,
-      url: props.vimeo?.short,
-      muted: true,
-      loop: true,
-      autoplay: true,
-      playsinline: true,
-    })
-    vimeoShort.play()
-  }
-}
-
 watch(switchVideo, (nv) => {
   if (nv) {
     playVimeoLong(nv)
   }
   if (!nv) {
     playVimeoLong(nv)
-    playVimeoShort()
     useScrollLock(false)
     setBoundingClientRect()
-    setTimeout(() => {
-      if (!videoFull.value) return
-      videoFull.value.currentTime = 0
-      videoFull.value.pause()
-    }, 100)
-  }
-})
-watch(videoshort, (nv) => {
-  if (nv) {
-    const idInterval = setInterval(() => {
-      if (nv.readyState >= 2) {
-        store.handleLoadVideo(true)
-        clearInterval(idInterval)
-      }
-    }, 100)
   }
 })
 onMounted(() => {
-  playVimeoShort()
   playVimeoLong(false)
-  if (!videoshort.value) return
-  if (videoshort.value.readyState >= 2) {
-    store.handleLoadVideo(true)
-  }
 })
 const { updateType } = useMousemove()
 const setCursorType = (type: string) => {
   updateType(type)
+}
+const onReady = () => {
+  vimeoShort.value
+    .play()
+    .then(function () {
+      "// the video was played"
+    })
+    .catch(function (error) {
+      switch (error.name) {
+        case "PasswordError":
+          break
+        case "PrivacyError":
+          break
+        default:
+          "// the video was not played"
+          vimeoShort.value.play()
+          break
+      }
+    })
+}
+const onPlayed = () => {
+  store.handlePreloader(true)
 }
 </script>
 
@@ -134,10 +122,16 @@ const setCursorType = (type: string) => {
   <div ref="container" cls="video" class="dark-background">
     <div cls="video__wrap" @mouseover="setCursorType('video')" @mouseleave="setCursorType('')">
       <div :cls="{ shorts: true, '-show': switchVideo }" @click="openLongVideo()">
-        <div v-if="vimeo?.short" ref="vimeoshort" cls="shorts__vimeo" />
-        <video v-else ref="videoshort" autoplay muted loop playsinline>
-          <source :src="video?.short" type="video/mp4" />
-        </video>
+        <vimeo-player
+          v-if="vimeo?.short"
+          ref="vimeoShort"
+          :video-url="vimeo?.short"
+          :options="options"
+          cls="shorts__vimeo"
+          @ready="onReady"
+          @play="onPlayed"
+        />
+        <div cls="shorts__overlay" />
       </div>
       <div cls="video__wrap-btn">
         <svgo-play />
@@ -146,9 +140,6 @@ const setCursorType = (type: string) => {
     <div ref="overlay" :cls="{ overlay: true, '-scale': switchVideo }">
       <div cls="overlay__wrap">
         <div v-if="vimeo?.long" ref="vimeolong" cls="long-vimeo" />
-        <video v-else ref="videoFull" else controls :cls="{ long: true, '-show': switchVideo }">
-          <source :src="video?.long" type="video/mp4" />
-        </video>
         <r-round-button
           cls="overlay__btn-close"
           size="large"
@@ -164,7 +155,6 @@ const setCursorType = (type: string) => {
 
 <style module lang="scss">
 .video {
-  // aspect-ratio: 16 / 9;
   max-width: 1920px;
   padding: 24px;
   margin: 0 auto;
@@ -206,8 +196,16 @@ const setCursorType = (type: string) => {
 }
 .shorts {
   width: 100%;
+  aspect-ratio: 16 / 9;
   height: 100%;
-  transition: 0.3s ease-in-out;
+  &__overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+  }
   &__vimeo {
     width: 100%;
     height: 100%;

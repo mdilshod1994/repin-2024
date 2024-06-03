@@ -29,6 +29,11 @@ export default defineNuxtConfig({
       ssr: false,
       mode: "client",
     },
+    {
+      src: "~/plugins/vimeo-player.js",
+      ssr: false,
+      mode: "client",
+    },
   ],
 
   vite: {

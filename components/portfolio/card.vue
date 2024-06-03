@@ -1,28 +1,21 @@
 <script setup lang="ts">
-import Player from "@vimeo/player"
 import gsap from "gsap"
 
 import type { PortfolioElement } from "~/types/portfolio"
 
 const localePath = useLocalePath()
 
-const props = defineProps<{
+defineProps<{
   portfolio: PortfolioElement
   mobTitleFontSize?: boolean
 }>()
-const videowrap = ref<HTMLElement | null>(null)
-
-onMounted(() => {
-  if (!videowrap.value) return
-  if (props.portfolio.anons_vimeo) {
-    new Player(videowrap.value, {
-      url: props.portfolio.anons_vimeo,
-      autoplay: true,
-      background: true,
-      loop: true,
-    })
-  }
-})
+const vimeoCard = ref()
+const options = {
+  loop: true,
+  muted: true,
+  autoplay: true,
+  background: true,
+}
 
 const beforeEnter = (el) => {
   gsap.from(el, {
@@ -43,6 +36,28 @@ const { updateType } = useMousemove()
 const setCursorType = (type: string) => {
   updateType(type)
 }
+
+const onReady = () => {
+  vimeoCard.value
+    .play()
+    .then(function () {
+      // do something
+    })
+    .catch(function (error) {
+      switch (error.name) {
+        case "PasswordError":
+          // the video is password-protected and the viewer needs to enter the
+          // password first
+          break
+        case "PrivacyError":
+          // the video is private
+          break
+        default:
+          vimeoCard.value.play()
+          break
+      }
+    })
+}
 </script>
 
 <template>
@@ -58,7 +73,13 @@ const setCursorType = (type: string) => {
       <div cls="card__img">
         <r-gradient-border cls="card__gradient-border" />
         <img :src="portfolio.cover" alt="" />
-        <div v-if="portfolio.anons_vimeo" ref="videowrap" />
+        <vimeo-player
+          v-if="portfolio.anons_vimeo"
+          ref="vimeoCard"
+          :video-url="portfolio.anons_vimeo"
+          :options="options"
+          @ready="onReady"
+        />
       </div>
       <div cls="card__content">
         <div cls="card__top">

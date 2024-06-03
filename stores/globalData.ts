@@ -7,9 +7,7 @@ import type { Footer, Header, Menu } from "~/types/menu-header-footer"
 
 export const useGlobalData = defineStore("globaldata", () => {
   const { locale } = useI18n()
-  const _store = usePreloaderTrigger()
-
-  // HEADER & FOOTER
+  const store = usePreloaderTrigger()
   const footer = ref<Footer>()
   const header = ref<Header>()
   const menuHeaderFooter = ref<Menu>()
@@ -17,8 +15,6 @@ export const useGlobalData = defineStore("globaldata", () => {
     try {
       menuHeaderFooter.value = await $fetch("https://repin.agency/wp-json/api/v1/headerAndFooter")
       if (!menuHeaderFooter.value) return
-      _store.handleLoadVideo(true)
-      _store.handleLoadData(true)
       if (locale.value === "en") {
         header.value = menuHeaderFooter.value.en.header
         footer.value = menuHeaderFooter.value.en.footer
@@ -29,7 +25,6 @@ export const useGlobalData = defineStore("globaldata", () => {
     } catch (error) {
       console.log(error)
     } finally {
-      _store.handleLoadData(true)
     }
   }
   // HOME PAGE
@@ -51,13 +46,11 @@ export const useGlobalData = defineStore("globaldata", () => {
     try {
       contacts.value = await $fetch("https://repin.agency/wp-json/api/v1/contacts")
       if (contacts.value) {
-        _store.handleLoadVideo(true)
-        _store.handleLoadData(true)
+        store.handlePreloader(true)
       }
     } catch (error) {
       console.log(error)
     } finally {
-      _store.handleLoadData(true)
     }
   }
   // PRIVACY POLICY PAGE
@@ -67,8 +60,7 @@ export const useGlobalData = defineStore("globaldata", () => {
     try {
       const { en } = await $fetch<Block2>("https://repin.agency/wp-json/api/v1/privacy-policy")
       if (!en) return
-      _store.handleLoadVideo(true)
-      _store.handleLoadData(true)
+      store.handlePreloader(true)
       privacyPolicy.value = en
     } catch (error) {
       console.log(error)
@@ -82,8 +74,7 @@ export const useGlobalData = defineStore("globaldata", () => {
     try {
       const { en } = await $fetch<Block2>("https://repin.agency/wp-json/api/v1/offer-agreement")
       if (!en) return
-      _store.handleLoadVideo(true)
-      _store.handleLoadData(true)
+      store.handlePreloader(true)
       offerAgreement.value = en
     } catch (error) {
       console.log(error)
@@ -97,8 +88,7 @@ export const useGlobalData = defineStore("globaldata", () => {
     try {
       const { en } = await $fetch<Block2>("https://repin.agency/wp-json/api/v1/cookie-privacy")
       if (!en) return
-      _store.handleLoadVideo(true)
-      _store.handleLoadData(true)
+      store.handlePreloader(true)
       cookiePrivacy.value = en
     } catch (error) {
       console.log(error)

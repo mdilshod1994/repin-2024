@@ -8,12 +8,10 @@ defineProps<{
   title: string
   subtitle: string
   categories: Category[]
-  portfolio_btn: string
+  portfolioBtn: string
 }>()
 
 const store = usePortfolio()
-const leftArrow = ref<HTMLElement | null>()
-const rightArrow = ref<HTMLElement | null>()
 const portfolios = computed(() => {
   return store.portfolio?.slice(0, 6) as PortfolioElement[]
 })
@@ -39,31 +37,36 @@ watch(slug, async (newSlug) => {
   }
 })
 
-const handleArrows = () => {
-  const tabs = document.querySelectorAll(".tab")
-  const firstCatObserver = new IntersectionObserver(
-    (entries) => {
-      if (!leftArrow.value) return
-      leftArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
-    },
-    {
-      threshold: 0.8,
-    },
-  )
-  const firstCat = tabs[0]
-  firstCatObserver.observe(firstCat)
-  const lastCatObserver = new IntersectionObserver(
-    (entries) => {
-      if (!rightArrow.value) return
-      rightArrow.value.style.display = entries[0].isIntersecting ? "none" : "flex"
-    },
-    {
-      threshold: 0.8,
-    },
-  )
-  const lastCat = tabs.length - 1
-  lastCatObserver.observe(tabs[lastCat])
-}
+watch(portfolios, (nv) => {
+  if (nv) {
+    const arrows = document.querySelectorAll(".filter-arrow")
+    const first = document.querySelector(".first") as Element
+    const last = document.querySelector(".last")
+    nextTick(() => {
+      if (first) {
+        observer.observe(first)
+      }
+      if (last) {
+        observer.observe(last)
+      }
+    })
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((ob) => {
+          if (ob.target.classList.contains("first")) {
+            arrows[0].style.display = ob.isIntersecting ? "none" : "flex"
+          }
+          if (ob.target.classList.contains("last")) {
+            arrows[1].style.display = ob.isIntersecting ? "none" : "flex"
+          }
+        })
+      },
+      {
+        threshold: 0.8,
+      },
+    )
+  }
+})
 </script>
 
 <template>
@@ -79,23 +82,30 @@ const handleArrows = () => {
         </div>
       </template>
     </r-title>
-    <div cls="portfolio__mob-filter" @touchmove="handleArrows">
-      <div ref="leftArrow" cls="portfolio__mob-filter-arrow -left">
+    <div cls="portfolio__mob-filter">
+      <div cls="portfolio__mob-filter-arrow -left" class="filter-arrow">
         <svgo-arrow-right />
       </div>
-      <div ref="rightArrow" cls="portfolio__mob-filter-arrow -right">
+      <div cls="portfolio__mob-filter-arrow -right" class="filter-arrow">
         <svgo-arrow-right />
       </div>
       <r-carousel gap="8" tablet-gap="8" mob-gap="8">
-        <div :class="{ tab: true, '-active': activeSlug === 'all' }" @click="_getPortfolio('all')">
+        <div
+          :class="{ tab: true, '-active': activeSlug === 'all', first: true }"
+          @click="_getPortfolio('all')"
+        >
           <span v-if="locale === 'en'">All</span>
           <span v-if="locale === 'en'">All</span>
           <span v-if="locale === 'ru'">Все</span>
           <span v-if="locale === 'ru'">Все</span>
         </div>
         <div
-          v-for="category in categories"
-          :class="{ tab: true, '-active': activeSlug === category.slug }"
+          v-for="(category, idx) in categories"
+          :class="{
+            tab: true,
+            '-active': activeSlug === category.slug,
+            last: idx === categories.length - 1,
+          }"
           @click="_getPortfolio(category.slug)"
         >
           <span>{{ category.name }}</span>
@@ -117,7 +127,7 @@ const handleArrows = () => {
         cls="portfolio__card"
       />
       <template #addons>
-        <r-button to="/portfolio"> {{ portfolio_btn }} </r-button>
+        <r-button to="/portfolio"> {{ portfolioBtn }} </r-button>
       </template>
     </r-grid>
   </div>
@@ -163,7 +173,7 @@ const handleArrows = () => {
     }
     &__mob-filter {
       display: block;
-      margin: 0 -24px;
+      margin: 0 -40px;
     }
   }
 }

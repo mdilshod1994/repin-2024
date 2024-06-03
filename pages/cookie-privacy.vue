@@ -4,7 +4,10 @@ const store = useGlobalData()
 const cp = computed(() => {
   return store.cookiePrivacy
 })
-
+useSeoMeta({
+  title: () => `Repin Agency | ${cp.value?.post_title}`,
+  ogTitle: () => `Repin Agency | ${cp.value?.post_title}`,
+})
 onMounted(async () => {
   await store.getCookiePrivacyPageInfo()
 })

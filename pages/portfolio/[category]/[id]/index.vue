@@ -1,44 +1,57 @@
-<!--
-TODO: разделить на компоненты
--->
-
 <script setup lang="ts">
 import type { PortfolioCase } from "~/types/portfolio-case"
 
 const _store = usePreloaderTrigger()
 
 const { id } = useRoute().params
-const video = ref<HTMLVideoElement>()
-const reverse = ref(false)
 const { data: portfolio } = await useFetch<PortfolioCase>(
   `https://repin.agency/wp-json/api/v1/project/${id}`,
   {
     lazy: true,
     server: false,
-    onResponse: () => {
-      _store.handleLoadData(true)
+    onResponse({ request, response, options }) {
+      _store.handlePreloader(true)
     },
   },
 )
+const vimeoVideo = ref()
+const reverse = ref(false)
+const options = {
+  loop: true,
+  muted: true,
+  autoplay: true,
+  background: true,
+}
 
-watch(video, (nv) => {
-  if (nv) {
-    const idInterval = setInterval(() => {
-      if (nv.readyState >= 2) {
-        _store.handleLoadVideo(true)
-        reverse.value = true
-        clearInterval(idInterval)
+const onPlay = () => {
+  reverse.value = true
+}
+const onReady = () => {
+  vimeoVideo.value
+    .play()
+    .then(function () {
+      // do something
+    })
+    .catch(function (error) {
+      switch (error.name) {
+        case "PasswordError":
+          // the video is password-protected and the viewer needs to enter the
+          // password first
+          break
+        case "PrivacyError":
+          // the video is private
+          break
+        default:
+          vimeoVideo.value.play()
+          break
       }
-    }, 100)
-  }
-})
-
-onMounted(() => {
-  if (!video.value) return
-  if (video.value.readyState >= 2) {
-    _store.handleLoadVideo(true)
-    reverse.value = true
-  }
+    })
+}
+useSeoMeta({
+  title: () => `Repin Agency | ${portfolio.value?.title}`,
+  ogTitle: () => `Repin Agency | ${portfolio.value?.title}`,
+  description: () => portfolio.value?.block_1.subtitle,
+  ogDescription: () => portfolio.value?.block_1.subtitle,
 })
 </script>
 
@@ -46,44 +59,26 @@ onMounted(() => {
   <div v-if="portfolio" cls="case">
     <div class="container">
       <portfolio-case-banner :banner="portfolio" />
-      <div cls="case__cover">
-        <div cls="case__square" class="dark-background">
-          <div cls="case__square-wrap">
-            <div cls="case__square-inner">
-              <video
-                v-if="portfolio.block_1.cover_in_project.img_proj_vid_mp4"
-                ref="video"
-                autoplay
-                muted
-                loop
-                playsinline
-                :cls="{ 'case__cover-video': true, '-active': reverse }"
-              >
-                <source
-                  :src="portfolio.block_1.cover_in_project.img_proj_vid_mp4"
-                  type="video/mp4"
-                />
-              </video>
-              <img
-                :cls="{ '-not-active': reverse }"
-                :src="portfolio.block_1.cover_in_project.img_proj"
-                alt=""
-              />
-            </div>
-          </div>
+      <div cls="case__cover" class="dark-background">
+        <div cls="case__cover-inner">
+          <vimeo-player
+            v-if="portfolio.block_1.cover_in_project['img-proj_vimeo']"
+            ref="vimeoVideo"
+            :video-url="portfolio.block_1.cover_in_project['img-proj_vimeo']"
+            :options="options"
+            :cls="{ 'case__cover-video': true, '-active': reverse }"
+            @play="onPlay"
+            @ready="onReady"
+          />
+          <img
+            :cls="{ '-not-active': reverse }"
+            :src="portfolio.block_1.cover_in_project.img_proj"
+            alt=""
+          />
+          <div cls="case__cover-overlay" />
         </div>
       </div>
     </div>
-
-    <!-- <div v-if="hasVideo" cls="case__video">
-      <r-video
-        :video="{
-          short: portfolio.block_1.video_first_mp4,
-          long: portfolio.block_1.video_first_full_mp4,
-        }"
-        :vimeo="{ short: portfolio.block_1.anons_vimeo, long: portfolio.block_1.anons_vimeo_full }"
-      />
-    </div> -->
     <div v-for="block in portfolio.content">
       <div v-if="block.acf_fc_layout === 'flex_text_desc'" class="container">
         <div cls="case__wrap">
@@ -244,9 +239,32 @@ fda_sign -->
 .case {
   padding-top: 136px;
   &__cover {
-    video {
+    padding: 24px 0;
+    &-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 24px;
+    }
+    &-overlay {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 1;
+    }
+    &-video {
       position: absolute;
       opacity: 0;
+      width: 100%;
+      aspect-ratio: 16/9;
+      height: 100%;
+      iframe {
+        width: 100%;
+        height: 100%;
+      }
       &.-active {
         position: relative;
         opacity: 1;
@@ -280,7 +298,16 @@ fda_sign -->
       border-radius: 24px;
       overflow: hidden;
       position: relative;
+      // aspect-ratio: 16 / 9;
       img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    &-video {
+      width: 100%;
+      height: 100%;
+      iframe {
         width: 100%;
         height: 100%;
       }
@@ -359,6 +386,9 @@ fda_sign -->
         border-radius: 16px;
       }
     }
+    &__cover {
+      border-radius: 16px;
+    }
     &__texts {
       gap: 24px;
       &-title {
@@ -379,6 +409,7 @@ fda_sign -->
       @include mob-H3;
       max-width: 623px;
     }
+    &__cover,
     &__grid,
     &__square {
       padding: 16px 0;

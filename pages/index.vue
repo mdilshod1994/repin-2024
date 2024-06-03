@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const { locale } = useI18n()
 const store = useGlobalData()
-const _store = usePreloaderTrigger()
 
 const home = computed(() => {
   if (locale.value === "en") {
@@ -16,17 +15,6 @@ useSeoMeta({
   description: () => home.value?.page.promo_title_about,
   ogDescription: () => home.value?.page.promo_title_about,
 })
-onMounted(() => {
-  if (home.value) {
-    _store.handleLoadData(true)
-  }
-})
-watch(
-  () => home,
-  () => {
-    _store.handleLoadData(true)
-  },
-)
 </script>
 
 <template>
@@ -46,7 +34,6 @@ watch(
       id="video"
     >
       <r-video
-        :video="{ short: home.page.promo_video_short, long: home.page.promo_video_long }"
         :vimeo="{
           short: home.page.promo_video_short_vimeo,
           long: home.page.promo_video_long_vimeo,
@@ -58,7 +45,7 @@ watch(
         <home-portfolio
           :title="home.page.portfolio_title"
           :subtitle="home.page.portfolio_subtitle"
-          :portfolio_btn="home.page.portfolio_btn"
+          :portfolio-btn="home.page.portfolio_btn"
           :categories="home.categories"
         />
       </div>

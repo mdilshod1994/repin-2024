@@ -5,6 +5,11 @@ const oa = computed(() => {
   return store.offerAgreement
 })
 
+useSeoMeta({
+  title: () => `Repin Agency | ${oa.value?.post_title}`,
+  ogTitle: () => `Repin Agency | ${oa.value?.post_title}`,
+})
+
 onMounted(async () => {
   await store.getOfferAgreementPageInfo()
 })
