@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useMediaQuery, useResizeObserver } from "@vueuse/core"
-import gsap from "gsap"
-import { ScrollToPlugin } from "gsap/all"
+// import gsap from "gsap"
+// import { ScrollToPlugin } from "gsap/all"
 
 const isLargeScreen = useMediaQuery("(min-width: 768px)")
 const isTabletScreen = useMediaQuery("(max-width: 768px)")
@@ -80,33 +80,33 @@ const stopAnimation = () => {
   pause.value = false
 }
 
-const autoPlay = () => {
-  gsap.registerPlugin(ScrollToPlugin)
+// const autoPlay = () => {
+//   gsap.registerPlugin(ScrollToPlugin)
 
-  interval.value = setInterval(() => {
-    if (!carouselmob.value) return
-    const cards = carouselmob.value.childNodes as NodeListOf<HTMLElement>
-    if (curIdx.value < cards.length - 1) {
-      curIdx.value++
-    } else {
-      curIdx.value = 0
-    }
-    const body = document.querySelector("body")
-    if (cards) {
-      if (!body) return
-      gsap.to(carouselmob.value, {
-        duration: 1,
-        ease: "power1.inOut",
-        paused: pause.value,
-        scrollTo: {
-          x:
-            cards[curIdx.value].offsetLeft -
-            (body?.clientWidth - cards[curIdx.value].clientWidth) / 2,
-        },
-      })
-    }
-  }, 3000)
-}
+//   interval.value = setInterval(() => {
+//     if (!carouselmob.value) return
+//     const cards = carouselmob.value.childNodes as NodeListOf<HTMLElement>
+//     if (curIdx.value < cards.length - 1) {
+//       curIdx.value++
+//     } else {
+//       curIdx.value = 0
+//     }
+//     const body = document.querySelector("body")
+//     if (cards) {
+//       if (!body) return
+//       gsap.to(carouselmob.value, {
+//         duration: 1,
+//         ease: "power1.inOut",
+//         paused: pause.value,
+//         scrollTo: {
+//           x:
+//             cards[curIdx.value].offsetLeft -
+//             (body?.clientWidth - cards[curIdx.value].clientWidth) / 2,
+//         },
+//       })
+//     }
+//   }, 3000)
+// }
 
 onMounted(() => {
   setThumbWidth()

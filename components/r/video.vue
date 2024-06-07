@@ -4,25 +4,22 @@ import { onClickOutside, useMediaQuery } from "@vueuse/core"
 
 const store = usePreloaderTrigger()
 
+const { updateType } = useMousemove()
+
 const isLargeScreen = useMediaQuery("(min-width: 1024px)")
 interface videoLinks {
   short: string
   long: string
 }
-const vimeoShort = ref()
-const options = {
-  loop: true,
-  muted: true,
-  autoplay: true,
-  background: true,
-}
+
 const props = defineProps<{
   vimeo?: videoLinks
 }>()
+
+const vimeoShort = ref()
+const vimeolong = ref()
 const container = ref<HTMLElement | null>(null)
-const overlay = ref<HTMLElement | null>(null)
 const switchVideo = ref<boolean>(false)
-const vimeolong = ref<HTMLElement | null>(null)
 
 onClickOutside(vimeolong, () => (switchVideo.value = false))
 
@@ -34,87 +31,51 @@ const percent = computed(() => {
   }
 })
 
-const setBoundingClientRect = () => {
-  if (!overlay.value) return
-  overlay.value.style.zIndex = `-1`
-  overlay.value.style.opacity = `0`
-}
+const width = computed(() => {
+  const bodyWidth = document.querySelector("body")?.clientWidth
+  if (!bodyWidth) return
+  return bodyWidth * percent.value
+})
+
+let playerShortVimeo
+let playerLongVimeo
+
+onMounted(() => {
+  playerShortVimeo = new Player(vimeoShort.value, {
+    url: props.vimeo?.short,
+    background: true,
+  })
+  playerShortVimeo.on("play", () => {
+    store.handlePreloader(true)
+  })
+  playerShortVimeo.play()
+
+  playerLongVimeo = new Player(vimeolong.value, {
+    url: props.vimeo?.long,
+    width: width.value,
+  })
+})
 
 const openLongVideo = () => {
-  setBoundingClientRect()
-  useScrollLock(true)
   switchVideo.value = true
-  setTimeout(() => {
-    if (!overlay.value) return
-    overlay.value.style.top = `0px`
-    overlay.value.style.bottom = `0px`
-    overlay.value.style.left = `0px`
-    overlay.value.style.right = `0px`
-    overlay.value.style.width = `100vw`
-    overlay.value.style.height = `100vh`
-    overlay.value.style.zIndex = `4`
-    overlay.value.style.opacity = `1`
-  }, 10)
-}
-
-const playVimeoLong = (state: boolean) => {
-  if (props.vimeo?.long) {
-    if (!vimeolong.value) return
-    const bodyWidth = document.querySelector("body")?.clientWidth
-    if (bodyWidth) {
-      const player = new Player(vimeolong.value, {
-        url: props.vimeo?.long,
-        width: bodyWidth * percent.value,
-      })
-      if (state) {
-        player.play()
-      } else {
-        player.play()
-        player.setCurrentTime(0)
-        player.pause()
-      }
-    }
-  }
 }
 
 watch(switchVideo, (nv) => {
   if (nv) {
-    playVimeoLong(nv)
+    playerLongVimeo.play()
+    playerShortVimeo.pause()
+    useScrollLock(true)
   }
   if (!nv) {
-    playVimeoLong(nv)
     useScrollLock(false)
-    setBoundingClientRect()
+    playerLongVimeo.pause()
+    playerLongVimeo.setCurrentTime(0)
+    playerShortVimeo.play()
   }
 })
-onMounted(() => {
-  playVimeoLong(false)
-})
-const { updateType } = useMousemove()
+
 const setCursorType = (type: string) => {
   updateType(type)
-}
-const onReady = () => {
-  vimeoShort.value
-    .play()
-    .then(function () {
-      "// the video was played"
-    })
-    .catch(function (error) {
-      switch (error.name) {
-        case "PasswordError":
-          break
-        case "PrivacyError":
-          break
-        default:
-          "// the video was not played"
-          vimeoShort.value.play()
-          break
-      }
-    })
-}
-const onPlayed = () => {
-  store.handlePreloader(true)
 }
 </script>
 
@@ -122,34 +83,28 @@ const onPlayed = () => {
   <div ref="container" cls="video" class="dark-background">
     <div cls="video__wrap" @mouseover="setCursorType('video')" @mouseleave="setCursorType('')">
       <div :cls="{ shorts: true, '-show': switchVideo }" @click="openLongVideo()">
-        <vimeo-player
-          v-if="vimeo?.short"
-          ref="vimeoShort"
-          :video-url="vimeo?.short"
-          :options="options"
-          cls="shorts__vimeo"
-          @ready="onReady"
-          @play="onPlayed"
-        />
+        <div v-if="vimeo?.short" ref="vimeoShort" cls="shorts__vimeo" />
         <div cls="shorts__overlay" />
       </div>
       <div cls="video__wrap-btn">
         <svgo-play />
       </div>
     </div>
-    <div ref="overlay" :cls="{ overlay: true, '-scale': switchVideo }">
-      <div cls="overlay__wrap">
-        <div v-if="vimeo?.long" ref="vimeolong" cls="long-vimeo" />
-        <r-round-button
-          cls="overlay__btn-close"
-          size="large"
-          bg-color="white"
-          @click="switchVideo = false"
-        >
-          <svgo-x />
-        </r-round-button>
+    <transition name="fade-video">
+      <div v-show="switchVideo" cls="overlay">
+        <div cls="overlay__wrap">
+          <div v-if="vimeo?.long" ref="vimeolong" cls="long-vimeo" />
+          <r-round-button
+            cls="overlay__btn-close"
+            size="large"
+            bg-color="white"
+            @click="switchVideo = false"
+          >
+            <svgo-x />
+          </r-round-button>
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -235,12 +190,18 @@ const onPlayed = () => {
 }
 .overlay {
   position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0, 0, 0, 0.8);
-  z-index: -1;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  z-index: 4;
   &__wrap {
     position: relative;
     max-height: 100%;

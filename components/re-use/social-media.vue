@@ -11,25 +11,25 @@ const contactSoc = computed(() => {
     return store.contacts?.ru.page.social_media
   }
 })
+
 onMounted(async () => {
   await store.getContactPageInfo()
-
-  document.querySelectorAll("#videowrap").forEach((el) => {
-    if (el) {
-      const vv = new Player(el, {
-        background: true,
-        loop: true,
-        muted: true,
-        height: el.clientHeight,
-        playsinline: true,
-      })
-      vv.on("play", () => {
-        const parent = el.parentElement
-        if (!parent) return
-        parent.style.width = `${el.clientWidth}px`
-      })
-    }
-  })
+  setTimeout(() => {
+    document.querySelectorAll("#videowrap").forEach((el) => {
+      if (el) {
+        const player = new Player(el, {
+          url: el.dataset.url,
+          background: true,
+          height: el.clientHeight,
+        })
+        player.on("play", () => {
+          const parent = el.parentElement
+          if (!parent) return
+          parent.style.width = `${el.clientWidth}px`
+        })
+      }
+    })
+  }, 2000)
 })
 
 const { updateType } = useMousemove()
@@ -40,7 +40,7 @@ const setCursorType = (type: string) => {
 </script>
 
 <template>
-  <div cls="carousel">
+  <div v-if="contactSoc" cls="carousel">
     <div class="container">
       <r-title :pretitle="contactSoc?.subtitle" :title="contactSoc?.title" flex-start />
     </div>
@@ -52,9 +52,9 @@ const setCursorType = (type: string) => {
       >
         <div cls="carousel__social-overlay" />
         <div
+          v-if="soc.video_vimeo"
           id="videowrap"
-          :data-vimeo-url="soc.video_vimeo"
-          data-vimeo-defer
+          :data-url="soc.video_vimeo"
           cls="carousel__social-video"
         />
         <img :src="soc.img" alt="" cls="carousel__social-img" />

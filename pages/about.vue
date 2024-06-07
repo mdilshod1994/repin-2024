@@ -44,35 +44,45 @@ useSeoMeta({
       </div>
     </div>
     <div cls="about__video">
-      <r-video
-        :vimeo="{
-          short: aboutContent.page.video_short_vimeo,
-          long: aboutContent.page.video_long_vimeo,
-        }"
-      />
+      <lazy-delay-hydration>
+        <r-video
+          v-if="aboutContent.page.video_short_vimeo || aboutContent.page.video_long_vimeo"
+          :vimeo="{
+            short: aboutContent.page.video_short_vimeo,
+            long: aboutContent.page.video_long_vimeo,
+          }"
+        />
+      </lazy-delay-hydration>
     </div>
     <div class="dark-background">
-      <about-full-cycle
-        :full-cycle="aboutContent.page.items_b2"
-        :title="aboutContent.page.title_b2"
-        :description="aboutContent.page.description_b2"
-      />
+      <lazy-delay-hydration>
+        <about-full-cycle
+          :full-cycle="aboutContent.page.items_b2"
+          :title="aboutContent.page.title_b2"
+          :description="aboutContent.page.description_b2"
+        />
+      </lazy-delay-hydration>
     </div>
     <div v-if="aboutContent.page.slides" cls="about__slider">
       <r-slider-content :contents="aboutContent.page.slides" />
     </div>
     <div class="container">
       <div cls="about__experts">
-        <about-experts
-          :title="aboutContent.page.title_b3"
-          :description="aboutContent.page.description_b3"
-        />
+        <lazy-delay-hydration>
+          <about-experts
+            :title="aboutContent.page.title_b3"
+            :description="aboutContent.page.description_b3"
+        /></lazy-delay-hydration>
       </div>
     </div>
-    <about-outstaff class="dark-background" :staff="aboutContent" />
+    <lazy-delay-hydration>
+      <about-outstaff class="dark-background" :staff="aboutContent" />
+    </lazy-delay-hydration>
     <div class="container">
       <div cls="about__awards">
-        <about-award :awards="aboutContent" />
+        <lazy-delay-hydration>
+          <about-award :awards="aboutContent" />
+        </lazy-delay-hydration>
         <div cls="about__awards-link">
           <r-button :to="aboutContent.page.link_b5">
             {{ aboutContent.page.link_b5_text }}
@@ -81,14 +91,20 @@ useSeoMeta({
       </div>
     </div>
     <div v-if="locale === 'en'" cls="about__photo-team">
-      <about-team-photos :img="aboutContent.page.img_b6" />
+      <lazy-delay-hydration>
+        <about-team-photos :img="aboutContent.page.img_b6" />
+      </lazy-delay-hydration>
     </div>
     <div class="container">
       <div cls="about__expirience">
-        <re-use-expirience :info="aboutContent.page.repin_agency_mobicom" />
+        <lazy-delay-hydration>
+          <re-use-expirience :info="aboutContent.page.repin_agency_mobicom" />
+        </lazy-delay-hydration>
       </div>
       <div v-if="aboutContent.page.vacancies" cls="about__open-jobs">
-        <about-open-jobs :about="aboutContent" />
+        <lazy-delay-hydration>
+          <about-open-jobs :about="aboutContent" />
+        </lazy-delay-hydration>
       </div>
     </div>
   </div>

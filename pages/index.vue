@@ -21,50 +21,53 @@ useSeoMeta({
   <div v-if="home" cls="home">
     <div class="container">
       <div cls="home__top">
-        <home-banner :banner="home.page" />
+        <lazy-delay-hydration>
+          <home-banner :banner="home.page" />
+        </lazy-delay-hydration>
       </div>
     </div>
-    <div
-      v-if="
-        home.page.promo_video_short ||
-        home.page.promo_video_long ||
-        home.page.promo_video_short_vimeo ||
-        home.page.promo_video_long_vimeo
-      "
-      id="video"
-    >
-      <r-video
-        :vimeo="{
-          short: home.page.promo_video_short_vimeo,
-          long: home.page.promo_video_long_vimeo,
-        }"
-      />
+    <div v-if="home.page.promo_video_short_vimeo || home.page.promo_video_long_vimeo">
+      <lazy-delay-hydration>
+        <r-video
+          :vimeo="{
+            short: home.page.promo_video_short_vimeo,
+            long: home.page.promo_video_long_vimeo,
+          }"
+        />
+      </lazy-delay-hydration>
     </div>
     <div class="container">
       <div cls="home__portfolio">
-        <home-portfolio
-          :title="home.page.portfolio_title"
-          :subtitle="home.page.portfolio_subtitle"
-          :portfolio-btn="home.page.portfolio_btn"
-          :categories="home.categories"
-        />
+        <lazy-delay-hydration>
+          <home-portfolio
+            :title="home.page.portfolio_title"
+            :subtitle="home.page.portfolio_subtitle"
+            :portfolio-btn="home.page.portfolio_btn"
+            :categories="home.categories"
+          />
+        </lazy-delay-hydration>
       </div>
     </div>
     <!-- Скрыт временно -->
     <div v-if="false" cls="home__consulting">
-      <home-consulting />
+      <lazy-delay-hydration>
+        <home-consulting />
+      </lazy-delay-hydration>
     </div>
     <div cls="home__clients">
-      <home-our-clients
-        :reviews="home.page.reviews"
-        :title="home.page.reviews_title"
-        :subtitle="home.page.reviews_subtitle"
-      />
+      <lazy-delay-hydration>
+        <home-our-clients
+          :reviews="home.page.reviews"
+          :title="home.page.reviews_title"
+          :subtitle="home.page.reviews_subtitle"
+        />
+      </lazy-delay-hydration>
     </div>
-    <!-- Скрыт временно -->
-    <div v-if="false" class="container">
+    <div class="container">
       <div cls="home__stories">
-        <home-stories />
+        <lazy-delay-hydration>
+          <home-stories />
+        </lazy-delay-hydration>
       </div>
     </div>
   </div>

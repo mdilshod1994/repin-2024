@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
+// import gsap from "gsap"
+// import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 import type { Portfolio, PortfolioElement } from "~/types/portfolio"
 
 const { locale } = useI18n()
 
-gsap.registerPlugin(ScrollTrigger)
+// gsap.registerPlugin(ScrollTrigger)
 
 const { id } = useRoute().params
 
@@ -40,36 +40,36 @@ watch(portfolios, (nv) => {
 })
 const container = ref()
 const setGSAP = () => {
-  const mm = gsap.matchMedia()
-  mm.add("(min-width: 768px)", () => {
-    gsap.to(".first", {
-      scrollTrigger: {
-        trigger: ".first",
-        start: "-10% 100%",
-        end: "40% 70%",
-        scrub: 2,
-      },
-      marginTop: 0,
-      ease: "power1.inOut",
-      duration: 3,
-    })
-    gsap.to(".second", {
-      scrollTrigger: {
-        trigger: ".first",
-        start: "-10% 100%",
-        end: "40% 70%",
-        scrub: 2,
-      },
-      marginTop: 0,
-      ease: "power1.inOut",
-      duration: 3,
-    })
-  })
+  // const mm = gsap.matchMedia()
+  // mm.add("(min-width: 768px)", () => {
+  //   gsap.to(".first", {
+  //     scrollTrigger: {
+  //       trigger: ".first",
+  //       start: "-10% 100%",
+  //       end: "40% 70%",
+  //       scrub: 2,
+  //     },
+  //     marginTop: 0,
+  //     ease: "power1.inOut",
+  //     duration: 3,
+  //   })
+  //   gsap.to(".second", {
+  //     scrollTrigger: {
+  //       trigger: ".first",
+  //       start: "-10% 100%",
+  //       end: "40% 70%",
+  //       scrub: 2,
+  //     },
+  //     marginTop: 0,
+  //     ease: "power1.inOut",
+  //     duration: 3,
+  //   })
+  // })
 }
 onMounted(() => {
   const observer = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
-      setGSAP()
+      // setGSAP()
     }
   })
   observer.observe(container.value)

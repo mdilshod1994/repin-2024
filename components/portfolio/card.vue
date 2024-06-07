@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import gsap from "gsap"
+// import gsap from "gsap"
+import Player from "@vimeo/player"
 
 import type { PortfolioElement } from "~/types/portfolio"
 
@@ -10,53 +11,42 @@ defineProps<{
   mobTitleFontSize?: boolean
 }>()
 const vimeoCard = ref()
-const options = {
-  loop: true,
-  muted: true,
-  autoplay: true,
-  background: true,
-}
+onMounted(() => {
+  let playerCardVideo
+  if (vimeoCard.value) {
+    playerCardVideo = new Player(vimeoCard.value, {
+      url: vimeoCard.value.dataset.videoUrl,
+      background: true,
+      loop: true,
+      autoplay: true,
+      muted: true,
+    })
+    playerCardVideo.on("pause", () => {
+      setTimeout(() => {
+        playerCardVideo.play()
+      }, 2000)
+    })
+  }
+})
 
 const beforeEnter = (el) => {
-  gsap.from(el, {
-    duration: 0.5,
-    opacity: 0,
-    scale: 0.7,
-  })
+  // gsap.from(el, {
+  //   duration: 0.5,
+  //   opacity: 0,
+  //   scale: 0.7,
+  // })
 }
 const enter = (el) => {
-  gsap.to(el, {
-    duration: 0.5,
-    opacity: 1,
-    scale: 1,
-  })
+  // gsap.to(el, {
+  //   duration: 0.5,
+  //   opacity: 1,
+  //   scale: 1,
+  // })
 }
 const { updateType } = useMousemove()
 
 const setCursorType = (type: string) => {
   updateType(type)
-}
-
-const onReady = () => {
-  vimeoCard.value
-    .play()
-    .then(function () {
-      // do something
-    })
-    .catch(function (error) {
-      switch (error.name) {
-        case "PasswordError":
-          // the video is password-protected and the viewer needs to enter the
-          // password first
-          break
-        case "PrivacyError":
-          // the video is private
-          break
-        default:
-          vimeoCard.value.play()
-          break
-      }
-    })
 }
 </script>
 
@@ -64,22 +54,17 @@ const onReady = () => {
   <transition appear name="t-card" @before-enter="beforeEnter" @enter="enter">
     <nuxt-link
       v-show="portfolio"
-      :to="localePath(`/portfolio/${'all'}/${portfolio.slug}`)"
+      :to="localePath(`/portfolio/${portfolio.slug}`)"
       :cls="{ card: true, '-video': portfolio.anons_vimeo }"
-      class="p-card"
+      :class="`p-card ${portfolio.anons_vimeo ? 'p-card-video' : ''}`"
       @mouseover="setCursorType('link')"
       @mouseleave="setCursorType('')"
     >
       <div cls="card__img">
         <r-gradient-border cls="card__gradient-border" />
-        <img :src="portfolio.cover" alt="" />
-        <vimeo-player
-          v-if="portfolio.anons_vimeo"
-          ref="vimeoCard"
-          :video-url="portfolio.anons_vimeo"
-          :options="options"
-          @ready="onReady"
-        />
+        <img :src="portfolio.cover" alt="" loading="lazy" />
+
+        <div v-if="portfolio.anons_vimeo" ref="vimeoCard" :data-video-url="portfolio.anons_vimeo" />
       </div>
       <div cls="card__content">
         <div cls="card__top">

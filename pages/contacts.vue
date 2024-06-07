@@ -123,7 +123,9 @@ useSeoMeta({
         </div>
       </div>
     </div>
-    <re-use-social-media cls="contacts__social-media" :social-media="contact.social_media" />
+    <lazy-delay-hydration>
+      <re-use-social-media cls="contacts__social-media" :social-media="contact.social_media" />
+    </lazy-delay-hydration>
   </div>
 </template>
 
@@ -378,7 +380,7 @@ useSeoMeta({
       padding: 16px 0;
       &-wrap {
         border-radius: 16px;
-        padding: 104px 0 120px;
+        padding: 104px 24px 120px;
       }
       &-block {
         max-width: 730px;
@@ -461,7 +463,7 @@ useSeoMeta({
         }
       }
       &-wrap {
-        padding: 114.55px 0 132.18px;
+        padding: 114.55px 16px 132.18px;
         background: url("@/assets/images/contact/mob-bg.webp");
         background-position: center;
         background-size: 100% 100%;

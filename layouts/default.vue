@@ -10,7 +10,9 @@ onMounted(async () => {
     <r-cursor />
     <the-header />
     <slot />
-    <the-footer />
+    <lazy-delay-hydration>
+      <the-footer />
+    </lazy-delay-hydration>
     <div class="container">
       <div cls="layout__cookies">
         <r-cookies />

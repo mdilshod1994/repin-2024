@@ -2,6 +2,7 @@ import vueCssModule from "vite-plugin-vue-css-module"
 
 export default defineNuxtConfig({
   modules: [
+    "@nuxtjs/partytown",
     "nuxt-svgo",
     "@pinia/nuxt",
     [
@@ -21,6 +22,14 @@ export default defineNuxtConfig({
         strategy: "prefix_except_default",
       },
     ],
+    [
+      "nuxt-delay-hydration",
+      {
+        delayHydration: {
+          mode: "manual",
+        },
+      },
+    ],
   ],
   css: ["@/styles/main.scss"],
   plugins: [
@@ -29,13 +38,7 @@ export default defineNuxtConfig({
       ssr: false,
       mode: "client",
     },
-    {
-      src: "~/plugins/vimeo-player.js",
-      ssr: false,
-      mode: "client",
-    },
   ],
-
   vite: {
     plugins: [
       vueCssModule({
@@ -65,6 +68,16 @@ export default defineNuxtConfig({
         { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png" },
         { rel: "manifest", href: "/site.webmanifest" },
       ],
+      script: [
+        {
+          src: "https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js",
+          type: "text/partytown",
+        },
+        {
+          src: "https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js",
+          type: "text/partytown",
+        },
+      ],
     },
     pageTransition: { name: "page", mode: "out-in" },
   },
@@ -91,8 +104,5 @@ export default defineNuxtConfig({
     public: {
       baseURL: process.env.BASE_URL || "https://repin.agency/wp-json/api/v1",
     },
-  },
-  build: {
-    transpile: ["gsap"],
   },
 })

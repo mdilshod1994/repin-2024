@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { Page } from "~/types/home"
 
+const localePath = useLocalePath()
+
 defineProps<{
   banner: Page
 }>()
@@ -23,7 +25,7 @@ const setCursorType = (type: string) => {
           {{ banner.promo_title_about }}
         </div>
         <nuxt-link
-          to="/about"
+          :to="localePath('/about')"
           class="underline-link"
           @mouseover="setCursorType('link')"
           @mouseleave="setCursorType('')"

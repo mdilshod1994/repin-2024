@@ -1,10 +1,4 @@
-<script setup lang="ts">
-const { updateType } = useMousemove()
-
-const setCursorType = (type: string) => {
-  updateType(type)
-}
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div cls="stories">
@@ -14,35 +8,9 @@ const setCursorType = (type: string) => {
         <nuxt-link to="" class="underline-link" cls="stories__link"> See all articles </nuxt-link>
       </template>
     </r-title>
-    <div cls="stories__list">
-      <nuxt-link
-        v-for="c in 3"
-        to=""
-        cls="stories__card"
-        @mouseover="setCursorType('link')"
-        @mouseleave="setCursorType('')"
-      >
-        <div cls="stories__card-content">
-          <div cls="stories__card-box">
-            <div cls="stories__card-title">
-              A site with an extensive portfolio of apartments, penthouses, townhouses,
-            </div>
-            <div cls="stories__card-desc">
-              Я помогаю предпринимателям найти баланс между работой и личной жизнью благодаря
-              системному подходу к достижению личных и бизнес целей.
-            </div>
-          </div>
-          <div cls="stories__card-link">
-            <div cls="stories__card-text">5 min read</div>
-            <r-round-button size="small" />
-          </div>
-        </div>
-        <div cls="stories__img">
-          <r-gradient-border cls="stories__gradient-border" />
-          <img src="@/assets/images/tempImages/story.png" alt="" />
-        </div>
-      </nuxt-link>
-    </div>
+    <blog-list>
+      <blog-item />
+    </blog-list>
     <r-button cls="stories__btn"> See all articles </r-button>
   </div>
 </template>
@@ -52,11 +20,6 @@ const setCursorType = (type: string) => {
   display: flex;
   flex-direction: column;
   gap: 64px;
-  &__list {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
   &__card {
     display: flex;
     justify-content: space-between;
@@ -181,9 +144,6 @@ const setCursorType = (type: string) => {
 }
 @include tablet-small {
   .stories {
-    &__list {
-      gap: 32px;
-    }
     &__card {
       &-content {
         gap: 24px;
@@ -200,9 +160,6 @@ const setCursorType = (type: string) => {
   .stories {
     &__link {
       display: none;
-    }
-    &__list {
-      gap: 40px;
     }
     &__card {
       gap: 16px;
