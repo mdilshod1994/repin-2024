@@ -120,6 +120,7 @@ const setCursorType = (type: string) => {
   display: flex;
   flex-direction: column;
   gap: 84px;
+  width: 100%;
   &__social {
     width: 410px;
     height: 410px;

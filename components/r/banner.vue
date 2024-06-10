@@ -1,3 +1,10 @@
+<!-- 
+
+verticalGap: gap between title and tags
+deskGap: gap between title and description
+
+-->
+
 <script setup lang="ts">
 const props = defineProps<{
   scrollTo?: string
@@ -8,6 +15,11 @@ const props = defineProps<{
   gap?: string
   tabGap?: string
   mobGap?: string
+  verticalGap?: string
+  verticalDeskSmallGap?: string
+  verticalTabletGap?: string
+  verticalTabletSmallGap?: string
+  verticalMobileGap?: string
 }>()
 
 const deskGap = computed(() => {
@@ -36,6 +48,42 @@ const banner = ref<HTMLElement | null>(null)
 const scrollValue = computed(() => {
   if (!banner.value) return
   return banner.value?.offsetTop + banner.value?.offsetHeight
+})
+
+const verticalGap = computed(() => {
+  if (props.verticalGap) {
+    return `${props.verticalGap}px`
+  } else {
+    return "128px"
+  }
+})
+const verticalDeskSmallGap = computed(() => {
+  if (props.verticalDeskSmallGap) {
+    return `${props.verticalDeskSmallGap}px`
+  } else {
+    return verticalGap.value
+  }
+})
+const verticalTabletGap = computed(() => {
+  if (props.verticalTabletGap) {
+    return `${props.verticalTabletGap}px`
+  } else {
+    return verticalDeskSmallGap.value
+  }
+})
+const verticalTabletSmallGap = computed(() => {
+  if (props.verticalTabletSmallGap) {
+    return `${props.verticalTabletSmallGap}px`
+  } else {
+    return verticalTabletGap.value
+  }
+})
+const verticalMobileGap = computed(() => {
+  if (props.verticalMobileGap) {
+    return `${props.verticalMobileGap}px`
+  } else {
+    return verticalTabletSmallGap.value
+  }
 })
 
 const scrollToId = () => {
@@ -91,7 +139,7 @@ const setCursorType = (type: string) => {
 .banner {
   display: flex;
   flex-direction: column;
-  gap: 128px;
+  gap: v-bind(verticalGap);
   &__top {
     display: flex;
     justify-content: space-between;
@@ -171,10 +219,14 @@ const setCursorType = (type: string) => {
     }
   }
 }
-
+@include desktop-medium {
+  .banner {
+    gap: v-bind(verticalDeskSmallGap);
+  }
+}
 @include tablet {
   .banner {
-    gap: 88px;
+    gap: v-bind(verticalTabletGap);
     &__title {
       @include mob-H1;
       span {
@@ -206,6 +258,7 @@ const setCursorType = (type: string) => {
 }
 @include tablet-small {
   .banner {
+    gap: v-bind(verticalTabletSmallGap);
     &__right {
       max-width: 227px;
     }
@@ -216,7 +269,7 @@ const setCursorType = (type: string) => {
 }
 @include mobile {
   .banner {
-    gap: 64px;
+    gap: v-bind(verticalMobileGap);
     &__title {
       max-width: 281px;
     }

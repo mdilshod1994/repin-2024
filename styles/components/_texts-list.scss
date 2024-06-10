@@ -9,6 +9,9 @@
 .text {
   max-width: 411px;
   width: 100%;
+  &.-bold {
+    @include desctop-H5;
+  }
 }
 @include tablet-small {
   .texts {
@@ -16,6 +19,9 @@
   }
   .text {
     max-width: 301px;
+    &.-bold {
+      @include mob-body-14-db;
+    }
   }
 }
 @include mobile {

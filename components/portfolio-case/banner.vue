@@ -34,7 +34,13 @@ const setCursorType = (type: string) => {
       </div>
       <span class="underline-link"> {{ banner.block_1.link_work_name }} </span>
     </nuxt-link>
-    <r-banner mobile-bottom-left :title="banner.title" mob-gap="24">
+    <r-banner
+      mobile-bottom-left
+      :title="banner.title"
+      mob-gap="24"
+      vertical-tablet-small-gap="72"
+      vertical-mobile-gap="64"
+    >
       <div class="texts -column">
         <div class="text">
           {{ banner.block_1.subtitle }}

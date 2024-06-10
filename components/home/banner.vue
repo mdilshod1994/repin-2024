@@ -15,7 +15,13 @@ const setCursorType = (type: string) => {
 </script>
 
 <template>
-  <r-banner :scroll-to="banner.scroll_down" bottom-line cls="banner">
+  <r-banner
+    :scroll-to="banner.scroll_down"
+    bottom-line
+    cls="banner"
+    vertical-tablet-small-gap="72"
+    vertical-mobile-gap="64"
+  >
     <div cls="banner__top">
       <r-round-button size="large" pointer-events>
         <svgo-user-group />

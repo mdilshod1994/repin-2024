@@ -14,8 +14,6 @@ withDefaults(
 
 <template>
   <button :class="`round-button -${size} -${bgColor} ${pointerEvents ? '-pointer-none' : ''}`">
-    <slot>
-      <svgo-arrow-right filled />
-    </slot>
+    <slot />
   </button>
 </template>

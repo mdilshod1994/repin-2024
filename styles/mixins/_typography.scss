@@ -60,6 +60,20 @@
   font-weight: 600;
   line-height: 24px;
 }
+@mixin desctop-caps {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  text-transform: uppercase;
+}
+
+@mixin article-17 {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27px;
+}
 
 @mixin desctop-body-22 {
   font-size: 22px;

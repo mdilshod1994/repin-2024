@@ -5,13 +5,17 @@
     <r-title pretitle="Blog">
       <template #title> Stories <span>& User Cases</span> </template>
       <template #addons>
-        <nuxt-link to="" class="underline-link" cls="stories__link"> See all articles </nuxt-link>
+        <nuxt-link to="/blog" class="underline-link" cls="stories__link">
+          See all articles
+        </nuxt-link>
       </template>
     </r-title>
-    <blog-list>
-      <blog-item />
-    </blog-list>
-    <r-button cls="stories__btn"> See all articles </r-button>
+    <lazy-delay-hydration>
+      <lazy-blog-list>
+        <blog-item v-for="(b, idx) in 3" :key="idx" />
+      </lazy-blog-list>
+    </lazy-delay-hydration>
+    <r-button cls="stories__btn" to="/blog"> See all articles </r-button>
   </div>
 </template>
 

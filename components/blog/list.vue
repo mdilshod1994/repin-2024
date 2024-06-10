@@ -1,26 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div cls="list">
+  <r-grid :desktop-gaps="[24]" :tablet-gaps="[32]" :mobile-gaps="[40]" desktop-column="1">
     <slot />
-  </div>
+  </r-grid>
 </template>
 
-<style module lang="scss">
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-@include tablet-small {
-  .list {
-    gap: 32px;
-  }
-}
-@include mobile {
-  .list {
-    gap: 40px;
-  }
-}
-</style>
+<style module lang="scss"></style>

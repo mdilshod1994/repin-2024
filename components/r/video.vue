@@ -9,11 +9,12 @@ const { updateType } = useMousemove()
 const isLargeScreen = useMediaQuery("(min-width: 1024px)")
 interface videoLinks {
   short: string
-  long: string
+  long?: string
 }
 
 const props = defineProps<{
   vimeo?: videoLinks
+  removePadding?: boolean
 }>()
 
 const vimeoShort = ref()
@@ -49,11 +50,12 @@ onMounted(() => {
     store.handlePreloader(true)
   })
   playerShortVimeo.play()
-
-  playerLongVimeo = new Player(vimeolong.value, {
-    url: props.vimeo?.long,
-    width: width.value,
-  })
+  if (props.vimeo?.long) {
+    playerLongVimeo = new Player(vimeolong.value, {
+      url: props.vimeo?.long,
+      width: width.value,
+    })
+  }
 })
 
 const openLongVideo = () => {
@@ -80,7 +82,11 @@ const setCursorType = (type: string) => {
 </script>
 
 <template>
-  <div ref="container" cls="video" class="dark-background">
+  <div
+    ref="container"
+    :cls="{ video: true, '-remove-padding': removePadding }"
+    class="dark-background"
+  >
     <div cls="video__wrap" @mouseover="setCursorType('video')" @mouseleave="setCursorType('')">
       <div :cls="{ shorts: true, '-show': switchVideo }" @click="openLongVideo()">
         <div v-if="vimeo?.short" ref="vimeoShort" cls="shorts__vimeo" />
@@ -113,6 +119,9 @@ const setCursorType = (type: string) => {
   max-width: 1920px;
   padding: 24px;
   margin: 0 auto;
+  &.-remove-padding {
+    padding: 0 !important;
+  }
   &__wrap {
     position: relative;
     width: 100%;

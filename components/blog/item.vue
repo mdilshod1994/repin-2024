@@ -8,9 +8,7 @@ const setCursorType = (type: string) => {
 
 <template>
   <nuxt-link
-    v-for="(c, idx) in 3"
-    :key="idx"
-    to=""
+    to="/blog/1"
     cls="card"
     @mouseover="setCursorType('link')"
     @mouseleave="setCursorType('')"
@@ -27,7 +25,9 @@ const setCursorType = (type: string) => {
       </div>
       <div cls="card-link">
         <div cls="card-text">5 min read</div>
-        <r-round-button size="small" />
+        <r-round-button size="small">
+          <svgo-arrow-right />
+        </r-round-button>
       </div>
     </div>
     <div cls="img">
@@ -96,23 +96,21 @@ const setCursorType = (type: string) => {
     }
     :global(.round-button) {
       background: var(--Black);
-      svg path {
-        stroke: #fff;
+      svg {
+        color: #fff;
       }
     }
-    .stories {
-      &__card {
-        &-title {
-          text-decoration-color: var(--Black);
-        }
+    .card {
+      &-title {
+        text-decoration-color: var(--Black);
       }
-      &__gradient-border {
-        opacity: 1;
-      }
-      &__img {
-        img {
-          transform: scale(1.1);
-        }
+    }
+    .gradient-border {
+      opacity: 1;
+    }
+    .img {
+      img {
+        transform: scale(1.1);
       }
     }
   }
@@ -143,71 +141,57 @@ const setCursorType = (type: string) => {
     height: 272px;
     pointer-events: none;
   }
-  .stories {
-    gap: 48px;
-    &__gradient-border {
-      display: block;
+  .gradient-border {
+    display: block;
+  }
+  .card {
+    &-content {
+      max-width: 380px;
+      gap: 32px;
     }
-    &__card {
-      &-content {
-        max-width: 380px;
-        gap: 32px;
-      }
-      &-title {
-        @include mob-h4-22-ram;
-      }
+    &-title {
+      @include mob-h4-22-ram;
     }
   }
 }
 @include tablet-small {
-  .stories {
-    &__card {
-      &-content {
-        gap: 24px;
-      }
+  .card {
+    &-content {
+      gap: 24px;
     }
-    &__img {
-      max-width: 297px;
-      height: 198px;
-      min-width: 160px;
-    }
+  }
+  .img {
+    max-width: 297px;
+    height: 198px;
+    min-width: 160px;
   }
 }
 @include mobile {
-  .stories {
-    &__link {
-      display: none;
-    }
-    &__card {
-      gap: 16px;
-      flex-wrap: wrap-reverse;
-      &-content {
-        max-width: 100%;
-        min-width: 300px;
-        flex-basis: 0;
-        flex-grow: 1;
-      }
-      &-title {
-        -webkit-line-clamp: 3;
-      }
-      &-desc {
-        -webkit-line-clamp: 2;
-      }
-    }
-    &__img {
-      border-radius: 16px;
+  .card {
+    gap: 16px;
+    flex-wrap: wrap-reverse;
+    &-content {
+      max-width: 100%;
+      min-width: 300px;
       flex-basis: 0;
       flex-grow: 1;
-      min-width: 297px;
-      max-width: 430px;
-      height: 228px;
-      img {
-        border-radius: 16px;
-      }
     }
-    &__btn {
-      display: flex;
-      align-self: center;
+    &-title {
+      -webkit-line-clamp: 3;
+    }
+    &-desc {
+      -webkit-line-clamp: 2;
+    }
+  }
+  .img {
+    border-radius: 16px;
+    flex-basis: 0;
+    flex-grow: 1;
+    min-width: 297px;
+    max-width: 430px;
+    height: 228px;
+    img {
+      border-radius: 16px;
     }
   }
 }
