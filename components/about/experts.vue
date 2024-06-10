@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { locale } = useI18n()
+
 defineProps<{
   title?:string
   description?:string
@@ -39,8 +41,11 @@ defineProps<{
           <div cls="experts__card-block">
             <div cls="experts__card-content">
               <div cls="experts__card-title">Brand design</div>
-              <div cls="experts__card-desc">
+              <div v-if="locale === 'en'" cls="experts__card-desc">
                 A brand designer will help to create original style, identity of a project and a guideline on how to use the new style.
+              </div>
+              <div v-else cls="experts__card-desc">
+                Бренд-дизайнер поможет создать оригинальный стиль и идентичность проекта, а также руководство по использованию нового стиля.
               </div>
             </div>
             <div class="tabs">
@@ -67,9 +72,12 @@ defineProps<{
           <div cls="experts__card-block">
             <div cls="experts__card-content">
               <div cls="experts__card-title">UX/UI Design</div>
-              <div cls="experts__card-desc">
+              <div v-if="locale === 'en'" cls="experts__card-desc">
                 Our goal is to turn your digital product into an intuitive, efficient and visually
                 appealing tool for your customers.
+              </div>
+              <div v-else cls="experts__card-desc">
+                Наша цель - превратить ваш цифровой продукт в интуитивно понятный, эффективный и визуально привлекательный инструмент для ваших клиентов.
               </div>
             </div>
             <div class="tabs">
@@ -95,8 +103,11 @@ defineProps<{
           <div cls="experts__card-block">
             <div cls="experts__card-content">
               <div cls="experts__card-title">{{'</Development>'}}</div>
-              <div cls="experts__card-desc">
+              <div v-if="locale === 'en'" cls="experts__card-desc">
                 We create any IT solutions your business needs. We have enough knowledge and resources to develop SaaS or mobile apps.
+              </div>
+              <div v-else cls="experts__card-desc">
+                Мы создаем любые IT-решения, необходимые вашему бизнесу, и обладаем достаточными знаниями и ресурсами для разработки SaaS или мобильных приложений.
               </div>
             </div>
             <div class="tabs">

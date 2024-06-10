@@ -33,7 +33,7 @@ onMounted(async () => {
 
 <style module lang="scss">
 .error {
-  background: url("@/assets/images/tempImages/error-bg.png"), var(--Black);
+  background: url("@/assets/images/tempImages/error-bg.webp"), var(--Black);
   background-size: cover;
   background-position: bottom;
   background-repeat: no-repeat;

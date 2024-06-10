@@ -146,6 +146,9 @@ const setCursorType = (type: string) => {
       visibility: hidden;
       transition: 0.3s ease-in-out;
     }
+    &:has(+ &:hover) {
+      border-bottom: 1px solid rgba(0, 0, 0, 0);
+    }
     &:hover {
       z-index: 1;
       border-bottom: 1px solid rgba(0, 0, 0, 0);
@@ -153,6 +156,7 @@ const setCursorType = (type: string) => {
         opacity: 1;
         visibility: visible;
       }
+
       .awards {
         &__item {
           &-album {
@@ -161,6 +165,7 @@ const setCursorType = (type: string) => {
         }
       }
     }
+
     &-name {
       max-width: 100%;
       position: relative;

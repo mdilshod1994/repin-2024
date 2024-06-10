@@ -155,6 +155,7 @@ const setCursorType = (type: string) => {
       }
       a {
         width: max-content;
+        display: inline-block;
         position: relative;
         &::after,
         &::before {

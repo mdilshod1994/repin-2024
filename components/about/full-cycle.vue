@@ -40,7 +40,12 @@ defineProps<{
                 <div cls="full-cycle__qnty">10</div>
                 <div cls="full-cycle__text -first">Countries where we launched our apps</div>
               </div>
-              <img src="@/assets/images/about/graphic.svg" alt="" cls="full-cycle__box-graphic" />
+              <img
+                src="@/assets/images/about/graphic.svg"
+                alt=""
+                cls="full-cycle__box-graphic"
+                loading="lazy"
+              />
             </div>
           </div>
           <div cls="full-cycle__item">
@@ -52,14 +57,14 @@ defineProps<{
                 </div>
               </div>
               <div cls="full-cycle__box-avatars">
-                <img src="@/assets/images/about/ivan.svg" alt="" srcset="" />
-                <img src="@/assets/images/about/tanya.svg" alt="" srcset="" />
-                <img src="@/assets/images/about/ilya.svg" alt="" srcset="" />
-                <img src="@/assets/images/about/katya.svg" alt="" srcset="" />
-                <img src="@/assets/images/about/vadim.svg" alt="" srcset="" />
-                <img src="@/assets/images/about/vladiz.svg" alt="" srcset="" />
-                <img src="@/assets/images/about/dil.svg" alt="" srcset="" />
-                <img src="@/assets/images/about/ieroglif.svg" alt="" srcset="" />
+                <img src="@/assets/images/about/ivan.webp" alt="" srcset="" loading="lazy" />
+                <img src="@/assets/images/about/tanya.webp" alt="" srcset="" loading="lazy" />
+                <img src="@/assets/images/about/ilya.webp" alt="" srcset="" loading="lazy" />
+                <img src="@/assets/images/about/katya.webp" alt="" srcset="" loading="lazy" />
+                <img src="@/assets/images/about/vadim.webp" alt="" srcset="" loading="lazy" />
+                <img src="@/assets/images/about/vladiz.webp" alt="" srcset="" loading="lazy" />
+                <img src="@/assets/images/about/dil.webp" alt="" srcset="" loading="lazy" />
+                <img src="@/assets/images/about/ieroglif.svg" alt="" srcset="" loading="lazy" />
               </div>
             </div>
           </div>
@@ -74,7 +79,12 @@ defineProps<{
               </div>
               <div cls="full-cycle__box-btn">Top-rated apps</div>
             </div>
-            <img src="@/assets/images/about/phone.png" alt="" cls="full-cycle__item-img" />
+            <img
+              src="@/assets/images/about/phone.webp"
+              alt=""
+              cls="full-cycle__item-img"
+              loading="lazy"
+            />
           </div>
         </r-carousel>
       </div>

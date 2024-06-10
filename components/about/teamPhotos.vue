@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { useMediaQuery, useResizeObserver } from "@vueuse/core"
-// import gsap from "gsap"
-// import { ScrollToPlugin } from "gsap/all"
 
 const isLargeScreen = useMediaQuery("(min-width: 768px)")
 const isTabletScreen = useMediaQuery("(max-width: 768px)")
@@ -76,43 +74,13 @@ const updateOnScroll = () => {
 const stopAnimation = () => {
   pause.value = true
   clearInterval(interval.value)
-  // autoPlay()
   pause.value = false
 }
-
-// const autoPlay = () => {
-//   gsap.registerPlugin(ScrollToPlugin)
-
-//   interval.value = setInterval(() => {
-//     if (!carouselmob.value) return
-//     const cards = carouselmob.value.childNodes as NodeListOf<HTMLElement>
-//     if (curIdx.value < cards.length - 1) {
-//       curIdx.value++
-//     } else {
-//       curIdx.value = 0
-//     }
-//     const body = document.querySelector("body")
-//     if (cards) {
-//       if (!body) return
-//       gsap.to(carouselmob.value, {
-//         duration: 1,
-//         ease: "power1.inOut",
-//         paused: pause.value,
-//         scrollTo: {
-//           x:
-//             cards[curIdx.value].offsetLeft -
-//             (body?.clientWidth - cards[curIdx.value].clientWidth) / 2,
-//         },
-//       })
-//     }
-//   }, 3000)
-// }
 
 onMounted(() => {
   setThumbWidth()
   setObserver()
   updateOnScroll()
-  // autoPlay()
 })
 
 watch(isTabletScreen, (nv) => {
@@ -139,7 +107,7 @@ watch(isTabletScreen, (nv) => {
       <div v-if="isLargeScreen" cls="photos__carousels-wrap">
         <div v-for="(img, idx) in 2" :key="idx" cls="photos__carousels-box">
           <div cls="photos__card">
-            <img src="@/assets/images/about/1.webp" alt="" cls="photos__card-img" />
+            <img src="@/assets/images/about/1.webp" alt="" cls="photos__card-img" loading="lazy" />
             <div cls="photos__card-info">
               <div cls="photos__card-name">Dmitry <span>Kotenko</span></div>
               <div cls="photos__card-positions">
@@ -148,7 +116,7 @@ watch(isTabletScreen, (nv) => {
             </div>
           </div>
           <div cls="photos__card">
-            <img src="@/assets/images/about/2.webp" alt="" cls="photos__card-img" />
+            <img src="@/assets/images/about/2.webp" alt="" cls="photos__card-img" loading="lazy" />
             <div cls="photos__card-info">
               <div cls="photos__card-name">Evgeny <span>Fedorovsky</span></div>
               <div cls="photos__card-positions">
@@ -157,7 +125,7 @@ watch(isTabletScreen, (nv) => {
             </div>
           </div>
           <div cls="photos__card">
-            <img src="@/assets/images/about/3.webp" alt="" cls="photos__card-img" />
+            <img src="@/assets/images/about/3.webp" alt="" cls="photos__card-img" loading="lazy" />
             <div cls="photos__card-info">
               <div cls="photos__card-name">Vadim <span>Timofeev</span></div>
               <div cls="photos__card-positions">
@@ -166,7 +134,7 @@ watch(isTabletScreen, (nv) => {
             </div>
           </div>
           <div cls="photos__card">
-            <img src="@/assets/images/about/4.webp" alt="" cls="photos__card-img" />
+            <img src="@/assets/images/about/4.webp" alt="" cls="photos__card-img" loading="lazy" />
             <div cls="photos__card-info">
               <div cls="photos__card-name">Ivan <span>Repin</span></div>
               <div cls="photos__card-positions">
@@ -176,7 +144,7 @@ watch(isTabletScreen, (nv) => {
             </div>
           </div>
           <div cls="photos__card">
-            <img src="@/assets/images/about/5.webp" alt="" cls="photos__card-img" />
+            <img src="@/assets/images/about/5.webp" alt="" cls="photos__card-img" loading="lazy" />
             <div cls="photos__card-info">
               <div cls="photos__card-name">Ilya <span>Semenov</span></div>
               <div cls="photos__card-positions">
@@ -186,7 +154,7 @@ watch(isTabletScreen, (nv) => {
             </div>
           </div>
           <div cls="photos__card">
-            <img src="@/assets/images/about/6.webp" alt="" cls="photos__card-img" />
+            <img src="@/assets/images/about/6.webp" alt="" cls="photos__card-img" loading="lazy" />
             <div cls="photos__card-info">
               <div cls="photos__card-name">Elina <span>Liubinskaya</span></div>
               <div cls="photos__card-positions">
@@ -195,7 +163,7 @@ watch(isTabletScreen, (nv) => {
             </div>
           </div>
           <div cls="photos__card">
-            <img src="@/assets/images/about/7.webp" alt="" cls="photos__card-img" />
+            <img src="@/assets/images/about/7.webp" alt="" cls="photos__card-img" loading="lazy" />
             <div cls="photos__card-info">
               <div cls="photos__card-name">Vladimir <span>Savichev</span></div>
               <div cls="photos__card-positions">
@@ -208,7 +176,7 @@ watch(isTabletScreen, (nv) => {
       <div v-if="isLargeScreen" cls="photos__carousels-wrap">
         <div v-for="(img, idx) in 2" :key="idx" cls="photos__carousels-box">
           <div cls="photos__card">
-            <img src="@/assets/images/about/8.webp" alt="" cls="photos__card-img" />
+            <img src="@/assets/images/about/8.webp" alt="" cls="photos__card-img" loading="lazy" />
             <div cls="photos__card-info">
               <div cls="photos__card-name">Alexey <span>Malov</span></div>
               <div cls="photos__card-positions">
@@ -217,7 +185,7 @@ watch(isTabletScreen, (nv) => {
             </div>
           </div>
           <div cls="photos__card">
-            <img src="@/assets/images/about/9.webp" alt="" cls="photos__card-img" />
+            <img src="@/assets/images/about/9.webp" alt="" cls="photos__card-img" loading="lazy" />
             <div cls="photos__card-info">
               <div cls="photos__card-name">Katherine <span>Gorokhova</span></div>
               <div cls="photos__card-positions">
@@ -226,7 +194,7 @@ watch(isTabletScreen, (nv) => {
             </div>
           </div>
           <div cls="photos__card">
-            <img src="@/assets/images/about/10.webp" alt="" cls="photos__card-img" />
+            <img src="@/assets/images/about/10.webp" alt="" cls="photos__card-img" loading="lazy" />
             <div cls="photos__card-info">
               <div cls="photos__card-name">Dilshod <span>Mirzoev</span></div>
               <div cls="photos__card-positions">
@@ -235,7 +203,7 @@ watch(isTabletScreen, (nv) => {
             </div>
           </div>
           <div cls="photos__card">
-            <img src="@/assets/images/about/11.webp" alt="" cls="photos__card-img" />
+            <img src="@/assets/images/about/11.webp" alt="" cls="photos__card-img" loading="lazy" />
             <div cls="photos__card-info">
               <div cls="photos__card-name">Tania <span>Trunova</span></div>
               <div cls="photos__card-positions">
@@ -245,7 +213,7 @@ watch(isTabletScreen, (nv) => {
             </div>
           </div>
           <div cls="photos__card">
-            <img src="@/assets/images/about/12.webp" alt="" cls="photos__card-img" />
+            <img src="@/assets/images/about/12.webp" alt="" cls="photos__card-img" loading="lazy" />
             <div cls="photos__card-info">
               <div cls="photos__card-name">Maxim <span>Bogdanow</span></div>
               <div cls="photos__card-positions">
@@ -254,7 +222,7 @@ watch(isTabletScreen, (nv) => {
             </div>
           </div>
           <div cls="photos__card">
-            <img src="@/assets/images/about/13.webp" alt="" cls="photos__card-img" />
+            <img src="@/assets/images/about/13.webp" alt="" cls="photos__card-img" loading="lazy" />
             <div cls="photos__card-info">
               <div cls="photos__card-name">Vladiz <span>Avdieiev</span></div>
               <div cls="photos__card-positions">
@@ -263,7 +231,7 @@ watch(isTabletScreen, (nv) => {
             </div>
           </div>
           <div cls="photos__card">
-            <img src="@/assets/images/about/14.webp" alt="" cls="photos__card-img" />
+            <img src="@/assets/images/about/14.webp" alt="" cls="photos__card-img" loading="lazy" />
             <div cls="photos__card-info">
               <div cls="photos__card-name">Ilya <span>Bolyasov</span></div>
               <div cls="photos__card-positions">
@@ -285,6 +253,7 @@ watch(isTabletScreen, (nv) => {
             src="@/assets/images/about/4.webp"
             alt=""
             cls="photos__card-img"
+            loading="lazy"
             class="team-card-img"
           />
           <div cls="photos__card-info" class="team-card-info">
@@ -300,6 +269,7 @@ watch(isTabletScreen, (nv) => {
             src="@/assets/images/about/5.webp"
             alt=""
             cls="photos__card-img"
+            loading="lazy"
             class="team-card-img"
           />
           <div cls="photos__card-info" class="team-card-info">
@@ -315,6 +285,7 @@ watch(isTabletScreen, (nv) => {
             src="@/assets/images/about/3.webp"
             alt=""
             cls="photos__card-img"
+            loading="lazy"
             class="team-card-img"
           />
           <div cls="photos__card-info" class="team-card-info">
@@ -329,6 +300,7 @@ watch(isTabletScreen, (nv) => {
             src="@/assets/images/about/1.webp"
             alt=""
             cls="photos__card-img"
+            loading="lazy"
             class="team-card-img"
           />
           <div cls="photos__card-info" class="team-card-info">
@@ -343,6 +315,7 @@ watch(isTabletScreen, (nv) => {
             src="@/assets/images/about/2.webp"
             alt=""
             cls="photos__card-img"
+            loading="lazy"
             class="team-card-img"
           />
           <div cls="photos__card-info" class="team-card-info">
@@ -357,6 +330,7 @@ watch(isTabletScreen, (nv) => {
             src="@/assets/images/about/6.webp"
             alt=""
             cls="photos__card-img"
+            loading="lazy"
             class="team-card-img"
           />
           <div cls="photos__card-info" class="team-card-info">
@@ -371,6 +345,7 @@ watch(isTabletScreen, (nv) => {
             src="@/assets/images/about/7.webp"
             alt=""
             cls="photos__card-img"
+            loading="lazy"
             class="team-card-img"
           />
           <div cls="photos__card-info" class="team-card-info">
@@ -385,6 +360,7 @@ watch(isTabletScreen, (nv) => {
             src="@/assets/images/about/8.webp"
             alt=""
             cls="photos__card-img"
+            loading="lazy"
             class="team-card-img"
           />
           <div cls="photos__card-info" class="team-card-info">
@@ -399,6 +375,7 @@ watch(isTabletScreen, (nv) => {
             src="@/assets/images/about/9.webp"
             alt=""
             cls="photos__card-img"
+            loading="lazy"
             class="team-card-img"
           />
           <div cls="photos__card-info" class="team-card-info">
@@ -413,6 +390,7 @@ watch(isTabletScreen, (nv) => {
             src="@/assets/images/about/10.webp"
             alt=""
             cls="photos__card-img"
+            loading="lazy"
             class="team-card-img"
           />
           <div cls="photos__card-info" class="team-card-info">
@@ -427,6 +405,7 @@ watch(isTabletScreen, (nv) => {
             src="@/assets/images/about/11.webp"
             alt=""
             cls="photos__card-img"
+            loading="lazy"
             class="team-card-img"
           />
           <div cls="photos__card-info" class="team-card-info">
@@ -442,6 +421,7 @@ watch(isTabletScreen, (nv) => {
             src="@/assets/images/about/12.webp"
             alt=""
             cls="photos__card-img"
+            loading="lazy"
             class="team-card-img"
           />
           <div cls="photos__card-info" class="team-card-info">
@@ -456,6 +436,7 @@ watch(isTabletScreen, (nv) => {
             src="@/assets/images/about/13.webp"
             alt=""
             cls="photos__card-img"
+            loading="lazy"
             class="team-card-img"
           />
           <div cls="photos__card-info" class="team-card-info">
@@ -470,6 +451,7 @@ watch(isTabletScreen, (nv) => {
             src="@/assets/images/about/14.webp"
             alt=""
             cls="photos__card-img"
+            loading="lazy"
             class="team-card-img"
           />
           <div cls="photos__card-info" class="team-card-info">

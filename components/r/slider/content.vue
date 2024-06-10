@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { useMediaQuery } from "@vueuse/core"
+
 import type { Slide } from "~/types/about"
+
+const isMobileScreen = useMediaQuery("(max-width: 768px)")
 
 const props = defineProps<{
   styleNumbers?: boolean
@@ -30,27 +34,30 @@ const currentPreviewIdx = computed(() => {
 // к определенному слайду по клику
 const toCurrSlide = (idx: number) => {
   cIdx.value = idx
-  keyToRestartInterval.value++
   timerCount.value = 0
+  keyToRestartInterval.value++
 }
 // интервал для слайдера, и можно сказать автоплэй
 
-const intervalTest = 4 // секунда автоплэй
+const intervalInSecond = 4 // секунда автоплэй
 
 const percentageOfLine = ref(0)
 
 const intervalFn = () => {
-  return setInterval(
-    () => {
-      timerCount.value++
-      if (timerCount.value === intervalTest * (intervalTest * 10)) {
-        loopSlides()
-        timerCount.value = 0
-      }
-      percentageOfLine.value = (timerCount.value / (intervalTest * (intervalTest * 10))) * 100
-    },
-    1000 / (intervalTest * 10),
-  )
+  if (!isMobileScreen.value) {
+    return setInterval(
+      () => {
+        timerCount.value++
+        if (timerCount.value === intervalInSecond * (intervalInSecond * 10)) {
+          loopSlides()
+          timerCount.value = 0
+        }
+        percentageOfLine.value =
+          (timerCount.value / (intervalInSecond * (intervalInSecond * 10))) * 100
+      },
+      1000 / (intervalInSecond * 10),
+    )
+  }
 }
 
 watch(
@@ -228,6 +235,11 @@ onMounted(() => {
       &-item {
         @include mob-H2-ram;
         font-style: italic;
+        &.-active {
+          span {
+            width: 100% !important;
+          }
+        }
       }
     }
     &__descriptions {
@@ -254,6 +266,15 @@ onMounted(() => {
       }
       &-text {
         gap: 8px;
+      }
+    }
+    &__contents {
+      &-item {
+        &.-active {
+          span {
+            width: 100% !important;
+          }
+        }
       }
     }
   }
