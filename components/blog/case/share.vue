@@ -19,6 +19,9 @@
   gap: 20px;
   align-items: center;
   width: 84px;
+  height: max-content;
+  position: sticky;
+  top: 100px;
   &__title {
     text-align: center;
   }

@@ -38,6 +38,7 @@ export default defineNuxtConfig({
       ssr: false,
       mode: "client",
     },
+    { src: "~/plugins/gsap.client.ts", mode: "client", ssr: false },
   ],
   vite: {
     plugins: [
@@ -67,16 +68,6 @@ export default defineNuxtConfig({
         { rel: "icon", type: "image/png", sizes: "192x192", href: "/android-chrome-192x192.png" },
         { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png" },
         { rel: "manifest", href: "/site.webmanifest" },
-      ],
-      script: [
-        {
-          src: "https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js",
-          type: "text/partytown",
-        },
-        {
-          src: "https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js",
-          type: "text/partytown",
-        },
       ],
     },
     pageTransition: { name: "page", mode: "out-in" },

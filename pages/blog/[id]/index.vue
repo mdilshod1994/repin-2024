@@ -1,8 +1,32 @@
 <script setup lang="ts">
-const store = usePreloaderTrigger()
+const nuxtApp = useNuxtApp()
 
+const store = usePreloaderTrigger()
+const block = ref()
+const progress = ref(0)
 onMounted(() => {
-  // store.handlePreloader(true)
+  watchEffect(() => {
+    const gsap = nuxtApp.$gsap
+    const ScrollTrigger = nuxtApp.$ScrollTrigger
+    if (gsap && block.value && ScrollTrigger) {
+      gsap.registerPlugin(ScrollTrigger)
+    }
+  })
+  store.handlePreloader(true)
+  if (!block.value) return
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      ScrollTrigger.create({
+        trigger: document.body,
+        start: block.value.offsetTop,
+        end: block.value.offsetHeight + block.value.offsetTop,
+        onUpdate: (self) => {
+          progress.value = self.progress * 100
+        },
+      })
+    }
+  })
+  observer.observe(block.value)
 })
 </script>
 
@@ -16,8 +40,10 @@ onMounted(() => {
       <div cls="blog__wrap">
         <lazy-blog-case-share />
         <div cls="blog__wrap-inner">
-          <lazy-blog-case-blocks />
-          <lazy-blog-case-progress-bar />
+          <div ref="block">
+            <lazy-blog-case-blocks />
+          </div>
+          <lazy-blog-case-progress-bar :progress="progress" />
         </div>
       </div>
       <div cls="blog__start">

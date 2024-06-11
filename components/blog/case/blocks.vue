@@ -2,7 +2,7 @@
 
 <template>
   <div cls="wrap">
-    <div cls="block">
+    <div cls="block" class="block">
       <div cls="block__title">Figma: <span>Collaborative Design</span></div>
       <div cls="block__text">
         Although this has already been said, too, we cannot <a href="">emphasize</a> too much how
@@ -56,7 +56,7 @@
         give their two cents to the whole story, too — if that is what's needed at a certain point.
       </div>
     </div>
-    <div cls="block">
+    <div cls="block" class="block">
       <div cls="block__title"><span>Setting up files</span> with Figma</div>
       <div cls="block__text">
         Although this has already been said, too, we cannot emphasize too much how great a tool
@@ -107,7 +107,7 @@
         <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, s</span>
       </div>
     </div>
-    <div cls="block">
+    <div cls="block" class="block">
       <div cls="block__title">
         <span>Variants & Interactive</span> <br />
         Components with Figma
