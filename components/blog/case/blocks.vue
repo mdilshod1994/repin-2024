@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div cls="wrap">
+  <div cls="wrap" class="wrap-blog">
     <div cls="block" class="block">
       <div cls="block__title">Figma: <span>Collaborative Design</span></div>
       <div cls="block__text">
@@ -20,8 +20,8 @@
         Besides, we can also have stakeholders, clients, project managers etc. pp take a look and
         give their two cents to the whole story, too — if that is what's needed at a certain point.
       </div>
-      <div cls="block__img-video">
-        <div cls="block__img-video-wrap">
+      <div cls="block__img-video -mob-full-screen">
+        <div cls="block__img-video-wrap ">
           <img src="https://cdn.motor1.com/images/mgl/MkO9NN/s1/future-supercars.webp" alt="" />
         </div>
       </div>
@@ -40,7 +40,7 @@
       <div cls="block__list">
         <div cls="block__list-title">How we improved it:</div>
         <div cls="block__list-block">
-          <div v-for="(t, idx) in 4" cls="block__list-item">
+          <div v-for="(t, idx) in 5" cls="block__list-item">
             <div cls="block__list-item-num">
               {{ idx + 1 }}
             </div>
@@ -185,10 +185,14 @@
         </div>
       </div>
       <div cls="block__contributors">
-        <div cls="block__contributors-title">Contributors</div>
-        <div cls="block__contributors-authorss">
-          <r-author />
-          <r-author />
+        <div cls="block__share">
+          <blog-case-share />
+        </div>
+        <div cls="block__contributors-title -desk">Contributors</div>
+        <div cls="block__contributors-title -mob">The article was made by</div>
+        <div cls="block__contributors-authors">
+          <r-author name="Ivan Repin" profession="Art Direction" />
+          <r-author name="Ivan Repin" profession="Art Direction" />
         </div>
       </div>
     </div>
@@ -207,6 +211,9 @@
   display: flex;
   flex-direction: column;
   gap: 48px;
+  &__share {
+    display: none;
+  }
   &__title {
     @include desctop-H2;
     span {
@@ -223,12 +230,17 @@
   &__img-video {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    width: 100%;
     gap: 8px;
     &.-small {
       .block {
         &__img-video {
           &-wrap {
             height: 596px;
+            img {
+              height: 100%;
+            }
           }
         }
       }
@@ -236,6 +248,13 @@
     &-wrap {
       border-radius: 32px;
       overflow: hidden;
+      width: 100%;
+      img {
+        width: 100%;
+      }
+    }
+    span {
+      text-align: center;
     }
   }
   &__list {
@@ -252,7 +271,7 @@
     }
     &-item {
       display: flex;
-      gap: 24px;
+      gap: 28px;
       &-num {
         width: 32px;
         height: 32px;
@@ -263,6 +282,8 @@
         font-weight: 400;
         line-height: 32px;
         letter-spacing: -0.72px;
+        display: flex;
+        align-items: center;
       }
       &-dot {
         width: 32px;
@@ -297,6 +318,7 @@
     &-wrap {
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 8px;
       max-width: 496px;
       width: 100%;
@@ -306,12 +328,14 @@
         font-style: normal;
         font-weight: 400;
         line-height: 18px;
+        text-align: center;
       }
     }
     &-img {
       height: 411px;
       border-radius: 32px;
       overflow: hidden;
+      width: 100%;
       img {
         width: 100%;
         height: 100%;
@@ -358,7 +382,244 @@
     }
   }
   &__contributors {
-    margin-top: -32px;
+    padding: 32px 0 0;
+    display: flex;
+    justify-content: space-between;
+    height: 243px;
+    &-authors {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    &-title {
+      &.-mob {
+        display: none;
+      }
+    }
+  }
+}
+
+@include tablet {
+  .wrap {
+    gap: 72px;
+  }
+  .block {
+    gap: 32px;
+    &__title {
+      @include mob-H1;
+      span {
+        @include mob-H1-ram;
+        font-style: italic;
+      }
+    }
+    &__text {
+      @include mob-body-14;
+    }
+    &__list {
+      gap: 24px;
+      &-title {
+        @include mob-h4-22-ram;
+      }
+      &-block {
+        gap: 16px;
+      }
+      &-item {
+        gap: 12px;
+        &-num {
+          width: 24px;
+          height: 24px;
+          font-size: 16px;
+          line-height: 22px;
+          letter-spacing: -0.32px;
+        }
+        &-dot {
+          width: 24px;
+          height: 20px;
+          &::after {
+            width: 6px;
+            height: 6px;
+          }
+        }
+        span {
+          margin-top: 2px;
+          @include mob-body-14;
+        }
+      }
+    }
+    &__info {
+      &-wrap {
+        width: 411px;
+      }
+      &-img {
+        border-radius: 16px;
+      }
+    }
+    &__code {
+      height: 494px;
+      border-radius: 16px;
+
+      &.-small {
+        height: 514px;
+      }
+    }
+    &__img-video {
+      &-wrap {
+        border-radius: 16px;
+      }
+      &.-small {
+        .block {
+          &__img-video {
+            &-wrap {
+              height: 514px;
+            }
+          }
+        }
+      }
+    }
+    &__quote {
+      margin-top: 40px;
+      &-text {
+        @include mob-H3-ram;
+      }
+      img {
+        width: 183px;
+        height: 141px;
+        left: -50px;
+        top: 25px;
+      }
+    }
+    &__contributors {
+      height: auto;
+      margin-top: -32px;
+      padding-bottom: 44px;
+    }
+  }
+}
+@include tablet-small {
+  .block {
+    &__info {
+      &-wrap {
+        width: 301px;
+      }
+      &-img {
+        border-radius: 16px;
+      }
+    }
+  }
+}
+@include mobile {
+  .wrap {
+    gap: 32px;
+  }
+  .block {
+    gap: 24px;
+    &__title {
+      @include mob-H2;
+      span {
+        @include mob-H2-ram;
+        font-style: italic;
+      }
+    }
+    &__list {
+      &-item {
+        &-num {
+          width: 24px;
+          height: 22px;
+        }
+      }
+    }
+    &__img-video {
+      &.-mob-full-screen {
+        margin: 0 -16px;
+        height: auto;
+        width: calc(100% + 32px);
+        .block {
+          &__img-video {
+            &-wrap {
+              border-radius: 0;
+            }
+          }
+        }
+      }
+      &.-small {
+        .block {
+          &__img-video {
+            &-wrap {
+              height: 480px;
+            }
+          }
+        }
+      }
+      &-wrap {
+        width: 100%;
+        img {
+          width: 100%;
+        }
+      }
+      span {
+        font-size: 12px;
+        line-height: 16px;
+      }
+    }
+    &__info {
+      flex-direction: column;
+      &-wrap {
+        width: 100%;
+        max-width: none;
+        span {
+          font-size: 12px;
+          line-height: 16px;
+        }
+      }
+      &-img {
+        height: 343px;
+      }
+    }
+    &__flex {
+      flex-direction: column;
+      gap: 16px;
+    }
+    &__code {
+      &.-small {
+        height: 494px;
+      }
+    }
+    &__quote {
+      padding: 24px 0;
+      margin-top: 0;
+      &-text {
+        @include mob-h4-22-ram;
+      }
+      img {
+        width: 170px;
+        height: 131px;
+        bottom: -17px;
+        left: auto;
+        top: auto;
+        right: 0;
+      }
+    }
+    &__contributors {
+      flex-direction: column;
+      padding: 24px 0 56px;
+      gap: 48px;
+      &-title {
+        &.-desk {
+          display: none;
+        }
+        &.-mob {
+          display: block;
+        }
+      }
+      &-authors {
+        gap: 12px;
+      }
+    }
+    &__share {
+      display: flex;
+      justify-content: center;
+      padding-top: 24px;
+    }
   }
 }
 </style>

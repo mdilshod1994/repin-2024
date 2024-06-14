@@ -7,7 +7,13 @@ const setCursorType = (type: string) => {
 </script>
 
 <template>
-  <r-grid desktop-column="1" :desktop-gaps="[112]" cls="related">
+  <r-grid
+    desktop-column="1"
+    :desktop-gaps="[112]"
+    :tablet-gaps="[96]"
+    :mobile-gaps="[46]"
+    cls="related"
+  >
     <r-title pretitle="Blog">
       <template #title>
         <div cls="related__title">Related <span>articles</span></div>
@@ -16,7 +22,7 @@ const setCursorType = (type: string) => {
         <nuxt-link
           to=""
           class="underline-link"
-          cls="blogs__link"
+          cls="related__link"
           @mouseover="setCursorType('link')"
           @mouseleave="setCursorType('')"
         >
@@ -30,4 +36,16 @@ const setCursorType = (type: string) => {
   </r-grid>
 </template>
 
-<style lang="scss" module></style>
+<style lang="scss" module>
+@include mobile {
+  .related {
+    &__title {
+      display: flex;
+      flex-direction: column;
+    }
+    &__link {
+      display: none;
+    }
+  }
+}
+</style>

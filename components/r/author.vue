@@ -75,4 +75,9 @@ const isNotBoolean = computed(() => {
     }
   }
 }
+@include mobile {
+  .author {
+    width: max-content;
+  }
+}
 </style>

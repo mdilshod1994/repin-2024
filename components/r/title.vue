@@ -77,7 +77,6 @@ withDefaults(
   }
   &__title {
     @include desctop-H2;
-    max-width: 877px;
     position: relative;
     span {
       @include desctop-H2-ram;

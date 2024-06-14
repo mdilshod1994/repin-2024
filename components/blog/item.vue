@@ -31,7 +31,7 @@ const setCursorType = (type: string) => {
       </div>
     </div>
     <div cls="img">
-      <r-gradient-border cls="gradient-border" />
+      <!-- <r-gradient-border cls="gradient-border" /> -->
       <img src="@/assets/images/tempImages/story.webp" alt="" />
     </div>
   </nuxt-link>

@@ -24,7 +24,7 @@
   padding: 144px 96px;
   align-items: center;
   flex-direction: column;
-  gap: 56px;
+  gap: 40px;
   text-align: center;
   background: url("@/assets/images/tempImages/bg-blog.png");
   background-size: 100% 100%;
@@ -46,6 +46,42 @@
   }
   &__desc {
     max-width: 644px;
+  }
+}
+@include desktop-medium {
+  .start {
+    padding: 96px;
+  }
+}
+@include tablet {
+  .start {
+    padding: 72px 96px;
+    gap: 32px;
+    &__content {
+      gap: 16px;
+    }
+    &__title {
+      @include mob-H1;
+      span {
+        @include mob-H1-ram;
+        font-style: italic;
+      }
+    }
+  }
+}
+@include mobile {
+  .start {
+    padding: 80px 40px;
+    &__content {
+      gap: 32px;
+    }
+    &__title {
+      @include mob-H2;
+      span {
+        @include mob-H2-ram;
+        font-style: italic;
+      }
+    }
   }
 }
 </style>

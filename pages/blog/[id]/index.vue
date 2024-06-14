@@ -33,17 +33,23 @@ onMounted(() => {
 <template>
   <div cls="blog">
     <div class="container">
-      <blog-case-banner />
+      <lazy-delay-hydration>
+        <lazy-blog-case-banner />
+      </lazy-delay-hydration>
     </div>
-    <r-video :vimeo="{ short: 'https://vimeo.com/955895016' }" />
+    <r-video :vimeo="{ short: 'https://vimeo.com/955895016' }" cls="blog__video" />
     <div class="container">
       <div cls="blog__wrap">
-        <lazy-blog-case-share />
+        <div cls="blog__share">
+          <lazy-blog-case-share />
+        </div>
         <div cls="blog__wrap-inner">
-          <div ref="block">
+          <div ref="block" cls="blog__wrap-box">
             <lazy-blog-case-blocks />
           </div>
-          <lazy-blog-case-progress-bar :progress="progress" />
+          <div cls="blog__progress-bar">
+            <lazy-blog-case-progress-bar :progress="progress" />
+          </div>
         </div>
       </div>
       <div cls="blog__start">
@@ -58,9 +64,12 @@ onMounted(() => {
 
 <style module lang="scss">
 .blog {
-  padding: 136px 0 280px;
+  padding: 130px 0 280px;
+  &__video {
+    margin-top: 24px;
+  }
   &__wrap {
-    padding: 96px 0;
+    padding: 96px 0 0;
     display: flex;
     justify-content: space-between;
     gap: 24px;
@@ -76,6 +85,53 @@ onMounted(() => {
   }
   &__related {
     padding-top: 96px;
+  }
+}
+@include desktop-medium {
+  .blog {
+    &__wrap {
+      &-inner {
+        max-width: 945px;
+      }
+      &-box {
+        max-width: 845px;
+      }
+    }
+  }
+}
+@include tablet {
+  .blog {
+    padding: 56px 0 96px;
+    &__wrap {
+      padding: 72px 0 0;
+      &-inner {
+        max-width: 783px;
+      }
+    }
+    &__start {
+      padding: 16px 0;
+    }
+    &__progress-bar,
+    &__share {
+      padding-bottom: 44px;
+    }
+  }
+}
+@include mobile {
+  .blog {
+    padding: 72px 0 88px;
+    // &__progress-bar{
+
+    // }
+    &__share {
+      display: none;
+    }
+    &__wrap {
+      padding: 72px 0 0;
+    }
+    &__related {
+      padding: 72px 0 0;
+    }
   }
 }
 </style>

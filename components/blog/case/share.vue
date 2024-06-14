@@ -1,3 +1,8 @@
+<!-- 
+TODO: 
+икноки поставить 
+-->
+
 <script setup lang="ts"></script>
 
 <template>
@@ -22,6 +27,7 @@
   height: max-content;
   position: sticky;
   top: 100px;
+  z-index: 1;
   &__title {
     text-align: center;
   }
@@ -48,6 +54,32 @@
     svg {
       font-size: 28px;
       color: var(--Black);
+    }
+  }
+}
+@include tablet {
+  .share {
+    gap: 16px;
+    &__link {
+      width: 48px;
+      height: 48px;
+    }
+  }
+}
+@include mobile {
+  .share {
+    width: max-content;
+    gap: 12px;
+    &__line {
+      display: none;
+    }
+    &__list {
+      gap: 12px;
+      flex-direction: row;
+    }
+    &__link {
+      width: 40px;
+      height: 40px;
     }
   }
 }
