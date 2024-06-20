@@ -61,9 +61,8 @@ const setCursorType = (type: string) => {
       @mouseover="setCursorType('link')"
       @mouseleave="setCursorType('')"
     >
-      <div v-parallax cls="card__img">
+      <div cls="card__img">
         <img :src="portfolio.cover" alt="" loading="lazy" />
-
         <div v-if="portfolio.anons_vimeo" ref="vimeoCard" :data-video-url="portfolio.anons_vimeo" />
       </div>
       <div cls="card__content">
