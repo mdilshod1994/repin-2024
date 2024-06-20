@@ -91,6 +91,11 @@ const setCursorType = (type: string) => {
     }
   }
 }
+@include tablet-small {
+  .title {
+    max-width: 305px;
+  }
+}
 @include mobile {
   .banner {
     &__top {

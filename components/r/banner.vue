@@ -240,10 +240,6 @@ const setCursorType = (type: string) => {
     &__right {
       padding-top: 8px;
       gap: 24px;
-      max-width: 301px;
-    }
-    &__top {
-      gap: v-bind(tabGap);
     }
     &__desc {
       gap: 16px;
@@ -259,9 +255,6 @@ const setCursorType = (type: string) => {
 @include tablet-small {
   .banner {
     gap: v-bind(verticalTabletSmallGap);
-    &__right {
-      max-width: 227px;
-    }
     &__top {
       flex-wrap: wrap;
     }
@@ -270,9 +263,6 @@ const setCursorType = (type: string) => {
 @include mobile {
   .banner {
     gap: v-bind(verticalMobileGap);
-    &__title {
-      max-width: 281px;
-    }
     &__bottom {
       display: none;
       &.-mobile {

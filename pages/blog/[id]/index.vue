@@ -1,22 +1,17 @@
 <script setup lang="ts">
-const nuxtApp = useNuxtApp()
+const { $gsap, $ScrollTrigger } = useNuxtApp()
 
 const store = usePreloaderTrigger()
 const block = ref()
 const progress = ref(0)
+
 onMounted(() => {
-  watchEffect(() => {
-    const gsap = nuxtApp.$gsap
-    const ScrollTrigger = nuxtApp.$ScrollTrigger
-    if (gsap && block.value && ScrollTrigger) {
-      gsap.registerPlugin(ScrollTrigger)
-    }
-  })
+  $gsap.registerPlugin($ScrollTrigger)
   store.handlePreloader(true)
   if (!block.value) return
   const observer = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
-      ScrollTrigger.create({
+      $ScrollTrigger.create({
         trigger: document.body,
         start: block.value.offsetTop,
         end: block.value.offsetHeight + block.value.offsetTop,

@@ -38,7 +38,7 @@ export default defineNuxtConfig({
       ssr: false,
       mode: "client",
     },
-    { src: "~/plugins/gsap.client.ts", mode: "client", ssr: false },
+    { src: "~/plugins/gsap.client.ts", ssr: false, mode: "client" },
   ],
   vite: {
     plugins: [

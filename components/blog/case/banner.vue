@@ -17,7 +17,13 @@ onMounted(() => {
     <div cls="banner__top">
       <r-round-button size="small"><svgo-info /></r-round-button> 12.11.2021 <span /> 4 min read
     </div>
-    <lazy-r-banner vertical-gap="32" vertical-tablet-small-gap="72" vertical-mobile-gap="32">
+    <lazy-r-banner
+      vertical-gap="32"
+      vertical-tablet-small-gap="72"
+      vertical-mobile-gap="32"
+      mobile-bottom-left
+      mob-gap="24"
+    >
       <template #title>
         <div cls="banner__title">
           Can walking meetings
@@ -33,7 +39,7 @@ onMounted(() => {
           A conversation with Spot’s CEO on how opinionated technology can support healthier
           collaboration and healthier lives.
         </div>
-        <div class="text">
+        <div class="text" cls="banner__text">
           Each month we’ll highlight a company that is providing a product or service to support
           distributed teams, asynchronous communication, work from anywhere, and a more mindful
           approach to work. Twist was built with these characteristics in mind, and each of our
@@ -69,6 +75,13 @@ onMounted(() => {
   .banner {
     &__title {
       max-width: 428px;
+    }
+  }
+}
+@include mobile {
+  .banner {
+    &__text {
+      @include mob-body-16;
     }
   }
 }

@@ -21,7 +21,7 @@
         give their two cents to the whole story, too — if that is what's needed at a certain point.
       </div>
       <div cls="block__img-video -mob-full-screen">
-        <div cls="block__img-video-wrap ">
+        <div v-parallax cls="block__img-video-wrap">
           <img src="https://cdn.motor1.com/images/mgl/MkO9NN/s1/future-supercars.webp" alt="" />
         </div>
       </div>
@@ -98,7 +98,7 @@
         able to accidentally deleting or changing a design.
       </div>
       <div cls="block__img-video">
-        <div cls="block__img-video-wrap">
+        <div v-parallax cls="block__img-video-wrap">
           <img
             src="https://robbreport.com/wp-content/uploads/2022/11/11-w-Utopia_1.jpg?w=1000"
             alt=""
@@ -120,7 +120,7 @@
       </div>
       <div cls="block__info">
         <div cls="block__info-wrap">
-          <div cls="block__info-img">
+          <div v-parallax cls="block__info-img">
             <img
               src="https://hips.hearstapps.com/hmg-prod/images/22c0387-028-1670825222.jpg?crop=0.651xw:0.813xh;0.172xw,0.187xh&resize=640:*"
               alt=""
@@ -167,7 +167,7 @@
       <div cls="block__flex">
         <div cls="block__code -small" />
         <div cls="block__img-video -small">
-          <div cls="block__img-video-wrap">
+          <div v-parallax cls="block__img-video-wrap">
             <img
               src="https://www-europe.nissan-cdn.net/content/dam/Nissan/nissan_europe/vehicles/TDIEU_MY22_LEAF_full_pes_vlp-plus/OVERVIEW/DESIGN/LHD/18TDIEULHD_LEAF_B12P028_V1_pace108-m.jpg"
               alt=""
@@ -520,11 +520,17 @@
         font-style: italic;
       }
     }
+    &__text {
+      @include mob-body-16;
+    }
     &__list {
       &-item {
         &-num {
           width: 24px;
           height: 22px;
+        }
+        span {
+          @include mob-body-16;
         }
       }
     }

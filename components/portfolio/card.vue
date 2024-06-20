@@ -1,8 +1,9 @@
 <script setup lang="ts">
-// import gsap from "gsap"
 import Player from "@vimeo/player"
 
 import type { PortfolioElement } from "~/types/portfolio"
+
+const { $gsap } = useNuxtApp()
 
 const localePath = useLocalePath()
 
@@ -30,18 +31,18 @@ onMounted(() => {
 })
 
 const beforeEnter = (el) => {
-  // gsap.from(el, {
-  //   duration: 0.5,
-  //   opacity: 0,
-  //   scale: 0.7,
-  // })
+  $gsap.from(el, {
+    duration: 0.5,
+    opacity: 0,
+    scale: 0.7,
+  })
 }
 const enter = (el) => {
-  // gsap.to(el, {
-  //   duration: 0.5,
-  //   opacity: 1,
-  //   scale: 1,
-  // })
+  $gsap.to(el, {
+    duration: 0.5,
+    opacity: 1,
+    scale: 1,
+  })
 }
 const { updateType } = useMousemove()
 
@@ -60,8 +61,7 @@ const setCursorType = (type: string) => {
       @mouseover="setCursorType('link')"
       @mouseleave="setCursorType('')"
     >
-      <div cls="card__img">
-        <r-gradient-border cls="card__gradient-border" />
+      <div v-parallax cls="card__img">
         <img :src="portfolio.cover" alt="" loading="lazy" />
 
         <div v-if="portfolio.anons_vimeo" ref="vimeoCard" :data-video-url="portfolio.anons_vimeo" />
@@ -107,6 +107,9 @@ const setCursorType = (type: string) => {
     iframe {
       opacity: 0;
       visibility: hidden;
+    }
+    img {
+      transform: scale(1.2);
     }
   }
   &__gradient-border {

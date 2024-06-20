@@ -10,9 +10,15 @@ TODO:
     <div cls="share__title">Share this story</div>
     <div cls="share__line" />
     <div cls="share__list">
-      <div cls="share__link">tw</div>
-      <div cls="share__link">tg</div>
-      <div cls="share__link">vk</div>
+      <div cls="share__link">
+        <svgo-tw />
+      </div>
+      <div cls="share__link">
+        <svgo-tg />
+      </div>
+      <div cls="share__link">
+        <svgo-vk />
+      </div>
     </div>
   </div>
 </template>
@@ -52,8 +58,14 @@ TODO:
     align-items: center;
     justify-content: center;
     svg {
-      font-size: 28px;
+      font-size: 26px;
       color: var(--Black);
+      transition: 0.3s ease-in-out;
+    }
+    &:hover {
+      svg {
+        transform: scale(1.2);
+      }
     }
   }
 }
