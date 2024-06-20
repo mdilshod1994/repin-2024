@@ -107,9 +107,6 @@ const setCursorType = (type: string) => {
       opacity: 0;
       visibility: hidden;
     }
-    img {
-      transform: scale(1.2);
-    }
   }
   &__gradient-border {
     opacity: 0;
