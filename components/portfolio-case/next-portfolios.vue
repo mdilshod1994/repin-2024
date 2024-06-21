@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Portfolio, PortfolioElement } from "~/types/portfolio"
 
-const { $gsap, $ScrollTrigger } = useNuxtApp()
+const { $gsap } = useNuxtApp()
 
 const { locale } = useI18n()
 
@@ -35,26 +35,40 @@ watch(portfolios, (nv) => {
       .slice(0, 3)
   }
 })
+
+const pretitle = computed(() => {
+  if (locale.value === "en") {
+    return "Our projects"
+  } else {
+    return "Наши проекты"
+  }
+})
+const title = computed(() => {
+  if (locale.value === "en") {
+    return "Next projects"
+  } else {
+    return "Следующие проекты"
+  }
+})
 const container = ref()
 const setGSAP = () => {
   const mm = $gsap.matchMedia()
   mm.add("(min-width: 768px)", () => {
     $gsap.to(".first", {
-      $ScrollTrigger: {
+      scrollTrigger: {
         trigger: ".first",
-        start: "top top",
-        end: "bottom bottom",
+        start: "-10% 100%",
+        end: "40% 70%",
         scrub: 2,
-        markers: true,
       },
       marginTop: 0,
       duration: 3,
     })
     $gsap.to(".second", {
-      $ScrollTrigger: {
+      scrollTrigger: {
         trigger: ".first",
-        start: "top top",
-        end: "bottom bottom",
+        start: "-10% 100%",
+        end: "40% 70%",
         scrub: 2,
       },
       marginTop: 0,
@@ -63,8 +77,6 @@ const setGSAP = () => {
   })
 }
 onMounted(() => {
-  $gsap.registerPlugin($ScrollTrigger)
-
   const observer = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
       setGSAP()
@@ -75,9 +87,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="false" ref="container" cls="projects">
+  <div ref="container" cls="projects">
     <div cls="projects__inner">
-      <r-title pretitle="Our projects" title="Next projects" mobile-center flex-start />
+      <r-title :pretitle="pretitle" :title="title" mobile-center flex-start />
       <r-grid mobile-column="1" tablet-column="3" :mobile-gaps="[40]" button>
         <portfolio-card
           v-for="(portfolio, idx) in sortedPortfolios"

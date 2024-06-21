@@ -39,4 +39,5 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   nuxtApp.provide("gsap", gsap)
   const ScrollTrigger = await loadGsapScrollTrigger()
   nuxtApp.provide("ScrollTrigger", ScrollTrigger)
+  gsap.registerPlugin(ScrollTrigger)
 })

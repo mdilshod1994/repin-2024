@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div cls="start">
+  <div cls="start" class="dark-background">
     <div cls="start__content">
       <div cls="start__title">
         <span>I want to try,</span> <br />

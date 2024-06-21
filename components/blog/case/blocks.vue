@@ -509,12 +509,13 @@
 }
 @include mobile {
   .wrap {
-    gap: 32px;
+    gap: 56px;
   }
   .block {
-    gap: 24px;
+    gap: 0;
     &__title {
       @include mob-H2;
+      margin-bottom: 16px;
       span {
         @include mob-H2-ram;
         font-style: italic;
@@ -523,7 +524,17 @@
     &__text {
       @include mob-body-16;
     }
+    &__text + &__flex,
+    &__text + &__code,
+    &__text + &__img-video,
+    &__text + &__info {
+      margin-top: 32px;
+      &.-mob-full-screen {
+        margin-top: 32px;
+      }
+    }
     &__list {
+      margin-top: 32px;
       &-item {
         &-num {
           width: 24px;
@@ -533,6 +544,14 @@
           @include mob-body-16;
         }
       }
+    }
+    &__list + &__flex,
+    &__list + &__code,
+    &__list + &__video,
+    &__list + &__info,
+    &__list + &__img-video,
+    &__list + &__text {
+      margin-top: 32px;
     }
     &__img-video {
       &.-mob-full-screen {
@@ -567,6 +586,10 @@
         line-height: 16px;
       }
     }
+    &__img-video + &__list,
+    &__img-video + &__text {
+      margin-top: 32px;
+    }
     &__info {
       flex-direction: column;
       &-wrap {
@@ -589,6 +612,12 @@
       &.-small {
         height: 494px;
       }
+    }
+    &__code + &__video {
+      margin-top: 16px;
+    }
+    &__video + &__text {
+      margin-top: 32px;
     }
     &__quote {
       padding: 24px 0;

@@ -1,12 +1,11 @@
 <script setup lang="ts">
-const { $gsap, $ScrollTrigger } = useNuxtApp()
+const { $ScrollTrigger } = useNuxtApp()
 
 const store = usePreloaderTrigger()
 const block = ref()
 const progress = ref(0)
 
 onMounted(() => {
-  $gsap.registerPlugin($ScrollTrigger)
   store.handlePreloader(true)
   if (!block.value) return
   const observer = new IntersectionObserver((entries) => {
