@@ -13,7 +13,9 @@ export const useGlobalData = defineStore("globaldata", () => {
   const menuHeaderFooter = ref<Menu>()
   const getMenuHeaderFooter = async () => {
     try {
-      menuHeaderFooter.value = await $fetch("https://repin.agency/wp-json/api/v1/headerAndFooter")
+      menuHeaderFooter.value = await $fetch(
+        "https://api.repin.agency/wp-json/api/v1/headerAndFooter",
+      )
       if (!menuHeaderFooter.value) return
       if (locale.value === "en") {
         header.value = menuHeaderFooter.value.en.header
@@ -32,7 +34,7 @@ export const useGlobalData = defineStore("globaldata", () => {
 
   const getMainPageInfo = async () => {
     try {
-      home.value = await $fetch("https://repin.agency/wp-json/api/v1/getHomePage")
+      home.value = await $fetch("https://api.repin.agency/wp-json/api/v1/getHomePage")
     } catch (error) {
       console.log(error)
     } finally {
@@ -44,7 +46,7 @@ export const useGlobalData = defineStore("globaldata", () => {
 
   const getContactPageInfo = async () => {
     try {
-      contacts.value = await $fetch("https://repin.agency/wp-json/api/v1/contacts")
+      contacts.value = await $fetch("https://api.repin.agency/wp-json/api/v1/contacts")
       if (contacts.value) {
         store.handlePreloader(true)
       }
@@ -58,7 +60,7 @@ export const useGlobalData = defineStore("globaldata", () => {
 
   const getPrivacyPolicyPageInfo = async () => {
     try {
-      const { en } = await $fetch<Block2>("https://repin.agency/wp-json/api/v1/privacy-policy")
+      const { en } = await $fetch<Block2>("https://api.repin.agency/wp-json/api/v1/privacy-policy")
       if (!en) return
       store.handlePreloader(true)
       privacyPolicy.value = en
@@ -72,7 +74,7 @@ export const useGlobalData = defineStore("globaldata", () => {
 
   const getOfferAgreementPageInfo = async () => {
     try {
-      const { en } = await $fetch<Block2>("https://repin.agency/wp-json/api/v1/offer-agreement")
+      const { en } = await $fetch<Block2>("https://api.repin.agency/wp-json/api/v1/offer-agreement")
       if (!en) return
       store.handlePreloader(true)
       offerAgreement.value = en
@@ -86,7 +88,7 @@ export const useGlobalData = defineStore("globaldata", () => {
 
   const getCookiePrivacyPageInfo = async () => {
     try {
-      const { en } = await $fetch<Block2>("https://repin.agency/wp-json/api/v1/cookie-privacy")
+      const { en } = await $fetch<Block2>("https://api.repin.agency/wp-json/api/v1/cookie-privacy")
       if (!en) return
       store.handlePreloader(true)
       cookiePrivacy.value = en

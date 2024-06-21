@@ -4,7 +4,7 @@ import type { About, En } from "~/types/about"
 // const store = usePreloaderTrigger()
 const { locale } = useI18n()
 
-const { data: about } = await useFetch<About>("https://repin.agency/wp-json/api/v1/about", {
+const { data: about } = await useFetch<About>("https://api.repin.agency/wp-json/api/v1/about", {
   lazy: true,
   server: false,
   onResponse: () => {
@@ -54,7 +54,7 @@ useSeoMeta({
         />
       </lazy-delay-hydration>
     </div>
-    <div class="dark-background">
+    <div>
       <lazy-delay-hydration>
         <about-full-cycle
           :full-cycle="aboutContent.page.items_b2"

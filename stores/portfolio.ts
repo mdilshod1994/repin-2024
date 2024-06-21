@@ -58,7 +58,7 @@ export const usePortfolio = defineStore("portfolio", () => {
     _page.value = page
     try {
       portfolios.value = await $fetch(
-        `https://repin.agency/wp-json/api/v1/projects/${_slug.value}/${_page.value}`,
+        `https://api.repin.agency/wp-json/api/v1/projects/${_slug.value}/${_page.value}`,
       )
       if (!portfolios.value) return
       if (locale.value === "en") {

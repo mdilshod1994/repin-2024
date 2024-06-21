@@ -33,8 +33,6 @@ function checkIfDarkBackgroud(el?: HTMLElement) {
         })
       })
       observer.observe(el)
-    } else {
-      isBackgroundDark.value = true
     }
 }
 const { $useScroll } = useNuxtApp()

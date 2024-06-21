@@ -93,7 +93,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      baseURL: process.env.BASE_URL || "https://repin.agency/wp-json/api/v1",
+      baseURL: process.env.BASE_URL || "https://api.repin.agency/wp-json/api/v1",
     },
   },
 })

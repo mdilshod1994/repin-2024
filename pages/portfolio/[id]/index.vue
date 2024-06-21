@@ -7,7 +7,7 @@ const _store = usePreloaderTrigger()
 
 const { id } = useRoute().params
 const { data: portfolio } = await useFetch<PortfolioCase>(
-  `https://repin.agency/wp-json/api/v1/project/${id}`,
+  `https://api.repin.agency/wp-json/api/v1/project/${id}`,
   {
     lazy: true,
     server: false,

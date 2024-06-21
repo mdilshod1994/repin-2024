@@ -1,17 +1,14 @@
 <script setup lang="ts">
-// import gsap from "gsap"
-// import { ScrollTrigger } from "gsap/ScrollTrigger"
-
 import type { Portfolio, PortfolioElement } from "~/types/portfolio"
 
-const { locale } = useI18n()
+const { $gsap, $ScrollTrigger } = useNuxtApp()
 
-// gsap.registerPlugin(ScrollTrigger)
+const { locale } = useI18n()
 
 const { id } = useRoute().params
 
 const { data: portfolios } = await useFetch<Portfolio>(
-  "https://repin.agency/wp-json/api/v1/projects-all/all/0/",
+  "https://api.repin.agency/wp-json/api/v1/projects-all/all/0/",
   {
     lazy: true,
     server: false,
@@ -40,36 +37,37 @@ watch(portfolios, (nv) => {
 })
 const container = ref()
 const setGSAP = () => {
-  // const mm = gsap.matchMedia()
-  // mm.add("(min-width: 768px)", () => {
-  //   gsap.to(".first", {
-  //     scrollTrigger: {
-  //       trigger: ".first",
-  //       start: "-10% 100%",
-  //       end: "40% 70%",
-  //       scrub: 2,
-  //     },
-  //     marginTop: 0,
-  //     ease: "power1.inOut",
-  //     duration: 3,
-  //   })
-  //   gsap.to(".second", {
-  //     scrollTrigger: {
-  //       trigger: ".first",
-  //       start: "-10% 100%",
-  //       end: "40% 70%",
-  //       scrub: 2,
-  //     },
-  //     marginTop: 0,
-  //     ease: "power1.inOut",
-  //     duration: 3,
-  //   })
-  // })
+  const mm = $gsap.matchMedia()
+  mm.add("(min-width: 768px)", () => {
+    $gsap.to(".first", {
+      $ScrollTrigger: {
+        trigger: ".first",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 2,
+        markers: true,
+      },
+      marginTop: 0,
+      duration: 3,
+    })
+    $gsap.to(".second", {
+      $ScrollTrigger: {
+        trigger: ".first",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 2,
+      },
+      marginTop: 0,
+      duration: 3,
+    })
+  })
 }
 onMounted(() => {
+  $gsap.registerPlugin($ScrollTrigger)
+
   const observer = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
-      // setGSAP()
+      setGSAP()
     }
   })
   observer.observe(container.value)
@@ -77,7 +75,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="container" cls="projects">
+  <div v-if="false" ref="container" cls="projects">
     <div cls="projects__inner">
       <r-title pretitle="Our projects" title="Next projects" mobile-center flex-start />
       <r-grid mobile-column="1" tablet-column="3" :mobile-gaps="[40]" button>
@@ -87,8 +85,7 @@ onMounted(() => {
           :portfolio="portfolio"
           mob-title-font-size
           cls="project"
-          class="project"
-          :class="`${idx === 1 ? 'first' : ''} ${idx === 2 ? 'second' : ''} `"
+          :class="`project ${idx === 1 ? 'first' : ''} ${idx === 2 ? 'second' : ''} `"
         />
       </r-grid>
     </div>
