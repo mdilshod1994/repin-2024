@@ -63,6 +63,7 @@ watch(
       <button
         :cls="{ filter__btn: true, '-active': activeSlug === 'all' }"
         @click="setCategory('all')"
+        @click.prevent="$router.push({ path: '/portfolio' })"
       >
         <span v-if="locale === 'en'">All</span>
         <span v-if="locale === 'ru'">Все</span>
@@ -72,6 +73,7 @@ watch(
         :cls="{ filter__btn: true, '-active': activeSlug === category.slug, '-show': show }"
         class="-category"
         @click="setCategory(category.slug)"
+        @click.prevent="$router.push({ path: '/portfolio' })"
       >
         <span> {{ category.name }}</span>
       </button>
