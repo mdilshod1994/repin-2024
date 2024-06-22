@@ -2,6 +2,7 @@
 const cookies = useCookie<{ accCookies: number }>("accCookies")
 
 const store = useGlobalData()
+const localePath = useLocalePath()
 
 const cookieInfo = computed(() => {
   return store.footer
@@ -35,7 +36,7 @@ const isAccepted = useCookie("accCookies")
       <div cls="cookies__wrap">
         <div cls="cookies__text">{{ cookieInfo?.cookies_text }}</div>
         <nuxt-link
-          to="/cookie-privacy"
+          :to="localePath('/cookie-privacy')"
           cls="cookies__link"
           class="underline-link -white"
           @mouseover="setCursorType('link')"
