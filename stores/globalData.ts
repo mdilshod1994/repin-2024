@@ -60,10 +60,14 @@ export const useGlobalData = defineStore("globaldata", () => {
 
   const getPrivacyPolicyPageInfo = async () => {
     try {
-      const { en } = await $fetch<Block2>("https://api.repin.agency/wp-json/api/v1/privacy-policy")
-      if (!en) return
+      const data = await $fetch<Block2>("https://api.repin.agency/wp-json/api/v1/privacy-policy")
+      if (!data) return
       store.handlePreloader(true)
-      privacyPolicy.value = en
+      if (locale.value === "en") {
+        privacyPolicy.value = data.en
+      } else {
+        privacyPolicy.value = data.ru
+      }
     } catch (error) {
       console.log(error)
     } finally {
@@ -74,10 +78,14 @@ export const useGlobalData = defineStore("globaldata", () => {
 
   const getOfferAgreementPageInfo = async () => {
     try {
-      const { en } = await $fetch<Block2>("https://api.repin.agency/wp-json/api/v1/offer-agreement")
-      if (!en) return
+      const data = await $fetch<Block2>("https://api.repin.agency/wp-json/api/v1/offer-agreement")
+      if (!data) return
       store.handlePreloader(true)
-      offerAgreement.value = en
+      if (locale.value === "en") {
+        offerAgreement.value = data.en
+      } else {
+        offerAgreement.value = data.ru
+      }
     } catch (error) {
       console.log(error)
     } finally {
@@ -88,10 +96,14 @@ export const useGlobalData = defineStore("globaldata", () => {
 
   const getCookiePrivacyPageInfo = async () => {
     try {
-      const { en } = await $fetch<Block2>("https://api.repin.agency/wp-json/api/v1/cookie-privacy")
-      if (!en) return
+      const data = await $fetch<Block2>("https://api.repin.agency/wp-json/api/v1/cookie-privacy")
+      if (!data) return
       store.handlePreloader(true)
-      cookiePrivacy.value = en
+      if (locale.value === "en") {
+        cookiePrivacy.value = data.en
+      } else {
+        cookiePrivacy.value = data.ru
+      }
     } catch (error) {
       console.log(error)
     } finally {

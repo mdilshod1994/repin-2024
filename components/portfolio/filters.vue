@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { type Category } from "~/types/home"
 
+const localePath = useLocalePath()
+
 const { locale } = useI18n()
 
 const filterBtns = ref<HTMLElement | null>(null)
@@ -63,7 +65,7 @@ watch(
       <button
         :cls="{ filter__btn: true, '-active': activeSlug === 'all' }"
         @click="setCategory('all')"
-        @click.prevent="$router.push({ path: '/portfolio' })"
+        @click.prevent="$router.push({ path: `${localePath('/portfolio')}` })"
       >
         <span v-if="locale === 'en'">All</span>
         <span v-if="locale === 'ru'">Все</span>
@@ -73,7 +75,7 @@ watch(
         :cls="{ filter__btn: true, '-active': activeSlug === category.slug, '-show': show }"
         class="-category"
         @click="setCategory(category.slug)"
-        @click.prevent="$router.push({ path: '/portfolio' })"
+        @click.prevent="$router.push({ path: `${localePath('/portfolio')}` })"
       >
         <span> {{ category.name }}</span>
       </button>

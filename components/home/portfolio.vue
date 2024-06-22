@@ -4,6 +4,8 @@ import { useMediaQuery } from "@vueuse/core"
 import type { Category } from "~/types/home"
 import type { PortfolioElement } from "~/types/portfolio"
 
+const localePath = useLocalePath()
+
 const { $gsap } = useNuxtApp()
 
 const { locale } = useI18n()
@@ -132,7 +134,7 @@ watch(portfolios, (nv) => {
         <div
           :class="{ tab: true, '-active': activeSlug === 'all', first: true }"
           @click="_getPortfolio('all')"
-          @click.prevent="$router.push({ path: '/portfolio' })"
+          @click.prevent="$router.push({ path: `${localePath('/portfolio')}` })"
         >
           <span v-if="locale === 'en'">All</span>
           <span v-if="locale === 'en'">All</span>
@@ -147,7 +149,7 @@ watch(portfolios, (nv) => {
             last: idx === categories.length - 1,
           }"
           @click="_getPortfolio(category.slug)"
-          @click.prevent="$router.push({ path: '/portfolio' })"
+          @click.prevent="$router.push({ path: `${localePath('/portfolio')}` })"
         >
           <span>{{ category.name }}</span>
           <span>{{ category.name }}</span>

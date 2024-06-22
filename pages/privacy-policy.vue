@@ -55,8 +55,10 @@ onMounted(async () => {
       @include desctop-caption-17-db;
       margin-top: 24px;
     }
+    ol,
     ul {
       padding-left: 24px;
+      margin-top: 24px;
     }
   }
   &__pretitle {
@@ -66,7 +68,6 @@ onMounted(async () => {
   }
   &__title {
     @include desctop-H2;
-    white-space: nowrap;
   }
 }
 @include tablet-small {
