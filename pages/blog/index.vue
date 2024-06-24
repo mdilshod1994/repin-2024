@@ -5,13 +5,25 @@ const { updateType } = useMousemove()
 const setCursorType = (type: string) => {
   updateType(type)
 }
+
+const { data } = useAsyncData<Blogs>("myData", () =>
+  $fetch("https://api.repin.agency/wp-json/api/v1/blogs?page=1"),
+)
+
+const blogs = computed(() => {
+  // if (locale.value === "ru" ) {
+  // return data.value?.ru
+  // }
+  return data.value?.ru
+})
+
 onMounted(() => {
   store.handlePreloader(true)
 })
 </script>
 
 <template>
-  <div cls="blogs">
+  <div v-if="blogs" cls="blogs">
     <div class="container">
       <r-grid desktop-column="1" :desktop-gaps="[112]" :tablet-gaps="[48]" :mobile-gaps="[48]">
         <r-title pretitle="Blog" flex-start>
@@ -31,7 +43,7 @@ onMounted(() => {
         <r-grid desktop-column="1" :desktop-gaps="[138]" :tablet-gaps="[124]" :mobile-gaps="[56]">
           <lazy-delay-hydration>
             <lazy-blog-list>
-              <lazy-blog-item v-for="(b, idx) in 3" :key="idx" />
+              <lazy-blog-item v-for="blog in blogs.blogs" :blog="blog" />
             </lazy-blog-list>
           </lazy-delay-hydration>
           <r-button cls="blogs__btn"> Show more </r-button>

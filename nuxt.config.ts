@@ -35,11 +35,10 @@ export default defineNuxtConfig({
   plugins: [
     {
       src: "~/plugins/use-scroll.ts",
-      ssr: false,
-      mode: "client",
     },
-    { src: "~/plugins/gsap.client.ts", ssr: false, mode: "client" },
+    { src: "~/plugins/gsap.client.ts" },
   ],
+  ssr: true,
   vite: {
     plugins: [
       vueCssModule({

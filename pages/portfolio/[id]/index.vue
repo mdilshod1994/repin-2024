@@ -11,7 +11,7 @@ const { data: portfolio } = await useFetch<PortfolioCase>(
   {
     lazy: true,
     server: false,
-    onResponse({ request, response, options }) {
+    onResponse() {
       _store.handlePreloader(true)
     },
   },

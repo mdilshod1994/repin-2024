@@ -1,14 +1,21 @@
 <script setup lang="ts">
+import type { Blog } from "~/types/blog"
+
+const localPath = useLocalePath()
+
 const { updateType } = useMousemove()
 
 const setCursorType = (type: string) => {
   updateType(type)
 }
+defineProps<{
+  blog: Blog
+}>()
 </script>
 
 <template>
   <nuxt-link
-    to="/blog/1"
+    :to="localPath(`/blog/${blog.slug}`)"
     cls="card"
     @mouseover="setCursorType('link')"
     @mouseleave="setCursorType('')"
@@ -16,22 +23,21 @@ const setCursorType = (type: string) => {
     <div cls="card-content">
       <div cls="card-box">
         <div cls="card-title">
-          A site with an extensive portfolio of apartments, penthouses, townhouses,
+          {{ blog.title }}
         </div>
         <div cls="card-desc">
-          Я помогаю предпринимателям найти баланс между работой и личной жизнью благодаря системному
-          подходу к достижению личных и бизнес целей.
+          {{ blog.description }}
         </div>
       </div>
       <div cls="card-link">
-        <div cls="card-text">5 min read</div>
+        <div v-if="blog.time" cls="card-text">{{ blog.time }}</div>
         <r-round-button size="small">
           <svgo-arrow-right />
         </r-round-button>
       </div>
     </div>
     <div cls="img">
-      <img src="@/assets/images/tempImages/story.webp" alt="" />
+      <img :src="blog.cover" alt="" />
     </div>
   </nuxt-link>
 </template>

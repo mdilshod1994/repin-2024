@@ -4,10 +4,23 @@ const { updateType } = useMousemove()
 const setCursorType = (type: string) => {
   updateType(type)
 }
+
+// временно
+const { data } = useAsyncData<Blogs>("myData", () =>
+  $fetch("https://api.repin.agency/wp-json/api/v1/blogs?page=1"),
+)
+
+const blogs = computed(() => {
+  // if (locale.value === "ru" ) {
+  // return data.value?.ru
+  // }
+  return data.value?.ru
+})
 </script>
 
 <template>
   <r-grid
+    v-if="blogs"
     desktop-column="1"
     :desktop-gaps="[112]"
     :tablet-gaps="[96]"
@@ -31,7 +44,7 @@ const setCursorType = (type: string) => {
       </template>
     </r-title>
     <blog-list>
-      <blog-item v-for="a in 2" />
+      <blog-item v-for="blog in blogs.blogs" :blog="blog" />
     </blog-list>
   </r-grid>
 </template>

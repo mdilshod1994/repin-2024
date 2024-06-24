@@ -1,7 +1,22 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { Blogs } from "~/types/blog"
+
+const { locale } = useI18n()
+
+const { data } = useAsyncData<Blogs>("myData", () =>
+  $fetch("https://api.repin.agency/wp-json/api/v1/blogs?page=1"),
+)
+
+const blogs = computed(() => {
+  // if (locale.value === "ru" ) {
+  // return data.value?.ru
+  // }
+  return data.value?.ru
+})
+</script>
 
 <template>
-  <div cls="stories">
+  <div v-if="blogs" cls="stories">
     <r-title pretitle="Blog">
       <template #title> Stories <span>& User Cases</span> </template>
       <template #addons>
@@ -12,7 +27,7 @@
     </r-title>
     <lazy-delay-hydration>
       <lazy-blog-list>
-        <blog-item v-for="(b, idx) in 3" :key="idx" />
+        <blog-item v-for="blog in blogs.blogs" :blog="blog" />
       </lazy-blog-list>
     </lazy-delay-hydration>
     <r-button cls="stories__btn" to="/blog"> See all articles </r-button>
