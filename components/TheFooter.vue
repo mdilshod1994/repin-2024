@@ -125,6 +125,7 @@ const setCursorType = (type: string) => {
   padding: 48px 0 24px;
   background: var(--Black);
   color: var(--White);
+  order: 1;
   &__wrap {
     display: flex;
     flex-direction: column;

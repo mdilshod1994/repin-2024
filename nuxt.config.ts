@@ -38,7 +38,6 @@ export default defineNuxtConfig({
     },
     { src: "~/plugins/gsap.client.ts" },
   ],
-  ssr: true,
   vite: {
     plugins: [
       vueCssModule({

@@ -25,6 +25,8 @@ onMounted(async () => {
 .layout {
   padding: 24px 0 0 0;
   background: var(--White);
+  display: flex;
+  flex-direction: column;
   &__cookies {
     display: flex;
     justify-content: flex-end;

@@ -57,7 +57,7 @@ const [SocialLinks, ReuseSocialLinks] = createReusableTemplate()
       </a>
     </div>
   </social-links>
-  <div v-if="true" ref="mobMenu" :cls="{ mobile: true, '-active': active }">
+  <div ref="mobMenu" :cls="{ mobile: true, '-active': active }">
     <div cls="mobile__wrap">
       <nav cls="mobile__nav">
         <div>

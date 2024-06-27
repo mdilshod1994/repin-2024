@@ -5,11 +5,8 @@ import type { About, En } from "~/types/about"
 const { locale } = useI18n()
 
 const { data: about } = await useFetch<About>("https://api.repin.agency/wp-json/api/v1/about", {
-  lazy: true,
   server: false,
-  onResponse: () => {
-    // store.handlePreloader(true)
-  },
+  lazy: true,
 })
 
 const aboutContent = computed(() => {

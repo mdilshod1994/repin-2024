@@ -63,7 +63,7 @@ useSeoMeta({
         />
       </lazy-delay-hydration>
     </div>
-    <div class="container">
+    <div v-if="false" class="container">
       <div cls="home__stories">
         <lazy-delay-hydration>
           <home-stories />

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Blogs } from "~/types/blog"
+
 const store = usePreloaderTrigger()
 const { updateType } = useMousemove()
 
@@ -6,9 +8,7 @@ const setCursorType = (type: string) => {
   updateType(type)
 }
 
-const { data } = useAsyncData<Blogs>("myData", () =>
-  $fetch("https://api.repin.agency/wp-json/api/v1/blogs?page=1"),
-)
+const { data } = useFetch<Blogs>("https://api.repin.agency/wp-json/api/v1/blogs?page=1")
 
 const blogs = computed(() => {
   // if (locale.value === "ru" ) {

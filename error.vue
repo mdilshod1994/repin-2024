@@ -4,6 +4,13 @@ const store = useGlobalData()
 onMounted(async () => {
   await store.getMenuHeaderFooter()
 })
+const route = useRoute()
+watch(
+  () => route.fullPath,
+  () => {
+    clearError()
+  },
+)
 </script>
 
 <template>
@@ -19,7 +26,7 @@ onMounted(async () => {
     >
       <div cls="error__text">
         {{ error.statusCode }} — Oops, <br />
-        {{ error.statusCode === 404 ? "page not found" : "Problem on the site" }}
+        {{ error.statusMessage }}
       </div>
       <r-button bg-color="white" cls="error__btn" to="/portfolio"> See all projects </r-button>
     </r-grid>

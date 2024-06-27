@@ -3,9 +3,7 @@ import type { Blogs } from "~/types/blog"
 
 const { locale } = useI18n()
 
-const { data } = useAsyncData<Blogs>("myData", () =>
-  $fetch("https://api.repin.agency/wp-json/api/v1/blogs?page=1"),
-)
+const { data } = useFetch<Blogs>("https://api.repin.agency/wp-json/api/v1/blogs?page=1")
 
 const blogs = computed(() => {
   // if (locale.value === "ru" ) {

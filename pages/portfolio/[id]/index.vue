@@ -16,6 +16,11 @@ const { data: portfolio } = await useFetch<PortfolioCase>(
     },
   },
 )
+
+if (!portfolio.value) {
+  throw createError({ statusCode: 404, statusMessage: `Portfolio with id "${id}" not found` })
+}
+
 const vimeoVideo = ref()
 const reverse = ref(false)
 
