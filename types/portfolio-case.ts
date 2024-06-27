@@ -6,6 +6,7 @@ export interface PortfolioCase {
   team: Team
   content: Content[]
   repin_agency_mobicom: reUseBlock1
+  error: string
 }
 
 export interface Block1 {

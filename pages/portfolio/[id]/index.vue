@@ -6,35 +6,31 @@ import type { PortfolioCase } from "~/types/portfolio-case"
 const _store = usePreloaderTrigger()
 
 const { id } = useRoute().params
-const { data: portfolio } = await useFetch<PortfolioCase>(
+const { data } = await useFetch<PortfolioCase>(
   `https://api.repin.agency/wp-json/api/v1/project/${id}`,
   {
-    lazy: true,
     server: false,
+    lazy: true,
     onResponse() {
       _store.handlePreloader(true)
     },
   },
 )
 
-if (!portfolio.value) {
-  throw createError({ statusCode: 404, statusMessage: `Portfolio with id "${id}" not found` })
-}
-
 const vimeoVideo = ref()
 const reverse = ref(false)
 
 useSeoMeta({
-  title: () => `Repin Agency | ${portfolio.value?.title}`,
-  ogTitle: () => `Repin Agency | ${portfolio.value?.title}`,
-  description: () => portfolio.value?.block_1.subtitle,
-  ogDescription: () => portfolio.value?.block_1.subtitle,
+  title: () => `Repin Agency | ${data.value?.title}`,
+  ogTitle: () => `Repin Agency | ${data.value?.title}`,
+  description: () => data.value?.block_1.subtitle,
+  ogDescription: () => data.value?.block_1.subtitle,
 })
 
-onMounted(() => {
+onMounted(async () => {
   if (vimeoVideo.value) {
     const player = new Player(vimeoVideo.value, {
-      url: portfolio.value?.block_1.cover_in_project["img-proj_vimeo"],
+      url: data.value?.block_1.cover_in_project["img-proj_vimeo"],
       background: true,
     })
     player.on("play", () => {
@@ -45,19 +41,19 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="portfolio" cls="case">
+  <div v-if="data" cls="case">
     <div class="container">
-      <portfolio-case-banner :banner="portfolio" />
+      <portfolio-case-banner :banner="data" />
       <div cls="case__cover" class="dark-background">
         <div cls="case__cover-inner">
           <div
-            v-if="portfolio.block_1.cover_in_project['img-proj_vimeo']"
+            v-if="data.block_1.cover_in_project['img-proj_vimeo']"
             ref="vimeoVideo"
             :cls="{ 'case__cover-video': true, '-active': reverse }"
           />
           <img
             :cls="{ '-not-active': reverse }"
-            :src="portfolio.block_1.cover_in_project.img_proj"
+            :src="data.block_1.cover_in_project.img_proj"
             alt=""
             loading="lazy"
           />
@@ -65,7 +61,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div v-for="block in portfolio.content">
+    <div v-for="block in data.content">
       <div v-if="block.acf_fc_layout === 'flex_text_desc'" class="container">
         <div cls="case__wrap">
           <r-title
@@ -215,7 +211,7 @@ fda_sign -->
       <!-- <div v-if="portfolio.repin_agency_mobicom" cls="case__expirience">
         <reuse-expirience :info="portfolio.repin_agency_mobicom" />
       </div> -->
-      <portfolio-case-authors v-if="portfolio.team" :authors="portfolio.team" />
+      <portfolio-case-authors v-if="data.team" :authors="data.team" />
       <portfolio-case-next-portfolios />
     </div>
   </div>
