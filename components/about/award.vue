@@ -83,9 +83,11 @@ const setCursorType = (type: string) => {
       :tablet-gaps="[0]"
       :mobile-gaps="[0]"
     >
-      <div
+      <a
         v-for="(item, idx) in items"
         cls="awards__item"
+        :href="`${item.link}`"
+        target="_blank"
         @mouseover="setValue(idx)"
         @mouseleave="closeAnim"
         @mouseout="closeAnim"
@@ -112,7 +114,7 @@ const setCursorType = (type: string) => {
             </div>
           </div>
         </div>
-      </div>
+      </a>
     </r-grid>
   </r-grid>
 </template>

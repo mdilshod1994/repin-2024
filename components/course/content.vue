@@ -30,10 +30,8 @@
         <div cls="accordion">
           <div cls="accordion__title">
             Управление
-            <div class="accordion__title-o">
-              <div class="accordion__title-icon">
-                <svgo-arrow-up-right />
-              </div>
+            <div class="accordion__title-icon">
+              <svgo-arrow-up-right />
             </div>
           </div>
           <div cls="accordion__content">
@@ -133,6 +131,18 @@
   }
   &__left {
     max-width: 676px;
+  }
+}
+.accordions {
+  display: flex;
+  flex-direction: column;
+}
+.accordion {
+  display: flex;
+  flex-direction: column;
+  &__title {
+    padding: 22px 24px;
+    display: flex;
   }
 }
 </style>

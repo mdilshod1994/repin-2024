@@ -55,6 +55,7 @@ export interface ItemsB5 {
   categories: Category[]
   icons: Icon[]
   img: string
+  link: string
 }
 
 export interface Category {
