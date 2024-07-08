@@ -10,7 +10,6 @@ export const usePortfolio = defineStore("portfolio", () => {
   const totalProjects = ref<number>()
   const portfolios = ref<Portfolio>()
   const { locale } = useI18n()
-  const $store = usePreloaderTrigger()
 
   const currentPageNumber = computed(() => {
     const pageNumberFromStorage = window.sessionStorage.getItem("page-number")

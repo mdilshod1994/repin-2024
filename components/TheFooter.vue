@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { type Footer } from "~/types/menu-header-footer"
 
+const { locale, setLocale } = useI18n()
+
 const localePath = useLocalePath()
 
 const store = useGlobalData()
@@ -98,13 +100,32 @@ const setCursorType = (type: string) => {
             >
           </div>
           <div cls="footer__bottom-wrap">
-            <a
-              :href="`mailto:${footer.email}`"
-              cls="footer__bottom-text"
-              @mouseover="setCursorType('link')"
-              @mouseleave="setCursorType('')"
-              >{{ footer.email }}</a
-            >
+            <div cls="footer__bottom-wrapper">
+              <a
+                :href="`mailto:${footer.email}`"
+                cls="footer__bottom-text"
+                @mouseover="setCursorType('link')"
+                @mouseleave="setCursorType('')"
+                >{{ footer.email }}</a
+              >
+              <button
+                v-if="locale === 'en'"
+                @click="setLocale('ru')"
+                @mouseover="setCursorType('link')"
+                @mouseleave="setCursorType('')"
+              >
+                Ru
+              </button>
+              <button
+                v-else
+                @click="setLocale('en')"
+                @mouseover="setCursorType('link')"
+                @mouseleave="setCursorType('')"
+              >
+                En
+              </button>
+            </div>
+
             <button
               cls="footer__bottom-to-top"
               @click="scrollTop"
@@ -258,9 +279,15 @@ const setCursorType = (type: string) => {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 24px;
     gap: 24px;
+    &-wrapper,
     &-box {
       display: flex;
       gap: 29px;
+    }
+    &-wrapper {
+      button {
+        color: rgba(255, 255, 255, 0.4);
+      }
     }
     &-text {
       color: rgba(255, 255, 255, 0.4);

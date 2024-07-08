@@ -1,31 +1,27 @@
 <script setup lang="ts">
-import type { Blogs } from "~/types/blog"
+import type { Blog } from "~/types/blog"
 
-const { locale } = useI18n()
-
-const { data } = useFetch<Blogs>("https://api.repin.agency/wp-json/api/v1/blogs?page=1")
-
-const blogs = computed(() => {
-  // if (locale.value === "ru" ) {
-  // return data.value?.ru
-  // }
-  return data.value?.ru
-})
+defineProps<{
+  title: string
+  pretitle: string
+  linkText: string
+  blogs?: Blog[]
+}>()
 </script>
 
 <template>
   <div v-if="blogs" cls="stories">
-    <r-title pretitle="Blog">
-      <template #title> Stories <span>& User Cases</span> </template>
+    <r-title :pretitle="pretitle">
+      <template #title> <div v-html="title" /></template>
       <template #addons>
         <nuxt-link to="/blog" class="underline-link" cls="stories__link">
-          See all articles
+          {{ linkText }}
         </nuxt-link>
       </template>
     </r-title>
     <lazy-delay-hydration>
       <lazy-blog-list>
-        <blog-item v-for="blog in blogs.blogs" :blog="blog" />
+        <blog-item v-for="blog in blogs" :blog="blog" />
       </lazy-blog-list>
     </lazy-delay-hydration>
     <r-button cls="stories__btn" to="/blog"> See all articles </r-button>

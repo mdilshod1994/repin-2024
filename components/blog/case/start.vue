@@ -1,20 +1,22 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+defineProps<{
+  title: string
+  desc: string
+  img: string
+  link: string
+  textLink: string
+}>()
+</script>
 
 <template>
-  <div cls="start" class="dark-background">
+  <div cls="start" class="dark-background" :style="`background: url(${img});`">
     <div cls="start__content">
-      <div cls="start__title">
-        <span>I want to try,</span> <br />
-        where do I start?
-      </div>
+      <div cls="start__title" v-html="title" />
       <div cls="start__desc">
-        You can take a couple of easy tasks that do not require any special skills. And if you want
-        to choose a specific specialization, first it is better to get professional skills in it.
-        For example, take a freelance designer course from Skillbox: it will teach you not only the
-        basics of design, but also how to find clients and build relationships with them.
+        {{ desc }}
       </div>
     </div>
-    <r-button cls="start__btn" bg-color="white"> Start a cource </r-button>
+    <r-button v-if="link" cls="start__btn" bg-color="white"> {{ textLink }} </r-button>
   </div>
 </template>
 
@@ -26,16 +28,16 @@
   flex-direction: column;
   gap: 40px;
   text-align: center;
-  background: url("@/assets/images/tempImages/bg-blog.png");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: center;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
   border-radius: 32px;
   &__content {
     display: flex;
     flex-direction: column;
     gap: 32px;
     color: var(--White);
+    align-items: center;
   }
   &__title {
     @include desctop-H2;

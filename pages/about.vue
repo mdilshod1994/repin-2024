@@ -4,10 +4,7 @@ import type { About, En } from "~/types/about"
 // const store = usePreloaderTrigger()
 const { locale } = useI18n()
 
-const { data: about } = await useFetch<About>("https://api.repin.agency/wp-json/api/v1/about", {
-  server: false,
-  lazy: true,
-})
+const { data: about } = useFetch<About>("https://api.repin.agency/wp-json/api/v1/about")
 
 const aboutContent = computed(() => {
   if (locale.value === "en") {

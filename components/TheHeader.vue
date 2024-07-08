@@ -87,7 +87,7 @@ const setCursorType = (type: string) => {
         <svgo-r-logo cls="header__logo-mob" />
       </nuxt-link>
       <nav cls="header__nav">
-        <div v-for="item in menu" v-show="item.link !== 'consulting' && item.link !== 'blog'">
+        <div v-for="item in menu" v-show="item.link !== 'consulting'">
           <nuxt-link
             cls="header__nav-link"
             :to="localePath(`/${item.link}`)"

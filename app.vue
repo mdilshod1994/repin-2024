@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Lenis from "lenis"
 
+const { locale } = useI18n()
 const { $gsap, $ScrollTrigger } = useNuxtApp()
 
 const store = useGlobalData()
@@ -19,15 +20,19 @@ onMounted(async () => {
   })
 })
 
-const nuxtApp = useNuxtApp()
+// const nuxtApp = useNuxtApp()
 
-nuxtApp.hook("page:start", () => {
-  _store.handlePreloader()
+// nuxtApp.hook("page:start", () => {
+//   _store.handlePreloader()
+// })
+const renderKey = ref(0)
+watch(locale, () => {
+  renderKey.value++
 })
 </script>
 
 <template>
-  <div cls="app">
+  <div :key="renderKey" cls="app">
     <r-preloader />
     <nuxt-layout>
       <nuxt-page />
@@ -43,9 +48,13 @@ nuxtApp.hook("page:start", () => {
 
 .page-enter-from {
   transform: translateY(-100px);
+  opacity: 0;
+  filter: blur(1rem);
 }
 .page-leave-to {
   transform: translateY(100px);
+  opacity: 0;
+  filter: blur(1rem);
 }
 .lenis {
   &.lenis-smooth {

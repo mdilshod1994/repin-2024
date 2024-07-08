@@ -63,10 +63,15 @@ useSeoMeta({
         />
       </lazy-delay-hydration>
     </div>
-    <div v-if="false" class="container">
+    <div class="container">
       <div cls="home__stories">
         <lazy-delay-hydration>
-          <home-stories />
+          <home-stories
+            :title="home.page.blog_title"
+            :pretitle="home.page.blog_subtitle"
+            :link-text="home.page.blog_link_text"
+            :blogs="home.blog"
+          />
         </lazy-delay-hydration>
       </div>
     </div>

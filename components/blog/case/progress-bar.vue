@@ -1,13 +1,12 @@
 <script setup lang="ts">
 const props = defineProps<{
   progress?: number
+  showHideScrollbar: boolean
 }>()
 
 const curIdx = ref(0)
 
 const progressPercent = computed(() => `${props.progress}%`)
-
-const showHideScrollbar = ref(false) // для показ/скрыть скроллбара в моб версии
 
 const scrollToBlock = (v) => {
   const blocks = document.querySelectorAll(".block")
@@ -51,17 +50,17 @@ onMounted(() => {
     observer.observe(item)
   })
 
-  const wrapBlog = document.querySelector(".wrap-blog")
+  // const wrapBlog = document.querySelector(".wrap-blog")
 
-  const observerScnd = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
-      showHideScrollbar.value = true
-    } else {
-      showHideScrollbar.value = false
-    }
-  })
-  if (!wrapBlog) return
-  observerScnd.observe(wrapBlog)
+  // const observerScnd = new IntersectionObserver((entries) => {
+  //   if (entries[0].isIntersecting) {
+  //     showHideScrollbar.value = true
+  //   } else {
+  //     showHideScrollbar.value = false
+  //   }
+  // })
+  // if (!wrapBlog) return
+  // observerScnd.observe(wrapBlog)
 })
 </script>
 

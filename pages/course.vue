@@ -58,6 +58,23 @@ onMounted(() => {
         <course-content />
       </div>
     </div>
+    <div class="course__outstaff">
+      <course-outstaff />
+    </div>
+    <div class="container">
+      <div cls="course__mentor">
+        <course-mentor />
+      </div>
+      <div cls="course__stats">
+        <course-stats />
+      </div>
+      <div cls="course__invest">
+        <course-invest />
+      </div>
+    </div>
+    <div cls="course__channel">
+      <course-channel />
+    </div>
   </div>
 </template>
 
@@ -101,6 +118,13 @@ onMounted(() => {
     }
   }
   &__content {
+    padding: 104px 0 128px;
+  }
+  &__stats,
+  &__mentor {
+    padding: 104px 0;
+  }
+  &__invest {
     padding: 104px 0 128px;
   }
 }

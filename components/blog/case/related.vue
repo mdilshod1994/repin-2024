@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { Blogs } from "~/types/blog"
 
+const { locale } = useI18n()
+
 const { updateType } = useMousemove()
 
 const setCursorType = (type: string) => {
@@ -11,10 +13,11 @@ const setCursorType = (type: string) => {
 const { data } = useFetch<Blogs>("https://api.repin.agency/wp-json/api/v1/blogs?page=1")
 
 const blogs = computed(() => {
-  // if (locale.value === "ru" ) {
-  // return data.value?.ru
-  // }
-  return data.value?.ru
+  if (locale.value === "ru") {
+    return data.value?.ru
+  } else {
+    return data.value?.en
+  }
 })
 </script>
 
@@ -27,11 +30,11 @@ const blogs = computed(() => {
     :mobile-gaps="[46]"
     cls="related"
   >
-    <r-title pretitle="Blog">
+    <r-title pretitle="Blog" flex-start>
       <template #title>
         <div cls="related__title">Related <span>articles</span></div>
       </template>
-      <template #addons>
+      <!-- <template #addons>
         <nuxt-link
           to=""
           class="underline-link"
@@ -41,7 +44,7 @@ const blogs = computed(() => {
         >
           Read on Medium
         </nuxt-link>
-      </template>
+      </template> -->
     </r-title>
     <blog-list>
       <blog-item v-for="blog in blogs.blogs" :blog="blog" />

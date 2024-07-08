@@ -1,198 +1,119 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { BlogAuthorsList, BlogContentFlex } from "~/types/blog-case"
+
+defineProps<{
+  blocks: BlogContentFlex[]
+  authorTitle?: string
+  authorList?: BlogAuthorsList[]
+}>()
+</script>
 
 <template>
   <div cls="wrap" class="wrap-blog">
-    <div cls="block" class="block">
-      <div cls="block__title">Figma: <span>Collaborative Design</span></div>
-      <div cls="block__text">
-        Although this has already been said, too, we cannot <a href="">emphasize</a> too much how
-        great a tool Figma is as it combines many tools in one. <br />
-        <br />
-        Rather than switching from tool to tool, feeling stressed by too many tabs and programs
-        filling any desktop space, Figma allows to have it all in one which simplifies and relaxes
-        all of the design process. And the best part is that we can share anything we like at all
-        time with any person included. Figma allows people to work on the very same project / file
-        at the very same time, bringing feedback, transparency and collaboration to a whole new
-        level. It is not unusual that we are two designers, one copywriter and one researcher all
-        tinkering within the same project, <a href="">focusing</a> on our own tasks whilst also
-        catching up with everyone else's progress, thoughts and ideas. <br />
-        <br />
-        Besides, we can also have stakeholders, clients, project managers etc. pp take a look and
-        give their two cents to the whole story, too — if that is what's needed at a certain point.
-      </div>
-      <div cls="block__img-video -mob-full-screen">
-        <div v-parallax cls="block__img-video-wrap">
-          <img src="https://cdn.motor1.com/images/mgl/MkO9NN/s1/future-supercars.webp" alt="" />
+    <div cls="block">
+      <div
+        v-for="block in blocks"
+        :cls="{
+          block__title: block.acf_fc_layout === 'flex_title',
+          '-big': block.flex_title_size?.value === '4',
+          '-medium': block.flex_title_size?.value === '6',
+          block__text: block.acf_fc_layout === 'flex_p',
+          'block__img-video': block.acf_fc_layout === 'flex_img',
+          block__list: block.acf_fc_layout === 'flex_ul',
+          block__info: block.acf_fc_layout === 'flex_img_text',
+          block__video: block.acf_fc_layout === 'flex_video',
+          block__flex: block.acf_fc_layout === 'flex_two_img',
+          block__quote: block.acf_fc_layout === 'flex_blockquote',
+          block__code: block.acf_fc_layout === 'flex_iframe',
+          'block__small-text': block.acf_fc_layout === 'flex_small',
+        }"
+        :class="`${block.acf_fc_layout === 'flex_title' && block.flex_title_size?.value === '4' ? 'block' : ''}`"
+      >
+        <div v-if="block.acf_fc_layout === 'flex_title'" v-html="block.flex_title_text" />
+        <div v-if="block.acf_fc_layout === 'flex_p'" v-html="block.flex_p_title" />
+        <div v-if="block.acf_fc_layout === 'flex_img'" cls="block__img-video">
+          <div cls="block__img-video-wrap">
+            <img :src="block.flex_img_link" alt="" />
+          </div>
+          <span v-if="block.helper">{{ block.helper }}</span>
         </div>
-      </div>
-      <div cls="block__text">
-        Although this has already been said, too, we cannot emphasize too much how great a tool
-        Figma is as it combines many tools in one. <br />
-        Rather than switching from tool to tool, feeling stressed by too many tabs and programs
-        filling any desktop space, Figma allows to have it all in one which simplifies and relaxes
-        all of the design process. And the best part is that we can share anything we like at all
-        time with any person included. Figma allows people to work on the very same project / file
-        at the very same time, bringing feedback, transparency and collaboration to a whole new
-        level. It is not unusual that we are two designers, one copywriter and one researcher all
-        tinkering within the same project, focusing on our own tasks whilst also catching up with
-        everyone else's progress, thoughts and ideas.
-      </div>
-      <div cls="block__list">
-        <div cls="block__list-title">How we improved it:</div>
-        <div cls="block__list-block">
-          <div v-for="(t, idx) in 5" cls="block__list-item">
-            <div cls="block__list-item-num">
-              {{ idx + 1 }}
+        <div v-if="block.acf_fc_layout === 'flex_small'">
+          {{ block.flex_small_text }}
+        </div>
+        <div v-if="block.acf_fc_layout === 'flex_ul'">
+          <div
+            v-if="block.acf_fc_layout === 'flex_ul' && block.flex_ul_type?.value === 'number'"
+            cls="block__list-block"
+          >
+            <div v-for="(t, idx) in block.flex_ul_list" cls="block__list-item">
+              <div cls="block__list-item-num">
+                {{ idx + 1 }}
+              </div>
+              <span v-html="t.item_ul" />
             </div>
-            <span>
-              Although this has already been said, too, we cannot emphasize too much how great a
-              tool Figma is as it combines many tools in one.
-            </span>
+          </div>
+          <div
+            v-if="block.acf_fc_layout === 'flex_ul' && block.flex_ul_type?.value === 'just'"
+            cls="block__list-block"
+          >
+            <div v-for="t in block.flex_ul_list" cls="block__list-item -mt">
+              <div cls="block__list-item-dot" />
+              <span v-html="t.item_ul" />
+            </div>
           </div>
         </div>
-      </div>
-      <div cls="block__text">
-        Besides, we can also have stakeholders, clients, project managers etc. pp take a look and
-        give their two cents to the whole story, too — if that is what's needed at a certain point.
-      </div>
-    </div>
-    <div cls="block" class="block">
-      <div cls="block__title"><span>Setting up files</span> with Figma</div>
-      <div cls="block__text">
-        Although this has already been said, too, we cannot emphasize too much how great a tool
-        Figma is as it combines many tools in one.
-        <br />
-        <br />
-        Rather than switching from tool to tool, feeling stressed by too many tabs and programs
-        filling any desktop space, Figma allows to have it all in one which simplifies and relaxes
-        all of the design process. And the best part is that we can share anything we like at all
-        time with any person included. Figma allows people to work on the very same project / file
-        at the very same time, bringing feedback, transparency and collaboration to a whole new
-        level. It is not unusual that we are two designers, one copywriter and one researcher all
-        tinkering within the same project, focusing on our own tasks whilst also catching up with
-        everyone else's progress, thoughts and ideas.
-        <br />
-        <br />
-        Besides, we can also have stakeholders, clients, project managers etc. pp take a look and
-        give their two cents to the whole story, too — if that is what's needed at a certain point.
-      </div>
-      <div cls="block__list">
-        <div cls="block__list-block">
-          <div v-for="t in 4" cls="block__list-item -mt">
-            <div cls="block__list-item-dot" />
-            <span>
-              Although this has already been said, too, we cannot emphasize too much how great a
-              tool Figma is as it combines many tools in one.
-            </span>
+        <div v-if="block.acf_fc_layout === 'flex_img_text'" cls="block__info">
+          <div cls="block__info-wrap">
+            <div cls="block__info-img">
+              <img :src="block.img" alt="" />
+            </div>
+            <span v-if="block.helper"> {{ block.helper }} </span>
           </div>
+          <div cls="block__text" v-html="block.text" />
         </div>
-      </div>
-      <div cls="block__text">
-        Apart from making neat and clean designs, we also use Figma for any internal project
-        documentation or to build LoFi prototypes to show and give an idea of our designs (more on
-        that in just a minute).
-        <br />
-        Sometimes, a project needs researchers, developers, engineers or project managers to take
-        part in the process. With Figma, we can decide which parts or versions of a design to share
-        in order to keep it easy and manageable, and also have other people comment without being
-        able to accidentally deleting or changing a design.
-      </div>
-      <div cls="block__img-video">
-        <div v-parallax cls="block__img-video-wrap">
-          <img
-            src="https://robbreport.com/wp-content/uploads/2022/11/11-w-Utopia_1.jpg?w=1000"
-            alt=""
+        <div v-if="block.acf_fc_layout === 'flex_video'" cls="block__video">
+          <r-video
+            v-if="block.cover_video_vimeo"
+            :vimeo="{ short: block.cover_video_vimeo, long: block.video_vimeo }"
+            remove-padding
           />
         </div>
-        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, s</span>
+        <div v-if="block.acf_fc_layout === 'flex_two_img'" cls="block__flex">
+          <div cls="block__code -small" />
+          <div cls="block__img-video -small">
+            <div cls="block__img-video-wrap">
+              <img :src="block.img_2" alt="" />
+            </div>
+          </div>
+        </div>
+        <div v-if="block.acf_fc_layout === 'flex_blockquote' && block.flex_blockquote_text">
+          <img src="@/assets/images/tempImages/quote.png" alt="" />
+          <div cls="block__quote-text">
+            {{ block.flex_blockquote_text }}
+          </div>
+        </div>
+        <div v-if="block.acf_fc_layout === 'flex_iframe'">
+          <!-- <div class="block__text">Here will be some of code</div> -->
+          <div v-html="block.flex_iframe_code" />
+        </div>
       </div>
     </div>
+
     <div cls="block" class="block">
-      <div cls="block__title">
-        <span>Variants & Interactive</span> <br />
-        Components with Figma
-      </div>
-      <div cls="block__text">
-        A couple of months ago, we signed up for testing and using a rather new feature called
-        "interactive components." And yes, we really think that this feature opens up another world
-        to us. With "interactive components" we can design and work with prototypes in an even more
-        interactive way and simultaneously reduce time, effort and stress whilst working.
-      </div>
-      <div cls="block__info">
-        <div cls="block__info-wrap">
-          <div v-parallax cls="block__info-img">
-            <img
-              src="https://hips.hearstapps.com/hmg-prod/images/22c0387-028-1670825222.jpg?crop=0.651xw:0.813xh;0.172xw,0.187xh&resize=640:*"
-              alt=""
-            />
-          </div>
-          <span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, s </span>
-        </div>
-        <div cls="block__text">
-          A couple of months ago, we signed up for testing and using a rather new feature called
-          "interactive components." And yes, we really think that this feature opens up another
-          world to us. With "interactive components" we can design and work with prototypes in an
-          even more interactive way and simultaneously reduce time, effort and stress whilst
-          working.
-          <br />
-          <br />
-          Apart from making neat and clean designs, we also use Figma for any internal project
-          documentation or to build LoFi prototypes to show and give an idea of our designs (more on
-          that in just a minute).
-        </div>
-      </div>
-      <div cls="block__text">
-        A couple of months ago, we signed up for testing and using a rather new feature called
-        "interactive components." And yes, we really think that this feature opens up another world
-        to us. With "interactive components" we can design and work with prototypes in an even more
-        interactive way and simultaneously reduce time, effort and stress whilst working.
-      </div>
-      <div cls="block__code">
-        <div class="block__text">Here will be some of code</div>
-      </div>
-      <div cls="block__video">
-        <r-video :vimeo="{ short: 'https://vimeo.com/955895016' }" remove-padding />
-      </div>
-      <div cls="block__text">
-        Every designer will show their projects and the designs, talk about processes and changes
-        whilst comments or proposed modifications by the rest of the team can be directly noted in
-        Figma throughout the comment function. This way, we can talk and discuss and document
-        without needing to stop the talking and flow. These comments will then be worked through,
-        serving as gentle guidance.
-        <br />
-        <br />
-        In the end, our designs live by the feedback we give. At Studio Lenzing, constructive
-        critiques are part of our DNA and creatively and warmly shape the work we do.
-      </div>
-      <div cls="block__flex">
-        <div cls="block__code -small" />
-        <div cls="block__img-video -small">
-          <div v-parallax cls="block__img-video-wrap">
-            <img
-              src="https://www-europe.nissan-cdn.net/content/dam/Nissan/nissan_europe/vehicles/TDIEU_MY22_LEAF_full_pes_vlp-plus/OVERVIEW/DESIGN/LHD/18TDIEULHD_LEAF_B12P028_V1_pace108-m.jpg"
-              alt=""
-            />
-          </div>
-        </div>
-      </div>
-      <div cls="block__quote">
-        <img src="@/assets/images/tempImages/quote.png" alt="" />
-        <div cls="block__quote-text">
-          "Good organization of work, excellent communication at every stage, from initiation and
-          data collection, through execution and editing, and ending with the delivery of the
-          finished result. Deep immersion in the tasks and goals of the project, in conjunction with
-          personal experience, resulted in an excellent result. Very satisfied, 100% recommend."
-        </div>
-      </div>
-      <div cls="block__contributors">
+      <div v-if="authorList" cls="block__contributors">
         <div cls="block__share">
           <blog-case-share />
         </div>
-        <div cls="block__contributors-title -desk">Contributors</div>
-        <div cls="block__contributors-title -mob">The article was made by</div>
+        <div cls="block__contributors-title">{{ authorTitle }}</div>
+        <!-- <div cls="block__contributors-title -desk">{{ authorTitle }}</div> -->
+        <!-- <div cls="block__contributors-title -mob">The article was made by</div> -->
         <div cls="block__contributors-authors">
-          <r-author name="Ivan Repin" profession="Art Direction" />
-          <r-author name="Ivan Repin" profession="Art Direction" />
+          <r-author
+            v-for="(author, idx) in authorList"
+            :key="idx"
+            :name="author.item_name"
+            :profession="author.item_sign"
+          />
         </div>
       </div>
     </div>
@@ -203,23 +124,32 @@
 .wrap {
   display: flex;
   flex-direction: column;
-  gap: 104px;
   width: 100%;
   max-width: 1001px;
+  gap: 104px;
 }
 .block {
   display: flex;
   flex-direction: column;
-  gap: 48px;
   &__share {
     display: none;
   }
   &__title {
-    @include desctop-H2;
-    span {
-      @include desctop-H2-ram;
-      font-style: italic;
+    &.-big {
+      @include desctop-H2;
+      span {
+        @include desctop-H2-ram;
+        font-style: italic;
+      }
     }
+    &.-medium {
+      @include desctop-H4-ram;
+    }
+  }
+  &__small-text {
+    display: block;
+    text-align: center;
+    margin-top: 8px;
   }
   &__text {
     @include article-17;
@@ -261,9 +191,6 @@
     display: flex;
     flex-direction: column;
     gap: 40px;
-    &-title {
-      @include desctop-H4-ram;
-    }
     &-block {
       display: flex;
       flex-direction: column;
@@ -275,6 +202,7 @@
       &-num {
         width: 32px;
         height: 32px;
+        flex-shrink: 0;
         color: var(--Purple);
         font-family: "Ramillas Trial";
         font-size: 24px;
@@ -288,6 +216,7 @@
       &-dot {
         width: 32px;
         height: 26px;
+        flex-shrink: 0;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -345,11 +274,9 @@
     }
   }
   &__code {
-    height: 684px;
     border-radius: 32px;
     overflow: hidden;
     width: 100%;
-    background: var(--Purple);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -357,6 +284,10 @@
     text-transform: uppercase;
     font-style: italic;
     font-weight: 700;
+    div {
+      width: 100%;
+      height: 100%;
+    }
     &.-small {
       height: 596px;
     }
@@ -397,19 +328,90 @@
       }
     }
   }
+  &__small-text + &__title,
+  &__list + &__title,
+  &__flex + &__title,
+  &__code + &__title,
+  &__video + &__title,
+  &__info + &__title,
+  &__img-video + &__title,
+  &__text + &__title {
+    margin-top: 104px;
+    &.-medium {
+      margin: 48px 0 0 !important;
+    }
+  }
+  &__text + &__flex,
+  &__text + &__list,
+  &__text + &__code,
+  &__text + &__img-video,
+  &__text + &__info {
+    margin-top: 48px;
+    &.-mob-full-screen {
+      margin-top: 48px;
+    }
+  }
+  &__small-text + &__text,
+  &__title + &__flex,
+  &__title + &__code,
+  &__title + &__video,
+  &__title + &__info,
+  &__title + &__img-video,
+  &__title + &__list,
+  &__title + &__text,
+  &__list + &__flex,
+  &__list + &__code,
+  &__list + &__video,
+  &__list + &__info,
+  &__list + &__img-video,
+  &__list + &__text,
+  &__img-video + &__list,
+  &__img-video + &__text,
+  &__video + &__text,
+  &__video + &__flex,
+  &__video + &__code,
+  &__video + &__video,
+  &__video + &__info,
+  &__video + &__img-video,
+  &__video + &__text,
+  &__info + &__flex,
+  &__info + &__code,
+  &__info + &__info,
+  &__info + &__img-video,
+  &__info + &__text {
+    margin-top: 48px;
+  }
+  &__code + &__video {
+    margin-top: 16px;
+  }
 }
 
 @include tablet {
   .wrap {
-    gap: 72px;
   }
   .block {
-    gap: 32px;
     &__title {
-      @include mob-H1;
-      span {
-        @include mob-H1-ram;
-        font-style: italic;
+      &.-big {
+        @include mob-H1;
+        span {
+          @include mob-H1-ram;
+          font-style: italic;
+        }
+      }
+      &.-medium {
+        @include mob-h4-22-ram;
+      }
+    }
+    &__small-text + &__title,
+    &__list + &__title,
+    &__flex + &__title,
+    &__code + &__title,
+    &__video + &__title,
+    &__info + &__title,
+    &__img-video + &__title,
+    &__text + &__title {
+      &.-medium {
+        margin: 32px 0 0 !important;
       }
     }
     &__text {
@@ -455,7 +457,6 @@
       }
     }
     &__code {
-      height: 494px;
       border-radius: 16px;
 
       &.-small {
@@ -496,6 +497,9 @@
   }
 }
 @include tablet-small {
+  .warp {
+    gap: 72px;
+  }
   .block {
     &__info {
       &-wrap {
@@ -504,6 +508,59 @@
       &-img {
         border-radius: 16px;
       }
+    }
+    &__small-text + &__title,
+    &__list + &__title,
+    &__flex + &__title,
+    &__code + &__title,
+    &__video + &__title,
+    &__info + &__title,
+    &__img-video + &__title,
+    &__text + &__title {
+      margin-top: 72px;
+    }
+    &__text + &__flex,
+    &__text + &__code,
+    &__text + &__list,
+    &__text + &__img-video,
+    &__text + &__info {
+      margin-top: 32px;
+      &.-mob-full-screen {
+        margin-top: 32px;
+      }
+    }
+    &__small-text + &__text,
+    &__title + &__flex,
+    &__title + &__code,
+    &__title + &__video,
+    &__title + &__info,
+    &__title + &__img-video,
+    &__title + &__list,
+    &__title + &__text,
+    &__list + &__flex,
+    &__list + &__code,
+    &__list + &__video,
+    &__list + &__info,
+    &__list + &__img-video,
+    &__list + &__text,
+    &__img-video + &__list,
+    &__img-video + &__text,
+    &__video + &__text,
+    &__video + &__flex,
+    &__video + &__code,
+    &__video + &__video,
+    &__video + &__info,
+    &__video + &__img-video,
+    &__video + &__text,
+    &__info + &__flex,
+    &__info + &__code,
+    &__info + &__info,
+    &__info + &__img-video,
+    &__info + &__text {
+      margin-top: 32px;
+    }
+    &__code + &__video {
+      margin-top: 8px;
     }
   }
 }
@@ -526,6 +583,7 @@
     }
     &__text + &__flex,
     &__text + &__code,
+    &__text + &__list,
     &__text + &__img-video,
     &__text + &__info {
       margin-top: 32px;
@@ -628,7 +686,7 @@
       img {
         width: 170px;
         height: 131px;
-        bottom: -17px;
+        bottom: 0;
         left: auto;
         top: auto;
         right: 0;

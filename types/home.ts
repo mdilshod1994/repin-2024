@@ -1,3 +1,5 @@
+import type { Blog } from "./blog"
+
 export interface Home {
   en: HomeEn
   ru: HomeEn
@@ -20,15 +22,6 @@ export interface Category {
   parent: number
   count: number
   filter: string
-}
-
-export interface Blog {
-  id: number
-  title: string
-  slug: string
-  cover: string
-  description: string
-  time?: string
 }
 
 export interface Page {

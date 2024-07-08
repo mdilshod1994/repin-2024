@@ -146,7 +146,7 @@ const setCursorType = (type: string) => {
     gap: v-bind(deskGap);
   }
   &__left {
-    max-width: 729px;
+    max-width: 800px;
   }
   &__right {
     padding-top: 16px;

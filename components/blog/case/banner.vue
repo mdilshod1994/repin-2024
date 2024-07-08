@@ -1,6 +1,13 @@
 <script setup lang="ts">
 const store = usePreloaderTrigger()
-
+defineProps<{
+  date?: string
+  min?: string
+  title?: string
+  tags?: string[]
+  desc?: string
+  subdesc?: string
+}>()
 onMounted(() => {
   store.handlePreloader(true)
 })
@@ -15,7 +22,10 @@ onMounted(() => {
     :mobile-gaps="[16]"
   >
     <div cls="banner__top">
-      <r-round-button size="small"><svgo-info /></r-round-button> 12.11.2021 <span /> 4 min read
+      <r-round-button size="small"><svgo-info /></r-round-button>
+      <p v-if="date">{{ date }}</p>
+      <span />
+      <p v-if="min">{{ min }}</p>
     </div>
     <lazy-r-banner
       vertical-gap="32"
@@ -24,31 +34,22 @@ onMounted(() => {
       mobile-bottom-left
       mob-gap="24"
     >
-      <template #title>
+      <template v-if="title" #title>
         <div cls="banner__title">
-          Can walking meetings
-          <span>
-            lead
-            <br />
-            to healthier lives?
-          </span>
+          {{ title }}
         </div>
       </template>
       <div class="texts -column">
-        <div class="text -bold">
-          A conversation with Spot’s CEO on how opinionated technology can support healthier
-          collaboration and healthier lives.
+        <div v-if="desc" class="text -bold">
+          {{ desc }}
         </div>
-        <div class="text" cls="banner__text">
-          Each month we’ll highlight a company that is providing a product or service to support
-          distributed teams, asynchronous communication, work from anywhere, and a more mindful
-          approach to work. Twist was built with these characteristics in mind, and each of our
-          featured partners align with those values.
+        <div v-if="subdesc" class="text" cls="banner__text">
+          {{ subdesc }}
         </div>
       </div>
-      <template #bottom-left>
+      <template v-if="tags" #bottom-left>
         <div class="tabs">
-          <div v-for="t in 4" class="tab">tags</div>
+          <div v-for="t in tags" class="tab">{{ t }}</div>
         </div>
       </template>
     </lazy-r-banner>
