@@ -1,3 +1,7 @@
+<!-- 
+  TODO:
+  Поправить логику куки и использовать pinia-persist
+-->
 <script setup lang="ts">
 const cookies = useCookie<{ accCookies: number }>("accCookies")
 

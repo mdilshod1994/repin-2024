@@ -1,3 +1,11 @@
+<!-- 
+TODO:
+1) удалить vimeo plugin и подключить через cdn
+2) придумать логику поочередность отправки запроса на вимео... 
+    ПРОЧИНЫ:
+    1) Ошибка: Too many request, выходит временами, но все же надо устравнить!!!
+    2) Предупреждение: "Third-party cookie will be blocked in future Chrome versions as part of Privacy Sandbox.", иногда доходит до 20000 предупреждении!!!
+-->
 <script setup lang="ts">
 import Player from "@vimeo/player"
 
@@ -13,9 +21,8 @@ defineProps<{
 }>()
 const vimeoCard = ref()
 onMounted(() => {
-  let playerCardVideo
   if (vimeoCard.value) {
-    playerCardVideo = new Player(vimeoCard.value, {
+    const playerCardVideo = new Player(vimeoCard.value, {
       url: vimeoCard.value.dataset.videoUrl,
       background: true,
       loop: true,

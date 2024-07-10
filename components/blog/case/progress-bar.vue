@@ -1,3 +1,8 @@
+<!-- 
+TODO:
+  Изменить логику изменения "curIdx" при скролле, IntersectionObserver справляется плохо, либо логика не правильная
+-->
+
 <script setup lang="ts">
 const props = defineProps<{
   progress?: number
@@ -49,18 +54,6 @@ onMounted(() => {
     item.setAttribute("data-idx", `${idx}`)
     observer.observe(item)
   })
-
-  // const wrapBlog = document.querySelector(".wrap-blog")
-
-  // const observerScnd = new IntersectionObserver((entries) => {
-  //   if (entries[0].isIntersecting) {
-  //     showHideScrollbar.value = true
-  //   } else {
-  //     showHideScrollbar.value = false
-  //   }
-  // })
-  // if (!wrapBlog) return
-  // observerScnd.observe(wrapBlog)
 })
 </script>
 

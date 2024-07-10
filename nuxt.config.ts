@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     "@nuxtjs/partytown",
     "nuxt-svgo",
     "@pinia/nuxt",
+    "@pinia-plugin-persistedstate/nuxt",
     [
       "@nuxtjs/i18n",
       {

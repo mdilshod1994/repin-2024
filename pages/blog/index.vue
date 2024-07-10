@@ -1,22 +1,21 @@
 <script setup lang="ts">
-import Cookies from "universal-cookie"
-
 import type { Blogs } from "~/types/blog"
+
+const _store = useBlogPagination()
 
 const { locale } = useI18n()
 
-const cookies = new Cookies(null, { path: "/" })
-const store = usePreloaderTrigger()
 const { updateType } = useMousemove()
 
 const setCursorType = (type: string) => {
   updateType(type)
 }
+
 const blogs = ref<Blogs>()
-const page = ref(1)
 
-const lastFetchedPage = cookies.get("b-curr-page")
-
+const page = computed(() => {
+  return _store.page
+})
 const fetchData = async (fpage: number) => {
   if (fpage > 1) {
     await fetchBlogs(fpage)
@@ -30,11 +29,14 @@ const fetchBlogs = async (bpage: number) => {
     await $fetch<Blogs>(`https://api.repin.agency/wp-json/api/v1/blogs?page=${bpage}`).then(
       (res) => {
         if (bpage > 1) {
-          blogs.value?.ru.blogs.push(...res.ru.blogs)
+          if (locale.value === "ru") {
+            blogs.value?.ru.blogs.push(...res.ru.blogs)
+          } else {
+            blogs.value?.en.blogs.push(...res.en.blogs)
+          }
         } else {
           blogs.value = res
         }
-        store.handlePreloader(true)
       },
     )
   } catch (error) {
@@ -45,9 +47,8 @@ const fetchBlogs = async (bpage: number) => {
 const nextPage = () => {
   if (!blogs.value) return
   if (page.value < blogs.value.ru.total_pages) {
-    page.value++
+    _store.encrease()
     fetchData(page.value)
-    cookies.set("b-curr-page", page.value)
   }
 }
 
@@ -60,10 +61,9 @@ const tblogs = computed(() => {
 })
 
 onMounted(async () => {
-  if (lastFetchedPage > page.value) {
-    for (let index = 0; index < lastFetchedPage; index++) {
-      const page = index + 1
-      await fetchData(page)
+  if (page.value > 1) {
+    for (let index = 0; index < page.value; index++) {
+      await fetchData(index + 1)
     }
   } else {
     await fetchData(1)
@@ -105,6 +105,8 @@ onMounted(async () => {
             v-if="tblogs.blogs.length < tblogs.total_blogs"
             cls="blogs__btn"
             @click="nextPage"
+            @mouseover="setCursorType('link')"
+            @mouseleave="setCursorType('')"
           >
             Show more
           </r-button>

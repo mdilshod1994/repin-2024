@@ -2,7 +2,6 @@
 import type { Blog } from "~/types/blog-case"
 
 const { $ScrollTrigger } = useNuxtApp()
-const _store = usePreloaderTrigger()
 const showHideScrollbar = ref(false) // для показ/скрыть скроллбара в моб версии
 const block = ref()
 const progress = ref(0)
@@ -10,9 +9,6 @@ const { id } = useRoute().params
 const { data } = await useFetch<Blog>(`https://api.repin.agency/wp-json/api/v1/article/${id}`, {
   server: false,
   lazy: true,
-  onResponse() {
-    _store.handlePreloader(true)
-  },
 })
 useSeoMeta({
   title: () => `Repin Agency | ${data.value?.title}`,
@@ -89,7 +85,7 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <div v-if="data.fields.blog_less_title && data.fields.blog_less_desc" cls="blog__start">
+      <!-- <div v-if="data.fields.blog_less_title && data.fields.blog_less_desc" cls="blog__start">
         <lazy-blog-case-start
           :title="data.fields.blog_less_title"
           :desc="data.fields.blog_less_desc"
@@ -97,7 +93,7 @@ onMounted(() => {
           :link="data.fields.blog_lessong_link"
           :text-link="data.fields.blog_btn"
         />
-      </div>
+      </div> -->
       <div cls="blog__related">
         <lazy-blog-case-related />
       </div>
