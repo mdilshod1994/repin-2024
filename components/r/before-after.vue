@@ -66,7 +66,10 @@ onMounted(() => {
     <div cls="before-after__img">
       <slot name="after" />
     </div>
-    <div ref="after" :cls="{ 'before-after__img': true, '-after-anim': removeAnimation }">
+    <div
+      ref="after"
+      :cls="{ 'before-after__img': true, '-after-wrap': true, '-after-anim': removeAnimation }"
+    >
       <slot name="before" />
     </div>
     <button ref="baBtn" :cls="{ 'before-after__btn': true, '-btn-anim': removeAnimation }">
@@ -87,7 +90,6 @@ onMounted(() => {
 
 <style module lang="scss">
 .before-after {
-  aspect-ratio: 16/9;
   overflow: hidden;
   position: relative;
   &__overlay {
@@ -100,14 +102,23 @@ onMounted(() => {
     // cursor: e-resize;
   }
   &__img {
-    position: absolute;
-    left: 0;
-    top: 0;
     height: 100%;
     width: 100%;
     img {
-      height: 100%;
+      height: auto;
+      width: 100%;
       object-position: left;
+    }
+    &.-after-wrap {
+      position: absolute;
+      left: 0;
+      top: 0;
+      min-height: 100%;
+      img {
+        min-height: 100% !important;
+        width: 100%;
+        object-position: left;
+      }
     }
     &.-after-anim {
       animation-name: bgAnim;
