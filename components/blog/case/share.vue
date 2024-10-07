@@ -1,24 +1,27 @@
-<!-- 
-TODO: 
-икноки поставить 
--->
+<script setup lang="ts">
+const props = defineProps<{
+  title: string
+}>()
 
-<script setup lang="ts"></script>
+const route = useRoute()
+
+const twitterShareUrl = `https://twitter.com/intent/tweet?text=${props.title}&url=${route.fullPath}`
+</script>
 
 <template>
   <div cls="share">
     <div cls="share__title">Share this story</div>
     <div cls="share__line" />
     <div cls="share__list">
-      <div cls="share__link">
+      <a :href="twitterShareUrl" target="_blank" rel="noopener noreferrer" cls="share__link">
         <svgo-tw />
-      </div>
-      <div cls="share__link">
+      </a>
+      <!-- <a :href="" target="_blank" rel="noopener noreferrer" cls="share__link">
         <svgo-tg />
-      </div>
-      <div cls="share__link">
+      </a>
+      <a :href="" target="_blank" rel="noopener noreferrer" cls="share__link">
         <svgo-vk />
-      </div>
+      </a> -->
     </div>
   </div>
 </template>

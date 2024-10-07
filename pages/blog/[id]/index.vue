@@ -67,7 +67,7 @@ onMounted(() => {
     <div class="container">
       <div cls="blog__wrap">
         <div cls="blog__share">
-          <lazy-blog-case-share />
+          <lazy-blog-case-share :title="data.title" />
         </div>
         <div cls="blog__wrap-inner">
           <div ref="block" cls="blog__wrap-box">
