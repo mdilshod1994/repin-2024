@@ -108,7 +108,7 @@ const setCursorType = (type: string) => {
                 @mouseleave="setCursorType('')"
                 >{{ footer.email }}</a
               >
-              <button
+              <!-- <button
                 v-if="locale === 'en'"
                 @click="setLocale('ru')"
                 @mouseover="setCursorType('link')"
@@ -123,7 +123,7 @@ const setCursorType = (type: string) => {
                 @mouseleave="setCursorType('')"
               >
                 En
-              </button>
+              </button> -->
             </div>
 
             <button
