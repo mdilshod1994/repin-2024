@@ -5,7 +5,11 @@ const props = defineProps<{
 
 const route = useRoute()
 
-const twitterShareUrl = `https://twitter.com/intent/tweet?text=${props.title}&url=${route.fullPath}`
+const url = `https://repin.agency/blog/${route.params.id}`
+
+const twShareUrl = `https://twitter.com/intent/tweet?text=${props.title}&url=${url}`
+const tgShareUrl = `https://t.me/share/url?url=${url}&text=${props.title}`
+const vkShareUrl = `https://vk.com/share.php?url=${url}&title=${props.title}`
 </script>
 
 <template>
@@ -13,15 +17,15 @@ const twitterShareUrl = `https://twitter.com/intent/tweet?text=${props.title}&ur
     <div cls="share__title">Share this story</div>
     <div cls="share__line" />
     <div cls="share__list">
-      <a :href="twitterShareUrl" target="_blank" rel="noopener noreferrer" cls="share__link">
+      <a :href="twShareUrl" target="_blank" rel="noopener noreferrer" cls="share__link">
         <svgo-tw />
       </a>
-      <!-- <a :href="" target="_blank" rel="noopener noreferrer" cls="share__link">
+      <a :href="tgShareUrl" target="_blank" rel="noopener noreferrer" cls="share__link">
         <svgo-tg />
       </a>
-      <a :href="" target="_blank" rel="noopener noreferrer" cls="share__link">
+      <a :href="vkShareUrl" target="_blank" rel="noopener noreferrer" cls="share__link">
         <svgo-vk />
-      </a> -->
+      </a>
     </div>
   </div>
 </template>
