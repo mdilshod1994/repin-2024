@@ -96,11 +96,9 @@ onMounted(async () => {
           :tablet-gaps="[124]"
           :mobile-gaps="[56]"
         >
-          <lazy-delay-hydration>
-            <lazy-blog-list>
-              <lazy-blog-item v-for="blog in tblogs.blogs" :key="blog.id" :blog="blog" />
-            </lazy-blog-list>
-          </lazy-delay-hydration>
+          <lazy-blog-list>
+            <lazy-blog-item v-for="blog in tblogs.blogs" :key="blog.id" :blog="blog" />
+          </lazy-blog-list>
           <r-button
             v-if="tblogs.blogs.length < tblogs.total_blogs"
             cls="blogs__btn"
@@ -113,9 +111,7 @@ onMounted(async () => {
         </r-grid>
       </r-grid>
     </div>
-    <lazy-delay-hydration>
-      <re-use-social-media />
-    </lazy-delay-hydration>
+    <!-- <re-use-social-media /> -->
   </div>
 </template>
 

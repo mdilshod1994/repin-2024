@@ -1,15 +1,13 @@
 <script setup lang="ts">
-const store = useGlobalData()
+const { data } = await useFetch("/api/privacy-policy")
 
 const pp = computed(() => {
-  return store.privacyPolicy
+  return data.value?.en
 })
+
 useSeoMeta({
   title: () => `Repin Agency | ${pp.value?.post_title}`,
   ogTitle: () => `Repin Agency | ${pp.value?.post_title}`,
-})
-onMounted(async () => {
-  await store.getPrivacyPolicyPageInfo()
 })
 </script>
 

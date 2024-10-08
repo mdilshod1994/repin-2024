@@ -1,21 +1,9 @@
 <script setup lang="ts">
 import Player from "@vimeo/player"
 
-import type { PortfolioCase } from "~/types/portfolio-case"
-
-const _store = usePreloaderTrigger()
-
 const { id } = useRoute().params
-const { data } = await useFetch<PortfolioCase>(
-  `https://api.repin.agency/wp-json/api/v1/project/${id}`,
-  {
-    server: false,
-    lazy: true,
-    onResponse() {
-      _store.handlePreloader(true)
-    },
-  },
-)
+
+const { data } = await useFetch(`/api/project/${id}`)
 
 const vimeoVideo = ref()
 const reverse = ref(false)
@@ -181,7 +169,6 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-
       <div v-if="block.acf_fc_layout === 'flex_desc_author'" class="container">
         <div cls="case__expirience">
           <re-use-expirience :feedback-desc="block?.fda_desc">

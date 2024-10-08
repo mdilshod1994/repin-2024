@@ -1,15 +1,13 @@
 <script setup lang="ts">
-const store = useGlobalData()
+const { data } = await useFetch("/api/offer-agreement")
 
 const cp = computed(() => {
-  return store.cookiePrivacy
+  return data.value?.en
 })
+
 useSeoMeta({
   title: () => `Repin Agency | ${cp.value?.post_title}`,
   ogTitle: () => `Repin Agency | ${cp.value?.post_title}`,
-})
-onMounted(async () => {
-  await store.getCookiePrivacyPageInfo()
 })
 </script>
 

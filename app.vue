@@ -4,10 +4,9 @@ import Lenis from "lenis"
 const { locale } = useI18n()
 const { $gsap, $ScrollTrigger } = useNuxtApp()
 
-const store = useGlobalData()
 const _store = usePreloaderTrigger()
+
 onMounted(async () => {
-  await store.getMainPageInfo()
   _store.handlePreloader()
   const lenis = new Lenis({
     lerp: 0.07,
@@ -33,7 +32,7 @@ watch(locale, () => {
 
 <template>
   <div :key="renderKey" cls="app">
-    <r-preloader />
+    <!-- <r-preloader /> -->
     <nuxt-layout>
       <nuxt-page />
     </nuxt-layout>

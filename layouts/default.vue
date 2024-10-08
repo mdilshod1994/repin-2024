@@ -1,18 +1,21 @@
 <script setup lang="ts">
-const store = useGlobalData()
-onMounted(async () => {
-  await store.getMenuHeaderFooter()
+const { data: header_footer } = await useFetch("/api/headerAndFooter")
+
+const header = computed(() => {
+  return header_footer.value?.en.header
+})
+
+const footer = computed(() => {
+  return header_footer.value?.en.footer
 })
 </script>
 
 <template>
   <div cls="layout">
     <r-cursor />
-    <the-header />
+    <the-header :header="header" />
     <slot />
-    <lazy-delay-hydration>
-      <the-footer />
-    </lazy-delay-hydration>
+    <the-footer :footer="footer" />
     <div class="container">
       <div cls="layout__cookies">
         <r-cookies />

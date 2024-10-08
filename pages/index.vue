@@ -1,14 +1,10 @@
 <script setup lang="ts">
-const { locale } = useI18n()
-const store = useGlobalData()
+const { data } = await useFetch("/api/getHomePage")
 
 const home = computed(() => {
-  if (locale.value === "en") {
-    return store.home?.en
-  } else {
-    return store.home?.ru
-  }
+  return data.value?.en
 })
+
 useSeoMeta({
   title: "Repin Agency",
   ogTitle: "Repin Agency",
@@ -21,58 +17,48 @@ useSeoMeta({
   <div v-if="home" cls="home">
     <div class="container">
       <div cls="home__top">
-        <lazy-delay-hydration>
-          <home-banner :banner="home.page" />
-        </lazy-delay-hydration>
+        <home-banner :banner="home.page" />
       </div>
     </div>
     <div v-if="home.page.promo_video_short_vimeo || home.page.promo_video_long_vimeo">
-      <lazy-delay-hydration>
-        <r-video
-          :vimeo="{
-            short: home.page.promo_video_short_vimeo,
-            long: home.page.promo_video_long_vimeo,
-          }"
-        />
-      </lazy-delay-hydration>
+      <r-video
+        :vimeo="{
+          short: home.page.promo_video_short_vimeo,
+          long: home.page.promo_video_long_vimeo,
+        }"
+      />
     </div>
     <div class="container">
       <div cls="home__portfolio">
-        <lazy-delay-hydration>
-          <home-portfolio
-            :title="home.page.portfolio_title"
-            :subtitle="home.page.portfolio_subtitle"
-            :portfolio-btn="home.page.portfolio_btn"
-            :categories="home.categories"
-          />
-        </lazy-delay-hydration>
+        <home-portfolio
+          :title="home.page.portfolio_title"
+          :subtitle="home.page.portfolio_subtitle"
+          :portfolio-btn="home.page.portfolio_btn"
+          :categories="home.categories"
+        />
       </div>
     </div>
     <!-- Скрыт временно -->
     <div v-if="false" cls="home__consulting">
-      <lazy-delay-hydration>
-        <home-consulting />
-      </lazy-delay-hydration>
+      <home-consulting />
     </div>
     <div cls="home__clients">
-      <lazy-delay-hydration>
+      <client-only>
         <home-our-clients
           :reviews="home.page.reviews"
           :title="home.page.reviews_title"
           :subtitle="home.page.reviews_subtitle"
         />
-      </lazy-delay-hydration>
+      </client-only>
     </div>
     <div class="container">
       <div cls="home__stories">
-        <lazy-delay-hydration>
-          <home-stories
-            :title="home.page.blog_title"
-            :pretitle="home.page.blog_subtitle"
-            :link-text="home.page.blog_link_text"
-            :blogs="home.blog"
-          />
-        </lazy-delay-hydration>
+        <home-stories
+          :title="home.page.blog_title"
+          :pretitle="home.page.blog_subtitle"
+          :link-text="home.page.blog_link_text"
+          :blogs="home.blog"
+        />
       </div>
     </div>
   </div>

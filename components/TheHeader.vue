@@ -1,15 +1,13 @@
 <script setup lang="ts">
-const store = useGlobalData()
+import type { Header } from "~/types/menu-header-footer"
+
 const { locale } = useI18n()
 
 const localePath = useLocalePath()
 
-const menu = computed(() => {
-  return store.header?.menu
-})
-
 defineProps<{
   bgBlack?: boolean
+  header?: Header
 }>()
 const scrolledUp = ref(true)
 const isActive = ref(false)
@@ -66,7 +64,7 @@ const setCursorType = (type: string) => {
 
 <template>
   <div
-    v-if="menu"
+    v-if="header"
     id="header"
     :cls="{
       header: true,
@@ -87,7 +85,7 @@ const setCursorType = (type: string) => {
         <svgo-r-logo cls="header__logo-mob" />
       </nuxt-link>
       <nav cls="header__nav">
-        <div v-for="item in menu" v-show="item.link !== 'consulting'">
+        <div v-for="item in header.menu" v-show="item.link !== 'consulting'">
           <nuxt-link
             cls="header__nav-link"
             :to="localePath(`/${item.link}`)"
@@ -125,7 +123,7 @@ const setCursorType = (type: string) => {
         </r-round-button>
       </div>
     </div>
-    <mob-menu v-model:active="isActive" :menu="menu" />
+    <mob-menu v-model:active="isActive" :menu="header.menu" />
     <transition name="fade-overlay">
       <div v-if="isActive" cls="header__mobile-overlay" @click="showMenu" />
     </transition>

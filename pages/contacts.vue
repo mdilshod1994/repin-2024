@@ -1,21 +1,11 @@
 <script setup lang="ts">
-const { locale } = useI18n()
-
-const store = useGlobalData()
+const { data } = await useFetch("/api/contacts")
 
 const contact = computed(() => {
-  if (locale.value === "en") {
-    return store.contacts?.en.page
-  } else {
-    return store.contacts?.ru.page
-  }
+  return data.value?.en.page
 })
 
 const target = ref<HTMLElement | null>(null)
-
-onMounted(async () => {
-  await store.getContactPageInfo()
-})
 
 const { updateType } = useMousemove()
 
@@ -123,9 +113,7 @@ useSeoMeta({
         </div>
       </div>
     </div>
-    <lazy-delay-hydration>
-      <re-use-social-media cls="contacts__social-media" :social-media="contact.social_media" />
-    </lazy-delay-hydration>
+    <!-- <re-use-social-media cls="contacts__social-media" :social-media="contact.social_media" /> -->
   </div>
 </template>
 

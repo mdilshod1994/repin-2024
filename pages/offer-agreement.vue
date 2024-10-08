@@ -1,17 +1,13 @@
 <script setup lang="ts">
-const store = useGlobalData()
+const { data } = await useFetch("/api/offer-agreement")
 
 const oa = computed(() => {
-  return store.offerAgreement
+  return data.value?.en
 })
 
 useSeoMeta({
   title: () => `Repin Agency | ${oa.value?.post_title}`,
   ogTitle: () => `Repin Agency | ${oa.value?.post_title}`,
-})
-
-onMounted(async () => {
-  await store.getOfferAgreementPageInfo()
 })
 </script>
 

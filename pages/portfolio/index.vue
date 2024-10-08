@@ -9,18 +9,17 @@ useSeoMeta({
 })
 
 const store = usePortfolio()
-const _store = useGlobalData()
 const page = ref<number>(0)
 const portfolios = computed(() => {
   return store.portfolio as PortfolioElement[]
 })
-const categories = computed(() => {
-  if (locale.value === "en") {
-    return _store.home?.en.categories
-  } else {
-    return _store.home?.ru.categories
-  }
-})
+// const categories = computed(() => {
+//   if (locale.value === "en") {
+//     return _store.home?.en.categories
+//   } else {
+//     return _store.home?.ru.categories
+//   }
+// })
 const activeSlug = computed(() => {
   return store.categoryPortfolio
 })
@@ -102,25 +101,23 @@ watch(slug, (newSlug) => {
   <div v-if="portfolios" cls="portfolio">
     <div class="container">
       <div cls="portfolio__wrap">
-        <lazy-delay-hydration>
-          <r-title cls="portfolio__wrap-addons" mobile-center>
-            <template #title>
-              <div v-if="locale === 'en'" cls="portfolio__wrap-title">Our works</div>
-              <div v-else cls="portfolio__wrap-title">Наши работы</div>
-            </template>
-            <template #addons>
-              <portfolio-filters
+        <r-title cls="portfolio__wrap-addons" mobile-center>
+          <template #title>
+            <div v-if="locale === 'en'" cls="portfolio__wrap-title">Our works</div>
+            <div v-else cls="portfolio__wrap-title">Наши работы</div>
+          </template>
+          <template #addons>
+            <!-- <portfolio-filters
                 v-model:slug="slug"
                 :active-slug="activeSlug"
                 :categories="categories"
                 cls="portfolio__filter"
-              />
-            </template>
-            <template #title_addons>
-              <div cls="portfolio__wrap-addons">({{ totalProject }})</div>
-            </template>
-          </r-title>
-        </lazy-delay-hydration>
+              /> -->
+          </template>
+          <template #title_addons>
+            <div cls="portfolio__wrap-addons">({{ totalProject }})</div>
+          </template>
+        </r-title>
         <div cls="portfolio__mob-filter">
           <div cls="portfolio__mob-filter-arrow -left" class="filter-arrow">
             <svgo-arrow-right />
@@ -128,18 +125,17 @@ watch(slug, (newSlug) => {
           <div cls="portfolio__mob-filter-arrow -right" class="filter-arrow">
             <svgo-arrow-right />
           </div>
-          <lazy-delay-hydration>
-            <r-carousel gap="8" tablet-gap="8" mob-gap="8">
-              <div
-                :class="{ tab: true, '-active': activeSlug === 'all', first: true }"
-                @click="_getPortfolio('all')"
-              >
-                <span v-if="locale === 'en'">All</span>
-                <span v-if="locale === 'en'">All</span>
-                <span v-if="locale === 'ru'">Все</span>
-                <span v-if="locale === 'ru'">Все</span>
-              </div>
-              <div
+          <r-carousel gap="8" tablet-gap="8" mob-gap="8">
+            <div
+              :class="{ tab: true, '-active': activeSlug === 'all', first: true }"
+              @click="_getPortfolio('all')"
+            >
+              <span v-if="locale === 'en'">All</span>
+              <span v-if="locale === 'en'">All</span>
+              <span v-if="locale === 'ru'">Все</span>
+              <span v-if="locale === 'ru'">Все</span>
+            </div>
+            <!-- <div
                 v-for="(category, idx) in categories"
                 :class="{
                   tab: true,
@@ -150,34 +146,29 @@ watch(slug, (newSlug) => {
               >
                 <span>{{ category.name }}</span>
                 <span>{{ category.name }}</span>
-              </div>
-            </r-carousel>
-          </lazy-delay-hydration>
+              </div> -->
+          </r-carousel>
         </div>
-        <lazy-delay-hydration>
-          <r-grid
-            tablet-column="2"
-            :desktop-gaps="[60, 24]"
-            :tablet-gaps="[48, 20]"
-            :mobile-gaps="[32, 8]"
-            cls="portfolio__grid"
-          >
-            <portfolio-card
-              v-for="portfolio in portfolios"
-              :key="portfolio.id"
-              :portfolio="portfolio"
-              cls="portfolio__card"
-            />
-            <template #addons>
-              <r-button v-if="hideBtn" @click="showMore"> Show more </r-button>
-            </template>
-          </r-grid>
-        </lazy-delay-hydration>
+        <r-grid
+          tablet-column="2"
+          :desktop-gaps="[60, 24]"
+          :tablet-gaps="[48, 20]"
+          :mobile-gaps="[32, 8]"
+          cls="portfolio__grid"
+        >
+          <portfolio-card
+            v-for="portfolio in portfolios"
+            :key="portfolio.id"
+            :portfolio="portfolio"
+            cls="portfolio__card"
+          />
+          <template #addons>
+            <r-button v-if="hideBtn" @click="showMore"> Show more </r-button>
+          </template>
+        </r-grid>
       </div>
     </div>
-    <lazy-delay-hydration>
-      <re-use-social-media cls="portfolio__social-media" />
-    </lazy-delay-hydration>
+    <!-- <re-use-social-media cls="portfolio__social-media" /> -->
   </div>
 </template>
 

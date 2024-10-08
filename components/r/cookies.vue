@@ -5,12 +5,12 @@
 <script setup lang="ts">
 const cookies = useCookie<{ accCookies: number }>("accCookies")
 
-const store = useGlobalData()
+// const store = useGlobalData()
 const localePath = useLocalePath()
 
-const cookieInfo = computed(() => {
-  return store.footer
-})
+// const cookieInfo = computed(() => {
+//   return store.footer
+// })
 
 const accCookies = ref(0)
 const show = ref(false)
@@ -35,10 +35,10 @@ const isAccepted = useCookie("accCookies")
 </script>
 
 <template>
-  <transition v-if="cookieInfo" name="fade-cookies">
+  <transition v-if="false" name="fade-cookies">
     <div v-if="show && !isAccepted" cls="cookies">
       <div cls="cookies__wrap">
-        <div cls="cookies__text">{{ cookieInfo?.cookies_text }}</div>
+        <!-- <div cls="cookies__text">{{ cookieInfo?.cookies_text }}</div> -->
         <nuxt-link
           :to="localePath('/cookie-privacy')"
           cls="cookies__link"
@@ -46,7 +46,7 @@ const isAccepted = useCookie("accCookies")
           @mouseover="setCursorType('link')"
           @mouseleave="setCursorType('')"
         >
-          {{ cookieInfo.cookies_more }}
+          <!-- {{ cookieInfo.cookies_more }} -->
         </nuxt-link>
       </div>
       <r-button
@@ -55,7 +55,7 @@ const isAccepted = useCookie("accCookies")
         @mouseover="setCursorType('link')"
         @mouseleave="setCursorType('')"
       >
-        {{ cookieInfo.cookies_accept }}
+        <!-- {{ cookieInfo.cookies_accept }} -->
       </r-button>
     </div>
   </transition>

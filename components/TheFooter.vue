@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { type Footer } from "~/types/menu-header-footer"
 
+defineProps<{
+  footer?: Footer
+}>()
 const { locale, setLocale } = useI18n()
 
 const localePath = useLocalePath()
 
-const store = useGlobalData()
-
-const footer = computed(() => {
-  return store.footer as Footer
-})
 const scrollTop = () => {
   window.scrollTo({
     top: 0,

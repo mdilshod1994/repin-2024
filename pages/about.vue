@@ -1,18 +1,10 @@
 <script setup lang="ts">
-import type { About, En } from "~/types/about"
-
-// const store = usePreloaderTrigger()
 const { locale } = useI18n()
 
-const { data: about } = useFetch<About>("https://api.repin.agency/wp-json/api/v1/about")
+const { data: about } = useFetch("/api/about")
 
 const aboutContent = computed(() => {
-  if (locale.value === "en") {
-    if (!about.value) return
-    return about.value.en as En
-  } else {
-    return about.value?.ru as En
-  }
+  return about.value?.en
 })
 useSeoMeta({
   title: () => `Repin Agency | About`,
@@ -38,45 +30,36 @@ useSeoMeta({
       </div>
     </div>
     <div cls="about__video">
-      <lazy-delay-hydration>
-        <r-video
-          v-if="aboutContent.page.video_short_vimeo || aboutContent.page.video_long_vimeo"
-          :vimeo="{
-            short: aboutContent.page.video_short_vimeo,
-            long: aboutContent.page.video_long_vimeo,
-          }"
-        />
-      </lazy-delay-hydration>
+      <r-video
+        v-if="aboutContent.page.video_short_vimeo || aboutContent.page.video_long_vimeo"
+        :vimeo="{
+          short: aboutContent.page.video_short_vimeo,
+          long: aboutContent.page.video_long_vimeo,
+        }"
+      />
     </div>
     <div>
-      <lazy-delay-hydration>
-        <about-full-cycle
-          :full-cycle="aboutContent.page.items_b2"
-          :title="aboutContent.page.title_b2"
-          :description="aboutContent.page.description_b2"
-        />
-      </lazy-delay-hydration>
+      <about-full-cycle
+        :full-cycle="aboutContent.page.items_b2"
+        :title="aboutContent.page.title_b2"
+        :description="aboutContent.page.description_b2"
+      />
     </div>
     <div v-if="aboutContent.page.slides" cls="about__slider">
       <r-slider-content :contents="aboutContent.page.slides" />
     </div>
     <div class="container">
       <div cls="about__experts">
-        <lazy-delay-hydration>
-          <about-experts
-            :title="aboutContent.page.title_b3"
-            :description="aboutContent.page.description_b3"
-        /></lazy-delay-hydration>
+        <about-experts
+          :title="aboutContent.page.title_b3"
+          :description="aboutContent.page.description_b3"
+        />
       </div>
     </div>
-    <lazy-delay-hydration>
-      <about-outstaff class="dark-background" :staff="aboutContent" />
-    </lazy-delay-hydration>
+    <about-outstaff class="dark-background" :staff="aboutContent" />
     <div class="container">
       <div cls="about__awards">
-        <lazy-delay-hydration>
-          <about-award :awards="aboutContent" />
-        </lazy-delay-hydration>
+        <about-award :awards="aboutContent" />
         <div cls="about__awards-link">
           <r-button :to="aboutContent.page.link_b5">
             {{ aboutContent.page.link_b5_text }}
@@ -85,20 +68,16 @@ useSeoMeta({
       </div>
     </div>
     <div v-if="locale === 'en'" cls="about__photo-team">
-      <lazy-delay-hydration>
+      <client-only>
         <about-team-photos :img="aboutContent.page.img_b6" />
-      </lazy-delay-hydration>
+      </client-only>
     </div>
     <div class="container">
       <div cls="about__expirience">
-        <lazy-delay-hydration>
-          <re-use-expirience :info="aboutContent.page.repin_agency_mobicom" />
-        </lazy-delay-hydration>
+        <re-use-expirience :info="aboutContent.page.repin_agency_mobicom" />
       </div>
       <div v-if="aboutContent.page.vacancies" cls="about__open-jobs">
-        <lazy-delay-hydration>
-          <about-open-jobs :about="aboutContent" />
-        </lazy-delay-hydration>
+        <about-open-jobs :about="aboutContent" />
       </div>
     </div>
   </div>
