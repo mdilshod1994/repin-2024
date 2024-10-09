@@ -75,6 +75,7 @@ onMounted(() => {
               :blocks="data.fields.blog_content_flex"
               :author-list="data.fields.blog_authors_list"
               :author-title="data.fields.blog_author_text"
+              :title="data.title"
             />
           </div>
           <div cls="blog__progress-bar">

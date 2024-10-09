@@ -5,6 +5,7 @@ defineProps<{
   blocks: BlogContentFlex[]
   authorTitle?: string
   authorList?: BlogAuthorsList[]
+  title: string
 }>()
 </script>
 
@@ -72,11 +73,7 @@ defineProps<{
           <div cls="block__text" v-html="block.text" />
         </div>
         <div v-if="block.acf_fc_layout === 'flex_video'" cls="block__video">
-          <r-video
-            v-if="block.cover_video_vimeo"
-            :vimeo="{ short: block.cover_video_vimeo, long: block.video_vimeo }"
-            remove-padding
-          />
+          <r-video v-if="block.video_vimeo" :vimeo="{ short: block.video_vimeo }" remove-padding />
         </div>
         <div v-if="block.acf_fc_layout === 'flex_two_img'" cls="block__flex">
           <div cls="block__code -small" />
@@ -102,7 +99,7 @@ defineProps<{
     <div cls="block" class="block">
       <div v-if="authorList" cls="block__contributors">
         <div cls="block__share">
-          <blog-case-share />
+          <blog-case-share :title="title" />
         </div>
         <div cls="block__contributors-title">{{ authorTitle }}</div>
         <!-- <div cls="block__contributors-title -desk">{{ authorTitle }}</div> -->
