@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import type { Blogs } from "~/types/blog"
 
-const _store = useBlogPagination()
-
-const { locale } = useI18n()
-
 const { updateType } = useMousemove()
 
 const setCursorType = (type: string) => {
@@ -13,62 +9,31 @@ const setCursorType = (type: string) => {
 
 const blogs = ref<Blogs>()
 
-const page = computed(() => {
-  return _store.page
-})
-const fetchData = async (fpage: number) => {
-  if (fpage > 1) {
-    await fetchBlogs(fpage)
+const blogPage = ref(1)
+const totalPage = ref(0)
+
+const fetchB = async () => {
+  const { data } = await useFetch(`/api/blogs?page=${blogPage.value}`)
+
+  if (!data.value) return
+
+  if (blogPage.value > 1) {
+    blogs.value?.en.blogs.push(...data.value.en.blogs)
   } else {
-    await fetchBlogs(1)
+    blogs.value = data.value
   }
+
+  totalPage.value = data.value.en.total_pages
 }
 
-const fetchBlogs = async (bpage: number) => {
-  try {
-    await $fetch<Blogs>(`https://api.repin.agency/wp-json/api/v1/blogs?page=${bpage}`).then(
-      (res) => {
-        if (bpage > 1) {
-          if (locale.value === "ru") {
-            blogs.value?.ru.blogs.push(...res.ru.blogs)
-          } else {
-            blogs.value?.en.blogs.push(...res.en.blogs)
-          }
-        } else {
-          blogs.value = res
-        }
-      },
-    )
-  } catch (error) {
-    console.log(error)
+await fetchB()
+
+const loadMore = async () => {
+  if (totalPage.value > blogPage.value) {
+    blogPage.value++
+    await fetchB()
   }
 }
-
-const nextPage = () => {
-  if (!blogs.value) return
-  if (page.value < blogs.value.ru.total_pages) {
-    _store.encrease()
-    fetchData(page.value)
-  }
-}
-
-const tblogs = computed(() => {
-  if (locale.value === "en") {
-    return blogs.value?.en
-  } else {
-    return blogs.value?.ru
-  }
-})
-
-onMounted(async () => {
-  if (page.value > 1) {
-    for (let index = 0; index < page.value; index++) {
-      await fetchData(index + 1)
-    }
-  } else {
-    await fetchData(1)
-  }
-})
 </script>
 
 <template>
@@ -77,32 +42,21 @@ onMounted(async () => {
       <r-grid desktop-column="1" :desktop-gaps="[112]" :tablet-gaps="[48]" :mobile-gaps="[48]">
         <r-title pretitle="Blog" flex-start>
           <template #title> Stories <span>& User Cases</span> </template>
-          <!-- <template #addons>
-            <nuxt-link
-              to=""
-              class="underline-link"
-              cls="blogs__link"
-              @mouseover="setCursorType('link')"
-              @mouseleave="setCursorType('')"
-            >
-              Read on Medium
-            </nuxt-link>
-          </template> -->
         </r-title>
         <r-grid
-          v-if="tblogs"
+          v-if="blogs"
           desktop-column="1"
           :desktop-gaps="[138]"
           :tablet-gaps="[124]"
           :mobile-gaps="[56]"
         >
           <lazy-blog-list>
-            <lazy-blog-item v-for="blog in tblogs.blogs" :key="blog.id" :blog="blog" />
+            <lazy-blog-item v-for="blog in blogs.en.blogs" :key="blog.id" :blog="blog" />
           </lazy-blog-list>
           <r-button
-            v-if="tblogs.blogs.length < tblogs.total_blogs"
+            v-if="blogPage < blogs.en.total_pages"
             cls="blogs__btn"
-            @click="nextPage"
+            @click="loadMore"
             @mouseover="setCursorType('link')"
             @mouseleave="setCursorType('')"
           >

@@ -2,9 +2,8 @@
 import { type Category } from "~/types/home"
 
 const localePath = useLocalePath()
-
 const { locale } = useI18n()
-
+const store = useCategory()
 const filterBtns = ref<HTMLElement | null>(null)
 const widthFirstBtn = computed(() => {
   if (!filterBtns.value) return
@@ -13,7 +12,6 @@ const widthFirstBtn = computed(() => {
 const width = ref("")
 defineProps<{
   categories?: Category[]
-  activeSlug?: string
 }>()
 
 const show = ref(false)
@@ -22,10 +20,12 @@ const showFilters = () => {
 }
 const slug = defineModel<string>("slug")
 
-const setCategory = (slugc: string) => {
-  slug.value = slugc
-}
+const emit = defineEmits(["update:slug"])
 
+const setCategory = (category: string) => {
+  store.setActiveCategory(category)
+  emit("update:slug", category)
+}
 watch(
   () => show,
   (nv) => {
@@ -62,20 +62,15 @@ watch(
       </div>
     </button>
     <div ref="filterBtns" :cls="{ filter__btns: true, '-show': show }">
-      <button
-        :cls="{ filter__btn: true, '-active': activeSlug === 'all' }"
-        @click="setCategory('all')"
-        @click.prevent="$router.push({ path: `${localePath('/portfolio')}` })"
-      >
+      <button :cls="{ filter__btn: true, '-active': slug === 'all' }" @click="setCategory('all')">
         <span v-if="locale === 'en'">All</span>
         <span v-if="locale === 'ru'">Все</span>
       </button>
       <button
         v-for="category in categories"
-        :cls="{ filter__btn: true, '-active': activeSlug === category.slug, '-show': show }"
+        :cls="{ filter__btn: true, '-active': slug === category.slug, '-show': show }"
         class="-category"
         @click="setCategory(category.slug)"
-        @click.prevent="$router.push({ path: `${localePath('/portfolio')}` })"
       >
         <span> {{ category.name }}</span>
       </button>

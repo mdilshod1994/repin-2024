@@ -9,6 +9,7 @@ const localePath = useLocalePath()
 const { $gsap } = useNuxtApp()
 
 const { locale } = useI18n()
+
 defineProps<{
   title: string
   subtitle: string
@@ -16,19 +17,22 @@ defineProps<{
   portfolioBtn: string
 }>()
 
-const store = usePortfolio()
-const portfolios = computed(() => {
-  return store.portfolio?.slice(0, 6) as PortfolioElement[]
-})
-const activeSlug = computed(() => {
-  return store.categoryPortfolio
-})
-const slug = defineModel<string>("slug")
+const portfolio = ref<PortfolioElement[]>([])
 
-const _getPortfolio = async (slug?: string) => {
-  if (slug) {
-    await store.getPortfolio(slug, 0)
-  }
+const activeSlug = ref("all")
+
+const fetchPortfolios = async (category: string) => {
+  const { data } = await useFetch(`/api/projects/${category}/0`)
+
+  if (!data.value) return
+
+  portfolio.value = data.value?.en.portfolio
+}
+
+await fetchPortfolios(activeSlug.value)
+
+const updateCategory = async () => {
+  await fetchPortfolios(activeSlug.value)
 }
 
 const screenWidth = useMediaQuery(`(max-width: 1280px`)
@@ -60,9 +64,8 @@ watchEffect(() => {
     })
   }
 })
+
 onMounted(() => {
-  _getPortfolio(activeSlug.value)
-  window.sessionStorage.removeItem("totalLoadedProjects")
   if (screenWidth.value) {
     marginTopPaddingTop.value = "120px"
     _marginTopPaddingTop.value = "-120px"
@@ -72,13 +75,7 @@ onMounted(() => {
   }
 })
 
-watch(slug, async (newSlug) => {
-  if (newSlug) {
-    await _getPortfolio(newSlug)
-  }
-})
-
-watch(portfolios, (nv) => {
+watch(portfolio, (nv) => {
   if (nv) {
     const arrows = document.querySelectorAll(".filter-arrow")
     const first = document.querySelector(".first") as Element
@@ -111,14 +108,14 @@ watch(portfolios, (nv) => {
 </script>
 
 <template>
-  <div v-if="categories && portfolios" cls="portfolio">
+  <div v-if="portfolio" cls="portfolio">
     <r-title :pretitle="subtitle" :title="title">
       <template #addons>
         <div cls="portfolio__filter">
           <portfolio-filters
-            v-model:slug="slug"
-            :active-slug="activeSlug"
+            v-model:slug="activeSlug"
             :categories="categories"
+            @update:slug="updateCategory"
           />
         </div>
       </template>
@@ -133,7 +130,7 @@ watch(portfolios, (nv) => {
       <r-carousel gap="8" tablet-gap="8" mob-gap="8">
         <div
           :class="{ tab: true, '-active': activeSlug === 'all', first: true }"
-          @click="_getPortfolio('all')"
+          @click="fetchPortfolios('all')"
           @click.prevent="$router.push({ path: `${localePath('/portfolio')}` })"
         >
           <span v-if="locale === 'en'">All</span>
@@ -148,7 +145,7 @@ watch(portfolios, (nv) => {
             '-active': activeSlug === category.slug,
             last: idx === categories.length - 1,
           }"
-          @click="_getPortfolio(category.slug)"
+          @click="fetchPortfolios(category.slug)"
           @click.prevent="$router.push({ path: `${localePath('/portfolio')}` })"
         >
           <span>{{ category.name }}</span>
@@ -166,7 +163,7 @@ watch(portfolios, (nv) => {
         cls="portfolio__grid"
       >
         <portfolio-card
-          v-for="portfolio in portfolios"
+          v-for="portfolio in portfolio"
           :key="portfolio.id"
           :portfolio="portfolio"
           cls="portfolio__card"

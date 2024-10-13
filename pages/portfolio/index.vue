@@ -1,5 +1,16 @@
+<!-- 
+todo:
+show more function
+slug by click change category
+save categories global
+to set total project 
+hide button show more
+
+-->
 <script setup lang="ts">
 import { type PortfolioElement } from "~/types/portfolio"
+
+const store = useCategory()
 
 const { locale } = useI18n()
 
@@ -8,11 +19,27 @@ useSeoMeta({
   ogTitle: () => "Repin Agency | Our works",
 })
 
-const store = usePortfolio()
-const page = ref<number>(0)
-const portfolios = computed(() => {
-  return store.portfolio as PortfolioElement[]
-})
+const portfolios = ref<PortfolioElement[]>([])
+
+const initialPage = ref(0)
+
+const totalPortfolios = ref(0)
+
+const fetchPortfolios = async (category: string, page: number) => {
+  const { data } = await useFetch(`/api/projects/${category}/${page}`)
+
+  if (!data.value) return
+
+  if (initialPage.value > 0) {
+    portfolios.value.push(...data.value.en.portfolio)
+  } else {
+    portfolios.value = data.value.en.portfolio
+    totalPortfolios.value = data.value.en.portfolio_count
+  }
+}
+
+await fetchPortfolios(store.activeCategory, initialPage.value)
+
 // const categories = computed(() => {
 //   if (locale.value === "en") {
 //     return _store.home?.en.categories
@@ -20,47 +47,22 @@ const portfolios = computed(() => {
 //     return _store.home?.ru.categories
 //   }
 // })
+
 const activeSlug = computed(() => {
-  return store.categoryPortfolio
+  return ""
 })
 
-const totalPage = ref<number>()
-
-const firstPage = ref<number>(0)
-
-const showMore = async () => {
-  const currentPage = store.currentPageNumber + 6
-  const currentSlug = store.categoryPortfolio
-  await store.getPortfolio(currentSlug, currentPage)
-  window.sessionStorage.setItem("totalLoadedProjects", JSON.stringify(currentPage))
-}
-
-const totalProject = computed(() => {
-  return store.totalProjects
-})
 const hideBtn = computed(() => {
-  if (!store.totalProjects) return
-  return store.totalProjects > portfolios.value.length
+  return false
 })
-const slug = defineModel<string>("slug")
-const _getPortfolio = async (slug?: string) => {
-  if (slug) {
-    await store.getPortfolio(slug, 0)
-  }
-}
+// const slug = defineModel<string>("slug")
+// const _getPortfolio = async (slug?: string) => {
+//   if (slug) {
+//     await store.getPortfolio(slug, 0)
+//   }
+// }
 
 onMounted(async () => {
-  const totalLoadedProjects = window.sessionStorage.getItem("totalLoadedProjects")
-  if (totalLoadedProjects) {
-    totalPage.value = Math.ceil((JSON.parse(totalLoadedProjects) + 6) / 6)
-    for (let i = 0; i < totalPage.value; i++) {
-      await store.getPortfolio(activeSlug.value, page.value)
-      page.value += 6
-    }
-  } else {
-    await store.getPortfolio(activeSlug.value, 0)
-  }
-
   const arrows = document.querySelectorAll(".filter-arrow")
   const first = document.querySelector(".first") as Element
   const last = document.querySelector(".last")
@@ -88,13 +90,6 @@ onMounted(async () => {
     },
   )
 })
-
-watch(slug, (newSlug) => {
-  if (newSlug) {
-    store.getPortfolio(newSlug, firstPage.value)
-    window.sessionStorage.removeItem("totalLoadedProjects")
-  }
-})
 </script>
 
 <template>
@@ -115,7 +110,7 @@ watch(slug, (newSlug) => {
               /> -->
           </template>
           <template #title_addons>
-            <div cls="portfolio__wrap-addons">({{ totalProject }})</div>
+            <div cls="portfolio__wrap-addons">({{ totalPortfolios }})</div>
           </template>
         </r-title>
         <div cls="portfolio__mob-filter">
@@ -126,10 +121,7 @@ watch(slug, (newSlug) => {
             <svgo-arrow-right />
           </div>
           <r-carousel gap="8" tablet-gap="8" mob-gap="8">
-            <div
-              :class="{ tab: true, '-active': activeSlug === 'all', first: true }"
-              @click="_getPortfolio('all')"
-            >
+            <div :class="{ tab: true, '-active': activeSlug === 'all', first: true }">
               <span v-if="locale === 'en'">All</span>
               <span v-if="locale === 'en'">All</span>
               <span v-if="locale === 'ru'">Все</span>
@@ -163,7 +155,7 @@ watch(slug, (newSlug) => {
             cls="portfolio__card"
           />
           <template #addons>
-            <r-button v-if="hideBtn" @click="showMore"> Show more </r-button>
+            <r-button v-if="hideBtn"> Show more </r-button>
           </template>
         </r-grid>
       </div>

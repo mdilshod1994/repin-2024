@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import type { Blog } from "~/types/blog-case"
-
 const { $ScrollTrigger } = useNuxtApp()
 const showHideScrollbar = ref(false) // для показ/скрыть скроллбара в моб версии
 const block = ref()
 const progress = ref(0)
 const { id } = useRoute().params
-const { data } = await useFetch<Blog>(`https://api.repin.agency/wp-json/api/v1/article/${id}`, {
-  server: false,
-  lazy: true,
-})
+
+const { data } = await useFetch(`/api/article/${id}`)
+
 useSeoMeta({
   title: () => `Repin Agency | ${data.value?.title}`,
   ogTitle: () => `Repin Agency | ${data.value?.title}`,
