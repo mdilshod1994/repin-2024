@@ -48,14 +48,21 @@ onMounted(() => {
   })
   playerShortVimeo.on("play", () => {
     store.handlePreloader(true)
+    const iframe = vimeoShort.value.querySelector("iframe")
+    const width = iframe.getAttribute("width")
+    const height = iframe.getAttribute("height")
+    vimeoShort.value.style.paddingBottom = `${(height / width) * 100}%`
   })
+  playerShortVimeo.setQuality("720p")
   playerShortVimeo.play()
+
   if (props.vimeo?.long) {
     playerLongVimeo = new Player(vimeolong.value, {
       url: props.vimeo?.long,
       width: width.value,
     })
   }
+  // percentagePadding.value =
 })
 
 const openLongVideo = () => {
@@ -77,7 +84,9 @@ watch(switchVideo, (nv) => {
 })
 
 const setCursorType = (type: string) => {
-  updateType(type)
+  if (props.vimeo?.long) {
+    updateType(type)
+  }
 }
 </script>
 
@@ -92,7 +101,7 @@ const setCursorType = (type: string) => {
         <div v-if="vimeo?.short" ref="vimeoShort" cls="shorts__vimeo" />
         <div cls="shorts__overlay" />
       </div>
-      <div cls="video__wrap-btn">
+      <div v-if="vimeo?.long" cls="video__wrap-btn">
         <svgo-play />
       </div>
     </div>
@@ -172,8 +181,13 @@ const setCursorType = (type: string) => {
   }
   &__vimeo {
     width: 100%;
-    height: 100%;
+    position: relative;
     iframe {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
       width: 100%;
       height: 100%;
     }

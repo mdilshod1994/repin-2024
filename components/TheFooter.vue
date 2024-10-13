@@ -46,10 +46,7 @@ const setCursorType = (type: string) => {
               <div cls="footer__links-box">
                 <div cls="footer__links-title">Menu</div>
                 <div class="tabs">
-                  <div
-                    v-for="link in footer.menu"
-                    v-show="link.link !== 'consulting' && link.link !== 'blog'"
-                  >
+                  <div v-for="link in footer.menu">
                     <nuxt-link
                       :to="localePath(`/${link.link}`)"
                       cls="footer__links-item"

@@ -142,6 +142,9 @@ defineProps<{
     &.-medium {
       @include desctop-H4-ram;
     }
+    &.-big + &.-medium {
+      margin-top: 48px;
+    }
   }
   &__small-text {
     display: block;
@@ -342,7 +345,8 @@ defineProps<{
   &__text + &__list,
   &__text + &__code,
   &__text + &__img-video,
-  &__text + &__info {
+  &__text + &__info,
+  &__text + &__video {
     margin-top: 48px;
     &.-mob-full-screen {
       margin-top: 48px;
@@ -375,6 +379,7 @@ defineProps<{
   &__info + &__code,
   &__info + &__info,
   &__info + &__img-video,
+  &__img-video + &__img-video,
   &__info + &__text {
     margin-top: 48px;
   }
@@ -397,6 +402,9 @@ defineProps<{
       }
       &.-medium {
         @include mob-h4-22-ram;
+      }
+      &.-big + &.-medium {
+        margin-top: 32px;
       }
     }
     &__small-text + &__title,
